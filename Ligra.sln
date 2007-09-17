@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ligra", "Ligra.vcproj", "{4101C05A-597B-46E7-9812-6EB829FD1F98}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Solus", "Solus\Solus.vcproj", "{1DAC42C0-087B-4CF6-B4A9-E7614DD41C01}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4101C05A-597B-46E7-9812-6EB829FD1F98}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4101C05A-597B-46E7-9812-6EB829FD1F98}.Debug|Win32.Build.0 = Debug|Win32
+		{4101C05A-597B-46E7-9812-6EB829FD1F98}.Release|Win32.ActiveCfg = Release|Win32
+		{4101C05A-597B-46E7-9812-6EB829FD1F98}.Release|Win32.Build.0 = Release|Win32
+		{1DAC42C0-087B-4CF6-B4A9-E7614DD41C01}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1DAC42C0-087B-4CF6-B4A9-E7614DD41C01}.Debug|Win32.Build.0 = Debug|Win32
+		{1DAC42C0-087B-4CF6-B4A9-E7614DD41C01}.Release|Win32.ActiveCfg = Release|Win32
+		{1DAC42C0-087B-4CF6-B4A9-E7614DD41C01}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
