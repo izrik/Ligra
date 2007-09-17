@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D9689EE5-94CD-4C13-AD95-FA8780D72545}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MetaphysicsIndustries.Ligra</RootNamespace>
+    <AssemblyName>Ligra</AssemblyName>
+    <SignAssembly>false</SignAssembly>
+    <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApplyMatrixFilterItem.cs" />
+    <Compile Include="CodeItem.cs" />
+    <Compile Include="ControlItem.cs" />
+    <Compile Include="ErrorItem.cs" />
+    <Compile Include="ExpressionItem.cs" />
+    <Compile Include="Graph3dItem.cs" />
+    <Compile Include="GraphItem.cs" />
+    <Compile Include="GraphMatrixItem.cs" />
+    <Compile Include="GraphVectorItem.cs" />
+    <Compile Include="HelpItem.cs" />
+    <Compile Include="HelpStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HelpStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="InfoItem.cs" />
+    <Compile Include="IntroItem.cs" />
+    <Compile Include="LigraControl.CalcExpressionSize.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LigraControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LigraControl.Designer.cs">
+      <DependentUpon>LigraControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LigraControl.Render3DGraph.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LigraControl.RenderExpression.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LigraControl.RenderGraph.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LigraControl.RenderMathPaint.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LigraControl.RenderMatrix.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LigraControl.RenderVector.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LigraForm.Commands.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LigraForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LigraForm.Designer.cs">
+      <DependentUpon>LigraForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LigraForm.Render.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LigraFormsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LigraFormsControl.Designer.cs">
+      <DependentUpon>LigraFormsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MathPaintItem.cs" />
+    <Compile Include="PlotPropertiesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PlotPropertiesForm.Designer.cs">
+      <DependentUpon>PlotPropertiesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="HelpStrings.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>HelpStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LigraControl.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>LigraControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LigraForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>LigraForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LigraFormsControl.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>LigraFormsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PlotPropertiesForm.resx">
+      <DependentUpon>PlotPropertiesForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Ligra.cd" />
+    <Compile Include="RenderItem.cs" />
+    <Compile Include="RenderItemContainer.cs" />
+    <Compile Include="SpacerItem.cs" />
+    <Compile Include="StaticSolusEngine.cs" />
+    <Compile Include="TextItem.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="cool_expressions.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MetaphysicsIndustries.Acuity\MetaphysicsIndustries.Acuity.csproj">
+      <Project>{28E66D7B-4A7F-4A0E-A358-5C41E35ACE33}</Project>
+      <Name>MetaphysicsIndustries.Acuity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MetaphysicsIndustries.Collections\MetaphysicsIndustries.Collections.csproj">
+      <Project>{FF2B8A90-E8D2-4CF6-81E6-4A7BCE1FF900}</Project>
+      <Name>MetaphysicsIndustries.Collections</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MetaphysicsIndustries.Solus\MetaphysicsIndustries.Solus.csproj">
+      <Project>{A630057C-40CF-4DF3-BE44-FC660B3E6BA3}</Project>
+      <Name>MetaphysicsIndustries.Solus</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MetaphysicsIndustries.Utilities\MetaphysicsIndustries.Utilities.csproj">
+      <Project>{221A3FBA-E14C-4F05-A099-42508116E910}</Project>
+      <Name>MetaphysicsIndustries.Utilities</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>
