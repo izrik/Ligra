@@ -1,0 +1,99 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A630057C-40CF-4DF3-BE44-FC660B3E6BA3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MetaphysicsIndustries.Solus</RootNamespace>
+    <AssemblyName>Solus</AssemblyName>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MetaphysicsIndustries.Collections, Version=1.0.2881.41411, Culture=neutral, PublicKeyToken=31ed9843e1f1bd54, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Publish\Assembly\Debug\MetaphysicsIndustries.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AdditionOperation.cs" />
+    <Compile Include="ArccosecantFunction.cs" />
+    <Compile Include="ArccosineFunction.cs" />
+    <Compile Include="ArccotangentFunction.cs" />
+    <Compile Include="ArcsecantFunction.cs" />
+    <Compile Include="ArcsineFunction.cs" />
+    <Compile Include="ArctangentFunction.cs" />
+    <Compile Include="AssociativeCommutativOperation.cs" />
+    <Compile Include="BinaryOperation.cs" />
+    <Compile Include="CeilingFunction.cs" />
+    <Compile Include="CosecantFunction.cs" />
+    <Compile Include="CosineFunction.cs" />
+    <Compile Include="CotangentFunction.cs" />
+    <Compile Include="DerivativeOfVariable.cs" />
+    <Compile Include="DivisionOperation.cs" />
+    <Compile Include="ExponentOperation.cs" />
+    <Compile Include="Expression.cs" />
+    <Compile Include="ExpressionCollection.cs" />
+    <Compile Include="FloorFunction.cs" />
+    <Compile Include="Function.cs" />
+    <Compile Include="FunctionCall.cs" />
+    <Compile Include="Literal.cs" />
+    <Compile Include="MultiplicationOperation.cs" />
+    <Compile Include="NaturalLogarithmFunction.cs" />
+    <Compile Include="Operation.cs" />
+    <Compile Include="OperationPrecedence.cs" />
+    <Compile Include="ProductExpression.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SecantFunction.cs" />
+    <Compile Include="SineFunction.cs" />
+    <Compile Include="SingleArgumentFunction.cs" />
+    <Compile Include="SolusEngine.cs" />
+    <Compile Include="SummationExpression.cs" />
+    <Compile Include="TangentFunction.cs" />
+    <Compile Include="UnitStepFunction.cs" />
+    <Compile Include="Variable.cs" />
+    <Compile Include="VariableAccess.cs" />
+    <Compile Include="VariableTable.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="key.snk" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>perl -W "C:\Metaphysics Industries\Projects\Publish\publish.pl" $(ConfigurationName) "$(TargetPath)"
+</PostBuildEvent>
+  </PropertyGroup>
+</Project>
