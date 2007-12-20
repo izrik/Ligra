@@ -1,0 +1,238 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Font Name="Tahoma" Size="8.25" />
+  <Class Name="MetaphysicsIndustries.Solus.ArccosecantFunction" Collapsed="true">
+    <Position X="0.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>ArccosecantFunction.cs</FileName>
+      <HashCode>AAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MetaphysicsIndustries.Solus.ArccosineFunction" Collapsed="true">
+    <Position X="6.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>ArccosineFunction.cs</FileName>
+      <HashCode>AAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MetaphysicsIndustries.Solus.ArccotangentFunction" Collapsed="true">
+    <Position X="2.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>ArccotangentFunction.cs</FileName>
+      <HashCode>AAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MetaphysicsIndustries.Solus.ArcsecantFunction" Collapsed="true">
+    <Position X="0.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>ArcsecantFunction.cs</FileName>
+      <HashCode>AAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MetaphysicsIndustries.Solus.ArcsineFunction" Collapsed="true">
+    <Position X="0.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>ArcsineFunction.cs</FileName>
+      <HashCode>AAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MetaphysicsIndustries.Solus.ArctangentFunction" Collapsed="true">
+    <Position X="2.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>ArctangentFunction.cs</FileName>
+      <HashCode>AAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MetaphysicsIndustries.Solus.BinaryOperation" Collapsed="true">
+    <Position X="2.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>BinaryOperation.cs</FileName>
+      <HashCode>BAABAAAAAAEAAAAAAAAAAAAAABAAABAAEAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MetaphysicsIndustries.Solus.CeilingFunction" Collapsed="true">
+    <Position X="4.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>CeilingFunction.cs</FileName>
+      <HashCode>AAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MetaphysicsIndustries.Solus.CosecantFunction" Collapsed="true">
+    <Position X="2.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>CosecantFunction.cs</FileName>
+      <HashCode>AAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MetaphysicsIndustries.Solus.CosineFunction" Collapsed="true">
+    <Position X="2.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>CosineFunction.cs</FileName>
+      <HashCode>AAAAEAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MetaphysicsIndustries.Solus.CotangentFunction" Collapsed="true">
+    <Position X="4.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>CotangentFunction.cs</FileName>
+      <HashCode>AAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MetaphysicsIndustries.Solus.Expression" Collapsed="true">
+    <Position X="3.25" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Expression.cs</FileName>
+      <HashCode>AAAAAAAAICAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="MetaphysicsIndustries.Solus.ExpressionCollection" Collapsed="true">
+    <Position X="2.25" Y="18" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>ExpressionCollection.cs</FileName>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="MetaphysicsIndustries.Solus.FloorFunction" Collapsed="true">
+    <Position X="4.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>FloorFunction.cs</FileName>
+      <HashCode>AAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MetaphysicsIndustries.Solus.Function" Collapsed="true">
+    <Position X="3.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Function.cs</FileName>
+      <HashCode>BoEAcDABAHQ4gAoQIBAAAA0CIACAAgACADIAAMSgAIA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="MetaphysicsIndustries.Solus.FunctionCall" Collapsed="true">
+    <Position X="4.25" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>FunctionCall.cs</FileName>
+      <HashCode>AAAAQAAAICAAAAAAQAAAAAIAAAAAAAABYAACBAAAABA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MetaphysicsIndustries.Solus.Literal" Collapsed="true">
+    <Position X="6" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Literal.cs</FileName>
+      <HashCode>ABAAAAAAIAAAAAAAAAAAAAAAAEAAAAEAAAAgAAAAABA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MetaphysicsIndustries.Solus.Operation" Collapsed="true">
+    <Position X="3.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Operation.cs</FileName>
+      <HashCode>AAAAAAAAAAgAAAAAAAAAAAAAAAAAAABAAEAAAAAAAAQ=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MetaphysicsIndustries.Solus.SecantFunction" Collapsed="true">
+    <Position X="6.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>SecantFunction.cs</FileName>
+      <HashCode>AAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MetaphysicsIndustries.Solus.SineFunction" Collapsed="true">
+    <Position X="4.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>SineFunction.cs</FileName>
+      <HashCode>AAAAEAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MetaphysicsIndustries.Solus.SolusEngine" Collapsed="true">
+    <Position X="0.5" Y="18" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>SolusEngine.cs</FileName>
+      <HashCode>AAIiAgAAICAAQQAAABAgIAEEAYICCAAAABAAiliQECA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MetaphysicsIndustries.Solus.TangentFunction" Collapsed="true">
+    <Position X="0.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>TangentFunction.cs</FileName>
+      <HashCode>AAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MetaphysicsIndustries.Solus.MultiplicationOperation" Collapsed="true">
+    <Position X="4.25" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>MultiplicationOperation.cs</FileName>
+      <HashCode>AAAAgAAAAAQAAAAAgAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MetaphysicsIndustries.Solus.DivisionOperation" Collapsed="true">
+    <Position X="2.25" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>DivisionOperation.cs</FileName>
+      <HashCode>AAAAAAAAAAwAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MetaphysicsIndustries.Solus.NaturalLogarithmFunction" Collapsed="true">
+    <Position X="6.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>NaturalLogarithmFunction.cs</FileName>
+      <HashCode>AAAAEAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MetaphysicsIndustries.Solus.AdditionOperation" Collapsed="true">
+    <Position X="6" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>AdditionOperation.cs</FileName>
+      <HashCode>AAAAAAAAAAQAAAAAAAAAAAAAAAAAAABAAEAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MetaphysicsIndustries.Solus.ExponentOperation" Collapsed="true">
+    <Position X="0.5" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>ExponentOperation.cs</FileName>
+      <HashCode>AAAAAAAAAAQAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MetaphysicsIndustries.Solus.VariableAccess" Collapsed="true">
+    <Position X="0.5" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>VariableAccess.cs</FileName>
+      <HashCode>AAAAAAAAIAEAAAAAAAAAAAAAAAAAAAAAAAQAAAAAABA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MetaphysicsIndustries.Solus.Variable" Collapsed="true">
+    <Position X="4" Y="18" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Variable.cs</FileName>
+      <HashCode>AAAAIAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MetaphysicsIndustries.Solus.SingleArgumentFunction" Collapsed="true">
+    <Position X="5.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>SingleArgumentFunction.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MetaphysicsIndustries.Solus.UnitStepFunction" Collapsed="true">
+    <Position X="6.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>UnitStepFunction.cs</FileName>
+      <HashCode>AAAAEAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MetaphysicsIndustries.Solus.AssociativeCommutativOperation" Collapsed="true">
+    <Position X="4.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>AssociativeCommutativOperation.cs</FileName>
+      <HashCode>AAAAggAAAAgAAAAAgAAACAAAAIAAAgAAAAAAAAAAAIQ=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="MetaphysicsIndustries.Solus.OperationPrecedence" Collapsed="true">
+    <Position X="0.5" Y="19.25" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>OperationPrecedence.cs</FileName>
+      <HashCode>AAABAAAAAAAAAAAAAAAAAAAAABAAAgAAEAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Enum>
+</ClassDiagram>
