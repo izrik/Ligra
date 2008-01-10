@@ -688,6 +688,10 @@ namespace MetaphysicsIndustries.Ligra
             {
                 varTable.Remove(independentVariableX);
             }
+            if (varTable.ContainsKey(independentVariableY))
+            {
+                varTable.Remove(independentVariableY);
+            }
 
             prelimEval = engine.PreliminaryEval(expr, varTable);
 
