@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MetaphysicsIndustries.Solus
 {
-    public class AdditionOperation : AssociativeCommutativOperation
+    public class AdditionOperation : AssociativeCommutativeOperation
     {
         public AdditionOperation()
         {
@@ -18,7 +18,7 @@ namespace MetaphysicsIndustries.Solus
 
         protected override Literal InternalCall(VariableTable varTable, Literal[] args)
         {
-            float sum = 0;
+            double sum = 0;
             foreach (Literal arg in args)
             {
                 sum += arg.Value;
@@ -26,7 +26,7 @@ namespace MetaphysicsIndustries.Solus
             return new Literal(sum);
         }
 
-        public override float IdentityValue
+        public override double IdentityValue
         {
             get
             {

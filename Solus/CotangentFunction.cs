@@ -27,10 +27,10 @@ namespace MetaphysicsIndustries.Solus
 		}
 
 
-        protected override Literal InternalCall(VariableTable varTable, Literal[] param_32)
+        protected override Literal InternalCall(VariableTable varTable, Literal[] args)
 		{
-            throw new NotImplementedException();
-		}
+            return new Literal(1 / Math.Tan(args[0].Eval(varTable).Value));
+        }
 
 	}
 }

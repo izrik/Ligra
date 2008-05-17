@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MetaphysicsIndustries.Solus
 {
-    public class MultiplicationOperation : AssociativeCommutativOperation
+    public class MultiplicationOperation : AssociativeCommutativeOperation
     {
         public MultiplicationOperation()
         {
@@ -45,7 +45,7 @@ namespace MetaphysicsIndustries.Solus
             }
         }
 
-        public override float CollapseValue
+        public override double CollapseValue
         {
             get
             {

@@ -6,9 +6,10 @@ namespace MetaphysicsIndustries.Solus
 {
     public class DerivativeOfVariable : Variable
     {
-        public DerivativeOfVariable(Variable variable)
+        public DerivativeOfVariable(Variable variable, Variable lowerVariable)
+            : base("d")
         {
-            if (variable is DerivativeOfVariable)
+            if (variable is DerivativeOfVariable && (variable as DerivativeOfVariable).LowerVariable == lowerVariable)
             {
                 _variable = (variable as DerivativeOfVariable).Variable;
                 _order = (variable as DerivativeOfVariable).Order + 1;
@@ -18,6 +19,7 @@ namespace MetaphysicsIndustries.Solus
                 _variable = variable;
                 _order = 1;
             }
+            _lowerVariable = lowerVariable;
         }
 
         private Variable _variable;
@@ -34,15 +36,22 @@ namespace MetaphysicsIndustries.Solus
             get { return _order; }
         }
 
+        private Variable _lowerVariable;
+        public Variable LowerVariable
+        {
+            get { return _lowerVariable; }
+        }
+
+
         public override string Name
         {
             get
             {
-                return "d" + (Order > 1 ? Order.ToString() : "") + Variable.Name;
+                return "d" + (Order > 1 ? Order.ToString() : "") + Variable.Name + "/d" + LowerVariable.Name + (Order > 1 ? Order.ToString() : "");
             }
-            set
-            {
-            }
+            //set
+            //{
+            //}
         }
 
     }

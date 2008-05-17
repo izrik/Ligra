@@ -39,7 +39,7 @@ namespace MetaphysicsIndustries.Ligra
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.drawBoxesToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(143, 26);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 48);
             // 
             // drawBoxesToolStripMenuItem
             // 

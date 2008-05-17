@@ -1,0 +1,12 @@
+
+u((x*x+y*y)^0.5+2*(sin(t)-1))*cos(5*y+2*t)
+u((g*g+h*h)^0.5+2*(sin(t)-1))*cos(5*h+2*t)
+u((x*x+y*y)^0.5-2)*cos((t-5*y))
+
+mathpaint(i,j,256,256,i*j)
+mathpaint(i,j,256,256,i*j+0x8000*sin(t))
+
+
+
+//error:
+mathpaint(i,j,256,256,i*j+min(0xff0000,min(0x10000,t)))

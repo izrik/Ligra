@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Metaphysics Industries, Inc.")]
 [assembly: AssemblyProduct("Ligra")]
-[assembly: AssemblyCopyright("Copyright © Metaphysics Industries, Inc. 2007")]
+[assembly: AssemblyCopyright("Copyright © Metaphysics Industries, Inc. 2008")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

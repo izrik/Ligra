@@ -27,9 +27,9 @@ namespace MetaphysicsIndustries.Solus
 		}
 
 
-        protected override Literal InternalCall(VariableTable varTable, Literal[] param_33)
+        protected override Literal InternalCall(VariableTable varTable, Literal[] args)
 		{
-            throw new NotImplementedException();
+            return new Literal(Math.Floor(args[0].Eval(varTable).Value));
 		}
 
 	}

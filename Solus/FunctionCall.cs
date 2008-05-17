@@ -65,6 +65,40 @@ namespace MetaphysicsIndustries.Solus
             return Call(varTable);
         }
 
+        public override Expression CleanUp()
+        {
+            Expression[] args = Arguments.ToArray();
+            List<Expression> cleanArgs = new List<Expression>(args.Length);
+            foreach (Expression arg in args)
+            {
+                cleanArgs.Add(arg.CleanUp());
+            }
+            args = cleanArgs.ToArray();
+
+            return Function.CleanUp(args);
+        }
+
+        public void GatherMatchingFunctionCalls(ICollection<FunctionCall> matchingFunctionCalls)
+        {
+            bool first = true;
+
+            foreach (Expression arg in Arguments)
+            {
+                if (arg is FunctionCall &&
+                    (arg as FunctionCall).Function == Function)
+                {
+                    FunctionCall argCall = arg as FunctionCall;
+                    argCall.GatherMatchingFunctionCalls(matchingFunctionCalls);
+                }
+
+                if (first)
+                {
+                    matchingFunctionCalls.Add(this);
+                    first = false;
+                }
+            }
+        }
+
         public virtual Literal Call(VariableTable varTable)
         {
             return Function.Call(varTable, Arguments.ToArray());
@@ -114,7 +148,40 @@ namespace MetaphysicsIndustries.Solus
             }
         }
 
-        protected Function _function;
-        protected ExpressionCollection _arguments = new ExpressionCollection();
+        private Function _function;
+        private ExpressionCollection _arguments = new ExpressionCollection();
+
+        protected override void InternalApplyToExpressionTree(SolusAction action, bool applyToChildrenBeforeParent)
+        {
+            foreach (Expression expr in Arguments)
+            {
+                expr.ApplyToExpressionTree(action, applyToChildrenBeforeParent);
+            }
+        }
+
+        public override Expression PreliminaryEval(VariableTable varTable)
+        {
+            List<Expression> args = new List<Expression>(Arguments.Count);
+
+            bool allLiterals = true;
+            foreach (Expression arg in Arguments)
+            {
+                Expression arg2 = arg.PreliminaryEval(varTable);
+                if (!(arg2 is Literal))
+                {
+                    allLiterals = false;
+                }
+                args.Add(arg2);
+            }
+
+            if (allLiterals)
+            {
+                return Function.Call(varTable, args.ToArray());
+            }
+            else
+            {
+                return new FunctionCall(Function, args.ToArray());
+            }
+        }
     }
 }

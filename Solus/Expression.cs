@@ -21,27 +21,16 @@ namespace MetaphysicsIndustries.Solus
 {
 	public abstract class Expression : IDisposable, ICloneable
 	{
-        //public Expression()
-        //{
-			
-        //}
-
         public virtual void Dispose()
         {
         }
 
         public abstract Literal Eval(VariableTable varTable);
-        //{
-        //    return new Literal(0);
-        //}
-        public static Literal Eval(Expression expr, VariableTable varTable)
-        {
-            return expr.Eval(varTable);
-        }
 
         public abstract Expression Clone();
         public static Expression Clone(Expression expr)
         {
+            //used by Array.ConvertAll
             return expr.Clone();
         }
 
@@ -60,5 +49,47 @@ namespace MetaphysicsIndustries.Solus
         }
 
         #endregion
+
+        public virtual Expression CleanUp()
+        {
+            return this;
+        }
+
+        //public abstract Expression PreliminaryEval(VariableTable varTable);
+        //public abstract GetDerivative(Variable
+
+        protected virtual void InternalApplyToExpressionTree(SolusAction action, bool applyToChildrenBeforeParent)
+        {
+        }
+        public void ApplyToExpressionTree(SolusAction action)
+        {
+            ApplyToExpressionTree(action, true);
+        }
+        public void ApplyToExpressionTree(SolusAction action, bool applyToChildrenBeforeParent)
+        {
+            if (!applyToChildrenBeforeParent)
+            {
+                action(this);
+            }
+
+            InternalApplyToExpressionTree(action, applyToChildrenBeforeParent);
+
+            if (applyToChildrenBeforeParent)
+            {
+                action(this);
+            }
+        }
+
+        public virtual Expression PreliminaryEval(VariableTable varTable)
+        {
+            return this;
+        }
+
+        //public Expression PreliminaryEval(VariableTable varTable)
+        //{
+        //    Expression evalExpr = InternalPreliminaryEval(varTable);
+        //    Expression cleanExpr = evalExpr.CleanUp();
+        //    return cleanExpr;
+        //}
     }
 }

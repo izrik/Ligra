@@ -27,6 +27,10 @@ namespace MetaphysicsIndustries.Solus
             get;
         }
 
+        public override Expression CleanUp(Expression[] args)
+        {
+            return InternalCleanUp(args);
+        }
 
         public virtual bool IsCommutative   // a @ b == b @ a
         {
@@ -37,9 +41,49 @@ namespace MetaphysicsIndustries.Solus
             get { return false; }
         }
 
-        public virtual float IdentityValue
+        public virtual double IdentityValue
         {
             get { return 1; }
         }
+
+        protected abstract Expression InternalCleanUp(Expression[] args);
+
+        protected Expression[] CleanUpPartAssociativeOperation(Expression[] args)
+        {
+            List<FunctionCall> assocOps = new List<FunctionCall>();
+            (new FunctionCall(this, args)).GatherMatchingFunctionCalls(assocOps);
+
+            Set<FunctionCall> assocOpsSet = new Set<FunctionCall>(assocOps);
+            Literal combinedLiteral = null;
+
+            combinedLiteral = new Literal(IdentityValue);
+
+            List<Expression> nonLiterals = new List<Expression>(assocOps.Count);
+
+            foreach (FunctionCall opToCombine in assocOps)
+            {
+                foreach (Expression arg in opToCombine.Arguments)
+                {
+                    if (!(arg is FunctionCall) ||
+                        !(assocOpsSet.Contains(arg as FunctionCall)))
+                    {
+                        if (arg is Literal)
+                        {
+                            combinedLiteral = Call(null, combinedLiteral, arg);
+                        }
+                        else
+                        {
+                            nonLiterals.Add(arg);
+                        }
+                    }
+                }
+            }
+
+            args = InternalCleanUpPartAssociativeOperation(args, combinedLiteral, nonLiterals);
+
+            return args;
+        }
+
+        protected abstract Expression[] InternalCleanUpPartAssociativeOperation(Expression[] args, Literal combinedLiteral, List<Expression> nonLiterals);
     }
 }

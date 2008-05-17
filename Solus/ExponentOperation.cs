@@ -18,7 +18,7 @@ namespace MetaphysicsIndustries.Solus
 
         protected override Literal InternalCall(VariableTable varTable, Literal[] args)
         {
-            return new Literal((float)Math.Pow(args[0].Value, args[1].Value));
+            return new Literal(Math.Pow(args[0].Value, args[1].Value));
         }
     }
 }
