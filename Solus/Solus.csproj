@@ -30,14 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MetaphysicsIndustries.Collections, Version=1.0.2881.41411, Culture=neutral, PublicKeyToken=31ed9843e1f1bd54, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Publish\Assembly\Debug\MetaphysicsIndustries.Collections.dll</HintPath>
-    </Reference>
-    <Reference Include="MetaphysicsIndustries.Utilities, Version=1.0.2960.32710, Culture=neutral, PublicKeyToken=5f5e1ffe7b0daeef, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Publish\Assembly\Debug\MetaphysicsIndustries.Utilities.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -204,6 +196,16 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\MetaphysicsIndustries.Collections\MetaphysicsIndustries.Collections.csproj">
+      <Project>{FF2B8A90-E8D2-4CF6-81E6-4A7BCE1FF900}</Project>
+      <Name>MetaphysicsIndustries.Collections</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MetaphysicsIndustries.Utilities\MetaphysicsIndustries.Utilities.csproj">
+      <Project>{221A3FBA-E14C-4F05-A099-42508116E910}</Project>
+      <Name>MetaphysicsIndustries.Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
