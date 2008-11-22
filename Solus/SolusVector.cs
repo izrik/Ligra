@@ -86,18 +86,18 @@ namespace MetaphysicsIndustries.Solus
             return ret;
         }
 
-        public override Expression CleanUp()
-        {
-            SolusVector ret = new SolusVector(Length);
+        //public override Expression CleanUp()
+        //{
+        //    SolusVector ret = new SolusVector(Length);
 
-            int i;
-            for (i = 0; i < Length; i++)
-            {
-                ret[i] = this[i].CleanUp();
-            }
+        //    int i;
+        //    for (i = 0; i < Length; i++)
+        //    {
+        //        ret[i] = this[i].CleanUp();
+        //    }
 
-            return ret;
-        }
+        //    return ret;
+        //}
 
         public Expression this[int index]
         {

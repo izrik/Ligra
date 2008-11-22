@@ -65,18 +65,18 @@ namespace MetaphysicsIndustries.Solus
             return Call(varTable);
         }
 
-        public override Expression CleanUp()
-        {
-            Expression[] args = Arguments.ToArray();
-            List<Expression> cleanArgs = new List<Expression>(args.Length);
-            foreach (Expression arg in args)
-            {
-                cleanArgs.Add(arg.CleanUp());
-            }
-            args = cleanArgs.ToArray();
+        //public override Expression CleanUp()
+        //{
+        //    Expression[] args = Arguments.ToArray();
+        //    List<Expression> cleanArgs = new List<Expression>(args.Length);
+        //    foreach (Expression arg in args)
+        //    {
+        //        cleanArgs.Add(arg.CleanUp());
+        //    }
+        //    args = cleanArgs.ToArray();
 
-            return Function.CleanUp(args);
-        }
+        //    return Function.CleanUp(args);
+        //}
 
         public void GatherMatchingFunctionCalls(ICollection<FunctionCall> matchingFunctionCalls)
         {

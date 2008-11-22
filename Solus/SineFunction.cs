@@ -39,5 +39,5 @@ namespace MetaphysicsIndustries.Solus
                 return "sin";
             }
         }
-	}
+    }
 }

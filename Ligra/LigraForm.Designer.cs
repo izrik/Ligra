@@ -151,7 +151,8 @@ namespace MetaphysicsIndustries.Ligra
             // 
             // evalButton
             // 
-            this.evalButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.evalButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.evalButton.Location = new System.Drawing.Point(314, 5);
             this.evalButton.Name = "evalButton";
             this.evalButton.Size = new System.Drawing.Size(75, 23);

@@ -445,6 +445,14 @@ namespace MetaphysicsIndustries.Solus
 
                 return new PlotVectorExpression((SolusVector)arg);
             }
+            else if (ex.func == Func.Feedback)
+            {
+                return ConvertFeedbackExpression(ex, varTable, args);
+            }
+            else if (ex.func == Func.Subst)
+            {
+                return ConvertSubstExpression(ex, varTable, args);
+            }
             else
             {
                 throw new SolusParseException(ex, "Unknown function \"" + ex.Token + "\"");
@@ -453,6 +461,26 @@ namespace MetaphysicsIndustries.Solus
             return new FunctionCall(
                 function,
                 args);
+        }
+
+        private static Expression ConvertSubstExpression(Ex ex, VariableTable varTable, List<Expression> args)
+        {
+            if (!(args[1] is VariableAccess))
+            {
+                throw new SolusParseException(ex, "The second argument must be a variable");
+            }
+
+            return _engine.CleanUp(_engine.Subst(args[0], ((VariableAccess)args[1]).Variable, args[2]));
+        }
+
+        private static Expression ConvertFeedbackExpression(Ex ex, VariableTable varTable, List<Expression> args)
+        {
+            Expression g = args[0];
+            Expression h = args[1];
+
+            return new FunctionCall(BinaryOperation.Division,
+                g, new FunctionCall(AssociativeCommutativeOperation.Addition, new Literal(1),
+                    new FunctionCall(AssociativeCommutativeOperation.Multiplication, g, h)));
         }
 
         private static Expression ConvertGetRowExpression(Ex ex, VariableTable varTable, List<Expression> args)

@@ -594,23 +594,23 @@ namespace MetaphysicsIndustries.Solus
             return ret;
         }
 
-        public override Expression CleanUp()
-        {
-            SolusMatrix ret = new SolusMatrix(RowCount, ColumnCount);
+        //public override Expression CleanUp()
+        //{
+        //    SolusMatrix ret = new SolusMatrix(RowCount, ColumnCount);
 
-            int i;
-            int j;
+        //    int i;
+        //    int j;
 
-            for (i = 0; i < RowCount; i++)
-            {
-                for (j = 0; j < ColumnCount; j++)
-                {
-                    ret[i, j] = this[i, j].CleanUp();
-                }
-            }
+        //    for (i = 0; i < RowCount; i++)
+        //    {
+        //        for (j = 0; j < ColumnCount; j++)
+        //        {
+        //            ret[i, j] = this[i, j].CleanUp();
+        //        }
+        //    }
 
-            return ret;
-        }
+        //    return ret;
+        //}
 
         protected override void InternalApplyToExpressionTree(SolusAction action, bool applyToChildrenBeforeParent)
         {

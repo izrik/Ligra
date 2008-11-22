@@ -156,12 +156,27 @@ namespace MetaphysicsIndustries.Ligra
                 }
             }
 
+            //Brush[,] brushes = new Brush[xValues, yValues];
+            //for (i = 0; i < xValues; i++)
+            //{
+            //    for (j = 0; j < yValues; j++)
+            //    {
+            //        z = values[i,j];
+            //        if (z < 0) { z += (int)(Math.Ceiling(Math.Abs(z))); }
+            //        Triple<double> hsl = new Triple<double>(z, 1, 0.5);
+            //        Triple<double> rgb = SolusEngine.ConvertHslToRgb(hsl);
+            //        Color c = Color.FromArgb(Math.Min((int)(rgb.First * 255), 255), Math.Min((int)(rgb.Second * 255), 255), Math.Min((int)(rgb.Third * 255), 255));
+            //        brushes[i, j] = new SolidBrush(c);
+            //    }
+            //}
+
             for (i = xValues - 2; i >= 0; i--)
             {
                 for (j = yValues - 2; j >= 0; j--)
                 {
                     PointF[] poly = { pts[i, j], pts[i + 1, j], pts[i + 1, j + 1], pts[i, j + 1] };
                     g.FillPolygon(brush, poly);
+                    //g.FillPolygon(brushes[i, j], poly);
                     g.DrawPolygon(pen, poly);
                 }
             }

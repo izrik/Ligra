@@ -63,7 +63,7 @@ namespace MetaphysicsIndustries.Solus
 
         public Expression PreliminaryEval(Expression expr, VariableTable varTable)
         {
-            return expr.PreliminaryEval(varTable).CleanUp();
+            return CleanUp(expr.PreliminaryEval(varTable));
         }
 
         //protected Expression InternalPreliminaryEval(Expression expr, VariableTable varTable)
@@ -289,6 +289,36 @@ namespace MetaphysicsIndustries.Solus
             Matrix image2 = image.Clone();
             image2.ApplyToAll(SolusEngine.ConvertFloatTo24g);
             SaveImage(filename, image2);
+        }
+
+        public double BinomialCoefficient(int n, int k)
+        {
+            if (k > n) return 0;
+            if (k > n / 2) k = n - k;
+
+            double prod = 1;
+            int i;
+
+            for (i = 1; i <= k; i++)
+            {
+                prod *= (n - k + i) / (double)i;
+            }
+
+            return prod;
+        }
+
+        public double[] PascalsTriangle(int row)
+        {
+            double[] res = new double[row + 1];
+
+            int i;
+
+            for (i = 0; i < row; i++)
+            {
+                res[i] = BinomialCoefficient(row, i);
+            }
+
+            return res;
         }
     }
 }

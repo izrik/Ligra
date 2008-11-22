@@ -37,78 +37,78 @@ namespace MetaphysicsIndustries.Solus
             base.CheckArguments(args);
         }
 
-        protected override Expression InternalCleanUp(Expression[] args)
-        {
-            if (args.Length == 1)
-            {
-                return args[0];
-            }
+        //protected override Expression InternalCleanUp(Expression[] args)
+        //{
+        //    if (args.Length == 1)
+        //    {
+        //        return args[0];
+        //    }
 
-            args = CleanUpPartAssociativeOperation(args);
+        //    args = CleanUpPartAssociativeOperation(args);
 
-            if (args.Length == 1)
-            {
-                return args[0];
-            }
+        //    if (args.Length == 1)
+        //    {
+        //        return args[0];
+        //    }
 
-            if (Collapses)
-            {
-                foreach (Expression arg in args)
-                {
-                    if (arg is Literal && (arg as Literal).Value == CollapseValue)
-                    {
-                        return new Literal(CollapseValue);
-                    }
-                }
-            }
+        //    if (Collapses)
+        //    {
+        //        foreach (Expression arg in args)
+        //        {
+        //            if (arg is Literal && (arg as Literal).Value == CollapseValue)
+        //            {
+        //                return new Literal(CollapseValue);
+        //            }
+        //        }
+        //    }
 
-            if (Culls)
-            {
-                List<Expression> args2 = new List<Expression>(args.Length);
-                foreach (Expression arg in args)
-                {
-                    if (!(arg is Literal) || (arg as Literal).Value != CullValue)
-                    {
-                        args2.Add(arg);
-                    }
-                }
+        //    if (Culls)
+        //    {
+        //        List<Expression> args2 = new List<Expression>(args.Length);
+        //        foreach (Expression arg in args)
+        //        {
+        //            if (!(arg is Literal) || (arg as Literal).Value != CullValue)
+        //            {
+        //                args2.Add(arg);
+        //            }
+        //        }
 
-                if (args2.Count < args.Length)
-                {
-                    args = args2.ToArray();
-                }
-            }
+        //        if (args2.Count < args.Length)
+        //        {
+        //            args = args2.ToArray();
+        //        }
+        //    }
 
-            if (args.Length == 1)
-            {
-                return args[0];
-            }
+        //    if (args.Length == 1)
+        //    {
+        //        return args[0];
+        //    }
 
-            bool call = true;
-            foreach (Expression arg in args)
-            {
-                if (!(arg is Literal))
-                {
-                    call = false;
-                    break;
-                }
-            }
+        //    bool call = true;
+        //    foreach (Expression arg in args)
+        //    {
+        //        if (!(arg is Literal))
+        //        {
+        //            call = false;
+        //            break;
+        //        }
+        //    }
 
-            if (call)
-            {
-                return Call(null, args);
-            }
+        //    if (call)
+        //    {
+        //        return Call(null, args);
+        //    }
 
-            return new FunctionCall(this, args);
-        }
+        //    return new FunctionCall(this, args);
+        //}
 
-        protected override Expression[] InternalCleanUpPartAssociativeOperation(Expression[] args, Literal combinedLiteral, List<Expression> nonLiterals)
-        {
-            List<Expression> newArgs = new List<Expression>(nonLiterals.Count + 1);
-            newArgs.Add(combinedLiteral);
-            newArgs.AddRange(nonLiterals);
-            return newArgs.ToArray();
-        }
+        //protected override Expression[] InternalCleanUpPartAssociativeOperation(Expression[] args, Literal combinedLiteral, List<Expression> nonLiterals)
+        //{
+        //    List<Expression> newArgs = new List<Expression>(nonLiterals.Count + 1);
+        //    newArgs.Add(combinedLiteral);
+        //    newArgs.AddRange(nonLiterals);
+        //    return newArgs.ToArray();
+        //}
 
         public override bool IsCommutative
         {

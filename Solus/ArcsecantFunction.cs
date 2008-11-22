@@ -32,5 +32,5 @@ namespace MetaphysicsIndustries.Solus
             return new Literal(Math.Acos(1/args[0].Eval(varTable).Value));
         }
 
-	}
+    }
 }

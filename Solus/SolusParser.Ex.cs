@@ -67,6 +67,10 @@ namespace MetaphysicsIndustries.Solus
             PlotVector,
             PlotMatrix,
 
+            Feedback,
+
+            Subst,
+
             Unknown,
         }
 
@@ -205,6 +209,10 @@ namespace MetaphysicsIndustries.Solus
                 _functionTypes["plotm"] = Func.PlotMatrix;
                 _functionTypes["plotv"] = Func.PlotVector;
 
+                _functionTypes["feedback"] = Func.Feedback;
+                _functionTypes["subst"] = Func.Subst;
+
+
 
 
                 _ranksFromNodeTypes[NodeType.Num] = Ranks.Values;
@@ -256,6 +264,9 @@ namespace MetaphysicsIndustries.Solus
                 _argsFromFunctions[Func.GetRow2] = 3;
                 _argsFromFunctions[Func.GetColumn2] = 3;
                 _argsFromFunctions[Func.MathPaint] = 5;
+                _argsFromFunctions[Func.Feedback] = 2;
+                _argsFromFunctions[Func.Subst] = 3;
+
                 _argsFromFunctions[Func.Unknown] = -1;
 
 

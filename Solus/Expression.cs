@@ -50,10 +50,10 @@ namespace MetaphysicsIndustries.Solus
 
         #endregion
 
-        public virtual Expression CleanUp()
-        {
-            return this;
-        }
+        //public virtual Expression CleanUp()
+        //{
+        //    return this;
+        //}
 
         //public abstract Expression PreliminaryEval(VariableTable varTable);
         //public abstract GetDerivative(Variable
@@ -91,5 +91,16 @@ namespace MetaphysicsIndustries.Solus
         //    Expression cleanExpr = evalExpr.CleanUp();
         //    return cleanExpr;
         //}
+
+        public bool IsFunction(Function function)
+        {
+            return (this is FunctionCall && ((FunctionCall)this).Function == function);
+        }
+
+        public T As<T>()
+            where T : Expression
+        {
+            return this as T;
+        }
     }
 }

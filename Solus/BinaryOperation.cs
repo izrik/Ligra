@@ -74,53 +74,53 @@ namespace MetaphysicsIndustries.Solus
 			}
 		}
 
-        protected override Expression InternalCleanUp(Expression[] args)
-        {
-            if (args[0] is Literal &&
-                            args[1] is Literal)
-            {
-                return Call(null, args);
-            }
+        //protected override Expression InternalCleanUp(Expression[] args)
+        //{
+        //    if (args[0] is Literal &&
+        //                    args[1] is Literal)
+        //    {
+        //        return Call(null, args);
+        //    }
 
-            if (IsAssociative)
-            {
-                args = CleanUpPartAssociativeOperation(args);
-            }
+        //    if (IsAssociative)
+        //    {
+        //        args = CleanUpPartAssociativeOperation(args);
+        //    }
 
-            if (IsCommutative &&
-                args[0] is Literal &&
-                (args[0] as Literal).Value == IdentityValue)
-            {
-                return args[1];
-            }
+        //    if (IsCommutative &&
+        //        args[0] is Literal &&
+        //        (args[0] as Literal).Value == IdentityValue)
+        //    {
+        //        return args[1];
+        //    }
 
-            if (args[1] is Literal &&
-                (args[1] as Literal).Value == IdentityValue)
-            {
-                return args[0];
-            }
+        //    if (args[1] is Literal &&
+        //        (args[1] as Literal).Value == IdentityValue)
+        //    {
+        //        return args[0];
+        //    }
 
 
-            return new FunctionCall(this, args);
-        }
+        //    return new FunctionCall(this, args);
+        //}
 
-        protected override Expression[] InternalCleanUpPartAssociativeOperation(Expression[] args, Literal combinedLiteral, List<Expression> nonLiterals)
-        {
-            FunctionCall ret = new FunctionCall(this, combinedLiteral);
-            FunctionCall temp = ret;
-            FunctionCall last = null;
+        //protected override Expression[] InternalCleanUpPartAssociativeOperation(Expression[] args, Literal combinedLiteral, List<Expression> nonLiterals)
+        //{
+        //    FunctionCall ret = new FunctionCall(this, combinedLiteral);
+        //    FunctionCall temp = ret;
+        //    FunctionCall last = null;
 
-            foreach (Expression expr in nonLiterals)
-            {
-                //Expression cleanExpr = CleanUp(expr);
-                last = temp;
-                temp = new FunctionCall(this, expr);//cleanExpr);
-                last.Arguments.Add(temp);
-            }
+        //    foreach (Expression expr in nonLiterals)
+        //    {
+        //        //Expression cleanExpr = CleanUp(expr);
+        //        last = temp;
+        //        temp = new FunctionCall(this, expr);//cleanExpr);
+        //        last.Arguments.Add(temp);
+        //    }
 
-            last.Arguments[1] = temp.Arguments[0];
+        //    last.Arguments[1] = temp.Arguments[0];
 
-            return ret.Arguments.ToArray();
-        }
+        //    return ret.Arguments.ToArray();
+        //}
 	}
 }

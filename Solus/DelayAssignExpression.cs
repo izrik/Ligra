@@ -42,10 +42,10 @@ namespace MetaphysicsIndustries.Solus
             return new DelayAssignExpression(Variable, Expression);
         }
 
-        public override Expression CleanUp()
-        {
-            return new DelayAssignExpression(Variable, Expression.CleanUp());
-        }
+        //public override Expression CleanUp()
+        //{
+        //    return new DelayAssignExpression(Variable, Expression.CleanUp());
+        //}
 
         protected override void InternalApplyToExpressionTree(SolusAction action, bool applyToChildrenBeforeParent)
         {

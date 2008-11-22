@@ -59,6 +59,8 @@
     <Compile Include="BinaryOperation.cs" />
     <Compile Include="CeilingFunction.cs" />
     <Compile Include="CenteredCoordinateTransformMatrixFilter.cs" />
+    <Compile Include="CleanUpTransformer.cs" />
+    <Compile Include="CloneTransformer.cs" />
     <Compile Include="ColorExpression.cs" />
     <Compile Include="ConvolutionMatrixFilter.cs" />
     <Compile Include="ConvolutionVectorFilter.cs" />
@@ -68,6 +70,7 @@
     <Compile Include="CotangentFunction.cs" />
     <Compile Include="DelayAssignExpression.cs" />
     <Compile Include="DerivativeOfVariable.cs" />
+    <Compile Include="DerivativeTransformer.cs" />
     <Compile Include="DivisionOperation.cs" />
     <Compile Include="AlphaTrimmedDualBellEdgeDetectorMatrixFilter.cs" />
     <Compile Include="ErrorFunction.cs" />
@@ -76,6 +79,8 @@
     <Compile Include="ExponentOperation.cs" />
     <Compile Include="Expression.cs" />
     <Compile Include="ExpressionCollection.cs" />
+    <Compile Include="ExpressionTransformer.cs" />
+    <Compile Include="FactorialFunction.cs" />
     <Compile Include="FilterBase.cs" />
     <Compile Include="FishEyeMatrixFilter.cs" />
     <Compile Include="FloorFunction.cs" />
@@ -93,6 +98,7 @@
     <Compile Include="IMmseImpulseRejectionStage.cs" />
     <Compile Include="CompositeMatrixFilter.cs" />
     <Compile Include="ImpulseNoiseMatrixFilter.cs" />
+    <Compile Include="IntegralTransformer.cs" />
     <Compile Include="IntervalFitBaseMatrixFilter.cs" />
     <Compile Include="MmseEdgeDetectionMatrixfilter.cs" />
     <Compile Include="MmseImpulseRejectionStage.cs" />
@@ -100,12 +106,18 @@
     <Compile Include="ModulatorMatrixFilter.cs" />
     <Compile Include="DualBellEdgeDetectorMatrixFilter.cs" />
     <Compile Include="IdentityFilter.cs" />
+    <Compile Include="PolynomialTransformer.cs" />
+    <Compile Include="RatioOfPolynomialsTransformer.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="SignalMeanMeasure.cs" />
     <Compile Include="SignalVarianceMeasure.cs" />
     <Compile Include="SimpleScaleMatrixFilter.cs" />
     <Compile Include="SobelMatrixFilter.cs" />
     <Compile Include="SolusEngine.Statistics.cs" />
+    <Compile Include="SolusEngine.Subst.cs" />
+    <Compile Include="ThresholdMatrixFilter.cs" />
+    <Compile Include="TransformArgs.cs" />
+    <Compile Include="VariableTransformArgs.cs" />
     <Compile Include="ZetaTrimmedMmseMatrixFilter.cs" />
     <Compile Include="IntervalFitMatrixFilter.cs" />
     <Compile Include="InverseFourierTransformMatrixFilter.cs" />

@@ -27,10 +27,10 @@ namespace MetaphysicsIndustries.Solus
             get;
         }
 
-        public override Expression CleanUp(Expression[] args)
-        {
-            return InternalCleanUp(args);
-        }
+        //public override Expression CleanUp(Expression[] args)
+        //{
+        //    return InternalCleanUp(args);
+        //}
 
         public virtual bool IsCommutative   // a @ b == b @ a
         {
@@ -46,44 +46,44 @@ namespace MetaphysicsIndustries.Solus
             get { return 1; }
         }
 
-        protected abstract Expression InternalCleanUp(Expression[] args);
+        //protected abstract Expression InternalCleanUp(Expression[] args);
 
-        protected Expression[] CleanUpPartAssociativeOperation(Expression[] args)
-        {
-            List<FunctionCall> assocOps = new List<FunctionCall>();
-            (new FunctionCall(this, args)).GatherMatchingFunctionCalls(assocOps);
+        //protected Expression[] CleanUpPartAssociativeOperation(Expression[] args)
+        //{
+        //    List<FunctionCall> assocOps = new List<FunctionCall>();
+        //    (new FunctionCall(this, args)).GatherMatchingFunctionCalls(assocOps);
 
-            Set<FunctionCall> assocOpsSet = new Set<FunctionCall>(assocOps);
-            Literal combinedLiteral = null;
+        //    Set<FunctionCall> assocOpsSet = new Set<FunctionCall>(assocOps);
+        //    Literal combinedLiteral = null;
 
-            combinedLiteral = new Literal(IdentityValue);
+        //    combinedLiteral = new Literal(IdentityValue);
 
-            List<Expression> nonLiterals = new List<Expression>(assocOps.Count);
+        //    List<Expression> nonLiterals = new List<Expression>(assocOps.Count);
 
-            foreach (FunctionCall opToCombine in assocOps)
-            {
-                foreach (Expression arg in opToCombine.Arguments)
-                {
-                    if (!(arg is FunctionCall) ||
-                        !(assocOpsSet.Contains(arg as FunctionCall)))
-                    {
-                        if (arg is Literal)
-                        {
-                            combinedLiteral = Call(null, combinedLiteral, arg);
-                        }
-                        else
-                        {
-                            nonLiterals.Add(arg);
-                        }
-                    }
-                }
-            }
+        //    foreach (FunctionCall opToCombine in assocOps)
+        //    {
+        //        foreach (Expression arg in opToCombine.Arguments)
+        //        {
+        //            if (!(arg is FunctionCall) ||
+        //                !(assocOpsSet.Contains(arg as FunctionCall)))
+        //            {
+        //                if (arg is Literal)
+        //                {
+        //                    combinedLiteral = Call(null, combinedLiteral, arg);
+        //                }
+        //                else
+        //                {
+        //                    nonLiterals.Add(arg);
+        //                }
+        //            }
+        //        }
+        //    }
 
-            args = InternalCleanUpPartAssociativeOperation(args, combinedLiteral, nonLiterals);
+        //    args = InternalCleanUpPartAssociativeOperation(args, combinedLiteral, nonLiterals);
 
-            return args;
-        }
+        //    return args;
+        //}
 
-        protected abstract Expression[] InternalCleanUpPartAssociativeOperation(Expression[] args, Literal combinedLiteral, List<Expression> nonLiterals);
+        //protected abstract Expression[] InternalCleanUpPartAssociativeOperation(Expression[] args, Literal combinedLiteral, List<Expression> nonLiterals);
     }
 }

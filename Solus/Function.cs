@@ -52,25 +52,25 @@ namespace MetaphysicsIndustries.Solus
 			return this.InternalCall(varTable, evalArgs.ToArray());
 		}
 
-        public virtual Expression CleanUp(Expression[] args)
-        {
-            bool call = true;
-            foreach (Expression arg in args)
-            {
-                if (!(arg is Literal))
-                {
-                    call = false;
-                    break;
-                }
-            }
+        //public virtual Expression CleanUp(Expression[] args)
+        //{
+        //    bool call = true;
+        //    foreach (Expression arg in args)
+        //    {
+        //        if (!(arg is Literal))
+        //        {
+        //            call = false;
+        //            break;
+        //        }
+        //    }
 
-            if (call)
-            {
-                return Call(null, args);
-            }
+        //    if (call)
+        //    {
+        //        return Call(null, args);
+        //    }
 
-            return new FunctionCall(this, args);
-        }
+        //    return new FunctionCall(this, args);
+        //}
 
 		public virtual string DisplayName
 		{
