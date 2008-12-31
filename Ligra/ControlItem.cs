@@ -37,7 +37,7 @@ namespace MetaphysicsIndustries.Ligra
             return _control.Size;
         }
 
-        public override void InformLocation(PointF location)
+        protected override void InternalSetLocation(PointF location)
         {
             _control.Location = Point.Round(location) + new Size(_parent.AutoScrollPosition);
         }

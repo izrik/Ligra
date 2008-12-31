@@ -116,6 +116,7 @@ namespace MetaphysicsIndustries.Ligra
         //}
 
         ToolStripMenuItem _renderItemItem = new ToolStripMenuItem("Render Item");
+        ToolStripMenuItem _propertiesItem = new ToolStripMenuItem("Properties");
         private void LigraForm_Load(object sender, EventArgs e)
         {
             InitializeCommands();
@@ -129,14 +130,7 @@ namespace MetaphysicsIndustries.Ligra
             //Formula formula = new Formula();
             //Graph graph = new Graph();
 
-            ToolStripMenuItem item = new ToolStripMenuItem("Clear");
-            item.Click += new EventHandler(ClearItem_Click);
-            ligraControl1.ContextMenuStrip.Items.Add(item);
-
-            item = _renderItemItem;
-            item.Enabled = false;
-            ligraControl1.ContextMenuStrip.Items.Add(item);
-            ligraControl1.ContextMenuStrip.Opening += new CancelEventHandler(ligraControl1_ContextMenuStrip_Opening);
+            SetupContextMenu();
 
 
             //Variable x = new Variable("x");
@@ -646,11 +640,84 @@ namespace MetaphysicsIndustries.Ligra
             //////_graphs.Add(graph);
         }
 
+        private ToolStripMenuItem _clearItem = new ToolStripMenuItem("Clear");
+        private void SetupContextMenu()
+        {
+            _clearItem.Click += new EventHandler(ClearItem_Click);
+            ligraControl1.ContextMenuStrip.Items.Add(_clearItem);
+
+            ligraControl1.ContextMenuStrip.Items.Add(_renderItemItem);
+
+            _propertiesItem.Click += new EventHandler(PropertiesItem_Click);
+            ligraControl1.ContextMenuStrip.Items.Add(_propertiesItem);
+
+            ligraControl1.ContextMenuStrip.Opening += new CancelEventHandler(ligraControl1_ContextMenuStrip_Opening);
+        }
+
+        void PropertiesItem_Click(object sender, EventArgs e)
+        {
+            if (_selectedRenderItem != null)
+            {
+                _selectedRenderItem.OpenPropertiesWindow(ligraControl1);
+
+                //reset render item positions?
+            }
+        }
+
+        RenderItem _selectedRenderItem;
         void ligraControl1_ContextMenuStrip_Opening(object sender, CancelEventArgs e)
         {
             ContextMenuStrip menu = ligraControl1.ContextMenuStrip;
             Point pt = menu.ClientRectangle.Location;
             pt = new Point(menu.Left, menu.Top);
+
+            RenderItem ri = GetRenderItemFromPoint(pt);
+            _selectedRenderItem = ri;
+
+            if (ri != null)
+            {
+                _renderItemItem.DropDownItems.Clear();
+
+                ToolStripItem[] menuItems = ri.GetMenuItems();
+
+                if (menuItems.Length > 0)
+                {
+                    _renderItemItem.DropDownItems.AddRange(menuItems);
+                    _renderItemItem.Enabled = true;
+                }
+                else
+                {
+                    _renderItemItem.Enabled = false;
+                }
+
+                _propertiesItem.Enabled = ri.HasPropertyWindow;
+            }
+            else
+            {
+                _propertiesItem.Enabled = false;
+            }
+        }
+
+        private RenderItem GetRenderItemFromPoint(PointF pt)
+        {
+            return GetRenderItemInCollectionFromPoint(_renderItems, pt);
+        }
+
+        private RenderItem GetRenderItemInCollectionFromPoint(IEnumerable<RenderItem> items, PointF pt)
+        {
+            foreach (RenderItem ri in items)
+            {
+                if (ri is RenderItemContainer)
+                {
+                    return GetRenderItemInCollectionFromPoint(((RenderItemContainer)ri).Items, pt);
+                }
+                else if (ri.Rect.Contains(pt))
+                {
+                    return ri;
+                }
+            }
+
+            return null;
         }
 
 

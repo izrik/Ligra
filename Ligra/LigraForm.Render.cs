@@ -52,7 +52,7 @@ namespace MetaphysicsIndustries.Ligra
                     item.Render(ligraControl1, g, new PointF(x, y), _vars);
                 //}
 
-                item.InformLocation(new PointF(x, y));
+                item.SetLocation(new PointF(x, y));
 
                 maxWidth = Math.Max(maxWidth, itemSize.Width);
                 y += itemSize.Height + 25;

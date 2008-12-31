@@ -50,7 +50,18 @@ namespace MetaphysicsIndustries.Ligra
         public GraphItem(IEnumerable<GraphEntry> entries)
         {
             _entries.AddRange(entries);
+
+            Rect = new RectangleF(0, 0, 400, 400);
+            _maxX = 2;
+            _minX = -2;
+            _maxY = 2;
+            _minY = -2;
         }
+
+        float _maxX;
+        float _minX;
+        float _maxY;
+        float _minY;
 
         private List<GraphEntry> _entries = new List<GraphEntry>();
         //private SizeF _size = new SizeF(400, 400);
@@ -61,10 +72,9 @@ namespace MetaphysicsIndustries.Ligra
             foreach (GraphEntry entry in _entries)
             {
                 control.RenderGraph(g,
-                    new RectangleF(location.X, location.Y, 400, 400),
+                    new RectangleF(location, Rect.Size),
                     entry.Pen, entry.Pen.Brush,
-                    //-3.2f, 3.2f, -0.5f, 2.5f,
-                    -2, 2, -2, 2,
+                    _minX, _maxX, _minY, _maxY,
                     entry.Expression, entry.IndependentVariable, varTable, first);
                 first = false;
             }
@@ -72,7 +82,7 @@ namespace MetaphysicsIndustries.Ligra
 
         protected override SizeF InternalCalcSize(LigraControl control, Graphics g)
         {
-            return new SizeF(400, 400);
+            return Rect.Size;
         }
 
         //public override bool HasChanged(VariableTable varTable)
@@ -90,6 +100,39 @@ namespace MetaphysicsIndustries.Ligra
                 UngatherVariableForValueCollection(tempVars, entry.IndependentVariable);
                 vars.AddRange(tempVars);
             }
+        }
+
+        private Expression ExpressionFromGraphEntry(GraphEntry entry)
+        {
+            return entry.Expression;
+        }
+
+        public override void OpenPropertiesWindow(LigraControl control)
+        {
+            PlotPropertiesForm form = new PlotPropertiesForm();
+
+            form.PlotSize = Rect.Size;
+            form.PlotMaxX = _maxX;
+            form.PlotMinX = _minX;
+            form.PlotMaxY = _maxY;
+            form.PlotMinY = _minY;
+
+            form.SetExpressions(Array.ConvertAll<GraphEntry, Expression>(_entries.ToArray(), ExpressionFromGraphEntry));
+
+            if (form.ShowDialog(control) == System.Windows.Forms.DialogResult.OK)
+            {
+                Rect = new RectangleF(Rect.Location, form.PlotSize);
+
+                _maxX = form.PlotMaxX;
+                _minX = form.PlotMinX;
+                _maxY = form.PlotMaxY;
+                _minY = form.PlotMinY;
+            }
+        }
+
+        public override bool HasPropertyWindow
+        {
+            get { return true; }
         }
     }
 }

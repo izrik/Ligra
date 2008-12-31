@@ -51,12 +51,21 @@ namespace MetaphysicsIndustries.Ligra
         {
             if (string.IsNullOrEmpty(_error))
             {
-                return InternalCalcSize(control, g);
+                SizeF size = InternalCalcSize(control, g);
+                Rect = new RectangleF(0, 0, size.Width, size.Height);
+                return size;
             }
             else
             {
                 return _errorSize;
             }
+        }
+
+        private RectangleF _rect;
+        public RectangleF Rect
+        {
+            get { return _rect; }
+            set { _rect = value; }
         }
 
 
@@ -111,13 +120,29 @@ namespace MetaphysicsIndustries.Ligra
         {
         }
 
-        public virtual void InformLocation(PointF location)
+        public void SetLocation(PointF location)
+        {
+            Rect = new RectangleF(location, Rect.Size);
+
+            InternalSetLocation(location);
+        }
+
+        protected virtual void InternalSetLocation(PointF location)
         {
         }
 
         public ToolStripItem[] GetMenuItems()
         {
-            return null;
+            return new ToolStripItem[0];
+        }
+
+        public virtual bool HasPropertyWindow
+        {
+            get { return false; }
+        }
+
+        public virtual void OpenPropertiesWindow(LigraControl control)
+        {
         }
     }
 }
