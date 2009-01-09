@@ -13,13 +13,14 @@ namespace MetaphysicsIndustries.Ligra
     public partial class LigraControl : UserControl
     {
 
-        public SizeF CalcExpressionSize(Graphics g, Expression expr)
+        public static SizeF CalcExpressionSize(Expression expr, Graphics g, Font font)
         {
-            return CalcExpressionSize(g, expr, new Dictionary<Expression, SizeF>());
+            return CalcExpressionSize(expr, g, font, new Dictionary<Expression, SizeF>());
         }
 
-        protected SizeF CalcExpressionSize(Graphics g, Expression expr, Dictionary<Expression, SizeF> expressionSizeCache)
+        protected static SizeF CalcExpressionSize(Expression expr, Graphics g, Font font, Dictionary<Expression, SizeF> expressionSizeCache)
         {
+
             if (expressionSizeCache.ContainsKey(expr))
             {
                 return expressionSizeCache[expr];
@@ -29,11 +30,11 @@ namespace MetaphysicsIndustries.Ligra
 
             if (expr is FunctionCall)
             {
-                size = CalcFunctionCallSize(g, expr, expressionSizeCache);
+                size = CalcFunctionCallSize(g, expr, expressionSizeCache, font);
             }
             else if (expr is Literal)
             {
-                size = g.MeasureString((expr as Literal).ToString(), Font);
+                size = g.MeasureString((expr as Literal).ToString(), font);
             }
             else if (expr is VariableAccess)
             {
@@ -49,31 +50,31 @@ namespace MetaphysicsIndustries.Ligra
                     string upperString = "d" + (upperOrder > 1 ? upperOrder.ToString() : string.Empty) + derivativeOfVariable.Variable.Name;
                     string lowerString = "d" + derivativeOfVariable.LowerVariable.Name + (upperOrder > 1 ? upperOrder.ToString() : string.Empty);
 
-                    SizeF size2 = g.MeasureString(upperString, Font);
-                    SizeF size3 = g.MeasureString(lowerString, Font);
+                    SizeF size2 = g.MeasureString(upperString, font);
+                    SizeF size3 = g.MeasureString(lowerString, font);
 
                     size = new SizeF(Math.Max(size2.Width, size3.Width), size2.Height + size3.Height + 2);
                 }
                 else
                 {
-                    size = g.MeasureString((expr as VariableAccess).Variable.Name, Font);
+                    size = g.MeasureString((expr as VariableAccess).Variable.Name, font);
                 }
             }
             else if (expr is ColorExpression)
             {
-                size = CalcExpressionSize(g, expr.Eval(null), expressionSizeCache);
+                size = CalcExpressionSize(expr.Eval(null), g, font, expressionSizeCache);
             }
             else if (expr is RandomExpression)
             {
-                size = g.MeasureString("rand()", Font);
+                size = g.MeasureString("rand()", font);
             }
             else if (expr is AssignExpression)
             {
                 AssignExpression expr2 = (AssignExpression)expr;
 
-                size = g.MeasureString(expr2.Variable.Name + " = ", Font);
+                size = g.MeasureString(expr2.Variable.Name + " = ", font);
 
-                SizeF size2 = CalcExpressionSize(g, expr2.Value);
+                SizeF size2 = CalcExpressionSize(expr2.Value, g, font, expressionSizeCache);
                 size.Width += size2.Width;
                 size.Height = Math.Max(size.Height, size2.Height);
             }
@@ -81,9 +82,9 @@ namespace MetaphysicsIndustries.Ligra
             {
                 DelayAssignExpression expr2 = (DelayAssignExpression)expr;
 
-                size = g.MeasureString(expr2.Variable.Name + " := ", Font);
+                size = g.MeasureString(expr2.Variable.Name + " := ", font);
 
-                SizeF size2 = CalcExpressionSize(g, expr2.Expression);
+                SizeF size2 = CalcExpressionSize(expr2.Expression, g, font, expressionSizeCache);
                 size.Width += size2.Width;
                 size.Height = Math.Max(size.Height, size2.Height);
             }
@@ -93,7 +94,7 @@ namespace MetaphysicsIndustries.Ligra
                 List<float> maxWidthPerColumn = new List<float>();
                 List<float> maxHeightPerRow = new List<float>();
 
-                CalcMatrixWidthsAndHeights(g, expr2, maxWidthPerColumn, maxHeightPerRow, expressionSizeCache);
+                CalcMatrixWidthsAndHeights(g, expr2, maxWidthPerColumn, maxHeightPerRow, expressionSizeCache, font);
                 size = CalcMatrixSizeFromMaxWidthsAndHeights(maxWidthPerColumn, maxHeightPerRow);
             }
             else if (expr is SolusVector)
@@ -107,7 +108,7 @@ namespace MetaphysicsIndustries.Ligra
 
                 for (i = 0; i < vector.Length; i++)
                 {
-                    exprSize = CalcExpressionSize(g, vector[i], expressionSizeCache);
+                    exprSize = CalcExpressionSize(vector[i], g, font, expressionSizeCache);
                     width += exprSize.Width + 2;
                     height = Math.Max(height, exprSize.Height);
                 }
@@ -147,7 +148,7 @@ namespace MetaphysicsIndustries.Ligra
             return size;
         }
 
-        private void CalcMatrixWidthsAndHeights(Graphics g, SolusMatrix matrix, List<float> maxWidthPerColumn, List<float> maxHeightPerRow, Dictionary<Expression, SizeF> expressionSizeCache)
+        private static void CalcMatrixWidthsAndHeights(Graphics g, SolusMatrix matrix, List<float> maxWidthPerColumn, List<float> maxHeightPerRow, Dictionary<Expression, SizeF> expressionSizeCache, Font font)
         {
             int i;
             int j;
@@ -165,7 +166,7 @@ namespace MetaphysicsIndustries.Ligra
 
                 for (j = 0; j < matrix.ColumnCount; j++)
                 {
-                    SizeF size = CalcExpressionSize(g, matrix[i, j], expressionSizeCache);
+                    SizeF size = CalcExpressionSize(matrix[i, j], g, font, expressionSizeCache);
 
                     size += new SizeF(4, 4);
 
@@ -175,8 +176,9 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        private SizeF CalcFunctionCallSize(Graphics g, Expression expr, Dictionary<Expression, SizeF> expressionSizeCache)
+        private static SizeF CalcFunctionCallSize(Graphics g, Expression expr, Dictionary<Expression, SizeF> expressionSizeCache, Font font)
         {
+
             SizeF size;
             FunctionCall functionCall = expr as FunctionCall;
 
@@ -190,8 +192,8 @@ namespace MetaphysicsIndustries.Ligra
                 {
                     if (functionCall.Function is DivisionOperation)
                     {
-                        SizeF topOperandSize = CalcExpressionSize(g, functionCall.Arguments[0], expressionSizeCache);
-                        SizeF bottomOperandSize = CalcExpressionSize(g, functionCall.Arguments[1], expressionSizeCache);
+                        SizeF topOperandSize = CalcExpressionSize(functionCall.Arguments[0], g, font, expressionSizeCache);
+                        SizeF bottomOperandSize = CalcExpressionSize(functionCall.Arguments[1], g, font, expressionSizeCache);
 
                         float width = Math.Max(topOperandSize.Width, bottomOperandSize.Width);
                         float height = topOperandSize.Height + bottomOperandSize.Height;
@@ -205,12 +207,12 @@ namespace MetaphysicsIndustries.Ligra
                         Literal root = (Literal)functionCall.Arguments[1];
                         Literal invRoot = new Literal(Math.Round(1 / root.Value));
                         Expression arg = functionCall.Arguments[0];
-                        SizeF argSize = CalcExpressionSize(g, arg, expressionSizeCache);
+                        SizeF argSize = CalcExpressionSize(arg, g, font, expressionSizeCache);
                         SizeF rootSize = new SizeF(0, 0);
 
                         if (invRoot.Value > 2)
                         {
-                            rootSize = CalcExpressionSize(g, invRoot);
+                            rootSize = CalcExpressionSize(invRoot, g, font);
                         }
 
                         //float shortRadicalLineWidth = 5;
@@ -226,9 +228,9 @@ namespace MetaphysicsIndustries.Ligra
                             //+ " "
                             ;
 
-                        SizeF leftOperandSize = CalcExpressionSize(g, functionCall.Arguments[0], expressionSizeCache);
-                        SizeF rightOperandSize = CalcExpressionSize(g, functionCall.Arguments[1], expressionSizeCache);
-                        SizeF operatorSymbolSize = g.MeasureString(operatorSymbol, Font);
+                        SizeF leftOperandSize = CalcExpressionSize(functionCall.Arguments[0], g, font, expressionSizeCache);
+                        SizeF rightOperandSize = CalcExpressionSize(functionCall.Arguments[1], g, font, expressionSizeCache);
+                        SizeF operatorSymbolSize = g.MeasureString(operatorSymbol, font);
 
                         float parenWidth = 10;
 
@@ -258,7 +260,7 @@ namespace MetaphysicsIndustries.Ligra
                 {
                     AssociativeCommutativeOperation operation = functionCall.Function as AssociativeCommutativeOperation;
                     string symbol = operation.DisplayName;
-                    SizeF symbolSize = g.MeasureString(symbol, Font);
+                    SizeF symbolSize = g.MeasureString(symbol, font);
 
                     float parenWidth = 10;
 
@@ -276,7 +278,7 @@ namespace MetaphysicsIndustries.Ligra
                             size.Width += symbolSize.Width;
                         }
 
-                        SizeF argSize = CalcExpressionSize(g, arg, expressionSizeCache);
+                        SizeF argSize = CalcExpressionSize(arg, g, font, expressionSizeCache);
 
                         if (arg is FunctionCall &&
                             (arg as FunctionCall).Function is Operation &&
@@ -304,10 +306,10 @@ namespace MetaphysicsIndustries.Ligra
                 SizeF commaSize;
                 SizeF allArgSize;
 
-                displayNameSize = g.MeasureString(functionCall.Function.DisplayName, Font) + new SizeF(2, 0);
-                openParenSize = g.MeasureString("(", Font);
-                closeParenSize = g.MeasureString(")", Font);
-                commaSize = g.MeasureString(", ", Font);
+                displayNameSize = g.MeasureString(functionCall.Function.DisplayName, font) + new SizeF(2, 0);
+                openParenSize = g.MeasureString("(", font);
+                closeParenSize = g.MeasureString(")", font);
+                commaSize = g.MeasureString(", ", font);
 
                 allArgSize = new SizeF(0, 0);
 
@@ -322,7 +324,7 @@ namespace MetaphysicsIndustries.Ligra
                     {
                         allArgSize.Width += commaSize.Width;
                     }
-                    SizeF argSize = CalcExpressionSize(g, arg, expressionSizeCache);
+                    SizeF argSize = CalcExpressionSize(arg, g, font, expressionSizeCache);
                     allArgSize.Width += argSize.Width;
                     allArgSize.Height = Math.Max(allArgSize.Height, argSize.Height);
                 }

@@ -76,7 +76,7 @@ namespace MetaphysicsIndustries.Ligra
 
         protected override void InternalRender(LigraControl control, Graphics g, PointF location, VariableTable varTable)
         {
-            SizeF exprSize = control.CalcExpressionSize(g, Expression);
+            SizeF exprSize = LigraControl.CalcExpressionSize(Expression, g, Font);
             float xx = location.X;
 
             //if (!string.IsNullOrEmpty(Name))
@@ -86,12 +86,12 @@ namespace MetaphysicsIndustries.Ligra
             //    g.DrawString(Name + " = ", Font, Pen.Brush, new PointF(location.X, location.Y + (exprSize.Height - textSize.Height) / 2));
             //}
 
-            control.RenderExpression(g, Expression, new PointF(xx, location.Y), Pen, Pen.Brush);
+            LigraControl.RenderExpression(g, Expression, new PointF(xx, location.Y), Pen, Pen.Brush, Font, false);
         }
 
         protected override SizeF InternalCalcSize(LigraControl control, Graphics g)
         {
-            SizeF exprSize = control.CalcExpressionSize(g, Expression);
+            SizeF exprSize = LigraControl.CalcExpressionSize(Expression, g, Font);
 
             //if (!string.IsNullOrEmpty(Name))
             //{
