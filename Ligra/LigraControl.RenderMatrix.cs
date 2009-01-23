@@ -92,6 +92,58 @@ namespace MetaphysicsIndustries.Ligra
         {
             return RenderMatrixToMemoryImageS(matrix).Bitmap;
         }
+        public static Bitmap RenderMatrixToColorBitmapS(Matrix r, Matrix g, Matrix b)
+        {
+            return RenderMatrixToMemoryImageColorS(r, g, b).Bitmap;
+        }
+
+        public static MemoryImage RenderMatrixToMemoryImageColorS(Matrix rr, Matrix gg, Matrix bb)
+        {
+            int i;
+            int j;
+            double zr;
+            double zg;
+            double zb;
+            int r;
+            int g;
+            int b;
+
+            if (rr.ColumnCount != gg.ColumnCount ||
+                rr.ColumnCount != bb.ColumnCount ||
+                gg.ColumnCount != bb.ColumnCount ||
+                rr.RowCount != gg.RowCount ||
+                rr.RowCount != bb.RowCount ||
+                gg.RowCount != bb.RowCount)
+            {
+                throw new InvalidOperationException("Input channels must be the same size");
+            }
+
+            MemoryImage image = new MemoryImage();
+            image.Size = new Size(rr.RowCount, rr.ColumnCount);
+
+            for (i = 0; i < rr.RowCount; i++)
+            {
+                for (j = 0; j < rr.ColumnCount; j++)
+                {
+                    zr = rr[i, j];
+                    zg = gg[i, j];
+                    zb = bb[i, j];
+
+                    if (double.IsNaN(zr)) { zr = 0; }
+                    if (double.IsNaN(zg)) { zg = 0; }
+                    if (double.IsNaN(zb)) { zb = 0; }
+
+                    b = 0xFF & (int)(zb*256);
+                    g = 0xFF & (int)(zg*256);
+                    r = 0xFF & (int)(zr*256);
+
+                    image[i, j] = Color.FromArgb(255, r, g, b);
+                }
+            }
+
+            image.CopyPixelsToBitmap();
+            return image;
+        }
 
         public static MemoryImage RenderMatrixToMemoryImageS(Matrix matrix)
         {
