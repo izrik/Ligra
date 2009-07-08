@@ -562,21 +562,21 @@ namespace MetaphysicsIndustries.Ligra
                                     expr2.Width,
                                     expr2.Height));
                         }
-                        else if (expr is PlotMatrixExpression)
-                        {
-                            throw new NotImplementedException();
-                            //PlotMatrixExpression expr2 = (PlotMatrixExpression)expr;
-                            //_renderItems.Add(
-                            //    new GraphMatrixItem(
-                            //        expr2.Matrix,
-                            //        string.Empty));
-                        }
-                        else if (expr is PlotVectorExpression)
-                        {
-                            throw new NotImplementedException();
-                            //PlotVectorExpression expr2 = (PlotVectorExpression)expr;
-                            //_renderItems.Add(new GraphVectorItem(expr2.Vector, string.Empty));
-                        }
+                        //else if (expr is PlotMatrixExpression)
+                        //{
+                        //    throw new NotImplementedException();
+                        //    //PlotMatrixExpression expr2 = (PlotMatrixExpression)expr;
+                        //    //_renderItems.Add(
+                        //    //    new GraphMatrixItem(
+                        //    //        expr2.Matrix,
+                        //    //        string.Empty));
+                        //}
+                        //else if (expr is PlotVectorExpression)
+                        //{
+                        //    throw new NotImplementedException();
+                        //    //PlotVectorExpression expr2 = (PlotVectorExpression)expr;
+                        //    //_renderItems.Add(new GraphVectorItem(expr2.Vector, string.Empty));
+                        //}
                         else
                         {
                             if (expr is AssignExpression)

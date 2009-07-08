@@ -165,6 +165,10 @@
     <Content Include="cool_expressions.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\MetaphysicsIndustries.Acuity\MetaphysicsIndustries.Acuity.csproj">
+      <Project>{28E66D7B-4A7F-4A0E-A358-5C41E35ACE33}</Project>
+      <Name>MetaphysicsIndustries.Acuity</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\MetaphysicsIndustries.Collections\MetaphysicsIndustries.Collections.csproj">
       <Project>{FF2B8A90-E8D2-4CF6-81E6-4A7BCE1FF900}</Project>
       <Name>MetaphysicsIndustries.Collections</Name>

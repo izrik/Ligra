@@ -10,6 +10,7 @@ using MetaphysicsIndustries.Solus;
 using System.Drawing.Printing;
 using MetaphysicsIndustries.Collections;
 using System.IO;
+using MetaphysicsIndustries.Acuity;
 
 
 namespace MetaphysicsIndustries.Ligra
@@ -44,13 +45,13 @@ namespace MetaphysicsIndustries.Ligra
             //filterMat[0, 0] = Literal.One;
             //filterMat[15, 15] = Literal.One;
 
-            //tank.ApplyToAll(SolusEngine.Convert24gToFloat);
+            //tank.ApplyToAll(AcuityEngine.Convert24gToFloat);
 
             //MatrixFilter filter2 = new ConvolutionMatrixFilter(filterMat);
             //Matrix tank2 = filter2.Apply(tank);
 
-            //tank2.ApplyToAll(new Modulator((new SolusEngine.MultiplyModulator(0.5)).Modulate));
-            //tank2.ApplyToAll(SolusEngine.ConvertFloatTo24g);
+            //tank2.ApplyToAll(new Modulator((new AcuityEngine.MultiplyModulator(0.5)).Modulate));
+            //tank2.ApplyToAll(AcuityEngine.ConvertFloatTo24g);
 
             //_renderItems.Add(new GraphMatrixItem(tank2));
 
@@ -233,7 +234,7 @@ namespace MetaphysicsIndustries.Ligra
             ric = new RenderItemContainer("2D Prewitt Edge Detection");
             _renderItems.Add(ric);
             Matrix tank = LoadImageForFilters("tank256.bmp", "Original Image", ric, true);
-            Modulator mod = (new SolusEngine.MultiplyModulator(8)).Modulate;
+            Modulator mod = (new AcuityEngine.MultiplyModulator(8)).Modulate;
             ApplyFilter(tank, new PrewittHorizontalMatrixFilter(), "Prewitt Hx Filter", ric, mod, null, useSsim, true);
             ApplyFilter(tank, new PrewittVerticalMatrixFilter(), "Prewitt Hy Filter", ric, mod, null, useSsim, true);
 
@@ -267,15 +268,15 @@ namespace MetaphysicsIndustries.Ligra
             //Matrix boxx = _engine.LoadImage2("Cornell_box_smg.bmp");
             //Matrix bars = _engine.LoadImage2("test3.bmp");
             //Matrix chex = _engine.LoadImage2("checker3.bmp");
-            Matrix block = SolusEngine.LoadImage2("ftest2.bmp");
+            Matrix block = AcuityEngine.LoadImage2("ftest2.bmp");
 
-            //tank.ApplyToAll(SolusEngine.Convert24gToFloat);
-            //lena.ApplyToAll(SolusEngine.Convert24gToFloat);
-            //moon.ApplyToAll(SolusEngine.Convert24gToFloat);
-            //boxx.ApplyToAll(SolusEngine.Convert24gToFloat);
-            //bars.ApplyToAll(SolusEngine.Convert24gToFloat);
-            //chex.ApplyToAll(SolusEngine.Convert24gToFloat);
-            block.ApplyToAll(SolusEngine.Convert24gToFloat);
+            //tank.ApplyToAll(AcuityEngine.Convert24gToFloat);
+            //lena.ApplyToAll(AcuityEngine.Convert24gToFloat);
+            //moon.ApplyToAll(AcuityEngine.Convert24gToFloat);
+            //boxx.ApplyToAll(AcuityEngine.Convert24gToFloat);
+            //bars.ApplyToAll(AcuityEngine.Convert24gToFloat);
+            //chex.ApplyToAll(AcuityEngine.Convert24gToFloat);
+            block.ApplyToAll(AcuityEngine.Convert24gToFloat);
 
             System.IO.Directory.SetCurrentDirectory("C:\\Documents and Settings\\izrik\\Desktop\\school\\filters\\test_images\\output");
 
@@ -315,18 +316,18 @@ namespace MetaphysicsIndustries.Ligra
                 }
             }
             //output.ApplyToAll(Math.Log);
-            output.ApplyToAll(SolusEngine.ConvertFloatTo24g);
-            SolusEngine.SaveImage("block_fourier_amplitude.bmp", output);
+            output.ApplyToAll(AcuityEngine.ConvertFloatTo24g);
+            AcuityEngine.SaveImage("block_fourier_amplitude.bmp", output);
 
             output = pair.First.Clone();
             //output.ApplyToAll(Math.Log);
-            output.ApplyToAll(SolusEngine.ConvertFloatTo24g);
-            SolusEngine.SaveImage("block_fourier_real.bmp", output);
+            output.ApplyToAll(AcuityEngine.ConvertFloatTo24g);
+            AcuityEngine.SaveImage("block_fourier_real.bmp", output);
 
             output = pair.First.Clone();
             //output.ApplyToAll(Math.Log);
-            output.ApplyToAll(SolusEngine.ConvertFloatTo24g);
-            SolusEngine.SaveImage("block_fourier_imaginary.bmp", output);
+            output.ApplyToAll(AcuityEngine.ConvertFloatTo24g);
+            AcuityEngine.SaveImage("block_fourier_imaginary.bmp", output);
 
 
 
@@ -379,7 +380,7 @@ namespace MetaphysicsIndustries.Ligra
 
             ////////    output = m.Clone();
             ////////    outputNames.Add(output, sourceNames[m] + ".bmp");
-            ////////    output.ApplyToAll(SolusEngine.ConvertFloatTo24g);
+            ////////    output.ApplyToAll(AcuityEngine.ConvertFloatTo24g);
             ////////    _engine.SaveImage(outputNames[output], output);
 
             ////////    foreach (MatrixFilter f in filters)
@@ -390,11 +391,11 @@ namespace MetaphysicsIndustries.Ligra
             ////////        //Matrix output2 = inverse.Apply(output);
 
             ////////        outputNames.Add(output, sourceNames[m] + "_" + filterNames[f] + ".bmp");
-            ////////        output.ApplyToAll(SolusEngine.ConvertFloatTo24g);
+            ////////        output.ApplyToAll(AcuityEngine.ConvertFloatTo24g);
             ////////        _engine.SaveImage(outputNames[output], output);
 
             ////////        //outputNames.Add(output2, sourceNames[m] + "_" + filterNames[f] + "_inverse.bmp");
-            ////////        //output2.ApplyToAll(SolusEngine.ConvertFloatTo24g);
+            ////////        //output2.ApplyToAll(AcuityEngine.ConvertFloatTo24g);
             ////////        //_engine.SaveImage(outputNames[output2], output2);
 
             ////////    }
@@ -467,7 +468,7 @@ namespace MetaphysicsIndustries.Ligra
                 new ApplyMatrixFilterItem(tank,
                     new VariableRotateCoordinatesMatrixFilter(_vars, x), "Rotate"));
 
-            LigraFormsControl varControl = new LigraFormsControl(_vars, x, SolusEngine.ConvertDegreesToRadians);
+            LigraFormsControl varControl = new LigraFormsControl(_vars, x, AcuityEngine.ConvertDegreesToRadians);
             varControl.Minimum = -360;
             varControl.Maximum = 360;
             varControl.TickFrequency = 30;
@@ -491,25 +492,25 @@ namespace MetaphysicsIndustries.Ligra
             Matrix mat2;
             MatrixFilter filter2;
 
-            bars = SolusEngine.LoadImage2("Patterns.bmp");
+            bars = AcuityEngine.LoadImage2("Patterns.bmp");
             ric.Items.Add(new GraphMatrixItem(bars, "Original Image"));
-            bars.ApplyToAll(SolusEngine.Convert24gToFloat);
+            bars.ApplyToAll(AcuityEngine.Convert24gToFloat);
 
 
             filter2 = new ArithmeticMeanFilter(3);
             mat2 = filter2.Apply(bars);
-            mat2.ApplyToAll(SolusEngine.ConvertFloatTo24g);
+            mat2.ApplyToAll(AcuityEngine.ConvertFloatTo24g);
             ric.Items.Add(new GraphMatrixItem(mat2, "3x3 Arithmetic Mean"));
 
             filter2 = new ArithmeticMeanFilter(7);
             mat2 = filter2.Apply(bars);
-            mat2.ApplyToAll(SolusEngine.ConvertFloatTo24g);
+            mat2.ApplyToAll(AcuityEngine.ConvertFloatTo24g);
             ric.Items.Add(new GraphMatrixItem(mat2, "7x7 Arithmetic Mean"));
 
             filter2 = new ArithmeticMeanFilter(9);
             mat2 = filter2.Apply(bars);
             //_vars.Add(new Variable("mat2"), mat2.Clone());
-            mat2.ApplyToAll(SolusEngine.ConvertFloatTo24g);
+            mat2.ApplyToAll(AcuityEngine.ConvertFloatTo24g);
             ric.Items.Add(new GraphMatrixItem(mat2, "9x9 Arithmetic Mean"));
 
             //return;
@@ -552,7 +553,7 @@ namespace MetaphysicsIndustries.Ligra
             ApplyFilter(lena2, new ArithmeticMeanFilter(7), "Noisy image after applying 7x7 arithmetic mean filter", ric, null, lena, useSsim, true);
 
             mat2 = lena2.Clone();
-            mat2.ApplyToAll(SolusEngine.ConvertFloatTo24g);
+            mat2.ApplyToAll(AcuityEngine.ConvertFloatTo24g);
             ric.Items.Add(new GraphMatrixItem(mat2, "Applied Gaussian noise with mean=0.005 and variance=0.001"));
 
             ApplyFilter(lena2, new MedianMatrixFilter(3), "Noisy image after applying 3x3 median filter", ric, null, lena, useSsim, true);
@@ -600,7 +601,7 @@ namespace MetaphysicsIndustries.Ligra
 
             Pair<Matrix> ff = dft.Apply2(tank);
 
-            SolusEngine.MultiplyModulator mod = new SolusEngine.MultiplyModulator(1 / (double)tank.RowCount);
+            AcuityEngine.MultiplyModulator mod = new AcuityEngine.MultiplyModulator(1 / (double)tank.RowCount);
             ff.First.ApplyToAll(mod.Modulate);
             ff.Second.ApplyToAll(mod.Modulate);
 
@@ -619,8 +620,8 @@ namespace MetaphysicsIndustries.Ligra
                 AddMatrixImage("DFT Imaginary Part", ric, ff.Second, null);
             }
 
-            BiModulatorMatrixFilter magFilter = new BiModulatorMatrixFilter(SolusEngine.ComplexMagnitude);
-            BiModulatorMatrixFilter phaseFilter = new BiModulatorMatrixFilter(SolusEngine.ComplexPhase);
+            BiModulatorMatrixFilter magFilter = new BiModulatorMatrixFilter(AcuityEngine.ComplexMagnitude);
+            BiModulatorMatrixFilter phaseFilter = new BiModulatorMatrixFilter(AcuityEngine.ComplexPhase);
 
             if (doFit)
             {
@@ -633,7 +634,7 @@ namespace MetaphysicsIndustries.Ligra
                 AddMatrixImage("DFT Phase", ric, phaseFilter.Apply2(ff), null);
             }
 
-            mod = new SolusEngine.MultiplyModulator((double)tank.RowCount);
+            mod = new AcuityEngine.MultiplyModulator((double)tank.RowCount);
             ff.First.ApplyToAll(mod.Modulate);
             ff.Second.ApplyToAll(mod.Modulate);
 
@@ -655,22 +656,22 @@ namespace MetaphysicsIndustries.Ligra
             Font font = ligraControl1.Font;
             System.IO.Directory.SetCurrentDirectory("C:\\Documents and Settings\\izrik\\Desktop\\school\\filters\\test_images");
 
-            Matrix minMax1 = SolusEngine.LoadImage2("minmax1.bmp");
-            Matrix minMax2 = SolusEngine.LoadImage2("minmax2.bmp");
+            Matrix minMax1 = AcuityEngine.LoadImage2("minmax1.bmp");
+            Matrix minMax2 = AcuityEngine.LoadImage2("minmax2.bmp");
             Matrix weights1 = new Matrix(3, 3, 1, 2, 1, 2, 4, 2, 1, 2, 1);
             Matrix weights2 = new Matrix(5, 5, 1, 1, 2, 1, 1, 1, 2, 4, 2, 1, 2, 4, 8, 4, 2, 1, 2, 4, 2, 1, 1, 1, 2, 1, 1);
             Matrix weights3 = new Matrix(5, 5, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1);
-            Matrix convTest = SolusEngine.LoadImage2("convTest.bmp");
+            Matrix convTest = AcuityEngine.LoadImage2("convTest.bmp");
 
-            sourceImages.Add(SolusEngine.LoadImage2("tank256.bmp")); sourceNames.Add("Tank");
-            sourceImages.Add(SolusEngine.LoadImage2("lena256g.bmp")); sourceNames.Add("Lena");
-            sourceImages.Add(SolusEngine.LoadImage2("moon256.bmp")); sourceNames.Add("Moon");
-            sourceImages.Add(SolusEngine.LoadImage2("checker8.bmp")); sourceNames.Add("Checker");
-            sourceImages.Add(SolusEngine.LoadImage2("patterns.bmp")); sourceNames.Add("Patterns");
-            sourceImages.Add(SolusEngine.LoadImage2("Cornell_box_smg.bmp")); sourceNames.Add("Box");
-            sourceImages.Add(SolusEngine.LoadImage2("kodak\\kodim01_sm.bmp")); sourceNames.Add("House");
-            sourceImages.Add(SolusEngine.LoadImage2("land.bmp")); sourceNames.Add("Land");
-            foreach (Matrix mat in sourceImages) { mat.ApplyToAll(SolusEngine.Convert24gToFloat); }
+            sourceImages.Add(AcuityEngine.LoadImage2("tank256.bmp")); sourceNames.Add("Tank");
+            sourceImages.Add(AcuityEngine.LoadImage2("lena256g.bmp")); sourceNames.Add("Lena");
+            sourceImages.Add(AcuityEngine.LoadImage2("moon256.bmp")); sourceNames.Add("Moon");
+            sourceImages.Add(AcuityEngine.LoadImage2("checker8.bmp")); sourceNames.Add("Checker");
+            sourceImages.Add(AcuityEngine.LoadImage2("patterns.bmp")); sourceNames.Add("Patterns");
+            sourceImages.Add(AcuityEngine.LoadImage2("Cornell_box_smg.bmp")); sourceNames.Add("Box");
+            sourceImages.Add(AcuityEngine.LoadImage2("kodak\\kodim01_sm.bmp")); sourceNames.Add("House");
+            sourceImages.Add(AcuityEngine.LoadImage2("land.bmp")); sourceNames.Add("Land");
+            foreach (Matrix mat in sourceImages) { mat.ApplyToAll(AcuityEngine.Convert24gToFloat); }
 
             noises.Add(new GaussianNoiseMatrixFilter(
                 //0.005, 
@@ -768,9 +769,9 @@ namespace MetaphysicsIndustries.Ligra
                                 (mat3.ColumnCount - mat2.ColumnCount) / 2,
                                 mat2.RowCount, mat2.ColumnCount);
                         }
-                        sw.Write(ScaleAndFormatError(errorScale, SolusEngine.MeanSquareError(mat2, after)));
+                        sw.Write(ScaleAndFormatError(errorScale, AcuityEngine.MeanSquareError(mat2, after)));
                         sw.Write("\t");
-                        maxErrors.Add(SolusEngine.MaxError(mat2, after));
+                        maxErrors.Add(AcuityEngine.MaxError(mat2, after));
                     }
 
                     sw.WriteLine();
@@ -853,7 +854,7 @@ namespace MetaphysicsIndustries.Ligra
             double mseMeasure;
             double ssimMeasure;
 
-            mseMeasure = 65536 * SolusEngine.MeanSquareError(image, noisyImage);
+            mseMeasure = 65536 * AcuityEngine.MeanSquareError(image, noisyImage);
 
             SsimErrorMeasure em = new SsimErrorMeasure();
             ssimMeasure = em.Measure(image, noisyImage);
@@ -1217,13 +1218,13 @@ namespace MetaphysicsIndustries.Ligra
 
                 string text = "Impulse Probability = " + impulseProbability.ToString() + "\r\n" +
                                 "MSSIM for MMSE = " + ssim.Measure(image, mmseImage).ToString() + "\r\n" +
-                                "MSE for MMSE = " + SolusEngine.MeanSquareError(image, mmseImage).ToString() + "\r\n" +
+                                "MSE for MMSE = " + AcuityEngine.MeanSquareError(image, mmseImage).ToString() + "\r\n" +
                                 "MSSIM for MMSE+ATM = " + ssim.Measure(image, mmseAtmImage).ToString() + "\r\n" +
-                                "MSE for MMSE+ATM = " + SolusEngine.MeanSquareError(image, mmseAtmImage).ToString() + "\r\n" +
+                                "MSE for MMSE+ATM = " + AcuityEngine.MeanSquareError(image, mmseAtmImage).ToString() + "\r\n" +
                                 "MSSIM for ATMMSE = " + ssim.Measure(image, atmmseImage).ToString() + "\r\n" +
-                                "MSE for ATMMSE = " + SolusEngine.MeanSquareError(image, atmmseImage).ToString() + "\r\n" +
+                                "MSE for ATMMSE = " + AcuityEngine.MeanSquareError(image, atmmseImage).ToString() + "\r\n" +
                                 "MSSIM for ATMMSE+ATM = " + ssim.Measure(image, atmmseAtmImage).ToString() + "\r\n" +
-                                "MSE for ATMMSE+ATM = " + SolusEngine.MeanSquareError(image, atmmseAtmImage).ToString() + "\r\n" +
+                                "MSE for ATMMSE+ATM = " + AcuityEngine.MeanSquareError(image, atmmseAtmImage).ToString() + "\r\n" +
                                 "\r\n";
                 TextItem textItem = new TextItem(text, font);
                 ric.Items.Add(textItem);
@@ -1293,7 +1294,7 @@ namespace MetaphysicsIndustries.Ligra
                 }
                 else
                 {
-                    error = 65536 * SolusEngine.MeanSquareError(after, imageForError);
+                    error = 65536 * AcuityEngine.MeanSquareError(after, imageForError);
                 }
                 caption += "  " + errorName + " = " + error.ToString("G3");
             }
@@ -1315,7 +1316,7 @@ namespace MetaphysicsIndustries.Ligra
             {
                 mat2.ApplyToAll(mod);
             }
-            mat2.ApplyToAll(SolusEngine.ConvertFloatTo24g);
+            mat2.ApplyToAll(AcuityEngine.ConvertFloatTo24g);
             if (ric == null)
             {
                 _renderItems.Add(new GraphMatrixItem(mat2, caption));
@@ -1328,7 +1329,7 @@ namespace MetaphysicsIndustries.Ligra
 
         private Matrix LoadImageForFilters(string filename, string caption, RenderItemContainer ric, bool addToRenderItemsOrContainer)
         {
-            Matrix image = SolusEngine.LoadImage2(filename);
+            Matrix image = AcuityEngine.LoadImage2(filename);
 
             if (addToRenderItemsOrContainer)
             {
@@ -1341,13 +1342,13 @@ namespace MetaphysicsIndustries.Ligra
                     ric.Items.Add(new GraphMatrixItem(image, caption));
                 }
             }
-            image.ApplyToAll(SolusEngine.Convert24gToFloat);
+            image.ApplyToAll(AcuityEngine.Convert24gToFloat);
             return image;
         }
 
         private void SaveImageForFilters(string filename, Matrix image)
         {
-            SolusEngine.SaveImage2(filename, image);
+            AcuityEngine.SaveImage2(filename, image);
         }
 
     }

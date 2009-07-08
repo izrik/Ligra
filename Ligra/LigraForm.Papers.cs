@@ -10,6 +10,7 @@ using MetaphysicsIndustries.Solus;
 using System.Drawing.Printing;
 using MetaphysicsIndustries.Collections;
 using System.IO;
+using MetaphysicsIndustries.Acuity;
 
 
 namespace MetaphysicsIndustries.Ligra
@@ -213,7 +214,7 @@ namespace MetaphysicsIndustries.Ligra
                         bestImage.filterParameters = filterParameters;
                     }
 
-                    resultsLine.Add(SolusEngine.MeanSquareError(filtered, image).ToString());
+                    resultsLine.Add(AcuityEngine.MeanSquareError(filtered, image).ToString());
                     resultsLine.Add(mssim.ToString());
                 }
                 resultsLine.Add(time.ToString());

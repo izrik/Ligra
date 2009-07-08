@@ -21,6 +21,7 @@ using MetaphysicsIndustries.Solus;
 using MetaphysicsIndustries.Collections;
 using MetaphysicsIndustries.Utilities;
 using System.Diagnostics;
+using MetaphysicsIndustries.Acuity;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -49,8 +50,8 @@ namespace MetaphysicsIndustries.Ligra
             int g;
             int b;
 
-            MemoryImage image = new MemoryImage();
-            image.Size = new Size(matrix.RowCount, matrix.ColumnCount);
+            MemoryImage image = new MemoryImage(matrix.ColumnCount, matrix.RowCount);
+            //image.Size = new Size(matrix.RowCount, matrix.ColumnCount);
 
             for (i = 0; i < matrix.RowCount; i++)
             {
@@ -118,8 +119,8 @@ namespace MetaphysicsIndustries.Ligra
                 throw new InvalidOperationException("Input channels must be the same size");
             }
 
-            MemoryImage image = new MemoryImage();
-            image.Size = new Size(rr.RowCount, rr.ColumnCount);
+            MemoryImage image = new MemoryImage(rr.ColumnCount, rr.RowCount);
+            //image.Size = new Size(rr.RowCount, rr.ColumnCount);
 
             for (i = 0; i < rr.RowCount; i++)
             {
@@ -154,8 +155,8 @@ namespace MetaphysicsIndustries.Ligra
             int g;
             int b;
 
-            MemoryImage image = new MemoryImage();
-            image.Size = new Size(matrix.RowCount, matrix.ColumnCount);
+            MemoryImage image = new MemoryImage(matrix.ColumnCount,matrix.RowCount);
+            //image.Size = new Size(matrix.RowCount, matrix.ColumnCount);
 
             for (i = 0; i < matrix.RowCount; i++)
             {
@@ -172,7 +173,7 @@ namespace MetaphysicsIndustries.Ligra
                     g = (0x0000FF00 & (int)z) >> 8;
                     r = (0x00FF0000 & (int)z) >> 16;
 
-                    image[i, j] = Color.FromArgb(255, r, g, b);
+                    image[i,j] = Color.FromArgb(255, r, g, b);
                 }
             }
 

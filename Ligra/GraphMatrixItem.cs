@@ -5,6 +5,7 @@ using MetaphysicsIndustries.Solus;
 using System.Drawing;
 using MetaphysicsIndustries.Collections;
 using MetaphysicsIndustries.Utilities;
+using MetaphysicsIndustries.Acuity;
 
 namespace MetaphysicsIndustries.Ligra
 {

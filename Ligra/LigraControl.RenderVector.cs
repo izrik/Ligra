@@ -21,6 +21,7 @@ using MetaphysicsIndustries.Solus;
 using MetaphysicsIndustries.Collections;
 using MetaphysicsIndustries.Utilities;
 using System.Diagnostics;
+using MetaphysicsIndustries.Acuity;
 
 namespace MetaphysicsIndustries.Ligra
 {

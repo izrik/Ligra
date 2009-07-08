@@ -5,6 +5,7 @@ using System.Drawing;
 using MetaphysicsIndustries.Solus;
 using MetaphysicsIndustries.Utilities;
 using MetaphysicsIndustries.Collections;
+using MetaphysicsIndustries.Acuity;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -26,7 +27,7 @@ namespace MetaphysicsIndustries.Ligra
         protected override void InternalRender(LigraControl control, Graphics g, PointF location, MetaphysicsIndustries.Solus.VariableTable varTable)
         {
             Matrix mat = _filter.Apply(_matrix);
-            mat.ApplyToAll(SolusEngine.ConvertFloatTo24g);
+            mat.ApplyToAll(AcuityEngine.ConvertFloatTo24g);
 
             MemoryImage image = control.RenderMatrixToMemoryImage(mat);
 

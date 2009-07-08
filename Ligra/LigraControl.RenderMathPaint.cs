@@ -77,8 +77,8 @@ namespace MetaphysicsIndustries.Ligra
             int j;
             double z;
 
-            MemoryImage image = new MemoryImage();
-            image.Size = new Size(xValues, yValues);
+            MemoryImage image = new MemoryImage(xValues, yValues);
+            //image.Size = new Size(xValues, yValues);
 
             for (i = 0; i < xValues; i++)
             {
@@ -101,7 +101,7 @@ namespace MetaphysicsIndustries.Ligra
                         z = 0;
                     }
 
-                    image[i, j] = Color.FromArgb(255, Color.FromArgb((int)z));
+                    image[j, i] = Color.FromArgb(255, Color.FromArgb((int)z));
                     //values[i, j] = z;
                 }
             }

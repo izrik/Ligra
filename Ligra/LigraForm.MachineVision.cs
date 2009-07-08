@@ -10,6 +10,7 @@ using MetaphysicsIndustries.Solus;
 using System.Drawing.Printing;
 using MetaphysicsIndustries.Collections;
 using System.IO;
+using MetaphysicsIndustries.Acuity;
 
 
 namespace MetaphysicsIndustries.Ligra
@@ -31,13 +32,13 @@ namespace MetaphysicsIndustries.Ligra
             PrewittVerticalMatrixFilter vf = new PrewittVerticalMatrixFilter();
 
             Matrix image = LoadImageForFilters(filename, "Original Image", ric, true);
-            Matrix imageH = ApplyFilter(image, hf, "Prewitt H", ric, SolusEngine.ConvertNegOneOneToZeroOne, null, false, true);
-            Matrix imageV = ApplyFilter(image, vf, "Prewitt V", ric, SolusEngine.ConvertNegOneOneToZeroOne, null, false, true);
+            Matrix imageH = ApplyFilter(image, hf, "Prewitt H", ric, AcuityEngine.ConvertNegOneOneToZeroOne, null, false, true);
+            Matrix imageV = ApplyFilter(image, vf, "Prewitt V", ric, AcuityEngine.ConvertNegOneOneToZeroOne, null, false, true);
             ric.Items.Add(new SpacerItem(256, 256));
-            Matrix imageHH = ApplyFilter(imageH, hf, "HH", ric, SolusEngine.ConvertNegOneOneToZeroOne, null, false, true);
-            Matrix imageHV = ApplyFilter(imageH, vf, "HV", ric, SolusEngine.ConvertNegOneOneToZeroOne, null, false, true);
-            Matrix imageVH = ApplyFilter(imageV, hf, "VH", ric, SolusEngine.ConvertNegOneOneToZeroOne, null, false, true);
-            Matrix imageVV = ApplyFilter(imageV, vf, "VV", ric, SolusEngine.ConvertNegOneOneToZeroOne, null, false, true);
+            Matrix imageHH = ApplyFilter(imageH, hf, "HH", ric, AcuityEngine.ConvertNegOneOneToZeroOne, null, false, true);
+            Matrix imageHV = ApplyFilter(imageH, vf, "HV", ric, AcuityEngine.ConvertNegOneOneToZeroOne, null, false, true);
+            Matrix imageVH = ApplyFilter(imageV, hf, "VH", ric, AcuityEngine.ConvertNegOneOneToZeroOne, null, false, true);
+            Matrix imageVV = ApplyFilter(imageV, vf, "VV", ric, AcuityEngine.ConvertNegOneOneToZeroOne, null, false, true);
         }
 
         private void Project3Test1Command(string input, SolusParser.Ex[] exTokens)
@@ -161,7 +162,7 @@ namespace MetaphysicsIndustries.Ligra
                 sobelResultsLine = new List<string>();
                 sobelResults.Add(sobelResultsLine);
                 sobelResultsLine.Add(impulseProbability.ToString());
-                sobelResultsLine.Add(SolusEngine.MeanSquareError(sobelImage, sobelNoiseImage).ToString());
+                sobelResultsLine.Add(AcuityEngine.MeanSquareError(sobelImage, sobelNoiseImage).ToString());
                 sobelResultsLine.Add(SsimErrorMeasure.Measure(sobelImage, sobelNoiseImage, 7).ToString());
 
                 double alpha;
@@ -184,7 +185,7 @@ namespace MetaphysicsIndustries.Ligra
                         dbedResultsLine.Add(impulseProbability.ToString());
                         dbedResultsLine.Add(windowSize.ToString());
                         dbedResultsLine.Add(alpha.ToString());
-                        dbedResultsLine.Add(SolusEngine.MeanSquareError(dbedImage, dbedNoiseImage).ToString());
+                        dbedResultsLine.Add(AcuityEngine.MeanSquareError(dbedImage, dbedNoiseImage).ToString());
                         dbedResultsLine.Add(SsimErrorMeasure.Measure(dbedImage, dbedNoiseImage, 7).ToString());
                         dbedResultsLine.Add(time2.ToString());
                     }
