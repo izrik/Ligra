@@ -127,6 +127,8 @@ namespace MetaphysicsIndustries.Ligra
                 _minX = form.PlotMinX;
                 _maxY = form.PlotMaxY;
                 _minY = form.PlotMinY;
+
+
             }
         }
 
