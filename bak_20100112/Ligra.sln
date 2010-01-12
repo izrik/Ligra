@@ -1,0 +1,69 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ligra", "Ligra\Ligra.csproj", "{D9689EE5-94CD-4C13-AD95-FA8780D72545}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Solus", "Solus\Solus.csproj", "{A630057C-40CF-4DF3-BE44-FC660B3E6BA3}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SobelNativeImpl", "SobelNativeImpl\SobelNativeImpl.vcproj", "{B24653E8-6BD9-483D-9CFC-05EC225321A0}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(TextTemplating) = postSolution
+		TextTemplating = 1
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|Win32 = Debug|Win32
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D9689EE5-94CD-4C13-AD95-FA8780D72545}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9689EE5-94CD-4C13-AD95-FA8780D72545}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9689EE5-94CD-4C13-AD95-FA8780D72545}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{D9689EE5-94CD-4C13-AD95-FA8780D72545}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{D9689EE5-94CD-4C13-AD95-FA8780D72545}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{D9689EE5-94CD-4C13-AD95-FA8780D72545}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9689EE5-94CD-4C13-AD95-FA8780D72545}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9689EE5-94CD-4C13-AD95-FA8780D72545}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{D9689EE5-94CD-4C13-AD95-FA8780D72545}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{D9689EE5-94CD-4C13-AD95-FA8780D72545}.Release|Win32.ActiveCfg = Release|Any CPU
+		{A630057C-40CF-4DF3-BE44-FC660B3E6BA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A630057C-40CF-4DF3-BE44-FC660B3E6BA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A630057C-40CF-4DF3-BE44-FC660B3E6BA3}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A630057C-40CF-4DF3-BE44-FC660B3E6BA3}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A630057C-40CF-4DF3-BE44-FC660B3E6BA3}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{A630057C-40CF-4DF3-BE44-FC660B3E6BA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A630057C-40CF-4DF3-BE44-FC660B3E6BA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A630057C-40CF-4DF3-BE44-FC660B3E6BA3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A630057C-40CF-4DF3-BE44-FC660B3E6BA3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A630057C-40CF-4DF3-BE44-FC660B3E6BA3}.Release|Win32.ActiveCfg = Release|Any CPU
+		{B24653E8-6BD9-483D-9CFC-05EC225321A0}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{B24653E8-6BD9-483D-9CFC-05EC225321A0}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{B24653E8-6BD9-483D-9CFC-05EC225321A0}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{B24653E8-6BD9-483D-9CFC-05EC225321A0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B24653E8-6BD9-483D-9CFC-05EC225321A0}.Debug|Win32.Build.0 = Debug|Win32
+		{B24653E8-6BD9-483D-9CFC-05EC225321A0}.Release|Any CPU.ActiveCfg = Release|Win32
+		{B24653E8-6BD9-483D-9CFC-05EC225321A0}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{B24653E8-6BD9-483D-9CFC-05EC225321A0}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{B24653E8-6BD9-483D-9CFC-05EC225321A0}.Release|Win32.ActiveCfg = Release|Win32
+		{B24653E8-6BD9-483D-9CFC-05EC225321A0}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
