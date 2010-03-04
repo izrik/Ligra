@@ -134,9 +134,17 @@ namespace MetaphysicsIndustries.Ligra
                     if (double.IsNaN(zg)) { zg = 0; }
                     if (double.IsNaN(zb)) { zb = 0; }
 
-                    b = 0xFF & (int)(zb*256);
-                    g = 0xFF & (int)(zg*256);
-                    r = 0xFF & (int)(zr*256);
+                    b = 0xFF & (int)(zb*255);
+                    g = 0xFF & (int)(zg*255);
+                    r = 0xFF & (int)(zr*255);
+
+                    if (r == 177 && g == 220 && b == 0)
+                    {
+                    }
+
+                    if (i == 74 && j == 74)
+                    {
+                    }
 
                     image[i, j] = Color.FromArgb(255, r, g, b);
                 }
