@@ -138,14 +138,6 @@ namespace MetaphysicsIndustries.Ligra
                     g = 0xFF & (int)(zg*255);
                     r = 0xFF & (int)(zr*255);
 
-                    if (r == 177 && g == 220 && b == 0)
-                    {
-                    }
-
-                    if (i == 74 && j == 74)
-                    {
-                    }
-
                     image[i, j] = Color.FromArgb(255, r, g, b);
                 }
             }
