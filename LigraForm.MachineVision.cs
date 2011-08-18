@@ -57,11 +57,11 @@ namespace MetaphysicsIndustries.Ligra
                 filename = exTokens[1].Token.Trim('\"', '\'');
             }
 
-            MmseEdgeDetectionMatrixfilter mmseedFilter = new MmseEdgeDetectionMatrixfilter(7, 0.025, 4);
+            MmseEdgeDetectionMatrixfilter mmseedFilter = new MmseEdgeDetectionMatrixfilter(7, 0.025f, 4);
             DualBellEdgeDetectorMatrixFilter dbedFilter = new DualBellEdgeDetectorMatrixFilter(3);
             ZetaTrimmedMeanMatrixFilter ztmFilter = new ZetaTrimmedMeanMatrixFilter(7, 2);
             IntervalFitMatrixFilter intervalFilter = new IntervalFitMatrixFilter();
-            ExponentMatrixFilter expoFilter = new ExponentMatrixFilter(0.85);
+            ExponentMatrixFilter expoFilter = new ExponentMatrixFilter(0.85f);
 
             Matrix image = LoadImageForFilters(filename, "Original Image", ric, true);
             //Matrix mmseed = ApplyFilter(image, mmseedFilter, "MMSE Edge Detect", ric, null, null, false, true);
@@ -122,12 +122,12 @@ namespace MetaphysicsIndustries.Ligra
             System.IO.Directory.SetCurrentDirectory("C:\\Documents and Settings\\izrik\\Desktop\\school\\filters\\project 3\\");
 
             Matrix temp = dbedFilter.Apply(image);
-            Pair<double> dbedInterval = IntervalFitMatrixFilter.CalcInterval(temp);
+            Pair<float> dbedInterval = IntervalFitMatrixFilter.CalcInterval(temp);
             Matrix dbedImage = IntervalFitBaseMatrixFilter.IntervalFit(temp, dbedInterval.First, dbedInterval.Second);
             SaveImageForFilters("dual_bell_image.bmp", dbedImage);
 
             temp = SobelMatrixFilter.GenerateMagnitudeMap(image);
-            Pair<double> sobelInterval = IntervalFitMatrixFilter.CalcInterval(temp);
+            Pair<float> sobelInterval = IntervalFitMatrixFilter.CalcInterval(temp);
             Matrix sobelImage = IntervalFitBaseMatrixFilter.IntervalFit(temp, sobelInterval.First, sobelInterval.Second);
             SaveImageForFilters("sobel_image.bmp", sobelImage);
 
@@ -149,7 +149,7 @@ namespace MetaphysicsIndustries.Ligra
             dbedResultsLine.Add("MSSIM");
             dbedResultsLine.Add("t");
 
-            foreach (double impulseProbability in new double[] { 0.01, 0.05, 0.1, 0.15, 0.2, 0.25 })
+            foreach (float impulseProbability in new float[] { 0.01f, 0.05f, 0.1f, 0.15f, 0.2f, 0.25f })
             {
                 ImpulseNoiseMatrixFilter noiseFilter = new ImpulseNoiseMatrixFilter(impulseProbability);
                 Matrix noisyImage = noiseFilter.Apply(image);
@@ -165,12 +165,12 @@ namespace MetaphysicsIndustries.Ligra
                 sobelResultsLine.Add(AcuityEngine.MeanSquareError(sobelImage, sobelNoiseImage).ToString());
                 sobelResultsLine.Add(SsimErrorMeasure.Measure(sobelImage, sobelNoiseImage, 7).ToString());
 
-                double alpha;
+                float alpha;
                 int windowSize;
 
                 for (windowSize = 3; windowSize <= 7; windowSize += 2)
                 {
-                    for (alpha = 0; alpha < 0.5; alpha += 0.05)
+                    for (alpha = 0; alpha < 0.5; alpha += 0.05f)
                     {
 
                         AlphaTrimmedDualBellEdgeDetectorMatrixFilter dbFilter = new AlphaTrimmedDualBellEdgeDetectorMatrixFilter(alpha, windowSize);
@@ -238,8 +238,8 @@ namespace MetaphysicsIndustries.Ligra
 
             //System.IO.Directory.SetCurrentDirectory("C:\\Documents and Settings\\izrik\\Desktop\\school\\filters\\project 3\\");
 
-            if (!_vars.ContainsKey("mu")) _vars.Add(new Variable("mu"), new Literal(0.5));
-            if (!_vars.ContainsKey("sigma")) _vars.Add(new Variable("sigma"), new Literal(0.2));
+            if (!_vars.ContainsKey("mu")) _vars.Add(new Variable("mu"), new Literal(0.5f));
+            if (!_vars.ContainsKey("sigma")) _vars.Add(new Variable("sigma"), new Literal(0.2f));
             //_renderItems.Add(new ExpressionItem(new AssignExpression(_vars["mu"], new Literal(0.5)), p, f));
             //_renderItems.Add(new ExpressionItem(new AssignExpression(_vars["sigma"], new Literal(0.2)), p, f));
 

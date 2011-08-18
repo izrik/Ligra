@@ -205,7 +205,7 @@ namespace MetaphysicsIndustries.Ligra
                     else if (IsRootOperation(functionCall))
                     {
                         Literal root = (Literal)functionCall.Arguments[1];
-                        Literal invRoot = new Literal(Math.Round(1 / root.Value));
+                        Literal invRoot = new Literal((float)Math.Round(1 / root.Value));
                         Expression arg = functionCall.Arguments[0];
                         SizeF argSize = CalcExpressionSize(arg, g, font, expressionSizeCache);
                         SizeF rootSize = new SizeF(0, 0);

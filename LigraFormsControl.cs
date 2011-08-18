@@ -33,8 +33,8 @@ namespace MetaphysicsIndustries.Ligra
             base.OnSizeChanged(e);
         }
 
-        private double _minimum;
-        public double Minimum
+        private float _minimum;
+        public float Minimum
         {
             get { return _minimum; }
             set
@@ -55,8 +55,8 @@ namespace MetaphysicsIndustries.Ligra
             trackBar1.Minimum = (int)Math.Round(Minimum);
         }
 
-        private double _maximum;
-        public double Maximum
+        private float _maximum;
+        public float Maximum
         {
             get { return _maximum; }
             set
@@ -76,8 +76,8 @@ namespace MetaphysicsIndustries.Ligra
             trackBar1.Maximum = (int)Math.Round(Maximum);
         }
 
-        private double _value;
-        public double Value
+        private float _value;
+        public float Value
         {
             get { return _value; }
             set
@@ -98,7 +98,7 @@ namespace MetaphysicsIndustries.Ligra
 
             if (_valueModulator != null)
             {
-                _varTable[_variable] = new Literal(_valueModulator(Value));
+                _varTable[_variable] = new Literal(_valueModulator((float)Value));
             }
             else
             {

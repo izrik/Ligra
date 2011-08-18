@@ -10,9 +10,9 @@ namespace MetaphysicsIndustries.Ligra
     public class Graph3dItem : RenderItem
     {
         public Graph3dItem(Expression expression, Pen pen, Brush brush,
-            double xMin, double xMax,
-            double yMin, double yMax,
-            double zMin, double zMax,
+            float xMin, float xMax,
+            float yMin, float yMax,
+            float zMin, float zMax,
             Variable independentVariableX,
             Variable independentVariableY)
         {
@@ -34,12 +34,12 @@ namespace MetaphysicsIndustries.Ligra
         private Brush _brush;
         private Variable _independentVariableX;
         private Variable _independentVariableY;
-        private double _xMin;
-        private double _xMax;
-        private double _yMin;
-        private double _yMax;
-        private double _zMin;
-        private double _zMax;
+        private float _xMin;
+        private float _xMax;
+        private float _yMin;
+        private float _yMax;
+        private float _zMin;
+        private float _zMax;
 
 
         protected override void InternalRender(LigraControl control, Graphics g, PointF location, VariableTable varTable)

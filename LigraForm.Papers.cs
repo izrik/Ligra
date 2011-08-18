@@ -59,10 +59,10 @@ namespace MetaphysicsIndustries.Ligra
             mmseatmResults.Add(resultsLine);
 
 
-            double gaussianNoiseStdev;
-            for (gaussianNoiseStdev = 0.01; gaussianNoiseStdev <= 0.07; gaussianNoiseStdev += 0.01)
+            float gaussianNoiseStdev;
+            for (gaussianNoiseStdev = 0.01f; gaussianNoiseStdev <= 0.07f; gaussianNoiseStdev += 0.01f)
             {
-                double gaussianNoiseVariance = gaussianNoiseStdev * gaussianNoiseStdev;
+                float gaussianNoiseVariance = gaussianNoiseStdev * gaussianNoiseStdev;
 
                 resultsLine = new List<string>(new string[] { "v", "p", "w", "a", });
                 resultsLine[0] = gaussianNoiseVariance.ToString();
@@ -70,7 +70,7 @@ namespace MetaphysicsIndustries.Ligra
                 GaussianNoiseMatrixFilter gaussianFilter = new GaussianNoiseMatrixFilter(gaussianNoiseVariance);
                 Matrix gaussianNoisyImage = gaussianFilter.Apply(image);
 
-                foreach (double impulseProbability in new double[] { 0.01, 0.05, 0.1, 0.15, 0.2, 0.25 })
+                foreach (float impulseProbability in new float[] { 0.01f, 0.05f, 0.1f, 0.15f, 0.2f, 0.25f })
                 {
                     resultsLine[1] = impulseProbability.ToString();
 
@@ -81,7 +81,7 @@ namespace MetaphysicsIndustries.Ligra
                         "p_" + impulseProbability.ToString("G3") +
                         ".bmp", noisyImage);
 
-                    double alpha;
+                    float alpha;
                     int windowSize;
 
                     for (windowSize = 3; windowSize <= 7; windowSize += 2)
@@ -96,7 +96,7 @@ namespace MetaphysicsIndustries.Ligra
                             "w_" + windowSize.ToString() + ".bmp", 
                             image, resultsLine, mmseResults, null);
 
-                        for (alpha = 0; alpha < 0.5; alpha += 0.05)
+                        for (alpha = 0; alpha < 0.5; alpha += 0.05f)
                         {
                             resultsLine[3] = alpha.ToString();
 
@@ -147,14 +147,14 @@ namespace MetaphysicsIndustries.Ligra
 
         public class BestImageInfo
         {
-            public double mssim = 0;
+            public float mssim = 0;
             public Matrix image = null;
             public List<string> filterParameters = null;
         }
 
         public struct ApplyInfo
         {
-            public ApplyInfo(double gnv, int ws, double z)
+            public ApplyInfo(float gnv, int ws, float z)
             {
                 gaussianNoiseVariance = gnv;
                 windowSize = ws;
@@ -162,7 +162,7 @@ namespace MetaphysicsIndustries.Ligra
                 alpha = 0;
                 impulseProbability = 0;
             }
-            public ApplyInfo(double gnv, int ws, double z, double a) 
+            public ApplyInfo(float gnv, int ws, float z, float a) 
             {
                 gaussianNoiseVariance = gnv;
                 windowSize = ws;
@@ -170,11 +170,11 @@ namespace MetaphysicsIndustries.Ligra
                 alpha = a;
                 impulseProbability = 0;
             }
-            public double gaussianNoiseVariance;
-            public double impulseProbability;
+            public float gaussianNoiseVariance;
+            public float impulseProbability;
             public int windowSize;
-            public double zeta;
-            public double alpha;
+            public float zeta;
+            public float alpha;
         }
 
         private void ApplyFilterForExperiment(Matrix noisyImage, MatrixFilter filter, string filename, Matrix image, List<string> filterParameters, List<List<string>> results, BestImageInfo bestImage)
@@ -205,7 +205,7 @@ namespace MetaphysicsIndustries.Ligra
 
                 if (image != null)
                 {
-                    double mssim = SsimErrorMeasure.Measure(filtered, image, 7);
+                    float mssim = SsimErrorMeasure.Measure(filtered, image, 7);
 
                     if (bestImage != null && mssim > bestImage.mssim)
                     {
@@ -266,7 +266,7 @@ namespace MetaphysicsIndustries.Ligra
             BestImageInfo ztmmseztmBestImage = new BestImageInfo();
             BestImageInfo ztmmseatmBestImage = new BestImageInfo();
 
-            //double gaussianNoiseStdev;
+            //float gaussianNoiseStdev;
 
             Dictionary<ApplyInfo, ZetaTrimmedMmseMatrixFilter> ztmmseFilters = new Dictionary<ApplyInfo, ZetaTrimmedMmseMatrixFilter>();
             Dictionary<ApplyInfo, ZetaTrimmedMmsePlusZtmMatrixFilter> ztmmseztmFilters = new Dictionary<ApplyInfo, ZetaTrimmedMmsePlusZtmMatrixFilter>();
@@ -274,19 +274,19 @@ namespace MetaphysicsIndustries.Ligra
             List<ApplyInfo> parameterGroups = new List<ApplyInfo>();
             List<ApplyInfo> ztmmseatmParameterGroups = new List<ApplyInfo>();
 
-            double[] gaussianNoiseVarianceList = new double[] { 0.0001, 0.0004, 0.0009, 0.0016, 0.0025, 0.0036, 0.0049 };
-            double[] impulseProbabilityList = new double[] { 0.01, 0.05, 0.1, 0.15, 0.2, 0.25 };
+            float[] gaussianNoiseVarianceList = new float[] { 0.0001f, 0.0004f, 0.0009f, 0.0016f, 0.0025f, 0.0036f, 0.0049f };
+            float[] impulseProbabilityList = new float[] { 0.01f, 0.05f, 0.1f, 0.15f, 0.2f, 0.25f };
             int[] windowSizeList = new int[] { 3, 5, 7 };
-            double[] zetaList = new double[] { 1, 1.25, 1.5, 1.75, 2, 2.25 };
-            double[] alphaList = new double[] { 0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, };
+            float[] zetaList = new float[] { 1, 1.25f, 1.5f, 1.75f, 2f, 2.25f };
+            float[] alphaList = new float[] { 0, 0.05f, 0.1f, 0.15f, 0.2f, 0.25f, 0.3f, 0.35f, 0.4f, 0.45f, 0.5f, };
 
-            foreach (double gaussianNoiseVariance in gaussianNoiseVarianceList)
+            foreach (float gaussianNoiseVariance in gaussianNoiseVarianceList)
             {
-                foreach (double impulseProbability in impulseProbabilityList)
+                foreach (float impulseProbability in impulseProbabilityList)
                 {
                     foreach (int windowSize in windowSizeList)
                     {
-                        foreach (double zeta in zetaList)
+                        foreach (float zeta in zetaList)
                         {
                             ApplyInfo info = new ApplyInfo();
                             info.gaussianNoiseVariance = gaussianNoiseVariance;
@@ -295,7 +295,7 @@ namespace MetaphysicsIndustries.Ligra
                             info.zeta = zeta;
                             parameterGroups.Add(info);
 
-                            foreach (double alpha in alphaList)
+                            foreach (float alpha in alphaList)
                             {
                                 ApplyInfo info2 = info;
                                 info2.alpha = alpha;
@@ -306,11 +306,11 @@ namespace MetaphysicsIndustries.Ligra
                 }
             }
 
-            foreach (double gaussianNoiseVariance in gaussianNoiseVarianceList)
+            foreach (float gaussianNoiseVariance in gaussianNoiseVarianceList)
             {
                 foreach (int windowSize in windowSizeList)
                 {
-                    foreach (double zeta in zetaList)
+                    foreach (float zeta in zetaList)
                     {
                         ApplyInfo info = new ApplyInfo();
                         info.gaussianNoiseVariance = gaussianNoiseVariance;
@@ -320,7 +320,7 @@ namespace MetaphysicsIndustries.Ligra
                         ztmmseFilters[info] = new ZetaTrimmedMmseMatrixFilter(windowSize, gaussianNoiseVariance, zeta);
                         ztmmseztmFilters[info] = new ZetaTrimmedMmsePlusZtmMatrixFilter(windowSize, gaussianNoiseVariance, zeta);
 
-                        foreach (double alpha in alphaList)
+                        foreach (float alpha in alphaList)
                         {
                             ApplyInfo info2 = info;
                             info2.alpha = alpha;
@@ -334,31 +334,31 @@ namespace MetaphysicsIndustries.Ligra
 
             foreach (ApplyInfo info in parameterGroups)
             {
-                double gnv = info.gaussianNoiseVariance;
-                double ip = info.impulseProbability;
+                float gnv = info.gaussianNoiseVariance;
+                float ip = info.impulseProbability;
                 int ws = info.windowSize;
-                double z = info.zeta;
+                float z = info.zeta;
 
 
             }
 
             foreach (ApplyInfo info in ztmmseatmParameterGroups)
             {
-                double gnv = info.gaussianNoiseVariance;
-                double ip = info.impulseProbability;
+                float gnv = info.gaussianNoiseVariance;
+                float ip = info.impulseProbability;
                 int ws = info.windowSize;
-                double z = info.zeta;
-                double a = info.alpha;
+                float z = info.zeta;
+                float a = info.alpha;
 
 
             }
 
-            foreach (double gaussianNoiseVariance in gaussianNoiseVarianceList)
+            foreach (float gaussianNoiseVariance in gaussianNoiseVarianceList)
             {
                 resultsLine = new List<string>(new string[] { "v", "p", "w", "z", "a", });
                 resultsLine[0] = gaussianNoiseVariance.ToString();
 
-                foreach (double impulseProbability in impulseProbabilityList)
+                foreach (float impulseProbability in impulseProbabilityList)
                 {
                     resultsLine[1] = impulseProbability.ToString();
 
@@ -381,7 +381,7 @@ namespace MetaphysicsIndustries.Ligra
                         resultsLine[2] = windowSize.ToString();
                         resultsLine[3] = string.Empty;
 
-                        foreach (double zeta in zetaList)
+                        foreach (float zeta in zetaList)
                         {
                             ZetaTrimmedMmseMatrixFilter ztmmseFilter = new ZetaTrimmedMmseMatrixFilter(windowSize, gaussianNoiseVariance, zeta);
                             ZetaTrimmedMmsePlusZtmMatrixFilter ztmmseztmFilter = new ZetaTrimmedMmsePlusZtmMatrixFilter(windowSize, gaussianNoiseVariance, zeta);
@@ -403,7 +403,7 @@ namespace MetaphysicsIndustries.Ligra
                                 "z_" + zeta.ToString("G3") +
                                 ".bmp", image, resultsLine, ztmmseztmResults, ztmmseztmBestImage);
 
-                            foreach (double alpha in alphaList)
+                            foreach (float alpha in alphaList)
                             {
                                 ZetaTrimmedMmsePlusAtmMatrixFilter ztmmseatmFilter = new ZetaTrimmedMmsePlusAtmMatrixFilter(windowSize, gaussianNoiseVariance, zeta, alpha);
                                 resultsLine[4] = alpha.ToString();

@@ -184,7 +184,7 @@ namespace MetaphysicsIndustries.Ligra
             Expression expr;
 
             _renderItems.Add(new InfoItem("A number:", f));
-            _renderItems.Add(new ExpressionItem(new Literal(123.45), p, f));
+            _renderItems.Add(new ExpressionItem(new Literal(123.45f), p, f));
 
             _renderItems.Add(new InfoItem("A variable:", f));
             _renderItems.Add(new ExpressionItem(new VariableAccess(_vars["x"]), p, f));
@@ -216,11 +216,11 @@ namespace MetaphysicsIndustries.Ligra
             _renderItems.Add(new ExpressionItem(expr, p, f));
 
             _renderItems.Add(new InfoItem("Some variable assignments: ", f));
-            _renderItems.Add(new ExpressionItem(new AssignExpression(_vars["mu"], new Literal(0.5)), p, f));
-            _renderItems.Add(new ExpressionItem(new AssignExpression(_vars["sigma"], new Literal(0.2)), p, f));
+            _renderItems.Add(new ExpressionItem(new AssignExpression(_vars["mu"], new Literal(0.5f)), p, f));
+            _renderItems.Add(new ExpressionItem(new AssignExpression(_vars["sigma"], new Literal(0.2f)), p, f));
 
-            _vars[_vars["mu"]] = new Literal(0.5);
-            _vars[_vars["sigma"]] = new Literal(0.2);
+            _vars[_vars["mu"]] = new Literal(0.5f);
+            _vars[_vars["sigma"]] = new Literal(0.2f);
 
             expr =
                 new FunctionCall(
@@ -235,12 +235,12 @@ namespace MetaphysicsIndustries.Ligra
                                     new FunctionCall(
                                         AssociativeCommutativeOperation.Multiplication,
                                         new Literal(2),
-                                        new Literal(Math.PI)),
-                                    new Literal(0.5)),
+                                        new Literal((float)Math.PI)),
+                                    new Literal(0.5f)),
                                 new VariableAccess(_vars["sigma"]))),
                     new FunctionCall(
                         BinaryOperation.Exponent,
-                        new Literal(Math.E),
+                        new Literal((float)Math.E),
                         new FunctionCall(
                             BinaryOperation.Division,
                             new FunctionCall(
@@ -277,8 +277,8 @@ namespace MetaphysicsIndustries.Ligra
             _renderItems.Add(new InfoItem("A plot that changes with time, \"sin(x+t)\":", f));
             _renderItems.Add(new GraphItem(SolusParser.Compile("sin(x+t)", _vars), p, _vars["x"]));
 
-            expr = SolusParser.Compile("u((x*x+y*y)^0.5+2*(sin(t)-1))*cos(5*y+2*t)", _vars);
-            _renderItems.Add(new InfoItem("Another complex expression, \"u((x*x+y*y)^0.5+2*(sin(t)-1))*cos(5*y+2*t)\",\r\nwhere t is time:", f));
+            expr = SolusParser.Compile("unitstep((x*x+y*y)^0.5+2*(sin(t)-1))*cos(5*y+2*t)", _vars);
+            _renderItems.Add(new InfoItem("Another complex expression, \"unitstep((x*x+y*y)^0.5+2*(sin(t)-1))*cos(5*y+2*t)\",\r\nwhere t is time:", f));
             _renderItems.Add(new ExpressionItem(expr, p, f));
 
             _renderItems.Add(new InfoItem("A 3d plot: ", f));

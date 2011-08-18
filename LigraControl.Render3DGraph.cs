@@ -15,9 +15,9 @@ namespace MetaphysicsIndustries.Ligra
 
         public void Render3DGraph(Graphics g, RectangleF boundsInClient,
                         Pen pen, Brush brush,
-                        double xMin, double xMax,
-                        double yMin, double yMax,
-                        double zMin, double zMax,
+                        float xMin, float xMax,
+                        float yMin, float yMax,
+                        float zMin, float zMax,
                         Expression expr,
                         Variable independentVariableX,
                         Variable independentVariableY,
@@ -27,10 +27,10 @@ namespace MetaphysicsIndustries.Ligra
             int xValues = 50;
             int yValues = 50;
 
-            double[,] values = new double[xValues, yValues];
+            float[,] values = new float[xValues, yValues];
 
-            double deltaX = (xMax - xMin) / (xValues - 1);
-            double deltaY = (yMax - yMin) / (yValues - 1);
+            float deltaX = (xMax - xMin) / (xValues - 1);
+            float deltaY = (yMax - yMin) / (yValues - 1);
 
             float x0 = boundsInClient.Left;
             float x1 = boundsInClient.Left + boundsInClient.Width / 2;
@@ -91,9 +91,9 @@ namespace MetaphysicsIndustries.Ligra
 
             int i;
             int j;
-            double x;
-            double y;
-            double z;
+            float x;
+            float y;
+            float z;
 
             Expression prelimEval;
             Expression prelimEval2;

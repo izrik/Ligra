@@ -74,7 +74,7 @@ namespace MetaphysicsIndustries.Ligra
 
             ric.Items.Add(new GraphVectorItem(v, "Original signal"));
 
-            filter = new GaussianNoiseVectorFilter(0, 0.01);
+            filter = new GaussianNoiseVectorFilter(0, 0.01f);
             v = filter.Apply(v);
 
             ric.Items.Add(new GraphVectorItem(v, "Noisy signal (Gaussian)"));
@@ -90,46 +90,46 @@ namespace MetaphysicsIndustries.Ligra
             ric = new RenderItemContainer("1D Moving Average Filter");
             _renderItems.Add(ric);
 
-            v = new Vector(252, 228.62, 228.34, 228.62, 229.95, 230.93,
-                        236.04, 227.36, 226.31, 229.67, 232.82, 232.82,
-                        230.3, 224.77, 218.05, 219.45, 212.8, 215.88,
-                        215.6, 217, 222.46, 221.9, 222.88, 221.69, 223.23,
-                        221.83, 223.86, 223.3, 225.05, 226.1, 227.29,
-                        231.14, 233.1, 232.96, 236.32, 235.76, 235.41,
-                        238.42, 242.69, 243.6, 243.74, 243.74, 244.09,
-                        242.48, 245.7, 241.5, 243.88, 246.4, 248.15,
-                        249.83, 247.38, 248.5, 247.66, 247.03, 243.95,
-                        243.39, 241.36, 251.23, 254.38, 255.15, 258.65,
-                        259.35, 259.63, 259, 251.44, 255.22, 261.31,
-                        262.29, 261.73, 263.06, 263.2, 268.45, 271.74,
-                        265.02, 263.97, 269.5, 266.7, 267.26, 267.19,
-                        266, 267.47, 267.26, 266.84, 261.1, 261.66,
-                        262.08, 264.74, 268.59, 272.86, 271.6, 271.67,
-                        275.17, 271.18, 272.44, 270.62, 270.13, 267.26,
-                        269.5, 270.69, 270.9, 274.4, 279.16, 276.43,
-                        277.2, 279.09, 276.5, 279.3, 281.33, 278.11,
-                        276.78, 275.73, 278.53, 279.16, 280, 280, 278.6,
-                        275.8, 267.75, 262.29, 267.75, 266.35, 272.86,
-                        270.9, 267.82, 264.6, 268.1, 272.3, 256.2, 252,
-                        250.6, 220.08, 226.1, 229.95, 236.04, 234.5,
-                        238.84, 241.5, 242.83, 245.84, 244.65, 244.86,
-                        248.36, 254.1, 256.13, 252.77, 252.07, 252.63,
-                        255.01, 253.4, 252.91, 255.01, 253.61, 251.86,
-                        252.98, 260.75, 259.77, 259.84, 257.39, 254.8,
-                        260.05, 259, 258.3, 258.79, 258.3, 258.58, 258.09,
-                        261.8, 264.11, 265.37, 266.49, 265.93, 262.08,
-                        265.37, 269.99, 269.85, 269.15, 268.87, 258.37,
-                        258.58, 259.49, 259, 256.27, 253.68, 251.16, 252.98,
-                        255.57, 254.45, 248.57, 250.39, 249.41, 246.82, 241.15,
-                        230.09, 236.04, 238.35, 235.97, 244.93, 254.94, 250.53,
-                        253.96, 258.09, 257.88, 255.29, 259.21, 265.3, 265.93,
-                        262.36, 263.2, 265.44, 264.81, 265.58, 266.28, 265.09,
-                        262.92, 257.81, 256.2, 252.56, 249.41, 245.77, 249.34,
-                        256.2, 259.63, 257.6, 261.03, 259.56, 261.1, 256.69,
-                        254.1, 249.06, 247.38, 247.52, 244.23, 247.1, 256.9,
-                        264.81, 252.35, 250.25, 249.9, 246.12, 223.79, 221.83,
-                        234.29, 238.35, 232.19, 235.2, 234.22, 235.06, 238,
-                        240.73, 236.6, 238, 233.66, 225.33);
+            v = new Vector(252, 228.62f, 228.34f, 228.62f, 229.95f, 230.93f,
+                        236.04f, 227.36f, 226.31f, 229.67f, 232.82f, 232.82f,
+                        230.3f, 224.77f, 218.05f, 219.45f, 212.8f, 215.88f,
+                        215.6f, 217f, 222.46f, 221.9f, 222.88f, 221.69f, 223.23f,
+                        221.83f, 223.86f, 223.3f, 225.05f, 226.1f, 227.29f,
+                        231.14f, 233.1f, 232.96f, 236.32f, 235.76f, 235.41f,
+                        238.42f, 242.69f, 243.6f, 243.74f, 243.74f, 244.09f,
+                        242.48f, 245.7f, 241.5f, 243.88f, 246.4f, 248.15f,
+                        249.83f, 247.38f, 248.5f, 247.66f, 247.03f, 243.95f,
+                        243.39f, 241.36f, 251.23f, 254.38f, 255.15f, 258.65f,
+                        259.35f, 259.63f, 259f, 251.44f, 255.22f, 261.31f,
+                        262.29f, 261.73f, 263.06f, 263.2f, 268.45f, 271.74f,
+                        265.02f, 263.97f, 269.5f, 266.7f, 267.26f, 267.19f,
+                        266f, 267.47f, 267.26f, 266.84f, 261.1f, 261.66f,
+                        262.08f, 264.74f, 268.59f, 272.86f, 271.6f, 271.67f,
+                        275.17f, 271.18f, 272.44f, 270.62f, 270.13f, 267.26f,
+                        269.5f, 270.69f, 270.9f, 274.4f, 279.16f, 276.43f,
+                        277.2f, 279.09f, 276.5f, 279.3f, 281.33f, 278.11f,
+                        276.78f, 275.73f, 278.53f, 279.16f, 280f, 280f, 278.6f,
+                        275.8f, 267.75f, 262.29f, 267.75f, 266.35f, 272.86f,
+                        270.9f, 267.82f, 264.6f, 268.1f, 272.3f, 256.2f, 252f,
+                        250.6f, 220.08f, 226.1f, 229.95f, 236.04f, 234.5f,
+                        238.84f, 241.5f, 242.83f, 245.84f, 244.65f, 244.86f,
+                        248.36f, 254.1f, 256.13f, 252.77f, 252.07f, 252.63f,
+                        255.01f, 253.4f, 252.91f, 255.01f, 253.61f, 251.86f,
+                        252.98f, 260.75f, 259.77f, 259.84f, 257.39f, 254.8f,
+                        260.05f, 259f, 258.3f, 258.79f, 258.3f, 258.58f, 258.09f,
+                        261.8f, 264.11f, 265.37f, 266.49f, 265.93f, 262.08f,
+                        265.37f, 269.99f, 269.85f, 269.15f, 268.87f, 258.37f,
+                        258.58f, 259.49f, 259f, 256.27f, 253.68f, 251.16f, 252.98f,
+                        255.57f, 254.45f, 248.57f, 250.39f, 249.41f, 246.82f, 241.15f,
+                        230.09f, 236.04f, 238.35f, 235.97f, 244.93f, 254.94f, 250.53f,
+                        253.96f, 258.09f, 257.88f, 255.29f, 259.21f, 265.3f, 265.93f,
+                        262.36f, 263.2f, 265.44f, 264.81f, 265.58f, 266.28f, 265.09f,
+                        262.92f, 257.81f, 256.2f, 252.56f, 249.41f, 245.77f, 249.34f,
+                        256.2f, 259.63f, 257.6f, 261.03f, 259.56f, 261.1f, 256.69f,
+                        254.1f, 249.06f, 247.38f, 247.52f, 244.23f, 247.1f, 256.9f,
+                        264.81f, 252.35f, 250.25f, 249.9f, 246.12f, 223.79f, 221.83f,
+                        234.29f, 238.35f, 232.19f, 235.2f, 234.22f, 235.06f, 238f,
+                        240.73f, 236.6f, 238f, 233.66f, 225.33f);
             ric.Items.Add(new GraphVectorItem(v, "Stock data for 12 months."));
 
 
@@ -152,7 +152,7 @@ namespace MetaphysicsIndustries.Ligra
             ff[60] = 3;
             ff[255] = 1;
             ff2 = new Vector(256);
-            ff2 = (new SineWaveGeneratorVectorFilter(1, 0.010, 0)).Apply(ff2);
+            ff2 = (new SineWaveGeneratorVectorFilter(1, 0.010f, 0)).Apply(ff2);
             ric.Items.Add(new GraphVectorItem(ff2, "Sine Wave"));
             ric.Items.Add(new GraphVectorItem(ff, "Impulse Response"));
             ric.Items.Add(new GraphVectorItem(ff.Convolution(ff2), "Convolution"));
@@ -168,7 +168,7 @@ namespace MetaphysicsIndustries.Ligra
             ff = new Vector(256);
             for (i = 0; i < 256; i++)
             {
-                ff[i] = Math.Cos(i/10.0);
+                ff[i] = (float)Math.Cos(i/10.0);
             }
             ff2 = dft.Apply(ff);
             Pair<Vector> ffc = dft.Apply2(ff);
@@ -302,8 +302,8 @@ namespace MetaphysicsIndustries.Ligra
 
             int i;
             int j;
-            double rr;
-            double ii;
+            float rr;
+            float ii;
 
             output = pair.First.Clone();
             for (i = 0; i < output.RowCount; i++)
@@ -312,7 +312,7 @@ namespace MetaphysicsIndustries.Ligra
                 {
                     rr = pair.First[i, j];
                     ii = pair.Second[i, j];
-                    output[i, j] = Math.Sqrt(rr * rr + ii * ii);
+                    output[i, j] = (float)Math.Sqrt(rr * rr + ii * ii);
                 }
             }
             //output.ApplyToAll(Math.Log);
@@ -415,14 +415,14 @@ namespace MetaphysicsIndustries.Ligra
 
 
 
-            Matrix rotate15 = ApplyFilter(tank, new RotateCoordinatesMatrixFilter(Math.PI / 12), "Rotation 15 degrees", ric, null, null, useSsim, true);
-            Matrix rotate45 = ApplyFilter(tank, new RotateCoordinatesMatrixFilter(Math.PI / 4), "Rotation 45 degrees", ric, null, null, useSsim, true);
-            Matrix rotate90 = ApplyFilter(tank, new RotateCoordinatesMatrixFilter(Math.PI / 2), "Rotation 90 degrees", ric, null, null, useSsim, true);
-            Matrix rotateNeg90 = ApplyFilter(tank, new RotateCoordinatesMatrixFilter(-Math.PI / 2), "Rotation -90 degrees", ric, null, null, useSsim, true);
-            Matrix swirl15 = ApplyFilter(tank, new SwirlMatrixFilter(Math.PI / 12), "Swirl 15 degrees", ric, null, null, useSsim, true);
-            Matrix swirl45 = ApplyFilter(tank, new SwirlMatrixFilter(Math.PI / 4), "Swirl 45 degrees", ric, null, null, useSsim, true);
-            Matrix swirl90 = ApplyFilter(tank, new SwirlMatrixFilter(Math.PI / 2), "Swirl 90 degrees", ric, null, null, useSsim, true);
-            Matrix swirlNeg90 = ApplyFilter(tank, new SwirlMatrixFilter(-Math.PI / 2), "Swirl -90 degrees", ric, null, null, useSsim, true);
+            Matrix rotate15 = ApplyFilter(tank, new RotateCoordinatesMatrixFilter((float)(Math.PI / 12)), "Rotation 15 degrees", ric, null, null, useSsim, true);
+            Matrix rotate45 = ApplyFilter(tank, new RotateCoordinatesMatrixFilter((float)(Math.PI / 4)), "Rotation 45 degrees", ric, null, null, useSsim, true);
+            Matrix rotate90 = ApplyFilter(tank, new RotateCoordinatesMatrixFilter((float)(Math.PI / 2)), "Rotation 90 degrees", ric, null, null, useSsim, true);
+            Matrix rotateNeg90 = ApplyFilter(tank, new RotateCoordinatesMatrixFilter((float)(-Math.PI / 2)), "Rotation -90 degrees", ric, null, null, useSsim, true);
+            Matrix swirl15 = ApplyFilter(tank, new SwirlMatrixFilter((float)(Math.PI / 12)), "Swirl 15 degrees", ric, null, null, useSsim, true);
+            Matrix swirl45 = ApplyFilter(tank, new SwirlMatrixFilter((float)(Math.PI / 4)), "Swirl 45 degrees", ric, null, null, useSsim, true);
+            Matrix swirl90 = ApplyFilter(tank, new SwirlMatrixFilter((float)(Math.PI / 2)), "Swirl 90 degrees", ric, null, null, useSsim, true);
+            Matrix swirlNeg90 = ApplyFilter(tank, new SwirlMatrixFilter((float)(-Math.PI / 2)), "Swirl -90 degrees", ric, null, null, useSsim, true);
 
             //SaveImageForFilters("output\\fishtank.bmp", fishTank);
             //SaveImageForFilters("output\\rotate15.bmp", rotate15);
@@ -546,7 +546,7 @@ namespace MetaphysicsIndustries.Ligra
 
             Matrix lena2 = (new GaussianNoiseMatrixFilter(
                 //0.005, 
-                0.001)).Apply(lena);
+                0.001f)).Apply(lena);
 
             ApplyFilter(lena2, new ArithmeticMeanFilter(3), "Noisy image after applying 3x3 arithmetic mean filter", ric, null, lena, useSsim, true);
             ApplyFilter(lena2, new ArithmeticMeanFilter(5), "Noisy image after applying 5x5 arithmetic mean filter", ric, null, lena, useSsim, true);
@@ -565,7 +565,7 @@ namespace MetaphysicsIndustries.Ligra
             _renderItems.Add(ric);
 
             Matrix box = LoadImageForFilters("Cornell_box_smg.bmp", "Original Image", ric, true);
-            box = ApplyFilter(box, new SaltAndPepperNoiseMatrixFilter(0.05), "Applied 5% Salt & Pepper noise", ric, null, box, useSsim, true);
+            box = ApplyFilter(box, new SaltAndPepperNoiseMatrixFilter(0.05f), "Applied 5% Salt & Pepper noise", ric, null, box, useSsim, true);
             ApplyFilter(box, new ArithmeticMeanFilter(3), "Noisy image after applying 3x3 arithmetic mean filter", ric, null, box, useSsim, true);
             ApplyFilter(box, new MedianMatrixFilter(3), "Noisy image after applying 3x3 median filter", ric, null, box, useSsim, true);
 
@@ -573,7 +573,7 @@ namespace MetaphysicsIndustries.Ligra
             _renderItems.Add(ric);
 
             Matrix checker2 = LoadImageForFilters("checker8.bmp", "Checker pattern", ric, true);
-            checker2 = ApplyFilter(checker2, new SaltAndPepperNoiseMatrixFilter(0.05), "Applied 5% Salt & Pepper noise", ric, null, checker2, useSsim, true);
+            checker2 = ApplyFilter(checker2, new SaltAndPepperNoiseMatrixFilter(0.05f), "Applied 5% Salt & Pepper noise", ric, null, checker2, useSsim, true);
             ApplyFilter(checker2, new MedianMatrixFilter(5), "Noisy image after using a 5x5 uniform median filter", ric, null, checker2, useSsim, true);
             Matrix weights = new Matrix(5, 5,
                                                 1, 1, 2, 1, 1,
@@ -601,7 +601,7 @@ namespace MetaphysicsIndustries.Ligra
 
             Pair<Matrix> ff = dft.Apply2(tank);
 
-            AcuityEngine.MultiplyModulator mod = new AcuityEngine.MultiplyModulator(1 / (double)tank.RowCount);
+            AcuityEngine.MultiplyModulator mod = new AcuityEngine.MultiplyModulator(1 / (float)tank.RowCount);
             ff.First.ApplyToAll(mod.Modulate);
             ff.Second.ApplyToAll(mod.Modulate);
 
@@ -634,7 +634,7 @@ namespace MetaphysicsIndustries.Ligra
                 AddMatrixImage("DFT Phase", ric, phaseFilter.Apply2(ff), null);
             }
 
-            mod = new AcuityEngine.MultiplyModulator((double)tank.RowCount);
+            mod = new AcuityEngine.MultiplyModulator((float)tank.RowCount);
             ff.First.ApplyToAll(mod.Modulate);
             ff.Second.ApplyToAll(mod.Modulate);
 
@@ -675,8 +675,8 @@ namespace MetaphysicsIndustries.Ligra
 
             noises.Add(new GaussianNoiseMatrixFilter(
                 //0.005, 
-                0.001)); noiseNames.Add("Gaussian005by001");
-            noises.Add(new SaltAndPepperNoiseMatrixFilter(0.05)); noiseNames.Add("SaltPepper05");
+                0.001f)); noiseNames.Add("Gaussian005by001");
+            noises.Add(new SaltAndPepperNoiseMatrixFilter(0.05f)); noiseNames.Add("SaltPepper05");
 
             filters.Add(new ArithmeticMeanFilter(3)); filterNames.Add("Mean3x3");
             filters.Add(new ArithmeticMeanFilter(5)); filterNames.Add("Mean5x5");
@@ -686,12 +686,12 @@ namespace MetaphysicsIndustries.Ligra
             filters.Add(new MinMaxMatrixFilter(minMax2)); filterNames.Add("MinMax2");
             filters.Add(new MaxMinMatrixFilter(minMax1)); filterNames.Add("MaxMin1");
             filters.Add(new MaxMinMatrixFilter(minMax2)); filterNames.Add("MaxMin2");
-            filters.Add(new WeightedPMatrixFilter(0.25, weights1)); filterNames.Add("WeightedP1at25");
-            filters.Add(new WeightedPMatrixFilter(0.25, weights2)); filterNames.Add("WeightedP2at25");
-            filters.Add(new WeightedPMatrixFilter(0.25, weights3)); filterNames.Add("WeightedP3at25");
-            filters.Add(new WeightedPMatrixFilter(0.75, weights1)); filterNames.Add("WeightedP1at75");
-            filters.Add(new WeightedPMatrixFilter(0.75, weights2)); filterNames.Add("WeightedP2at75");
-            filters.Add(new WeightedPMatrixFilter(0.75, weights3)); filterNames.Add("WeightedP3at75");
+            filters.Add(new WeightedPMatrixFilter(0.25f, weights1)); filterNames.Add("WeightedP1at25");
+            filters.Add(new WeightedPMatrixFilter(0.25f, weights2)); filterNames.Add("WeightedP2at25");
+            filters.Add(new WeightedPMatrixFilter(0.25f, weights3)); filterNames.Add("WeightedP3at25");
+            filters.Add(new WeightedPMatrixFilter(0.75f, weights1)); filterNames.Add("WeightedP1at75");
+            filters.Add(new WeightedPMatrixFilter(0.75f, weights2)); filterNames.Add("WeightedP2at75");
+            filters.Add(new WeightedPMatrixFilter(0.75f, weights3)); filterNames.Add("WeightedP3at75");
             filters.Add(new WeightedMedianMatrixFilter(weights1)); filterNames.Add("WeightedMedian1");
             filters.Add(new WeightedMedianMatrixFilter(weights2)); filterNames.Add("WeightedMedian2");
             filters.Add(new WeightedMedianMatrixFilter(weights3)); filterNames.Add("WeightedMedian3");
@@ -711,8 +711,8 @@ namespace MetaphysicsIndustries.Ligra
 
             System.IO.Directory.SetCurrentDirectory("C:\\Documents and Settings\\izrik\\Desktop\\school\\filters\\test_images\\output2");
 
-            List<double> maxErrors = new List<double>(filters.Count + 1);
-            double errorScale = 255;
+            List<float> maxErrors = new List<float>(filters.Count + 1);
+            float errorScale = 255;
 
             int i;
             int j;
@@ -777,7 +777,7 @@ namespace MetaphysicsIndustries.Ligra
                     sw.WriteLine();
                     sw.Write("\t");
 
-                    foreach (double error in maxErrors)
+                    foreach (float error in maxErrors)
                     {
                         sw.Write(ScaleAndFormatError(errorScale, error));
                         sw.Write("\t");
@@ -811,12 +811,12 @@ namespace MetaphysicsIndustries.Ligra
 
             bool useSsim = true;
 
-            double gNoiseVariance = 0.0025;
-            double impulseProbability = 0.05;
-            double optimumAtmmseAlpha = impulseProbability / 2;
+            float gNoiseVariance = 0.0025f;
+            float impulseProbability = 0.05f;
+            float optimumAtmmseAlpha = impulseProbability / 2;
             int optimumAtmmseWindowSize = (int)(Math.Round(1 / Math.Sqrt(optimumAtmmseAlpha)));
             optimumAtmmseWindowSize += 1 - optimumAtmmseWindowSize % 2;
-            double optimumZtmmseZeta;
+            float optimumZtmmseZeta;
 
             if (true)
             {
@@ -851,8 +851,8 @@ namespace MetaphysicsIndustries.Ligra
                 noisyImage = iNoise.Apply(noisyImage);
             }
 
-            double mseMeasure;
-            double ssimMeasure;
+            float mseMeasure;
+            float ssimMeasure;
 
             mseMeasure = 65536 * AcuityEngine.MeanSquareError(image, noisyImage);
 
@@ -870,7 +870,7 @@ namespace MetaphysicsIndustries.Ligra
             filteredImage = hist.Apply(noisyImage);
             SaveImageForFilters("p2t1\\hist_noisyImage.bmp", filteredImage);
 
-            filteredImage = ApplyFilter(noisyImage, new AlphaTrimmedMeanMatrixFilter(3, 0.1), "ATM with alpha=0.1 window=3", ric, null, image, useSsim, true);
+            filteredImage = ApplyFilter(noisyImage, new AlphaTrimmedMeanMatrixFilter(3, 0.1f), "ATM with alpha=0.1 window=3", ric, null, image, useSsim, true);
             SaveImageForFilters("p2t1\\atm___0_1___3.bmp", filteredImage);
             filteredImage = hist.Apply(filteredImage);
             SaveImageForFilters("p2t1\\hist_atm___0_1___3.bmp", filteredImage);
@@ -948,18 +948,18 @@ namespace MetaphysicsIndustries.Ligra
             SaveImageForFilters("p2t1\\hist_ztmmse+atm___7___1_96.bmp", filteredImage);
         }
 
-        //protected static double CalculateOptimumZtmmseZeta(double impulseProbability)
+        //protected static float CalculateOptimumZtmmseZeta(float impulseProbability)
         //{
-        //    double optimumZtmmseZeta;
+        //    float optimumZtmmseZeta;
         //    int kMax = 128;
-        //    double[] c = new double[kMax];
+        //    float[] c = new float[kMax];
         //    c[0] = 1;
-        //    double sum = 0;
-        //    double s = Math.Sqrt(Math.PI) / 2;
+        //    float sum = 0;
+        //    float s = Math.Sqrt(Math.PI) / 2;
         //    for (int k = 0; k < kMax; k++)
         //    {
         //        int kk = 2 * k + 1;
-        //        double cc = c[k];
+        //        float cc = c[k];
         //        for (int m = 0; m <= k - 1; m++)
         //        {
         //            cc += c[m] * c[k - 1 - m] / ((m + 1) * (2 * m + 1));
@@ -987,12 +987,12 @@ namespace MetaphysicsIndustries.Ligra
             SsimErrorMeasure ssim = new SsimErrorMeasure();
 
             Matrix map = ssim.GenerateMap(image, image);
-            double error = ssim.Measure(image, image);
+            float error = ssim.Measure(image, image);
 
             AddMatrixImage("SSIM map    MSSIM = " + error.ToString("G3"), ric, map, null);
 
-            double gNoiseVariance = 0.0025;
-            double impulseProbability = 0.05;
+            float gNoiseVariance = 0.0025f;
+            float impulseProbability = 0.05f;
 
             GaussianNoiseMatrixFilter gNoise = new GaussianNoiseMatrixFilter(gNoiseVariance);
             ImpulseNoiseMatrixFilter iNoise = new ImpulseNoiseMatrixFilter(impulseProbability);
@@ -1001,8 +1001,8 @@ namespace MetaphysicsIndustries.Ligra
 
             int optimumZtmmseWindowSize = (int)(Math.Ceiling(Math.Sqrt(2 / impulseProbability)));
             optimumZtmmseWindowSize += 1 - optimumZtmmseWindowSize % 2;
-            double optimumZtmmseZeta = ZetaTrimmedMmseMatrixFilter.CalculateOptimumZtmmseZeta(impulseProbability);
-            double optimumAtmmseAlpha = impulseProbability / 2;
+            float optimumZtmmseZeta = ZetaTrimmedMmseMatrixFilter.CalculateOptimumZtmmseZeta(impulseProbability);
+            float optimumAtmmseAlpha = impulseProbability / 2;
             int optimumAtmmseWindowSize = (int)(Math.Round(1 / Math.Sqrt(optimumAtmmseAlpha)));
             optimumAtmmseWindowSize += 1 - optimumAtmmseWindowSize % 2;
 
@@ -1020,7 +1020,7 @@ namespace MetaphysicsIndustries.Ligra
 
 
 
-            filteredImage = ApplyFilter(noisyImage, new AlphaTrimmedMeanMatrixFilter(3, 0.025), "ATM w=3 a=0.025", ric, null, image, true, true);
+            filteredImage = ApplyFilter(noisyImage, new AlphaTrimmedMeanMatrixFilter(3, 0.025f), "ATM w=3 a=0.025", ric, null, image, true, true);
             map = ssim.GenerateMap(image, filteredImage);
             error = ssim.Measure(image, filteredImage);
             AddMatrixImage("SSIM map for ATM w=3", ric, map, null);
@@ -1080,8 +1080,8 @@ namespace MetaphysicsIndustries.Ligra
 
             Matrix image = LoadImageForFilters(filename, "Original Image", ric, true);
 
-            double gaussianNoiseVariance = 0.0025;
-            double impulseProbability = 0.05;
+            float gaussianNoiseVariance = 0.0025f;
+            float impulseProbability = 0.05f;
 
             SimpleScaleMatrixFilter scaler = new SimpleScaleMatrixFilter(18);
 
@@ -1101,7 +1101,7 @@ namespace MetaphysicsIndustries.Ligra
             MinimalMeanSquareErrorMatrixFilter mmseFilter = new MinimalMeanSquareErrorMatrixFilter(7, gaussianNoiseVariance);
             Matrix mmseResult = ApplyFilter(gaussianNoisyImage, mmseFilter, "After applying MMSE", ric, null, image, true, true);
 
-            AlphaTrimmedMmseMatrixFilter atmmseFilter = new AlphaTrimmedMmseMatrixFilter(7, gaussianNoiseVariance, 0.12);
+            AlphaTrimmedMmseMatrixFilter atmmseFilter = new AlphaTrimmedMmseMatrixFilter(7, gaussianNoiseVariance, 0.12f);
             Matrix atmmseResult = //atmmseFilter.Apply(gaussianNoisyImage);
                 ApplyFilter(gaussianNoisyImage, atmmseFilter, "After applying ATMMSE", ric, null, image, true, true);
 
@@ -1115,24 +1115,24 @@ namespace MetaphysicsIndustries.Ligra
             Matrix windowHist = hist.Apply(window);
             AddMatrixImage("Histogram of window of noisy image", ric, windowHist, null);
 
-            List<double> values = new List<double>(window.Count);
-            foreach (double value in window)
+            List<float> values = new List<float>(window.Count);
+            foreach (float value in window)
             {
                 values.Add(value);
             }
 
-            List<double> ordered = new List<double>(values);
+            List<float> ordered = new List<float>(values);
             ordered.Sort(MinimalMeanSquareErrorMatrixFilter.Compare);
 
             ric.Items.Add(new GraphVectorItem(new Vector(values.Count, values.ToArray()), "window "));
 
             ric.Items.Add(new GraphVectorItem(new Vector(ordered.Count, ordered.ToArray()), "Order Statistic"));
-            double signalMean = (new SignalMeanMeasure()).Measure(window);
-            double signalVariance = (new SignalVarianceMeasure()).Measure(window);
+            float signalMean = (new SignalMeanMeasure()).Measure(window);
+            float signalVariance = (new SignalVarianceMeasure()).Measure(window);
             ric.Items.Add(new SpacerItem(1200, 25));
             ric.Items.Add(new TextItem("mean=" + (signalMean).ToString("G3") + "   variance=" + (signalVariance).ToString("G3"), font));
             ric.Items.Add(new SpacerItem(1200, 25));
-            double mmseValue = ((1 - gaussianNoiseVariance / signalVariance) * window[3, 3] + gaussianNoiseVariance / signalVariance * signalMean);
+            float mmseValue = ((1 - gaussianNoiseVariance / signalVariance) * window[3, 3] + gaussianNoiseVariance / signalVariance * signalMean);
             ric.Items.Add(new TextItem("Normal MMSE pixel result: " + (mmseValue).ToString("G3"), font));
             ric.Items.Add(new SpacerItem(1200, 100));
 
@@ -1148,7 +1148,7 @@ namespace MetaphysicsIndustries.Ligra
             ric.Items.Add(new TextItem("values in ATM calculation, alpha=0.12", font));
             ric.Items.Add(new SpacerItem(1200, 25));
 
-            List<double> ordered2 = new List<double>(ordered);
+            List<float> ordered2 = new List<float>(ordered);
 
             ordered2.RemoveRange(0, 6);
             ordered2.Reverse();
@@ -1156,12 +1156,12 @@ namespace MetaphysicsIndustries.Ligra
             ordered2.Reverse();
 
             ric.Items.Add(new GraphVectorItem(new Vector(ordered2.Count, ordered2.ToArray()), "Order Statistic"));
-            double signalMean2 = (new SignalMeanMeasure()).Measure(ordered2);
-            double signalVariance2 = (new SignalVarianceMeasure()).Measure(ordered2);
+            float signalMean2 = (new SignalMeanMeasure()).Measure(ordered2);
+            float signalVariance2 = (new SignalVarianceMeasure()).Measure(ordered2);
             ric.Items.Add(new SpacerItem(1200, 25));
             ric.Items.Add(new TextItem("mean=" + (signalMean2).ToString("G3") + "   variance=" + (signalVariance2).ToString("G3"), font));
             ric.Items.Add(new SpacerItem(1200, 25));
-            double mmseValue2 = ((1 - gaussianNoiseVariance / signalVariance2) * window[3, 3] + gaussianNoiseVariance / signalVariance2 * signalMean2);
+            float mmseValue2 = ((1 - gaussianNoiseVariance / signalVariance2) * window[3, 3] + gaussianNoiseVariance / signalVariance2 * signalMean2);
             ric.Items.Add(new TextItem("ATMMSE pixel result: " + (mmseValue2).ToString("G3"), font));
             ric.Items.Add(new SpacerItem(1200, 100));
 
@@ -1186,8 +1186,8 @@ namespace MetaphysicsIndustries.Ligra
 
             System.IO.Directory.SetCurrentDirectory("C:\\Documents and Settings\\izrik\\Desktop\\school\\filters\\project 2");
 
-            double noiseVariance = 0.0025;
-            double impulseProbability;
+            float noiseVariance = 0.0025f;
+            float impulseProbability;
 
             GaussianNoiseMatrixFilter gauss = new GaussianNoiseMatrixFilter(noiseVariance);
 
@@ -1195,13 +1195,13 @@ namespace MetaphysicsIndustries.Ligra
 
             SsimErrorMeasure ssim = new SsimErrorMeasure();
 
-            for (impulseProbability = 0.05; impulseProbability <= 0.5; impulseProbability += 0.05)
+            for (impulseProbability = 0.05f; impulseProbability <= 0.5f; impulseProbability += 0.05f)
             {
                 ImpulseNoiseMatrixFilter impulse = new ImpulseNoiseMatrixFilter(impulseProbability);
 
                 Matrix image3 = impulse.Apply(image2);
 
-                double optimumAtmmseAlpha = impulseProbability / 2;
+                float optimumAtmmseAlpha = impulseProbability / 2;
                 int optimumAtmmseWindowSize = (int)(Math.Round(1 / Math.Sqrt(optimumAtmmseAlpha)));
                 optimumAtmmseWindowSize += 1 - optimumAtmmseWindowSize % 2;
 
@@ -1249,14 +1249,14 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        private static string ScaleAndFormatError(double errorScale, double error)
+        private static string ScaleAndFormatError(float errorScale, float error)
         {
             return (error * errorScale).ToString("G3");
         }
 
         private Matrix ApplyFilter(Matrix image, MatrixFilter filter, string caption, RenderItemContainer ric, Modulator mod, Matrix imageForError, bool useSsim, bool showTime)
         {
-            double error = 0;
+            float error = 0;
 
             string errorName;
 
