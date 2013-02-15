@@ -489,7 +489,7 @@ namespace MetaphysicsIndustries.Ligra
 
         private void ProcessInput(string input)
         {
-            SolusParser.Ex[] exTokens = SolusParser.Tokenize(input);
+            SolusParser.Ex[] exTokens = _parser.Tokenize(input);
 
             if (exTokens.Length > 0)
             {
