@@ -396,8 +396,9 @@ namespace MetaphysicsIndustries.Ligra
             for (i = 0; i < 7; i++)
             {
                 Expression expr;
-                expr = _engine.CleanUp(new FunctionCall(AssociativeCommutativeOperation.Multiplication, m[rowFrom, i], factor));
-                expr = _engine.CleanUp(new FunctionCall(AssociativeCommutativeOperation.Addition, expr, m[rowTo, i]));
+                CleanUpTransformer cleanup = new CleanUpTransformer();
+                expr = cleanup.CleanUp(new FunctionCall(AssociativeCommutativeOperation.Multiplication, m[rowFrom, i], factor));
+                expr = cleanup.CleanUp(new FunctionCall(AssociativeCommutativeOperation.Addition, expr, m[rowTo, i]));
                 m[rowTo, i] = expr;
             }
         }
@@ -408,7 +409,8 @@ namespace MetaphysicsIndustries.Ligra
             for (i = 0; i < 7; i++)
             {
                 Expression expr;
-                expr = _engine.CleanUp(new FunctionCall(AssociativeCommutativeOperation.Addition, m[rowFrom, i], m[rowTo, i]));
+                CleanUpTransformer cleanup = new CleanUpTransformer();
+                expr = cleanup.CleanUp(new FunctionCall(AssociativeCommutativeOperation.Addition, m[rowFrom, i], m[rowTo, i]));
                 m[rowTo, i] = expr;
             }
         }
@@ -419,7 +421,8 @@ namespace MetaphysicsIndustries.Ligra
             for (i = 0; i < 7; i++)
             {
                 Expression expr = m[row, i];
-                expr = _engine.CleanUp(new FunctionCall(AssociativeCommutativeOperation.Multiplication, expr, factor));
+                CleanUpTransformer cleanup = new CleanUpTransformer();
+                expr = cleanup.CleanUp(new FunctionCall(AssociativeCommutativeOperation.Multiplication, expr, factor));
                 m[row, i] = expr;
             }
         }
