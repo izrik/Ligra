@@ -243,13 +243,13 @@ namespace MetaphysicsIndustries.Ligra
             //_renderItems.Add(new ExpressionItem(new AssignExpression(_vars["mu"], new Literal(0.5)), p, f));
             //_renderItems.Add(new ExpressionItem(new AssignExpression(_vars["sigma"], new Literal(0.2)), p, f));
 
-            expr = SolusParser.Compile("2*e ^ ((x-1) ^ 2 / (-0.5)) + 2*e ^ ((x+1) ^ 2 / (-0.5))", _vars);
+            expr = _parser.Compile("2*e ^ ((x-1) ^ 2 / (-0.5)) + 2*e ^ ((x+1) ^ 2 / (-0.5))", _vars);
             _renderItems.Add(new InfoItem("A complex expression, \"(1/(sigma*sqrt(2*pi))) * e ^ ( (x - mu)^2 / (-2 * sigma^2))\"", f));
             _renderItems.Add(new ExpressionItem(expr, p, f));
             //(1/(sigma*sqrt(2*pi))) * e ^ ( (x - mu)^2 / (-2 * sigma^2))
 
             _renderItems.Add(new InfoItem("A plot of the expression: ", f));
-            _renderItems.Add(new GraphItem(expr, p, _vars["x"]));
+            _renderItems.Add(new GraphItem(expr, p, _vars["x"], _parser));
 
         }
     }
