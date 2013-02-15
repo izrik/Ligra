@@ -191,11 +191,12 @@ namespace MetaphysicsIndustries.Ligra
             _renderItems.Add(new InfoItem("Some derivatives, starting with x^3:", f));
             expr = SolusParser.Compile("x^3", _vars);
             _renderItems.Add(new ExpressionItem(expr, p, f));
-            expr = _engine.GetDerivative(expr, _vars["x"]);
+            DerivativeTransformer derive = new DerivativeTransformer();
+            expr = derive.Transform(expr, new VariableTransformArgs(_vars["x"]));
             _renderItems.Add(new ExpressionItem(expr, p, f));
-            expr = _engine.GetDerivative(expr, _vars["x"]);
+            expr = derive.Transform(expr, new VariableTransformArgs(_vars["x"]));
             _renderItems.Add(new ExpressionItem(expr, p, f));
-            expr = _engine.GetDerivative(expr, _vars["x"]);
+            expr = derive.Transform(expr, new VariableTransformArgs(_vars["x"]));
             _renderItems.Add(new ExpressionItem(expr, p, f));
 
             _renderItems.Add(new InfoItem("Some variable assignments: ", f));
