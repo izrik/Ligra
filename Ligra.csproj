@@ -12,11 +12,12 @@
     <AssemblyName>Ligra</AssemblyName>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>2.0</OldToolsVersion>
     <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -106,7 +107,10 @@
     <Compile Include="LigraFormsControl.Designer.cs">
       <DependentUpon>LigraFormsControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="MathPaintExpression.cs" />
     <Compile Include="MathPaintItem.cs" />
+    <Compile Include="Plot3dExpression.cs" />
+    <Compile Include="PlotExpression.cs" />
     <Compile Include="PlotPropertiesForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -146,6 +150,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="app.config" />
     <None Include="Ligra.cd" />
     <Compile Include="RenderItem.cs" />
     <Compile Include="RenderItemContainer.cs" />

@@ -11,10 +11,14 @@ namespace MetaphysicsIndustries.Ligra
 {
     public partial class PlotPropertiesForm : Form
     {
-        public PlotPropertiesForm()
+        public PlotPropertiesForm(SolusParser parser)
         {
+            _parser = parser;
+
             InitializeComponent();
         }
+
+        SolusParser _parser;
 
         private SizeF _plotSize;
         public SizeF PlotSize
@@ -91,7 +95,7 @@ namespace MetaphysicsIndustries.Ligra
             {
                 if (_expressions[i] == null)
                 {
-                    _expressions[i] = SolusParser.Compile(_expressionStrings[i]);
+                    _expressions[i] = _parser.Compile(_expressionStrings[i]);
                 }
             }
         }
