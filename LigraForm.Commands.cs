@@ -206,13 +206,14 @@ namespace MetaphysicsIndustries.Ligra
                         new Literal(2))), p, f));
 
             _renderItems.Add(new InfoItem("Some derivatives, starting with x^3:", f));
-            expr = SolusParser.Compile("x^3", _vars);
+            expr = _parser.Compile("x^3", _vars);
             _renderItems.Add(new ExpressionItem(expr, p, f));
-            expr = _engine.GetDerivative(expr, _vars["x"]);
+            DerivativeTransformer derive = new DerivativeTransformer();
+            expr = derive.Transform(expr, new VariableTransformArgs(_vars["x"]));
             _renderItems.Add(new ExpressionItem(expr, p, f));
-            expr = _engine.GetDerivative(expr, _vars["x"]);
+            expr = derive.Transform(expr, new VariableTransformArgs(_vars["x"]));
             _renderItems.Add(new ExpressionItem(expr, p, f));
-            expr = _engine.GetDerivative(expr, _vars["x"]);
+            expr = derive.Transform(expr, new VariableTransformArgs(_vars["x"]));
             _renderItems.Add(new ExpressionItem(expr, p, f));
 
             _renderItems.Add(new InfoItem("Some variable assignments: ", f));
@@ -266,18 +267,19 @@ namespace MetaphysicsIndustries.Ligra
             //(1/(sigma*sqrt(2*pi))) * e ^ ( (x - mu)^2 / (-2 * sigma^2))
 
             _renderItems.Add(new InfoItem("A plot of the expression: ", f));
-            _renderItems.Add(new GraphItem(expr, p, _vars["x"]));
+            _renderItems.Add(new GraphItem(expr, p, _vars["x"], _parser));
 
             _renderItems.Add(new InfoItem("Multiple plots on the same axes, \"x^3\", \"3 * x^2\", \"6 * x\":", f));
             _renderItems.Add(new GraphItem(
-                new GraphEntry(SolusParser.Compile("x^3", _vars), Pens.Blue, _vars["x"]),
-                new GraphEntry(SolusParser.Compile("3*x^2", _vars), Pens.Green, _vars["x"]),
-                new GraphEntry(SolusParser.Compile("6*x", _vars), Pens.Red, _vars["x"])));
+                _parser,
+                new GraphEntry(_parser.Compile("x^3", _vars), Pens.Blue, _vars["x"]),
+                new GraphEntry(_parser.Compile("3*x^2", _vars), Pens.Green, _vars["x"]),
+                new GraphEntry(_parser.Compile("6*x", _vars), Pens.Red, _vars["x"])));
 
             _renderItems.Add(new InfoItem("A plot that changes with time, \"sin(x+t)\":", f));
-            _renderItems.Add(new GraphItem(SolusParser.Compile("sin(x+t)", _vars), p, _vars["x"]));
+            _renderItems.Add(new GraphItem(_parser.Compile("sin(x+t)", _vars), p, _vars["x"], _parser));
 
-            expr = SolusParser.Compile("unitstep((x*x+y*y)^0.5+2*(sin(t)-1))*cos(5*y+2*t)", _vars);
+            expr = _parser.Compile("unitstep((x*x+y*y)^0.5+2*(sin(t)-1))*cos(5*y+2*t)", _vars);
             _renderItems.Add(new InfoItem("Another complex expression, \"unitstep((x*x+y*y)^0.5+2*(sin(t)-1))*cos(5*y+2*t)\",\r\nwhere t is time:", f));
             _renderItems.Add(new ExpressionItem(expr, p, f));
 
@@ -396,8 +398,9 @@ namespace MetaphysicsIndustries.Ligra
             for (i = 0; i < 7; i++)
             {
                 Expression expr;
-                expr = _engine.CleanUp(new FunctionCall(AssociativeCommutativeOperation.Multiplication, m[rowFrom, i], factor));
-                expr = _engine.CleanUp(new FunctionCall(AssociativeCommutativeOperation.Addition, expr, m[rowTo, i]));
+                CleanUpTransformer cleanup = new CleanUpTransformer();
+                expr = cleanup.CleanUp(new FunctionCall(AssociativeCommutativeOperation.Multiplication, m[rowFrom, i], factor));
+                expr = cleanup.CleanUp(new FunctionCall(AssociativeCommutativeOperation.Addition, expr, m[rowTo, i]));
                 m[rowTo, i] = expr;
             }
         }
@@ -408,7 +411,8 @@ namespace MetaphysicsIndustries.Ligra
             for (i = 0; i < 7; i++)
             {
                 Expression expr;
-                expr = _engine.CleanUp(new FunctionCall(AssociativeCommutativeOperation.Addition, m[rowFrom, i], m[rowTo, i]));
+                CleanUpTransformer cleanup = new CleanUpTransformer();
+                expr = cleanup.CleanUp(new FunctionCall(AssociativeCommutativeOperation.Addition, m[rowFrom, i], m[rowTo, i]));
                 m[rowTo, i] = expr;
             }
         }
@@ -419,7 +423,8 @@ namespace MetaphysicsIndustries.Ligra
             for (i = 0; i < 7; i++)
             {
                 Expression expr = m[row, i];
-                expr = _engine.CleanUp(new FunctionCall(AssociativeCommutativeOperation.Multiplication, expr, factor));
+                CleanUpTransformer cleanup = new CleanUpTransformer();
+                expr = cleanup.CleanUp(new FunctionCall(AssociativeCommutativeOperation.Multiplication, expr, factor));
                 m[row, i] = expr;
             }
         }
@@ -501,7 +506,7 @@ namespace MetaphysicsIndustries.Ligra
 
         private void ProcessInput(string input)
         {
-            SolusParser.Ex[] exTokens = SolusParser.Tokenize(input);
+            SolusParser.Ex[] exTokens = _parser.Tokenize(input);
 
             if (exTokens.Length > 0)
             {
@@ -513,7 +518,7 @@ namespace MetaphysicsIndustries.Ligra
                 }
                 else
                 {
-                    Expression expr = SolusParser.Compile(exTokens, _vars);
+                    Expression expr = _parser.Compile(exTokens, _vars);
 
                     if (expr != null)
                     {
@@ -538,7 +543,7 @@ namespace MetaphysicsIndustries.Ligra
                                 i++;
                             }
 
-                            _renderItems.Add(new GraphItem(entries.ToArray()));
+                            _renderItems.Add(new GraphItem(_parser, entries.ToArray()));
                         }
                         else if (expr is Plot3dExpression)
                         {

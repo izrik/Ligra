@@ -37,17 +37,17 @@ namespace MetaphysicsIndustries.Ligra
 
     public class GraphItem : RenderItem
     {
-        public GraphItem(Expression expression, Pen pen, Variable independentVariable)
-            : this(new GraphEntry(expression, pen, independentVariable))
+        public GraphItem(Expression expression, Pen pen, Variable independentVariable, SolusParser parser)
+            : this(parser, new GraphEntry(expression, pen, independentVariable))
         {
         }
 
-        public GraphItem(params GraphEntry[] entries)
-            : this((IEnumerable<GraphEntry>)entries)
+        public GraphItem(SolusParser parser, params GraphEntry[] entries)
+            : this(parser, (IEnumerable<GraphEntry>)entries)
         {
         }
 
-        public GraphItem(IEnumerable<GraphEntry> entries)
+        public GraphItem(SolusParser parser, IEnumerable<GraphEntry> entries)
         {
             _entries.AddRange(entries);
 
@@ -56,12 +56,14 @@ namespace MetaphysicsIndustries.Ligra
             _minX = -2;
             _maxY = 2;
             _minY = -2;
+            _parser = parser;
         }
 
         float _maxX;
         float _minX;
         float _maxY;
         float _minY;
+        SolusParser _parser;
 
         private List<GraphEntry> _entries = new List<GraphEntry>();
         //private SizeF _size = new SizeF(400, 400);
@@ -109,7 +111,7 @@ namespace MetaphysicsIndustries.Ligra
 
         public override void OpenPropertiesWindow(LigraControl control)
         {
-            PlotPropertiesForm form = new PlotPropertiesForm();
+            PlotPropertiesForm form = new PlotPropertiesForm(_parser);
 
             form.PlotSize = Rect.Size;
             form.PlotMaxX = _maxX;
