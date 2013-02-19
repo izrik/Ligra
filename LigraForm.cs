@@ -21,6 +21,13 @@ namespace MetaphysicsIndustries.Ligra
             _parser.AddFunction(new SolusParser.ExFunction() { Token = "mathpaint", Converter = MathPaintExpression.Convert, NumArguments = 5, HasVariableNumArgs = false });
 
             InitializeComponent();
+
+            if (Environment.OSVersion.Platform == PlatformID.Unix ||
+                Environment.OSVersion.Platform == PlatformID.MacOSX)
+            {
+                this.Controls.Remove(this.toolStripContainer1);
+                this.Controls.Add(this.splitContainer1);
+            }
         }
 
         private static SolusEngine _engine = new SolusEngine();
