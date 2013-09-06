@@ -16,9 +16,9 @@ namespace MetaphysicsIndustries.Ligra
     {
         public LigraForm()
         {
-            _parser.AddFunction(new SolusParser.ExFunction() { Token = "plot", Converter = PlotExpression.Convert, NumArguments = -1, HasVariableNumArgs = true });
-            _parser.AddFunction(new SolusParser.ExFunction() { Token = "plot3d", Converter = Plot3dExpression.Convert, NumArguments = -1, HasVariableNumArgs = true });
-            _parser.AddFunction(new SolusParser.ExFunction() { Token = "mathpaint", Converter = MathPaintExpression.Convert, NumArguments = 5, HasVariableNumArgs = false });
+            _parser.AddFunction(new SolusParser.ParseFunction() { Token = "plot", Converter = PlotExpression.Convert, NumArguments = -1, HasVariableNumArgs = true });
+            _parser.AddFunction(new SolusParser.ParseFunction() { Token = "plot3d", Converter = Plot3dExpression.Convert, NumArguments = -1, HasVariableNumArgs = true });
+            _parser.AddFunction(new SolusParser.ParseFunction() { Token = "mathpaint", Converter = MathPaintExpression.Convert, NumArguments = 5, HasVariableNumArgs = false });
 
             InitializeComponent();
         }
