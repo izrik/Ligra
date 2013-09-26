@@ -80,11 +80,11 @@ namespace MetaphysicsIndustries.Solus
 
             if (!(args[0] is VariableAccess))
             {
-                throw new SolusParseException(null, "First argument to MathPaint command must be a variable reference.");
+                throw new SolusParseException(-1, "First argument to MathPaint command must be a variable reference.");
             }
             if (!(args[1] is VariableAccess))
             {
-                throw new SolusParseException(null, "Second argument to MathPaint command must be a variable reference.");
+                throw new SolusParseException(-1, "Second argument to MathPaint command must be a variable reference.");
             }
 
             return new MathPaintExpression(
