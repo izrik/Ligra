@@ -17,7 +17,7 @@ namespace MetaphysicsIndustries.Ligra
 {
     public partial class LigraForm : Form
     {
-        private void FiltersCommand(string input, SolusParser.Ex[] exTokens)
+        private void FiltersCommand(string input, string[] args)
         {
             Font font = ligraControl1.Font;
             System.IO.Directory.SetCurrentDirectory("C:\\Documents and Settings\\izrik\\Desktop\\school\\filters\\test_images");
@@ -247,7 +247,7 @@ namespace MetaphysicsIndustries.Ligra
 
 
         }
-        private void FiltersCommand2(string input, SolusParser.Ex[] exTokens)
+        private void FiltersCommand2(string input, string[] args)
         {
             return;
             Font font = ligraControl1.Font;
@@ -401,7 +401,7 @@ namespace MetaphysicsIndustries.Ligra
             ////////    }
             ////////}
         }
-        private void FiltersCommand3(string input, SolusParser.Ex[] exTokens)
+        private void FiltersCommand3(string input, string[] args)
         {
             System.IO.Directory.SetCurrentDirectory("C:\\Documents and Settings\\izrik\\Desktop\\school\\filters\\test_images");
 
@@ -476,7 +476,7 @@ namespace MetaphysicsIndustries.Ligra
             //varControl.Width = 400;
 
         }
-        private void FiltersCommand4(string input, SolusParser.Ex[] exTokens)
+        private void FiltersCommand4(string input, string[] args)
         {
             Font font = ligraControl1.Font;
             System.IO.Directory.SetCurrentDirectory("C:\\Documents and Settings\\izrik\\Desktop\\school\\filters\\test_images");
@@ -585,7 +585,7 @@ namespace MetaphysicsIndustries.Ligra
             ric.Items.Add(new ExpressionItem(weights, Pens.Blue, font));
 
         }
-        private void FourierCommand(string input, SolusParser.Ex[] exTokens)
+        private void FourierCommand(string input, string[] args)
         {
             System.IO.Directory.SetCurrentDirectory("C:\\Documents and Settings\\izrik\\Desktop\\school\\filters\\test_images");
 
@@ -644,7 +644,7 @@ namespace MetaphysicsIndustries.Ligra
         {
             _renderItems.Add(new CodeItem());
         }
-        private void FiltersExperiment(string input, SolusParser.Ex[] exTokens)
+        private void FiltersExperiment(string input, string[] args)
         {
             List<Matrix> sourceImages = new List<Matrix>();
             List<string> sourceNames = new List<string>();
@@ -793,7 +793,7 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        private void FiltersProject2Test1(string input, SolusParser.Ex[] exTokens)
+        private void FiltersProject2Test1(string input, string[] args)
         {
             Font font = ligraControl1.Font;
             System.IO.Directory.SetCurrentDirectory("C:\\Documents and Settings\\izrik\\Desktop\\school\\filters\\test_images");
@@ -803,9 +803,9 @@ namespace MetaphysicsIndustries.Ligra
 
             string filename = "lena256g.bmp";
 
-            if (exTokens.Length > 2)
+            if (args.Length > 2)
             {
-                filename = exTokens[2].Token;
+                filename = args[2];
                 filename = filename.Trim('\"');
             }
 
@@ -838,7 +838,7 @@ namespace MetaphysicsIndustries.Ligra
             
             //noisyImage = ApplyFilter(noisyImage, noise, "Applied 5% impulse & AWGN with stdev=0.2/1", ric, null, image);
 
-            if (exTokens.Length <= 1 || exTokens[1].Token == "1")
+            if (args.Length <= 1 || args[1] == "1")
             {
                 noisyImage = gNoise.Apply(noisyImage);
             }
@@ -846,7 +846,7 @@ namespace MetaphysicsIndustries.Ligra
             {
                 gNoiseVariance = 0;
             }
-            if (exTokens.Length <= 1 || exTokens[1].Token == "2")
+            if (args.Length <= 1 || args[1] == "2")
             {
                 noisyImage = iNoise.Apply(noisyImage);
             }
@@ -972,7 +972,7 @@ namespace MetaphysicsIndustries.Ligra
         //    return optimumZtmmseZeta;
         //}
 
-        private void SsimTest(string input, SolusParser.Ex[] exTokens)
+        private void SsimTest(string input, string[] args)
         {
             Font font = ligraControl1.Font;
             System.IO.Directory.SetCurrentDirectory("C:\\Documents and Settings\\izrik\\Desktop\\school\\filters\\test_images");
@@ -1067,7 +1067,7 @@ namespace MetaphysicsIndustries.Ligra
             //AddMatrixImage("SSIM map for ZTMMSE+ZTM", ric, map, null);
         }
 
-        private void FiltersProject2Trial2(string input, SolusParser.Ex[] exTokens)
+        private void FiltersProject2Trial2(string input, string[] args)
         {
             Font font = ligraControl1.Font;
             System.IO.Directory.SetCurrentDirectory("C:\\Documents and Settings\\izrik\\Desktop\\school\\filters\\test_images\\p2t2");
@@ -1173,7 +1173,7 @@ namespace MetaphysicsIndustries.Ligra
 
         }
 
-        private void FiltersProject2Trial3(string input, SolusParser.Ex[] exTokens)
+        private void FiltersProject2Trial3(string input, string[] args)
         {
             Font font = ligraControl1.Font;
             System.IO.Directory.SetCurrentDirectory("C:\\Documents and Settings\\izrik\\Desktop\\school\\filters\\test_images\\");
@@ -1234,7 +1234,7 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        private void SaveImageCommand(string input, SolusParser.Ex[] exTokens)
+        private void SaveImageCommand(string input, string[] args)
         {
             //System.IO.Directory.SetCurrentDirectory("C:\\Documents and Settings\\izrik\\Desktop\\school\\filters\\test_images\\output3");
 

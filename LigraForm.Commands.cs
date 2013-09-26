@@ -16,7 +16,7 @@ namespace MetaphysicsIndustries.Ligra
     public partial class LigraForm : Form
     {
 
-        protected delegate void Command(string input, SolusParser.Ex[] exTokens);
+        protected delegate void Command(string input, string[] args);
 
         Dictionary<string, Command> _commands = new Dictionary<string, Command>(StringComparer.InvariantCultureIgnoreCase);
 
@@ -50,26 +50,26 @@ namespace MetaphysicsIndustries.Ligra
             _commands["ztmmse"] = ZtmmseCommand;
         }
 
-        private void ProcessCommand(string input, SolusParser.Ex[] exTokens, string cmd)
+        private void ProcessCommand(string input, string[] args, string cmd)
         {
             if (IsCommand(cmd))
             {
-                _commands[cmd](input, exTokens);
+                _commands[cmd](input, args);
             }
         }
 
-        private void DeleteCommand(string input, SolusParser.Ex[] exTokens)
+        private void DeleteCommand(string input, string[] args)
         {
-            if (exTokens.Length > 1)
+            if (args.Length > 1)
             {
                 List<string> unknownVars = new List<string>();
 
                 int i;
-                for (i = 1; i < exTokens.Length; i++)
+                for (i = 1; i < args.Length; i++)
                 {
-                    if (!_vars.ContainsKey(exTokens[i].Token))
+                    if (!_vars.ContainsKey(args[i]))
                     {
-                        unknownVars.Add(exTokens[i].Token);
+                        unknownVars.Add(args[i]);
                     }
                 }
 
@@ -80,13 +80,13 @@ namespace MetaphysicsIndustries.Ligra
                     {
                         error += s + "\r\n";
                     }
-                    _renderItems.Add(new ErrorItem(input, error, ligraControl1.Font, Brushes.Red, exTokens[0].Location));
+                    _renderItems.Add(new ErrorItem(input, error, ligraControl1.Font, Brushes.Red, input.IndexOf(args[0])));
                 }
                 else
                 {
-                    for (i = 1; i < exTokens.Length; i++)
+                    for (i = 1; i < args.Length; i++)
                     {
-                        _vars.Remove(exTokens[i].Token);
+                        _vars.Remove(args[i]);
                     }
 
                     _renderItems.Add(new InfoItem("The variables were deleted successfully.", ligraControl1.Font));
@@ -94,11 +94,11 @@ namespace MetaphysicsIndustries.Ligra
             }
             else
             {
-                _renderItems.Add(new ErrorItem(input, "Must specify variables to delete", ligraControl1.Font, Brushes.Red, exTokens[0].Location));
+                _renderItems.Add(new ErrorItem(input, "Must specify variables to delete", ligraControl1.Font, Brushes.Red, input.IndexOf(args[0])));
             }
         }
 
-        private void VarsCommand(string input, SolusParser.Ex[] exTokens)
+        private void VarsCommand(string input, string[] args)
         {
             string s = string.Empty;
             foreach (Variable var in _vars)
@@ -122,15 +122,15 @@ namespace MetaphysicsIndustries.Ligra
             _renderItems.Add(new InfoItem(s, ligraControl1.Font));
         }
 
-        private void ClearCommand(string input, SolusParser.Ex[] exTokens)
+        private void ClearCommand(string input, string[] args)
         {
-            if (exTokens.Length > 1)
+            if (args.Length > 1)
             {
-                if (exTokens[1].Token.ToLower() == "history")
+                if (args[1].ToLower() == "history")
                 {
                     ClearHistory();
                 }
-                else if (exTokens[1].Token.ToLower() == "all")
+                else if (args[1].ToLower() == "all")
                 {
                     ClearHistory();
                     ClearOutput();
@@ -146,11 +146,11 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        private void HelpCommand(string input, SolusParser.Ex[] exTokens)
+        private void HelpCommand(string input, string[] args)
         {
-            if (exTokens.Length > 1)
+            if (args.Length > 1)
             {
-                _renderItems.Add(new HelpItem(ligraControl1.Font, exTokens[1].Token));
+                _renderItems.Add(new HelpItem(ligraControl1.Font, args[1]));
             }
             else
             {
@@ -158,9 +158,9 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        private void HistoryCommand(string input, SolusParser.Ex[] exTokens)
+        private void HistoryCommand(string input, string[] args)
         {
-            if (exTokens.Length > 1 && exTokens[1].Token.ToLower() == "clear")
+            if (args.Length > 1 && args[1].ToLower() == "clear")
             {
                 ClearHistory();
             }
@@ -171,7 +171,7 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        private void ExampleCommand(string input, SolusParser.Ex[] exTokens)
+        private void ExampleCommand(string input, string[] args)
         {
             Font f = ligraControl1.Font;
             Pen p = Pens.Blue;
@@ -287,7 +287,7 @@ namespace MetaphysicsIndustries.Ligra
             _renderItems.Add(new Graph3dItem(expr, Pens.Black, Brushes.Green, -4, 4, -4, 4, -2, 6, _vars["x"], _vars["y"]));
         }
 
-        private void TSolveCommand(string input, SolusParser.Ex[] exTokens)
+        private void TSolveCommand(string input, string[] args)
         {
             SolusEngine _engine = new SolusEngine();
             SolusMatrix m = new SolusMatrix(7, 7);
@@ -434,27 +434,27 @@ namespace MetaphysicsIndustries.Ligra
             return _commands.ContainsKey(cmd);
         }
 
-        private void LoadImageCommand(string input, SolusParser.Ex[] exTokens)
+        private void LoadImageCommand(string input, string[] args)
         {
             Font font = ligraControl1.Font;
             Brush brush = Brushes.Red;
 
-            if (exTokens.Length < 3)
+            if (args.Length < 3)
             {
-                _renderItems.Add(new ErrorItem(input, "Too few parameters", font, brush, exTokens[0].Location));
+                _renderItems.Add(new ErrorItem(input, "Too few parameters", font, brush, input.IndexOf(args[0])));
             }
-            else if (exTokens[1].Type != SolusParser.NodeType.Var)
+            else if (!_vars.ContainsKey(args[1]))
             {
-                _renderItems.Add(new ErrorItem(input, "Parameter must be a variable", font, brush, exTokens[1].Location));
+                _renderItems.Add(new ErrorItem(input, "Parameter must be a variable", font, brush, input.IndexOf(args[1])));
             }
-            else if (exTokens[2].Type != SolusParser.NodeType.String)
+            else if (!System.IO.File.Exists(args[2]))
             {
-                _renderItems.Add(new ErrorItem(input, "Parameter must be a filename", font, brush, exTokens[2].Location));
+                _renderItems.Add(new ErrorItem(input, "Parameter must be a file name", font, brush, input.IndexOf(args[1])));
             }
             else
             {
-                string filename = exTokens[2].GetStringContents();
-                string varName = exTokens[1].Token;
+                string filename = args[2];
+                string varName = args[1];
                 try
                 {
                     SolusMatrix mat = SolusEngine.LoadImage(filename);
@@ -475,22 +475,22 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        private void CdCommand(string input, SolusParser.Ex[] exTokens)
+        private void CdCommand(string input, string[] args)
         {
-            if (exTokens.Length <= 1)
+            if (args.Length <= 1)
             {
                 //print the current directory
                 string dir = System.IO.Directory.GetCurrentDirectory();
                 _renderItems.Add(new InfoItem(dir, ligraControl1.Font));
             }
-            else if (exTokens[1].Type != SolusParser.NodeType.String)
+            else if (!System.IO.Directory.Exists(args[1]))
             {
-                _renderItems.Add(new ErrorItem(input, "Parameter must be a string", ligraControl1.Font, Brushes.Red, exTokens[1].Location));
+                _renderItems.Add(new ErrorItem(input, "Parameter must be a folder name", ligraControl1.Font, Brushes.Red, input.IndexOf(args[1])));
             }
             else
             {
                 //set the current directory
-                string dir = exTokens[1].GetStringContents();
+                string dir = args[1];
 
                 try
                 {
@@ -506,19 +506,19 @@ namespace MetaphysicsIndustries.Ligra
 
         private void ProcessInput(string input)
         {
-            SolusParser.Ex[] exTokens = _parser.Tokenize(input);
+            var args = input.Split(new char[] { ' ', '\t', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
-            if (exTokens.Length > 0)
+            if (args.Length > 0)
             {
-                string cmd = exTokens[0].Token.ToLower();
+                string cmd = args[0].Trim().ToLower();
 
                 if (IsCommand(cmd))
                 {
-                    ProcessCommand(input, exTokens, cmd);
+                    ProcessCommand(input, args, cmd);
                 }
                 else
                 {
-                    Expression expr = _parser.Compile(exTokens, _vars);
+                    Expression expr = _parser.Compile(input, _vars);
 
                     if (expr != null)
                     {

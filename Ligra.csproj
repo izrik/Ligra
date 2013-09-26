@@ -38,7 +38,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -174,28 +173,6 @@
   <ItemGroup>
     <Content Include="cool_expressions.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MetaphysicsIndustries.Acuity\MetaphysicsIndustries.Acuity.csproj">
-      <Project>{28E66D7B-4A7F-4A0E-A358-5C41E35ACE33}</Project>
-      <Name>MetaphysicsIndustries.Acuity</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MetaphysicsIndustries.Collections\MetaphysicsIndustries.Collections.csproj">
-      <Project>{FF2B8A90-E8D2-4CF6-81E6-4A7BCE1FF900}</Project>
-      <Name>MetaphysicsIndustries.Collections</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MetaphysicsIndustries.Solus\MetaphysicsIndustries.Solus.csproj">
-      <Project>{A630057C-40CF-4DF3-BE44-FC660B3E6BA3}</Project>
-      <Name>MetaphysicsIndustries.Solus</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MetaphysicsIndustries.Utilities\MetaphysicsIndustries.Utilities.csproj">
-      <Project>{221A3FBA-E14C-4F05-A099-42508116E910}</Project>
-      <Name>MetaphysicsIndustries.Utilities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MetaphysicsIndustries.Giza\MetaphysicsIndustries.Giza.csproj">
-      <Project>{98B42ACF-8370-4428-9D41-73FF1CEFB2E4}</Project>
-      <Name>MetaphysicsIndustries.Giza</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -208,4 +185,26 @@
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MetaphysicsIndustries.Acuity\MetaphysicsIndustries.Acuity.csproj">
+      <Project>{28E66D7B-4A7F-4A0E-A358-5C41E35ACE33}</Project>
+      <Name>MetaphysicsIndustries.Acuity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MetaphysicsIndustries.Collections\MetaphysicsIndustries.Collections.csproj">
+      <Project>{FF2B8A90-E8D2-4CF6-81E6-4A7BCE1FF900}</Project>
+      <Name>MetaphysicsIndustries.Collections</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MetaphysicsIndustries.Utilities\MetaphysicsIndustries.Utilities.csproj">
+      <Project>{221A3FBA-E14C-4F05-A099-42508116E910}</Project>
+      <Name>MetaphysicsIndustries.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MetaphysicsIndustries.Solus\MetaphysicsIndustries.Solus.csproj">
+      <Project>{A630057C-40CF-4DF3-BE44-FC660B3E6BA3}</Project>
+      <Name>MetaphysicsIndustries.Solus</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MetaphysicsIndustries.Giza\MetaphysicsIndustries.Giza.csproj">
+      <Project>{98B42ACF-8370-4428-9D41-73FF1CEFB2E4}</Project>
+      <Name>MetaphysicsIndustries.Giza</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

@@ -17,7 +17,7 @@ namespace MetaphysicsIndustries.Ligra
 {
     public partial class LigraForm : Form
     {
-        private void MvCommand(string input, SolusParser.Ex[] exTokens)
+        private void MvCommand(string input, string[] args)
         {
             Font font = ligraControl1.Font;
             //System.IO.Directory.SetCurrentDirectory("C:\\data\\images\\photos\\contour for machine vision");
@@ -41,7 +41,7 @@ namespace MetaphysicsIndustries.Ligra
             Matrix imageVV = ApplyFilter(imageV, vf, "VV", ric, AcuityEngine.ConvertNegOneOneToZeroOne, null, false, true);
         }
 
-        private void Project3Test1Command(string input, SolusParser.Ex[] exTokens)
+        private void Project3Test1Command(string input, string[] args)
         {
             Font font = ligraControl1.Font;
             //System.IO.Directory.SetCurrentDirectory("C:\\data\\images\\photos\\contour for machine vision");
@@ -52,9 +52,9 @@ namespace MetaphysicsIndustries.Ligra
 
             string filename = "lena256g.bmp";
 
-            if (exTokens.Length > 1)
+            if (args.Length > 1)
             {
-                filename = exTokens[1].Token.Trim('\"', '\'');
+                filename = args[1].Trim('\"', '\'');
             }
 
             MmseEdgeDetectionMatrixfilter mmseedFilter = new MmseEdgeDetectionMatrixfilter(7, 0.025f, 4);
@@ -96,7 +96,7 @@ namespace MetaphysicsIndustries.Ligra
             sobel = ApplyFilter(sobel, intervalFilter, "IntervalFitted", ric, null, null, false, true);
             SaveImageForFilters("..\\project 3\\sobel.bmp", sobel);
         }
-        private void Project3Test2Command(string input, SolusParser.Ex[] exTokens)
+        private void Project3Test2Command(string input, string[] args)
         {
             Font font = ligraControl1.Font;
             //System.IO.Directory.SetCurrentDirectory("C:\\data\\images\\photos\\contour for machine vision");
@@ -109,9 +109,9 @@ namespace MetaphysicsIndustries.Ligra
 
             string filename = "lena256g.bmp";
 
-            if (exTokens.Length > 1)
+            if (args.Length > 1)
             {
-                filename = exTokens[1].Token.Trim('\"', '\'');
+                filename = args[1].Trim('\"', '\'');
             }
 
             DualBellEdgeDetectorMatrixFilter dbedFilter = new DualBellEdgeDetectorMatrixFilter(3);
@@ -210,7 +210,7 @@ namespace MetaphysicsIndustries.Ligra
 
             MessageBox.Show("Done. Time = " + (Environment.TickCount - time).ToString() + "ms");
         }
-        private void Project3Test3Command(string input, SolusParser.Ex[] exTokens)
+        private void Project3Test3Command(string input, string[] args)
         {
             Font font = ligraControl1.Font;
             Font f = ligraControl1.Font;

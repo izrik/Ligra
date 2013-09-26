@@ -17,7 +17,7 @@ namespace MetaphysicsIndustries.Ligra
 {
     public partial class LigraForm : Form
     {
-        private void AtmmseCommand(string input, SolusParser.Ex[] exTokens)
+        private void AtmmseCommand(string input, string[] args)
         {
             System.IO.Directory.SetCurrentDirectory("C:\\Documents and Settings\\izrik\\Desktop\\school\\filters\\test_images");
 
@@ -28,9 +28,9 @@ namespace MetaphysicsIndustries.Ligra
 
             string filename = "lena256g.bmp";
 
-            if (exTokens.Length > 1)
+            if (args.Length > 1)
             {
-                filename = exTokens[1].Token.Trim('\"', '\'');
+                filename = args[1].Trim('\"', '\'');
             }
 
             Matrix image = LoadImageForFilters(filename, "Original Image", ric, true);
@@ -223,11 +223,11 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        private void ZtmCommand(string input, SolusParser.Ex[] exTokens)
+        private void ZtmCommand(string input, string[] args)
         {
         }
 
-        private void ZtmmseCommand(string input, SolusParser.Ex[] exTokens)
+        private void ZtmmseCommand(string input, string[] args)
         {
             System.IO.Directory.SetCurrentDirectory("C:\\Documents and Settings\\izrik\\Desktop\\school\\filters\\test_images");
 
@@ -238,9 +238,9 @@ namespace MetaphysicsIndustries.Ligra
 
             string filename = "lena256g.bmp";
 
-            if (exTokens.Length > 1)
+            if (args.Length > 1)
             {
-                filename = exTokens[1].Token.Trim('\"', '\'');
+                filename = args[1].Trim('\"', '\'');
             }
 
             Matrix image = LoadImageForFilters(filename, "Original Image", ric, true);
