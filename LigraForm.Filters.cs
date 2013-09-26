@@ -640,7 +640,7 @@ namespace MetaphysicsIndustries.Ligra
 
             AddMatrixImage("Reconstructed", ric, idft.Apply2(ff).First, null);
         }
-        private void FiltersCode(string input, SolusParser.Ex[] exTokens)
+        private void FiltersCode(string input, string[] args)
         {
             _renderItems.Add(new CodeItem());
         }

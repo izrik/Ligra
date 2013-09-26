@@ -170,14 +170,14 @@ namespace MetaphysicsIndustries.Solus
                 !(args[0] is VariableAccess) ||
                 !(args[1] is VariableAccess))
             {
-                throw new SolusParseException(null, "Plot command requires two variables and one expression to plot");
+                throw new SolusParseException(-1, "Plot command requires two variables and one expression to plot");
             }
 
             if ((args.Count > 5 && args.Count < 9) ||
                 args.Count == 10 ||
                 args.Count > 11)
             {
-                throw new SolusParseException(null, "Incorrect number of arguments");
+                throw new SolusParseException(-1, "Incorrect number of arguments");
             }
 
             Brush fillBrush = Brushes.Green;
@@ -222,7 +222,7 @@ namespace MetaphysicsIndustries.Solus
             }
             else if (args.Count != 3)
             {
-                throw new SolusParseException(null, "Incorrect number of arguments");
+                throw new SolusParseException(-1, "Incorrect number of arguments");
             }
 
             return new Plot3dExpression(
