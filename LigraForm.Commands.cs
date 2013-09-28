@@ -175,16 +175,16 @@ namespace MetaphysicsIndustries.Ligra
             _renderItems.Add(new InfoItem("A function call: ", f));
             _renderItems.Add(new ExpressionItem(
                 new FunctionCall(
-                    Function.Cosine,
+                    CosineFunction.Value,
                     new VariableAccess(_vars["x"])), p, f));
 
             _renderItems.Add(new InfoItem("A simple expression,  \"x + y/2\" :", f));
             _renderItems.Add(new ExpressionItem(
                 new FunctionCall(
-                    AssociativeCommutativeOperation.Addition,
+                    AdditionOperation.Value,
                     new VariableAccess(_vars["x"]),
                     new FunctionCall(
-                        BinaryOperation.Division,
+                        DivisionOperation.Value,
                         new VariableAccess(_vars["y"]),
                         new Literal(2))), p, f));
 
@@ -208,40 +208,40 @@ namespace MetaphysicsIndustries.Ligra
 
             expr =
                 new FunctionCall(
-                    AssociativeCommutativeOperation.Multiplication,
+                    MultiplicationOperation.Value,
                     new FunctionCall(
-                        BinaryOperation.Division,
+                        DivisionOperation.Value,
                             new Literal(1),
                             new FunctionCall(
-                                AssociativeCommutativeOperation.Multiplication,
+                                MultiplicationOperation.Value,
                                 new FunctionCall(
-                                    BinaryOperation.Exponent,
+                                    ExponentOperation.Value,
                                     new FunctionCall(
-                                        AssociativeCommutativeOperation.Multiplication,
+                                        MultiplicationOperation.Value,
                                         new Literal(2),
                                         new Literal((float)Math.PI)),
                                     new Literal(0.5f)),
                                 new VariableAccess(_vars["sigma"]))),
                     new FunctionCall(
-                        BinaryOperation.Exponent,
+                        ExponentOperation.Value,
                         new Literal((float)Math.E),
                         new FunctionCall(
-                            BinaryOperation.Division,
+                            DivisionOperation.Value,
                             new FunctionCall(
-                                BinaryOperation.Exponent,
+                                ExponentOperation.Value,
                                 new FunctionCall(
-                                    AssociativeCommutativeOperation.Addition,
+                                    AdditionOperation.Value,
                                     new VariableAccess(_vars["x"]),
                                     new FunctionCall(
-                                        AssociativeCommutativeOperation.Multiplication,
+                                        MultiplicationOperation.Value,
                                         new Literal(-1),
                                         new VariableAccess(_vars["mu"]))),
                                 new Literal(2)),
                             new FunctionCall(
-                                AssociativeCommutativeOperation.Multiplication,
+                                MultiplicationOperation.Value,
                                 new Literal(-2),
                                 new FunctionCall(
-                                    BinaryOperation.Exponent,
+                                    ExponentOperation.Value,
                                     new VariableAccess(_vars["sigma"]),
                                     new Literal(2))))));
 
@@ -296,9 +296,9 @@ namespace MetaphysicsIndustries.Ligra
             VariableAccess kk = new VariableAccess(k);
             VariableAccess rr = new VariableAccess(r);
             VariableAccess cc = new VariableAccess(cs);
-            Function mult = AssociativeCommutativeOperation.Multiplication;
-            Function div = BinaryOperation.Division;
-            Function add = AssociativeCommutativeOperation.Addition;
+            Function mult = MultiplicationOperation.Value;
+            Function div = DivisionOperation.Value;
+            Function add = AdditionOperation.Value;
 
             for (i = 0; i < 7; i++)
             {
@@ -382,8 +382,8 @@ namespace MetaphysicsIndustries.Ligra
             {
                 Expression expr;
                 CleanUpTransformer cleanup = new CleanUpTransformer();
-                expr = cleanup.CleanUp(new FunctionCall(AssociativeCommutativeOperation.Multiplication, m[rowFrom, i], factor));
-                expr = cleanup.CleanUp(new FunctionCall(AssociativeCommutativeOperation.Addition, expr, m[rowTo, i]));
+                expr = cleanup.CleanUp(new FunctionCall(MultiplicationOperation.Value, m[rowFrom, i], factor));
+                expr = cleanup.CleanUp(new FunctionCall(AdditionOperation.Value, expr, m[rowTo, i]));
                 m[rowTo, i] = expr;
             }
         }
@@ -395,7 +395,7 @@ namespace MetaphysicsIndustries.Ligra
             {
                 Expression expr;
                 CleanUpTransformer cleanup = new CleanUpTransformer();
-                expr = cleanup.CleanUp(new FunctionCall(AssociativeCommutativeOperation.Addition, m[rowFrom, i], m[rowTo, i]));
+                expr = cleanup.CleanUp(new FunctionCall(AdditionOperation.Value, m[rowFrom, i], m[rowTo, i]));
                 m[rowTo, i] = expr;
             }
         }
@@ -407,7 +407,7 @@ namespace MetaphysicsIndustries.Ligra
             {
                 Expression expr = m[row, i];
                 CleanUpTransformer cleanup = new CleanUpTransformer();
-                expr = cleanup.CleanUp(new FunctionCall(AssociativeCommutativeOperation.Multiplication, expr, factor));
+                expr = cleanup.CleanUp(new FunctionCall(MultiplicationOperation.Value, expr, factor));
                 m[row, i] = expr;
             }
         }

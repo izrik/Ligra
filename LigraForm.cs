@@ -170,11 +170,11 @@ namespace MetaphysicsIndustries.Ligra
             //
             ////return;
 
-            ////expr2 = new FunctionCall(AssociativeCommutativeOperation.Multiplication,
-            ////        new FunctionCall(AssociativeCommutativeOperation.Addition,
+            ////expr2 = new FunctionCall(MultiplicationOperation.Value,
+            ////        new FunctionCall(AdditionOperation.Value,
             ////            new Literal(7),
             ////            new Literal(8)),
-            ////        new FunctionCall(AssociativeCommutativeOperation.Addition,
+            ////        new FunctionCall(AdditionOperation.Value,
             ////            new Literal(9),
             ////            new VariableAccess(x)));
 
@@ -182,7 +182,7 @@ namespace MetaphysicsIndustries.Ligra
             ////    new Literal(1),
             ////    new Literal(2),
             ////    new Literal(3),
-            ////    new FunctionCall(BinaryOperation.Division,
+            ////    new FunctionCall(DivisionOperation.Value,
             ////        new Literal(4),
             ////        new Literal(5)),
             ////    new Literal(6),
@@ -193,11 +193,11 @@ namespace MetaphysicsIndustries.Ligra
             //////_formulas.Add(new Formula("a", expr));
             //////_formulas.Add(new Formula("b", expr2));
 
-            ////expr = new FunctionCall(AssociativeCommutativeOperation.Addition,
-            ////        new FunctionCall(AssociativeCommutativeOperation.Multiplication,
+            ////expr = new FunctionCall(AdditionOperation.Value,
+            ////        new FunctionCall(MultiplicationOperation.Value,
             ////            new Literal(7),
             ////            new Literal(8)),
-            ////        new FunctionCall(AssociativeCommutativeOperation.Multiplication,
+            ////        new FunctionCall(MultiplicationOperation.Value,
             ////            new Literal(9),
             ////            new VariableAccess(new Variable("x"))));
             ////_renderItems.Add(new ExpressionItem(expr, Pens.Blue, Font, "c"));
@@ -225,8 +225,8 @@ namespace MetaphysicsIndustries.Ligra
             ////_renderItems.Add(new ExpressionItem(expr, Pens.Blue, Font, "d4f"));
 
             ////expr =
-            ////    new FunctionCall(BinaryOperation.Division,
-            ////        new FunctionCall(AssociativeCommutativeOperation.Multiplication,
+            ////    new FunctionCall(DivisionOperation.Value,
+            ////        new FunctionCall(MultiplicationOperation.Value,
             ////            new Literal(2),
             ////            new FunctionCall(Function.Cosine,
             ////                new VariableAccess(x))),
@@ -239,7 +239,7 @@ namespace MetaphysicsIndustries.Ligra
             ////_renderItems.Add(new ExpressionItem(expr, Pens.Blue, Font, "dg"));
 
             ////expr =
-            ////    new FunctionCall(AssociativeCommutativeOperation.Multiplication,
+            ////    new FunctionCall(MultiplicationOperation.Value,
             ////        new Literal(2),
             ////        new FunctionCall(Function.Cosine,
             ////            new VariableAccess(x)));
@@ -251,31 +251,31 @@ namespace MetaphysicsIndustries.Ligra
             ////_renderItems.Add(new ExpressionItem(expr, Pens.Blue, Font, "dh"));
 
 
-            ////expr = new FunctionCall(BinaryOperation.Division,
-            ////            new FunctionCall(AssociativeCommutativeOperation.Multiplication,
-            ////                new FunctionCall(AssociativeCommutativeOperation.Multiplication,
+            ////expr = new FunctionCall(DivisionOperation.Value,
+            ////            new FunctionCall(MultiplicationOperation.Value,
+            ////                new FunctionCall(MultiplicationOperation.Value,
             ////                    new VariableAccess(k),
-            ////                    new FunctionCall(AssociativeCommutativeOperation.Addition,
+            ////                    new FunctionCall(AdditionOperation.Value,
             ////                        new VariableAccess(s),
             ////                        new Literal(1))),
-            ////                new FunctionCall(BinaryOperation.Exponent,
-            ////                    new FunctionCall(AssociativeCommutativeOperation.Addition,
+            ////                new FunctionCall(ExponentOperation.Value,
+            ////                    new FunctionCall(AdditionOperation.Value,
             ////                        new VariableAccess(s),
             ////                        new Literal(10)),
             ////                    new Literal(2))),
-            ////            new FunctionCall(AssociativeCommutativeOperation.Multiplication,
-            ////                new FunctionCall(AssociativeCommutativeOperation.Multiplication,
-            ////                    new FunctionCall(BinaryOperation.Exponent,
+            ////            new FunctionCall(MultiplicationOperation.Value,
+            ////                new FunctionCall(MultiplicationOperation.Value,
+            ////                    new FunctionCall(ExponentOperation.Value,
             ////                        new VariableAccess(s),
             ////                        new Literal(3)),
-            ////                    new FunctionCall(AssociativeCommutativeOperation.Addition,
+            ////                    new FunctionCall(AdditionOperation.Value,
             ////                        new VariableAccess(s),
             ////                        new Literal(4))),
-            ////                new FunctionCall(AssociativeCommutativeOperation.Multiplication,
-            ////                    new FunctionCall(AssociativeCommutativeOperation.Addition,
+            ////                new FunctionCall(MultiplicationOperation.Value,
+            ////                    new FunctionCall(AdditionOperation.Value,
             ////                        new VariableAccess(s),
             ////                        new Literal(5)),
-            ////                    new FunctionCall(AssociativeCommutativeOperation.Addition,
+            ////                    new FunctionCall(AdditionOperation.Value,
             ////                        new VariableAccess(s),
             ////                        new Literal(6)))));
             //////_formulas.Add(new Formula("T(s)", expr));
@@ -283,11 +283,11 @@ namespace MetaphysicsIndustries.Ligra
 
             ////expr =
             ////    new FunctionCall(Function.Sine,
-            ////        new FunctionCall(AssociativeCommutativeOperation.Multiplication,
+            ////        new FunctionCall(MultiplicationOperation.Value,
             ////            new Literal(2),
-            ////            new FunctionCall(AssociativeCommutativeOperation.Multiplication,
+            ////            new FunctionCall(MultiplicationOperation.Value,
             ////                new Literal(2),
-            ////                new FunctionCall(AssociativeCommutativeOperation.Multiplication,
+            ////                new FunctionCall(MultiplicationOperation.Value,
             ////                    new VariableAccess(x),
             ////                    new VariableAccess(y)))));
             //////_formulas.Add(new Formula("z", expr));
@@ -297,7 +297,7 @@ namespace MetaphysicsIndustries.Ligra
             ////_renderItems.Add(new ExpressionItem(_engine.GetDerivative(expr), Pens.Blue, Font, "dz"));
 
             ////expr =
-            ////    new FunctionCall(BinaryOperation.Exponent,
+            ////    new FunctionCall(ExponentOperation.Value,
             ////        new VariableAccess(x),
             ////        new VariableAccess(y));
             //////_formulas.Add(new Formula("u", expr));
@@ -306,11 +306,11 @@ namespace MetaphysicsIndustries.Ligra
             ////_renderItems.Add(new ExpressionItem(engine.GetDerivative(expr), Pens.Blue, Font, "du"));
 
             ////expr =
-            ////    new FunctionCall(BinaryOperation.Division,
-            ////        new FunctionCall(AssociativeCommutativeOperation.Multiplication,
+            ////    new FunctionCall(DivisionOperation.Value,
+            ////        new FunctionCall(MultiplicationOperation.Value,
             ////            new VariableAccess(Rx),
             ////            new VariableAccess(Ry)),
-            ////        new FunctionCall(AssociativeCommutativeOperation.Addition,
+            ////        new FunctionCall(AdditionOperation.Value,
             ////            new VariableAccess(Rx),
             ////            new VariableAccess(Ry)));
             //////_formulas.Add(new Formula("Req", expr));
@@ -329,16 +329,16 @@ namespace MetaphysicsIndustries.Ligra
             //////_expressions.Add(expr2);
 
             ////expr =
-            ////    new FunctionCall(AssociativeCommutativeOperation.Addition,
-            ////        new FunctionCall(BinaryOperation.Exponent,
+            ////    new FunctionCall(AdditionOperation.Value,
+            ////        new FunctionCall(ExponentOperation.Value,
             ////            new VariableAccess(x),
             ////            new Literal(3)),
-            ////        new FunctionCall(AssociativeCommutativeOperation.Multiplication,
+            ////        new FunctionCall(MultiplicationOperation.Value,
             ////            new Literal(3),
-            ////            new FunctionCall(BinaryOperation.Exponent,
+            ////            new FunctionCall(ExponentOperation.Value,
             ////                new VariableAccess(x),
             ////                new Literal(2))),
-            ////        new FunctionCall(AssociativeCommutativeOperation.Multiplication,
+            ////        new FunctionCall(MultiplicationOperation.Value,
             ////            new Literal(3),
             ////            new VariableAccess(x)),
             ////        new Literal(1));
@@ -356,17 +356,17 @@ namespace MetaphysicsIndustries.Ligra
             ////_renderItems.Add(new ExpressionItem(expr, Pens.Blue, Font, "d3q"));
 
             ////expr =
-            ////    new FunctionCall(BinaryOperation.Exponent,
-            ////        new FunctionCall(AssociativeCommutativeOperation.Addition,
+            ////    new FunctionCall(ExponentOperation.Value,
+            ////        new FunctionCall(AdditionOperation.Value,
             ////            new Literal(2),
             ////            new Literal(3)),
             ////        new Literal(4));
             //////_formulas.Add(new Formula("", expr));
             ////_renderItems.Add(new ExpressionItem(expr, Pens.Blue, Font));
             ////expr =
-            ////    new FunctionCall(BinaryOperation.Exponent,
+            ////    new FunctionCall(ExponentOperation.Value,
             ////        new Literal(4),
-            ////        new FunctionCall(AssociativeCommutativeOperation.Addition,
+            ////        new FunctionCall(AdditionOperation.Value,
             ////            new Literal(2),
             ////            new Literal(3)));
             //////_formulas.Add(new Formula("", expr));
@@ -374,50 +374,50 @@ namespace MetaphysicsIndustries.Ligra
 
 
             ////expr =
-            ////    new FunctionCall(BinaryOperation.Exponent,
-            ////        new FunctionCall(AssociativeCommutativeOperation.Multiplication,
+            ////    new FunctionCall(ExponentOperation.Value,
+            ////        new FunctionCall(MultiplicationOperation.Value,
             ////            new Literal(2),
             ////            new Literal(3)),
             ////        new Literal(4));
             //////_formulas.Add(new Formula("", expr));
             ////_renderItems.Add(new ExpressionItem(expr, Pens.Blue, Font));
             ////expr =
-            ////    new FunctionCall(BinaryOperation.Exponent,
+            ////    new FunctionCall(ExponentOperation.Value,
             ////        new Literal(4),
-            ////        new FunctionCall(AssociativeCommutativeOperation.Multiplication,
+            ////        new FunctionCall(MultiplicationOperation.Value,
             ////            new Literal(2),
             ////            new Literal(3)));
             //////_formulas.Add(new Formula("", expr));
             ////_renderItems.Add(new ExpressionItem(expr, Pens.Blue, Font));
             ////expr =
-            ////    new FunctionCall(BinaryOperation.Exponent,
-            ////        new FunctionCall(BinaryOperation.Division,
+            ////    new FunctionCall(ExponentOperation.Value,
+            ////        new FunctionCall(DivisionOperation.Value,
             ////            new Literal(2),
             ////            new Literal(3)),
             ////        new Literal(4));
             //////_formulas.Add(new Formula("", expr));
             ////_renderItems.Add(new ExpressionItem(expr, Pens.Blue, Font));
             ////expr =
-            ////    new FunctionCall(BinaryOperation.Exponent,
+            ////    new FunctionCall(ExponentOperation.Value,
             ////        new Literal(4),
-            ////        new FunctionCall(BinaryOperation.Division,
+            ////        new FunctionCall(DivisionOperation.Value,
             ////            new Literal(2),
             ////            new Literal(3)));
             //////_formulas.Add(new Formula("", expr));
             ////_renderItems.Add(new ExpressionItem(expr, Pens.Blue, Font));
 
             ////expr =
-            ////    new FunctionCall(BinaryOperation.Exponent,
-            ////        new FunctionCall(BinaryOperation.Exponent,
+            ////    new FunctionCall(ExponentOperation.Value,
+            ////        new FunctionCall(ExponentOperation.Value,
             ////            new Literal(2),
             ////            new Literal(3)),
             ////        new Literal(4));
             //////_formulas.Add(new Formula("", expr));
             ////_renderItems.Add(new ExpressionItem(expr, Pens.Blue, Font));
             ////expr =
-            ////    new FunctionCall(BinaryOperation.Exponent,
+            ////    new FunctionCall(ExponentOperation.Value,
             ////        new Literal(4),
-            ////        new FunctionCall(BinaryOperation.Exponent,
+            ////        new FunctionCall(ExponentOperation.Value,
             ////            new Literal(2),
             ////            new Literal(3)));
             //////_formulas.Add(new Formula("", expr));
@@ -425,7 +425,7 @@ namespace MetaphysicsIndustries.Ligra
 
             ////expr =
             ////    //new FunctionCall(AssociativeCommutativOperation.Addition,
-            ////    //    new FunctionCall(BinaryOperation.Exponent,
+            ////    //    new FunctionCall(ExponentOperation.Value,
             ////    //        new FunctionCall(AssociativeCommutativOperation.Addition,
             ////    //            new VariableAccess(x),
             ////    //            new Literal(-3)),
@@ -434,11 +434,11 @@ namespace MetaphysicsIndustries.Ligra
             ////    //        new Literal(-1),
             ////    //        new VariableAccess(x)));
 
-            ////    new FunctionCall(BinaryOperation.Exponent,
+            ////    new FunctionCall(ExponentOperation.Value,
             ////        new VariableAccess(x),
             ////        new Literal(3));
 
-            ////    //new FunctionCall(BinaryOperation.Exponent,
+            ////    //new FunctionCall(ExponentOperation.Value,
             ////    //    new Literal((float)Math.E),
             ////    //    new VariableAccess(x));
 
@@ -453,9 +453,9 @@ namespace MetaphysicsIndustries.Ligra
             ////_graphs.Add(graph);
 
             ////expr =
-            ////    new FunctionCall(AssociativeCommutativeOperation.Multiplication,
+            ////    new FunctionCall(MultiplicationOperation.Value,
             ////        new Literal(3),
-            ////        new FunctionCall(BinaryOperation.Exponent,
+            ////        new FunctionCall(ExponentOperation.Value,
             ////            new VariableAccess(x),
             ////            new Literal(2)));
             ////formula = new Formula("y'", expr);
@@ -464,7 +464,7 @@ namespace MetaphysicsIndustries.Ligra
             ////_graphs.Add(graph);
 
             ////expr =
-            ////    new FunctionCall(AssociativeCommutativeOperation.Multiplication,
+            ////    new FunctionCall(MultiplicationOperation.Value,
             ////        new Literal(6),
             ////        new VariableAccess(x));
             ////formula = new Formula("y''", expr);
@@ -474,7 +474,7 @@ namespace MetaphysicsIndustries.Ligra
 
             ////expr =
             ////    new FunctionCall(Function.Cosine,
-            ////        new FunctionCall(AssociativeCommutativeOperation.Addition,
+            ////        new FunctionCall(AdditionOperation.Value,
             ////            new VariableAccess(x),
             ////            new VariableAccess(t)));
             ////formula = new Formula("cos(x + t)", expr);
@@ -484,9 +484,9 @@ namespace MetaphysicsIndustries.Ligra
 
             ////expr =
             ////    new FunctionCall(Function.Sine,
-            ////        new FunctionCall(AssociativeCommutativeOperation.Addition,
+            ////        new FunctionCall(AdditionOperation.Value,
             ////            new VariableAccess(x),
-            ////            new FunctionCall(AssociativeCommutativeOperation.Multiplication,
+            ////            new FunctionCall(MultiplicationOperation.Value,
             ////                new Literal(2),
             ////                new VariableAccess(t))));
             ////formula = new Formula("sin(x + 2t)", expr);
@@ -496,9 +496,9 @@ namespace MetaphysicsIndustries.Ligra
 
             ////expr =
             ////    new FunctionCall(Function.Tangent,
-            ////        new FunctionCall(AssociativeCommutativeOperation.Addition,
+            ////        new FunctionCall(AdditionOperation.Value,
             ////            new VariableAccess(x),
-            ////            new FunctionCall(AssociativeCommutativeOperation.Multiplication,
+            ////            new FunctionCall(MultiplicationOperation.Value,
             ////                new Literal(0.5f),
             ////                new VariableAccess(t))));
             ////formula = new Formula("tan(x + t/2)", expr);
@@ -508,25 +508,25 @@ namespace MetaphysicsIndustries.Ligra
 
 
             ////expr =
-            ////    new FunctionCall(AssociativeCommutativeOperation.Multiplication,
+            ////    new FunctionCall(MultiplicationOperation.Value,
             ////        new FunctionCall(Function.UnitStep,
-            ////            new FunctionCall(AssociativeCommutativeOperation.Addition,
-            ////                new FunctionCall(BinaryOperation.Exponent,
-            ////                    new FunctionCall(AssociativeCommutativeOperation.Addition,
-            ////                        new FunctionCall(BinaryOperation.Exponent,
+            ////            new FunctionCall(AdditionOperation.Value,
+            ////                new FunctionCall(ExponentOperation.Value,
+            ////                    new FunctionCall(AdditionOperation.Value,
+            ////                        new FunctionCall(ExponentOperation.Value,
             ////                            new VariableAccess(x),
             ////                            new Literal(2)),
-            ////                        new FunctionCall(BinaryOperation.Exponent,
+            ////                        new FunctionCall(ExponentOperation.Value,
             ////                            new VariableAccess(y),
             ////                            new Literal(2))),
             ////                    new Literal(0.5f)),
             ////                new Literal(-1))),
             ////        new FunctionCall(Function.Cosine,
-            ////            new FunctionCall(AssociativeCommutativeOperation.Multiplication,
+            ////            new FunctionCall(MultiplicationOperation.Value,
             ////                new Literal(5),
-            ////                new FunctionCall(AssociativeCommutativeOperation.Addition,
+            ////                new FunctionCall(AdditionOperation.Value,
             ////                    new VariableAccess(y),
-            ////                    new FunctionCall(AssociativeCommutativeOperation.Multiplication,
+            ////                    new FunctionCall(MultiplicationOperation.Value,
             ////                        new Literal(-1),
             ////                        new VariableAccess(t))))));
             ////formula = new Formula("z(x,y)", expr);
@@ -575,7 +575,7 @@ namespace MetaphysicsIndustries.Ligra
             ////_formulas.Add(formula);
 
             ////expr =
-            ////    new FunctionCall(AssociativeCommutativeOperation.Addition,
+            ////    new FunctionCall(AdditionOperation.Value,
             ////        new VariableAccess(x),
             ////        new VariableAccess(y),
             ////        new Literal(1));
@@ -600,12 +600,12 @@ namespace MetaphysicsIndustries.Ligra
             //////    new FunctionCall(AssociativeCommutativOperation.Addition,
             //////        new FunctionCall(AssociativeCommutativOperation.Multiplication,
             //////            new Literal(1.5f),
-            //////            new FunctionCall(BinaryOperation.Exponent,
+            //////            new FunctionCall(ExponentOperation.Value,
             //////                new VariableAccess(x),
             //////                new Literal(2))),
             //////        new FunctionCall(AssociativeCommutativOperation.Multiplication,
             //////            new Literal(-0.45f),
-            //////            new FunctionCall(BinaryOperation.Exponent,
+            //////            new FunctionCall(ExponentOperation.Value,
             //////                new VariableAccess(x),
             //////                new Literal(5))));
             //////expr =
@@ -613,12 +613,12 @@ namespace MetaphysicsIndustries.Ligra
             //////        expr2,
             //////        new FunctionCall(AssociativeCommutativOperation.Multiplication,
             //////            new Literal(0.16875f),
-            //////            new FunctionCall(BinaryOperation.Exponent,
+            //////            new FunctionCall(ExponentOperation.Value,
             //////                new VariableAccess(x),
             //////                new Literal(8))),
             //////        new FunctionCall(AssociativeCommutativOperation.Multiplication,
             //////            new Literal(-0.018409091f),
-            //////            new FunctionCall(BinaryOperation.Exponent,
+            //////            new FunctionCall(ExponentOperation.Value,
             //////                new VariableAccess(x),
             //////                new Literal(11))));
             //////expr = engine.CleanUp(expr);
@@ -635,7 +635,7 @@ namespace MetaphysicsIndustries.Ligra
             //////expr =
             //////    new FunctionCall(AssociativeCommutativOperation.Multiplication,
             //////        new Literal(1.5f),
-            //////        new FunctionCall(BinaryOperation.Exponent,
+            //////        new FunctionCall(ExponentOperation.Value,
             //////            new VariableAccess(x),
             //////            new Literal(2)));
             //////formula = new Formula("y1", expr);
