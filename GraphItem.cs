@@ -9,7 +9,7 @@ namespace MetaphysicsIndustries.Ligra
 {
     public class GraphEntry
     {
-        public GraphEntry(Expression expression, Pen pen, Variable independentVariable)
+        public GraphEntry(Expression expression, Pen pen, string independentVariable)
         {
             _expression = expression;
             _pen = pen;
@@ -22,8 +22,8 @@ namespace MetaphysicsIndustries.Ligra
             get { return _expression; }
         }
 
-        private Variable _independentVariable;
-        public Variable IndependentVariable
+        private string _independentVariable;
+        public string IndependentVariable
         {
             get { return _independentVariable; }
         }
@@ -37,7 +37,7 @@ namespace MetaphysicsIndustries.Ligra
 
     public class GraphItem : RenderItem
     {
-        public GraphItem(Expression expression, Pen pen, Variable independentVariable, SolusParser parser)
+        public GraphItem(Expression expression, Pen pen, string independentVariable, SolusParser parser)
             : this(parser, new GraphEntry(expression, pen, independentVariable))
         {
         }

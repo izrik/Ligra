@@ -16,7 +16,7 @@ namespace MetaphysicsIndustries.Ligra
         public void RenderGraph(Graphics g, RectangleF boundsInClient,
                         Pen pen, Brush brush,
                         float xMin, float xMax, float yMin, float yMax,
-                        Expression expr, Variable independentVariable,
+                        Expression expr, string independentVariable,
                         VariableTable varTable,
                         bool drawboundaries)
         {

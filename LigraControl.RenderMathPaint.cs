@@ -28,8 +28,8 @@ namespace MetaphysicsIndustries.Ligra
     {
         public void RenderMathPaint(Graphics g, RectangleF boundsInClient,
                         Expression expression,
-                        Variable independentVariableX,
-                        Variable independentVariableY,
+                        string independentVariableX,
+                        string independentVariableY,
                         int xStart, int xEnd,
                         int yStart, int yEnd,
                         VariableTable varTable)
@@ -48,8 +48,8 @@ namespace MetaphysicsIndustries.Ligra
 
         public MemoryImage RenderMathPaintToMemoryImage(
             Expression expression, 
-            Variable independentVariableX, 
-            Variable independentVariableY, 
+            string independentVariableX, 
+            string independentVariableY, 
             int xStart, int xEnd,
             int yStart, int yEnd,
             VariableTable varTable)

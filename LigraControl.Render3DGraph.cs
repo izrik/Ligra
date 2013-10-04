@@ -19,8 +19,8 @@ namespace MetaphysicsIndustries.Ligra
                         float yMin, float yMax,
                         float zMin, float zMax,
                         Expression expr,
-                        Variable independentVariableX,
-                        Variable independentVariableY,
+                        string independentVariableX,
+                        string independentVariableY,
                         VariableTable varTable,
                         bool drawboundaries)
         {
@@ -80,9 +80,9 @@ namespace MetaphysicsIndustries.Ligra
                 g.DrawString(zMax.ToString(), Font, Brushes.Black, x2 + 6, y1 - 3);
 
 
-                g.DrawString(independentVariableX.Name, Font, Brushes.Black, (x1 + x2) / 2, (y3 + y4) / 2);
-                size = g.MeasureString(independentVariableY.Name, Font);
-                g.DrawString(independentVariableY.Name, Font, Brushes.Black, (x1 + x0) / 2 - size.Width, (y3 + y4) / 2);
+                g.DrawString(independentVariableX, Font, Brushes.Black, (x1 + x2) / 2, (y3 + y4) / 2);
+                size = g.MeasureString(independentVariableY, Font);
+                g.DrawString(independentVariableY, Font, Brushes.Black, (x1 + x0) / 2 - size.Width, (y3 + y4) / 2);
 
 
                 //g.DrawRectangle(Pens.Black, boundsInClient.Left, boundsInClient.Top, boundsInClient.Width, boundsInClient.Height);
