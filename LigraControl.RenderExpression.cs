@@ -172,7 +172,7 @@ namespace MetaphysicsIndustries.Ligra
         protected static void RenderAssignExpression(Graphics g, AssignExpression assignExpression, PointF pt, Pen pen, Brush brush, Dictionary<Expression, SizeF> expressionSizeCache, Font font, bool drawBoxes)
         {
 
-            string varText = assignExpression.Variable.Name + " = ";
+            string varText = assignExpression.Variable + " = ";
             SizeF varTextSize = g.MeasureString(varText, font) + new SizeF(2, 0);
             float frontWidth = varTextSize.Width;
             SizeF valueSize = CalcExpressionSize(assignExpression.Value, g, font, expressionSizeCache);

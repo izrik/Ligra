@@ -69,7 +69,7 @@ namespace MetaphysicsIndustries.Ligra
             {
                 AssignExpression expr2 = (AssignExpression)expr;
 
-                size = g.MeasureString(expr2.Variable.Name + " = ", font);
+                size = g.MeasureString(expr2.Variable + " = ", font);
 
                 SizeF size2 = CalcExpressionSize(expr2.Value, g, font, expressionSizeCache);
                 size.Width += size2.Width;
