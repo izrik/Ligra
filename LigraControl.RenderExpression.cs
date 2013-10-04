@@ -43,6 +43,10 @@ namespace MetaphysicsIndustries.Ligra
             {
                 RenderVariableAccess(g, expr as VariableAccess, pt, pen, brush, expressionSizeCache, font);
             }
+            else if (expr is DerivativeOfVariable)
+            {
+                RenderDerivativeOfVariable(g, expr as DerivativeOfVariable, pt, pen, brush, expressionSizeCache, font);
+            }
             else if (expr is ColorExpression)
             {
                 InternalRenderExpression(g, expr.Eval(null), pt, pen, brush, expressionSizeCache, font, drawBoxes);
@@ -184,29 +188,18 @@ namespace MetaphysicsIndustries.Ligra
 
         protected static void RenderVariableAccess(Graphics g, VariableAccess variableAccess, PointF pt, Pen pen, Brush brush, Dictionary<Expression, SizeF> expressionSizeCache, Font font)
         {
-
-            if (variableAccess.Variable is DerivativeOfVariable)
-            {
-                RenderDerivativeOfVariable(g, variableAccess, pt, pen, brush, expressionSizeCache, font);
-            }
-            else
-            {
-                g.DrawString(variableAccess.Variable.Name, font, brush, pt);
-            }
+            g.DrawString(variableAccess.Variable.Name, font, brush, pt);
         }
 
-        protected static void RenderDerivativeOfVariable(Graphics g, VariableAccess variableAccess, PointF pt, Pen pen, Brush brush, Dictionary<Expression, SizeF> expressionSizeCache, Font font)
+        protected static void RenderDerivativeOfVariable(Graphics g, DerivativeOfVariable derivativeOfVariable, PointF pt, Pen pen, Brush brush, Dictionary<Expression, SizeF> expressionSizeCache, Font font)
         {
-
-            DerivativeOfVariable derivativeOfVariable = (DerivativeOfVariable)variableAccess.Variable;
-
             int upperOrder = 0;
             Dictionary<Variable, int> lowerOrders = new Dictionary<Variable, int>();
 
             upperOrder = derivativeOfVariable.Order;
 
-            string upperString = "d" + (upperOrder > 1 ? upperOrder.ToString() : string.Empty) + derivativeOfVariable.Variable.Name;
-            string lowerString = "d" + derivativeOfVariable.LowerVariable.Name + (upperOrder > 1 ? upperOrder.ToString() : string.Empty);
+            string upperString = "d" + (upperOrder > 1 ? upperOrder.ToString() : string.Empty) + derivativeOfVariable.Variable;
+            string lowerString = "d" + derivativeOfVariable.LowerVariable + (upperOrder > 1 ? upperOrder.ToString() : string.Empty);
 
             SizeF size = g.MeasureString(upperString, font);
             size += new SizeF(4, 4);

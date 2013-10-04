@@ -38,27 +38,24 @@ namespace MetaphysicsIndustries.Ligra
             }
             else if (expr is VariableAccess)
             {
-                if (((VariableAccess)expr).Variable is DerivativeOfVariable)
-                {
-                    DerivativeOfVariable derivativeOfVariable = (DerivativeOfVariable)(((VariableAccess)expr).Variable);
+                size = g.MeasureString((expr as VariableAccess).Variable.Name, font);
+            }
+            else if (expr is DerivativeOfVariable)
+            {
+                DerivativeOfVariable derivativeOfVariable = (DerivativeOfVariable)expr;
 
-                    int upperOrder = 0;
-                    Dictionary<Variable, int> lowerOrders = new Dictionary<Variable, int>();
+                int upperOrder = 0;
+                Dictionary<Variable, int> lowerOrders = new Dictionary<Variable, int>();
 
-                    upperOrder = derivativeOfVariable.Order;
+                upperOrder = derivativeOfVariable.Order;
 
-                    string upperString = "d" + (upperOrder > 1 ? upperOrder.ToString() : string.Empty) + derivativeOfVariable.Variable.Name;
-                    string lowerString = "d" + derivativeOfVariable.LowerVariable.Name + (upperOrder > 1 ? upperOrder.ToString() : string.Empty);
+                string upperString = "d" + (upperOrder > 1 ? upperOrder.ToString() : string.Empty) + derivativeOfVariable.Variable;
+                string lowerString = "d" + derivativeOfVariable.LowerVariable + (upperOrder > 1 ? upperOrder.ToString() : string.Empty);
 
-                    SizeF size2 = g.MeasureString(upperString, font);
-                    SizeF size3 = g.MeasureString(lowerString, font);
+                SizeF size2 = g.MeasureString(upperString, font);
+                SizeF size3 = g.MeasureString(lowerString, font);
 
-                    size = new SizeF(Math.Max(size2.Width, size3.Width), size2.Height + size3.Height + 2);
-                }
-                else
-                {
-                    size = g.MeasureString((expr as VariableAccess).Variable.Name, font);
-                }
+                size = new SizeF(Math.Max(size2.Width, size3.Width), size2.Height + size3.Height + 2);
             }
             else if (expr is ColorExpression)
             {
