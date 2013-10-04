@@ -170,22 +170,22 @@ namespace MetaphysicsIndustries.Ligra
             _renderItems.Add(new ExpressionItem(new Literal(123.45f), p, f));
 
             _renderItems.Add(new InfoItem("A variable:", f));
-            _renderItems.Add(new ExpressionItem(new VariableAccess(_vars["x"]), p, f));
+            _renderItems.Add(new ExpressionItem(new VariableAccess("x"), p, f));
 
             _renderItems.Add(new InfoItem("A function call: ", f));
             _renderItems.Add(new ExpressionItem(
                 new FunctionCall(
                     CosineFunction.Value,
-                    new VariableAccess(_vars["x"])), p, f));
+                    new VariableAccess("x")), p, f));
 
             _renderItems.Add(new InfoItem("A simple expression,  \"x + y/2\" :", f));
             _renderItems.Add(new ExpressionItem(
                 new FunctionCall(
                     AdditionOperation.Value,
-                    new VariableAccess(_vars["x"]),
+                    new VariableAccess("x"),
                     new FunctionCall(
                         DivisionOperation.Value,
-                        new VariableAccess(_vars["y"]),
+                        new VariableAccess("y"),
                         new Literal(2))), p, f));
 
             _renderItems.Add(new InfoItem("Some derivatives, starting with x^3:", f));
@@ -221,7 +221,7 @@ namespace MetaphysicsIndustries.Ligra
                                         new Literal(2),
                                         new Literal((float)Math.PI)),
                                     new Literal(0.5f)),
-                                new VariableAccess(_vars["sigma"]))),
+                                new VariableAccess("sigma"))),
                     new FunctionCall(
                         ExponentOperation.Value,
                         new Literal((float)Math.E),
@@ -231,18 +231,18 @@ namespace MetaphysicsIndustries.Ligra
                                 ExponentOperation.Value,
                                 new FunctionCall(
                                     AdditionOperation.Value,
-                                    new VariableAccess(_vars["x"]),
+                                    new VariableAccess("x"),
                                     new FunctionCall(
                                         MultiplicationOperation.Value,
                                         new Literal(-1),
-                                        new VariableAccess(_vars["mu"]))),
+                                        new VariableAccess("mu"))),
                                 new Literal(2)),
                             new FunctionCall(
                                 MultiplicationOperation.Value,
                                 new Literal(-2),
                                 new FunctionCall(
                                     ExponentOperation.Value,
-                                    new VariableAccess(_vars["sigma"]),
+                                    new VariableAccess("sigma"),
                                     new Literal(2))))));
 
             _renderItems.Add(new InfoItem("A complex expression, \"(1/(sigma*sqrt(2*pi))) * e ^ ( (x - mu)^2 / (-2 * sigma^2))\"", f));
@@ -293,9 +293,9 @@ namespace MetaphysicsIndustries.Ligra
             Literal zero = new Literal(0);
             Literal one = new Literal(1);
             Literal negOne = new Literal(-1);
-            VariableAccess kk = new VariableAccess(k);
-            VariableAccess rr = new VariableAccess(r);
-            VariableAccess cc = new VariableAccess(cs);
+            VariableAccess kk = new VariableAccess("k");
+            VariableAccess rr = new VariableAccess("R");
+            VariableAccess cc = new VariableAccess("Cs");
             Function mult = MultiplicationOperation.Value;
             Function div = DivisionOperation.Value;
             Function add = AdditionOperation.Value;

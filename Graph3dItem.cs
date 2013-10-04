@@ -66,12 +66,12 @@ namespace MetaphysicsIndustries.Ligra
         //    throw new NotImplementedException();
         //}
 
-        protected override void AddVariablesForValueCollection(Set<Variable> vars)
+        protected override void AddVariablesForValueCollection(Set<string> vars)
         {
             GatherVariablesForValueCollection(vars, _expression);
         }
 
-        protected override void RemoveVariablesForValueCollection(Set<Variable> vars)
+        protected override void RemoveVariablesForValueCollection(Set<string> vars)
         {
             UngatherVariableForValueCollection(vars, _independentVariableX);
             UngatherVariableForValueCollection(vars, _independentVariableY);

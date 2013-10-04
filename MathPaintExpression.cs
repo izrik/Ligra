@@ -88,8 +88,8 @@ namespace MetaphysicsIndustries.Solus
             }
 
             return new MathPaintExpression(
-                ((VariableAccess)args[0]).Variable,
-                ((VariableAccess)args[1]).Variable,
+                varTable[((VariableAccess)args[0]).VariableName],
+                varTable[((VariableAccess)args[1]).VariableName],
                 (int)(args[2].Eval(varTable).Value),
                 (int)(args[3].Eval(varTable).Value),
                 args[4]);

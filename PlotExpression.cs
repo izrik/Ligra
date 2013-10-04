@@ -51,7 +51,7 @@ namespace MetaphysicsIndustries.Solus
 
         public static Expression Convert(IEnumerable<Expression> args, VariableTable varTable)
         {
-            return new PlotExpression(((VariableAccess)args.First()).Variable, args.Skip(1));
+            return new PlotExpression(varTable[((VariableAccess)args.First()).VariableName], args.Skip(1));
         }
     }
 }

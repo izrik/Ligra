@@ -38,7 +38,7 @@ namespace MetaphysicsIndustries.Ligra
             }
             else if (expr is VariableAccess)
             {
-                size = g.MeasureString((expr as VariableAccess).Variable.Name, font);
+                size = g.MeasureString((expr as VariableAccess).VariableName, font);
             }
             else if (expr is DerivativeOfVariable)
             {

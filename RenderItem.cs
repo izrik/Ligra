@@ -71,27 +71,28 @@ namespace MetaphysicsIndustries.Ligra
 
         protected void CollectVariableValues(VariableTable varTable)
         {
-            Set<Variable> vars = new Set<Variable>();
+            Set<string> vars = new Set<string>();
 
             AddVariablesForValueCollection(vars);
 
             RemoveVariablesForValueCollection(vars);
 
             _varValues.Clear();
-            foreach (Variable var in vars)
+            foreach (string var in vars)
             {
-                _varValues[var] = varTable[var];
+                Variable var2 = varTable[var];
+                _varValues[var2] = varTable[var2];
             }
         }
 
         //needs to be renamed
-        protected void UngatherVariableForValueCollection(Set<Variable> vars, Variable var)
+        protected void UngatherVariableForValueCollection(Set<string> vars, Variable var)
         {
-            vars.Remove(var);
+            vars.Remove(var.Name);
         }
 
         //needs to be renamed
-        protected void GatherVariablesForValueCollection(Set<Variable> vars, Expression expression)
+        protected void GatherVariablesForValueCollection(Set<string> vars, Expression expression)
         {
             vars.AddRange(_engine.GatherVariables(expression));
         }
@@ -111,12 +112,12 @@ namespace MetaphysicsIndustries.Ligra
         }
 
         //needs to be renamed
-        protected virtual void RemoveVariablesForValueCollection(Set<Variable> vars)
+        protected virtual void RemoveVariablesForValueCollection(Set<string> vars)
         {
         }
 
         //needs to be renamed
-        protected virtual void AddVariablesForValueCollection(Set<Variable> vars)
+        protected virtual void AddVariablesForValueCollection(Set<string> vars)
         {
         }
 

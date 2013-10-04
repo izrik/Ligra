@@ -83,7 +83,7 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        protected override void AddVariablesForValueCollection(Set<Variable> vars)
+        protected override void AddVariablesForValueCollection(Set<string> vars)
         {
             //foreach (Expression expr in _matrix)
             //{
