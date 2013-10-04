@@ -188,7 +188,7 @@ namespace MetaphysicsIndustries.Ligra
 
         protected static void RenderVariableAccess(Graphics g, VariableAccess variableAccess, PointF pt, Pen pen, Brush brush, Dictionary<Expression, SizeF> expressionSizeCache, Font font)
         {
-            g.DrawString(variableAccess.Variable.Name, font, brush, pt);
+            g.DrawString(variableAccess.VariableName, font, brush, pt);
         }
 
         protected static void RenderDerivativeOfVariable(Graphics g, DerivativeOfVariable derivativeOfVariable, PointF pt, Pen pen, Brush brush, Dictionary<Expression, SizeF> expressionSizeCache, Font font)

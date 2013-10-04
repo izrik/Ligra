@@ -55,13 +55,13 @@ namespace MetaphysicsIndustries.Ligra
             g.DrawImage(_image.Bitmap, boundsInClient);
         }
 
-        protected override void RemoveVariablesForValueCollection(Set<Variable> vars)
+        protected override void RemoveVariablesForValueCollection(Set<string> vars)
         {
             UngatherVariableForValueCollection(vars, _horizontalCoordinate);
             UngatherVariableForValueCollection(vars, _verticalCoordinate);
         }
 
-        protected override void AddVariablesForValueCollection(Set<Variable> vars)
+        protected override void AddVariablesForValueCollection(Set<string> vars)
         {
             GatherVariablesForValueCollection(vars, _expression);
         }

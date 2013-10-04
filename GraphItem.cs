@@ -92,9 +92,9 @@ namespace MetaphysicsIndustries.Ligra
         //    throw new NotImplementedException();
         //}
 
-        protected override void AddVariablesForValueCollection(Set<Variable> vars)
+        protected override void AddVariablesForValueCollection(Set<string> vars)
         {
-            Set<Variable> tempVars = new Set<Variable>();
+            Set<string> tempVars = new Set<string>();
             foreach (GraphEntry entry in _entries)
             {
                 tempVars.Clear();

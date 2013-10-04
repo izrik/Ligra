@@ -226,8 +226,8 @@ namespace MetaphysicsIndustries.Solus
             }
 
             return new Plot3dExpression(
-                ((VariableAccess)args[0]).Variable,
-                ((VariableAccess)args[1]).Variable,
+                varTable[((VariableAccess)args[0]).VariableName],
+                varTable[((VariableAccess)args[1]).VariableName],
                 args[2],
                 xMin, xMax,
                 yMin, yMax,
