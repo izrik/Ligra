@@ -29,7 +29,7 @@ namespace MetaphysicsIndustries.Ligra
     {
         public void RenderMatrix(Graphics g, RectangleF boundsInClient,
                         SolusMatrix matrix,
-                        VariableTable varTable)
+                        Dictionary<string, Expression> varTable)
         {
             MemoryImage image =
                 RenderMatrixToMemoryImage(
@@ -41,7 +41,7 @@ namespace MetaphysicsIndustries.Ligra
 
         public MemoryImage RenderMatrixToMemoryImage(
             SolusMatrix matrix,
-            VariableTable varTable)
+            Dictionary<string, Expression> varTable)
         {
             int i;
             int j;

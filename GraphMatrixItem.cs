@@ -27,7 +27,7 @@ namespace MetaphysicsIndustries.Ligra
 
         MemoryImage _image = null;
 
-        protected override void InternalRender(LigraControl control, Graphics g, PointF location, MetaphysicsIndustries.Solus.VariableTable varTable)
+        protected override void InternalRender(LigraControl control, Graphics g, PointF location, Dictionary<string, Expression> varTable)
         {
             RectangleF boundsInClient = new RectangleF(location.X, location.Y, _matrix.ColumnCount, _matrix.RowCount);
 
@@ -92,7 +92,7 @@ namespace MetaphysicsIndustries.Ligra
             //}
         }
 
-        public override bool HasChanged(VariableTable varTable)
+        public override bool HasChanged(Dictionary<string, Expression> varTable)
         {
             return false;
         }

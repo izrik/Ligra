@@ -12,7 +12,7 @@ namespace MetaphysicsIndustries.Ligra
 {
     public partial class LigraFormsControl : UserControl
     {
-        public LigraFormsControl(VariableTable varTable, string variable, Modulator valueModulator)
+        public LigraFormsControl(Dictionary<string, Expression> varTable, string variable, Modulator valueModulator)
         {
             if (varTable == null) { throw new ArgumentNullException("varTable"); }
             if (variable == null) { throw new ArgumentNullException("variable"); }
@@ -24,7 +24,7 @@ namespace MetaphysicsIndustries.Ligra
             InitializeComponent();
         }
 
-        private VariableTable _varTable;
+        private Dictionary<string, Expression> _varTable;
         private string _variable;
         private Modulator _valueModulator;
 

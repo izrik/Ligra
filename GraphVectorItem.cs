@@ -27,7 +27,7 @@ namespace MetaphysicsIndustries.Ligra
 
         //MemoryImage _image = null;
 
-        protected override void InternalRender(LigraControl control, Graphics g, PointF location, VariableTable varTable)
+        protected override void InternalRender(LigraControl control, Graphics g, PointF location, Dictionary<string, Expression> varTable)
         {
             RectangleF boundsInClient = new RectangleF(location, InternalCalcSize(control, g));
             boundsInClient.Height = 276;

@@ -51,7 +51,7 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        protected override void InternalRender(LigraControl control, Graphics g, PointF location, VariableTable varTable)
+        protected override void InternalRender(LigraControl control, Graphics g, PointF location, Dictionary<string, Expression> varTable)
         {
             RectangleF rect = new RectangleF(location, InternalCalcSize(control, g));
 
@@ -86,7 +86,7 @@ namespace MetaphysicsIndustries.Ligra
             return control.ClientSize - new SizeF(25, 25);
         }
 
-        public override bool HasChanged(VariableTable varTable)
+        public override bool HasChanged(Dictionary<string, Expression> varTable)
         {
             return false;
         }

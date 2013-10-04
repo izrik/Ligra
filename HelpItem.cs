@@ -71,7 +71,7 @@ namespace MetaphysicsIndustries.Ligra
         string _topic;
         Font _font;
 
-        protected override void InternalRender(LigraControl control, Graphics g, PointF location, VariableTable varTable)
+        protected override void InternalRender(LigraControl control, Graphics g, PointF location, Dictionary<string, Expression> varTable)
         {
             RectangleF rect = new RectangleF(location, CalcSize(control, g));
             g.DrawString(_topic, _font, Brushes.Magenta, location);//rect);

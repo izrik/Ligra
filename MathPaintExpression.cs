@@ -53,7 +53,7 @@ namespace MetaphysicsIndustries.Solus
             set { _height = value; }
         }
 
-        public override Literal Eval(VariableTable varTable)
+        public override Literal Eval(Dictionary<string, Expression> varTable)
         {
             if (Expression != null)
             {
@@ -75,7 +75,7 @@ namespace MetaphysicsIndustries.Solus
                 );
         }
 
-        public static Expression Convert(IEnumerable<Expression> _args, VariableTable varTable)
+        public static Expression Convert(IEnumerable<Expression> _args, Dictionary<string, Expression> varTable)
         {
             List<Expression> args = _args.ToList();
 

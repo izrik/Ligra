@@ -32,7 +32,7 @@ namespace MetaphysicsIndustries.Solus
         }
 
 
-        public override Literal Eval(VariableTable varTable)
+        public override Literal Eval(Dictionary<string, Expression> varTable)
         {
             if (ExpressionsToPlot.Length > 0)
             {
@@ -49,7 +49,7 @@ namespace MetaphysicsIndustries.Solus
             return new PlotExpression(Variable, ExpressionsToPlot);
         }
 
-        public static Expression Convert(IEnumerable<Expression> args, VariableTable varTable)
+        public static Expression Convert(IEnumerable<Expression> args, Dictionary<string, Expression> varTable)
         {
             return new PlotExpression(((VariableAccess)args.First()).VariableName, args.Skip(1));
         }

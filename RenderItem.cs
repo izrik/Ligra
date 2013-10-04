@@ -12,7 +12,7 @@ namespace MetaphysicsIndustries.Ligra
     {
         private static SolusEngine _engine = new SolusEngine();
 
-        protected abstract void InternalRender(LigraControl control, Graphics g, PointF location, VariableTable varTable);
+        protected abstract void InternalRender(LigraControl control, Graphics g, PointF location, Dictionary<string, Expression> varTable);
         protected abstract SizeF InternalCalcSize(LigraControl control, Graphics g);
 
         //send this down to RenderItem
@@ -20,7 +20,7 @@ namespace MetaphysicsIndustries.Ligra
         private SizeF _errorSize = new SizeF(0, 0);
 
         //send this down to RenderItem
-        public void Render(LigraControl control, Graphics g, PointF location, VariableTable varTable)
+        public void Render(LigraControl control, Graphics g, PointF location, Dictionary<string, Expression> varTable)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace MetaphysicsIndustries.Ligra
         }
 
 
-        protected void CollectVariableValues(VariableTable varTable)
+        protected void CollectVariableValues(Dictionary<string, Expression> varTable)
         {
             Set<string> vars = new Set<string>();
 
@@ -97,7 +97,7 @@ namespace MetaphysicsIndustries.Ligra
         }
 
         Dictionary<string, Expression> _varValues = new Dictionary<string, Expression>();
-        public virtual bool HasChanged(VariableTable varTable)
+        public virtual bool HasChanged(Dictionary<string, Expression> varTable)
         {
             //return true;
             foreach (string var in _varValues.Keys)

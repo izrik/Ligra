@@ -108,7 +108,7 @@ namespace MetaphysicsIndustries.Solus
         }
 
 
-        public override Literal Eval(VariableTable varTable)
+        public override Literal Eval(Dictionary<string, Expression> varTable)
         {
             if (ExpressionToPlot != null)
             {
@@ -132,7 +132,7 @@ namespace MetaphysicsIndustries.Solus
                 WirePen, FillBrush);
         }
 
-        public static Brush GetBrushFromExpression(Expression expression, VariableTable varTable)
+        public static Brush GetBrushFromExpression(Expression expression, Dictionary<string, Expression> varTable)
         {
             if (expression is ColorExpression)
             {
@@ -147,7 +147,7 @@ namespace MetaphysicsIndustries.Solus
             }
         }
 
-        public static Pen GetPenFromExpression(Expression arg, VariableTable varTable)
+        public static Pen GetPenFromExpression(Expression arg, Dictionary<string, Expression> varTable)
         {
             if (arg is ColorExpression)
             {
@@ -162,7 +162,7 @@ namespace MetaphysicsIndustries.Solus
             }
         }
 
-        public static Expression Convert(IEnumerable<Expression> _args, VariableTable varTable)
+        public static Expression Convert(IEnumerable<Expression> _args, Dictionary<string, Expression> varTable)
         {
             List<Expression> args = _args.ToList();
 

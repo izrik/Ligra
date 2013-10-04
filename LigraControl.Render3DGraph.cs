@@ -21,7 +21,7 @@ namespace MetaphysicsIndustries.Ligra
                         Expression expr,
                         string independentVariableX,
                         string independentVariableY,
-                        VariableTable varTable,
+                        Dictionary<string, Expression> varTable,
                         bool drawboundaries)
         {
             int xValues = 50;

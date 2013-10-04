@@ -17,7 +17,7 @@ namespace MetaphysicsIndustries.Ligra
                         Pen pen, Brush brush,
                         float xMin, float xMax, float yMin, float yMax,
                         Expression expr, string independentVariable,
-                        VariableTable varTable,
+                        Dictionary<string, Expression> varTable,
                         bool drawboundaries)
         {
             float deltaX = (xMax - xMin) / boundsInClient.Width;
