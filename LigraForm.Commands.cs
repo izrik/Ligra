@@ -217,8 +217,8 @@ namespace MetaphysicsIndustries.Ligra
             _renderItems.Add(new ExpressionItem(expr, p, f));
 
             _renderItems.Add(new InfoItem("Some variable assignments: ", f));
-            _renderItems.Add(new ExpressionItem(new AssignExpression(_vars["mu"], new Literal(0.5f)), p, f));
-            _renderItems.Add(new ExpressionItem(new AssignExpression(_vars["sigma"], new Literal(0.2f)), p, f));
+            _renderItems.Add(new ExpressionItem(new AssignExpression("mu", new Literal(0.5f)), p, f));
+            _renderItems.Add(new ExpressionItem(new AssignExpression("sigma", new Literal(0.2f)), p, f));
 
             _vars[_vars["mu"]] = new Literal(0.5f);
             _vars[_vars["sigma"]] = new Literal(0.2f);
@@ -588,7 +588,7 @@ namespace MetaphysicsIndustries.Ligra
                             {
                                 AssignExpression expr2 = (AssignExpression)expr;
 
-                                _vars[expr2.Variable] = (Literal)(expr2.Value.Clone());
+                                _vars[_vars[expr2.Variable]] = (Literal)(expr2.Value.Clone());
                             }
                             else if (expr is DelayAssignExpression)
                             {
