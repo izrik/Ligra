@@ -15,7 +15,7 @@ namespace MetaphysicsIndustries.Ligra
 
         string _caption;
 
-        protected override void InternalRender(LigraControl control, Graphics g, PointF location, VariableTable varTable)
+        protected override void InternalRender(LigraControl control, Graphics g, PointF location, Dictionary<string, Expression> varTable)
         {
             Font font2 = new Font(control.Font.FontFamily, control.Font.Size * 2, FontStyle.Bold);
 

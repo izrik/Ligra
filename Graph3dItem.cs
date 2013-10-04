@@ -42,7 +42,7 @@ namespace MetaphysicsIndustries.Ligra
         private float _zMax;
 
 
-        protected override void InternalRender(LigraControl control, Graphics g, PointF location, VariableTable varTable)
+        protected override void InternalRender(LigraControl control, Graphics g, PointF location, Dictionary<string, Expression> varTable)
         {
             control.Render3DGraph(g,
                 new RectangleF(location.X, location.Y, 400, 400),

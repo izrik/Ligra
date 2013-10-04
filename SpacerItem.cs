@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
+using MetaphysicsIndustries.Solus;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -19,7 +20,7 @@ namespace MetaphysicsIndustries.Ligra
 
         SizeF _size;
 
-        protected override void InternalRender(LigraControl control, System.Drawing.Graphics g, System.Drawing.PointF location, MetaphysicsIndustries.Solus.VariableTable varTable)
+        protected override void InternalRender(LigraControl control, System.Drawing.Graphics g, System.Drawing.PointF location, Dictionary<string, Expression> varTable)
         {
         }
 

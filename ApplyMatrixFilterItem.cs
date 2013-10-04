@@ -24,7 +24,7 @@ namespace MetaphysicsIndustries.Ligra
 
         string _caption;
 
-        protected override void InternalRender(LigraControl control, Graphics g, PointF location, MetaphysicsIndustries.Solus.VariableTable varTable)
+        protected override void InternalRender(LigraControl control, Graphics g, PointF location, Dictionary<string, Expression> varTable)
         {
             Matrix mat = _filter.Apply(_matrix);
             mat.ApplyToAll(AcuityEngine.ConvertFloatTo24g);
@@ -91,7 +91,7 @@ namespace MetaphysicsIndustries.Ligra
             //}
         }
 
-        public override bool HasChanged(VariableTable varTable)
+        public override bool HasChanged(Dictionary<string, Expression> varTable)
         {
             return false;
         }    }

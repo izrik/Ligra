@@ -32,7 +32,7 @@ namespace MetaphysicsIndustries.Ligra
                         string independentVariableY,
                         int xStart, int xEnd,
                         int yStart, int yEnd,
-                        VariableTable varTable)
+                        Dictionary<string, Expression> varTable)
         {
             MemoryImage image =
                 RenderMathPaintToMemoryImage(
@@ -52,7 +52,7 @@ namespace MetaphysicsIndustries.Ligra
             string independentVariableY, 
             int xStart, int xEnd,
             int yStart, int yEnd,
-            VariableTable varTable)
+            Dictionary<string, Expression> varTable)
         {
             int xValues = xEnd - xStart + 1;
             int yValues = yEnd - yStart + 1;

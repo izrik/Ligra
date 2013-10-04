@@ -18,7 +18,7 @@ namespace MetaphysicsIndustries.Ligra
         Font _font;
 
 
-        protected override void InternalRender(LigraControl control, Graphics g, PointF location, VariableTable varTable)
+        protected override void InternalRender(LigraControl control, Graphics g, PointF location, Dictionary<string, Expression> varTable)
         {
             g.DrawString(_text, _font, Brushes.Black, location);
         }

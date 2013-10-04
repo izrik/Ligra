@@ -75,7 +75,7 @@ namespace MetaphysicsIndustries.Ligra
         }
 
 
-        protected override void InternalRender(LigraControl control, Graphics g, PointF location, VariableTable varTable)
+        protected override void InternalRender(LigraControl control, Graphics g, PointF location, Dictionary<string, Expression> varTable)
         {
             SizeF exprSize = LigraControl.CalcExpressionSize(Expression, g, Font);
             float xx = location.X;

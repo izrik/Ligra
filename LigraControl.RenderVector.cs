@@ -30,7 +30,7 @@ namespace MetaphysicsIndustries.Ligra
         public void RenderVector(Graphics g, RectangleF boundsInClient,
                         Pen pen, Brush brush,
                         SolusVector vector,
-                        VariableTable varTable,
+                        Dictionary<string, Expression> varTable,
                         bool drawboundaries)
         {
             double yMax = 0;

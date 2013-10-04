@@ -68,7 +68,7 @@ namespace MetaphysicsIndustries.Ligra
         private List<GraphEntry> _entries = new List<GraphEntry>();
         //private SizeF _size = new SizeF(400, 400);
 
-        protected override void InternalRender(LigraControl control, Graphics g, PointF location, VariableTable varTable)
+        protected override void InternalRender(LigraControl control, Graphics g, PointF location, Dictionary<string, Expression> varTable)
         {
             bool first = true;
             foreach (GraphEntry entry in _entries)

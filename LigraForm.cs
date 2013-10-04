@@ -94,7 +94,7 @@ namespace MetaphysicsIndustries.Ligra
 
         //Variable _x;
         //Variable _y;
-        VariableTable _vars = new VariableTable();
+        Dictionary<string, Expression> _vars = new Dictionary<string, Expression>();
         //Set<Variable> _vars = new Set<Variable>();
 
         List<string> _inputHistory = new List<string>();
