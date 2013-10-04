@@ -79,7 +79,7 @@ namespace MetaphysicsIndustries.Ligra
             {
                 DelayAssignExpression expr2 = (DelayAssignExpression)expr;
 
-                size = g.MeasureString(expr2.Variable.Name + " := ", font);
+                size = g.MeasureString(expr2.Variable + " := ", font);
 
                 SizeF size2 = CalcExpressionSize(expr2.Expression, g, font, expressionSizeCache);
                 size.Width += size2.Width;

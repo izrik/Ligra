@@ -160,7 +160,7 @@ namespace MetaphysicsIndustries.Ligra
         protected static void RenderDelayAssignExpression(Graphics g, DelayAssignExpression delayAssignExpression, PointF pt, Pen pen, Brush brush, Dictionary<Expression, SizeF> expressionSizeCache, Font font, bool drawBoxes)
         {
 
-            string varText = delayAssignExpression.Variable.Name + " := ";
+            string varText = delayAssignExpression.Variable + " := ";
             SizeF varTextSize = g.MeasureString(varText, font) + new SizeF(2, 0);
             float frontWidth = varTextSize.Width;
             SizeF valueSize = CalcExpressionSize(delayAssignExpression.Expression, g, font, expressionSizeCache);
