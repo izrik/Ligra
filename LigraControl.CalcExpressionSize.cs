@@ -45,7 +45,6 @@ namespace MetaphysicsIndustries.Ligra
                 DerivativeOfVariable derivativeOfVariable = (DerivativeOfVariable)expr;
 
                 int upperOrder = 0;
-                Dictionary<Variable, int> lowerOrders = new Dictionary<Variable, int>();
 
                 upperOrder = derivativeOfVariable.Order;
 

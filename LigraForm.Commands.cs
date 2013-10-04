@@ -101,7 +101,7 @@ namespace MetaphysicsIndustries.Ligra
         private void VarsCommand(string input, string[] args)
         {
             string s = string.Empty;
-            foreach (Variable var in _vars)
+            foreach (string var in _vars.Keys)
             {
                 Expression value = _vars[var];
                 string valueString = value.ToString();
@@ -116,7 +116,7 @@ namespace MetaphysicsIndustries.Ligra
                     valueString = "Matrix (" + mat.RowCount + ", " + mat.ColumnCount + ")";
                 }
 
-                s += var.Name + " = " + valueString + "\r\n";
+                s += var + " = " + valueString + "\r\n";
             }
 
             _renderItems.Add(new InfoItem(s, ligraControl1.Font));
@@ -176,10 +176,10 @@ namespace MetaphysicsIndustries.Ligra
             Font f = ligraControl1.Font;
             Pen p = Pens.Blue;
 
-            if (!_vars.ContainsKey("x")) _vars.Add(new Variable("x"));
-            if (!_vars.ContainsKey("y")) _vars.Add(new Variable("y"));
-            if (!_vars.ContainsKey("mu")) _vars.Add(new Variable("mu"));
-            if (!_vars.ContainsKey("sigma")) _vars.Add(new Variable("sigma"));
+            if (!_vars.ContainsKey("x")) _vars.Add("x", new Literal(0));
+            if (!_vars.ContainsKey("y")) _vars.Add("y", new Literal(0));
+            if (!_vars.ContainsKey("mu")) _vars.Add("mu", new Literal(0));
+            if (!_vars.ContainsKey("sigma")) _vars.Add("sigma", new Literal(0));
 
             Expression expr;
 
@@ -209,19 +209,19 @@ namespace MetaphysicsIndustries.Ligra
             expr = _parser.Compile("x^3", _vars);
             _renderItems.Add(new ExpressionItem(expr, p, f));
             DerivativeTransformer derive = new DerivativeTransformer();
-            expr = derive.Transform(expr, new VariableTransformArgs(_vars["x"]));
+            expr = derive.Transform(expr, new VariableTransformArgs("x"));
             _renderItems.Add(new ExpressionItem(expr, p, f));
-            expr = derive.Transform(expr, new VariableTransformArgs(_vars["x"]));
+            expr = derive.Transform(expr, new VariableTransformArgs("x"));
             _renderItems.Add(new ExpressionItem(expr, p, f));
-            expr = derive.Transform(expr, new VariableTransformArgs(_vars["x"]));
+            expr = derive.Transform(expr, new VariableTransformArgs("x"));
             _renderItems.Add(new ExpressionItem(expr, p, f));
 
             _renderItems.Add(new InfoItem("Some variable assignments: ", f));
             _renderItems.Add(new ExpressionItem(new AssignExpression("mu", new Literal(0.5f)), p, f));
             _renderItems.Add(new ExpressionItem(new AssignExpression("sigma", new Literal(0.2f)), p, f));
 
-            _vars[_vars["mu"]] = new Literal(0.5f);
-            _vars[_vars["sigma"]] = new Literal(0.2f);
+            _vars["mu"] = new Literal(0.5f);
+            _vars["sigma"] = new Literal(0.2f);
 
             expr =
                 new FunctionCall(
@@ -267,24 +267,24 @@ namespace MetaphysicsIndustries.Ligra
             //(1/(sigma*sqrt(2*pi))) * e ^ ( (x - mu)^2 / (-2 * sigma^2))
 
             _renderItems.Add(new InfoItem("A plot of the expression: ", f));
-            _renderItems.Add(new GraphItem(expr, p, _vars["x"], _parser));
+            _renderItems.Add(new GraphItem(expr, p, "x", _parser));
 
             _renderItems.Add(new InfoItem("Multiple plots on the same axes, \"x^3\", \"3 * x^2\", \"6 * x\":", f));
             _renderItems.Add(new GraphItem(
                 _parser,
-                new GraphEntry(_parser.Compile("x^3", _vars), Pens.Blue, _vars["x"]),
-                new GraphEntry(_parser.Compile("3*x^2", _vars), Pens.Green, _vars["x"]),
-                new GraphEntry(_parser.Compile("6*x", _vars), Pens.Red, _vars["x"])));
+                new GraphEntry(_parser.Compile("x^3", _vars), Pens.Blue, "x"),
+                new GraphEntry(_parser.Compile("3*x^2", _vars), Pens.Green, "x"),
+                new GraphEntry(_parser.Compile("6*x", _vars), Pens.Red, "x")));
 
             _renderItems.Add(new InfoItem("A plot that changes with time, \"sin(x+t)\":", f));
-            _renderItems.Add(new GraphItem(_parser.Compile("sin(x+t)", _vars), p, _vars["x"], _parser));
+            _renderItems.Add(new GraphItem(_parser.Compile("sin(x+t)", _vars), p, "x", _parser));
 
             expr = _parser.Compile("unitstep((x*x+y*y)^0.5+2*(sin(t)-1))*cos(5*y+2*t)", _vars);
             _renderItems.Add(new InfoItem("Another complex expression, \"unitstep((x*x+y*y)^0.5+2*(sin(t)-1))*cos(5*y+2*t)\",\r\nwhere t is time:", f));
             _renderItems.Add(new ExpressionItem(expr, p, f));
 
             _renderItems.Add(new InfoItem("A 3d plot: ", f));
-            _renderItems.Add(new Graph3dItem(expr, Pens.Black, Brushes.Green, -4, 4, -4, 4, -2, 6, _vars["x"], _vars["y"]));
+            _renderItems.Add(new Graph3dItem(expr, Pens.Black, Brushes.Green, -4, 4, -4, 4, -2, 6, "x", "y"));
         }
 
         private void TSolveCommand(string input, string[] args)
@@ -292,17 +292,17 @@ namespace MetaphysicsIndustries.Ligra
             SolusEngine _engine = new SolusEngine();
             SolusMatrix m = new SolusMatrix(7, 7);
 
-            Variable k;
-            Variable r;
-            Variable cs;
+            string k;
+            string r;
+            string cs;
 
-            if (!_vars.ContainsKey("k")) { _vars.Add(new Variable("k")); }
-            if (!_vars.ContainsKey("R")) { _vars.Add(new Variable("R")); }
-            if (!_vars.ContainsKey("Cs")) { _vars.Add(new Variable("Cs")); }
+            if (!_vars.ContainsKey("k")) { _vars.Add("k", new Literal(0)); }
+            if (!_vars.ContainsKey("R")) { _vars.Add("R", new Literal(0)); }
+            if (!_vars.ContainsKey("Cs")) { _vars.Add("Cs", new Literal(0)); }
 
-            k = _vars["k"];
-            r = _vars["R"];
-            cs = _vars["Cs"];
+            k = "k";
+            r = "R";
+            cs = "Cs";
 
             int i;
             int j;
@@ -461,10 +461,10 @@ namespace MetaphysicsIndustries.Ligra
 
                     if (!_vars.ContainsKey(varName))
                     {
-                        _vars.Add(new Variable(varName));
+                        _vars.Add(varName, new Literal(0));
                     }
 
-                    _vars[_vars[varName]] = mat;
+                    _vars[varName] = mat;
 
                     _renderItems.Add(new InfoItem("Image loaded successfully", font));
                 }
@@ -588,7 +588,7 @@ namespace MetaphysicsIndustries.Ligra
                             {
                                 AssignExpression expr2 = (AssignExpression)expr;
 
-                                _vars[_vars[expr2.Variable]] = (Literal)(expr2.Value.Clone());
+                                _vars[expr2.Variable] = (Literal)(expr2.Value.Clone());
                             }
                             else if (expr is DelayAssignExpression)
                             {

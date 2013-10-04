@@ -7,18 +7,18 @@ namespace MetaphysicsIndustries.Solus
 {
     public class PlotExpression : Expression
     {
-        public PlotExpression(Variable variable, params Expression[] expressionsToPlot)
+        public PlotExpression(string variable, params Expression[] expressionsToPlot)
             : this(variable, (IEnumerable<Expression>)expressionsToPlot)
         {
         }
-        public PlotExpression(Variable variable, IEnumerable<Expression> expressionsToPlot)
+        public PlotExpression(string variable, IEnumerable<Expression> expressionsToPlot)
         {
             _variable = variable;
             _expressionsToPlot = expressionsToPlot.ToArray();
         }
 
-        private Variable _variable;
-        public Variable Variable
+        private string _variable;
+        public string Variable
         {
             get { return _variable; }
             set { _variable = value; }
@@ -51,7 +51,7 @@ namespace MetaphysicsIndustries.Solus
 
         public static Expression Convert(IEnumerable<Expression> args, VariableTable varTable)
         {
-            return new PlotExpression(varTable[((VariableAccess)args.First()).VariableName], args.Skip(1));
+            return new PlotExpression(((VariableAccess)args.First()).VariableName, args.Skip(1));
         }
     }
 }

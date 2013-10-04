@@ -8,7 +8,8 @@ namespace MetaphysicsIndustries.Solus
     public class MathPaintExpression : Expression
     {
         public MathPaintExpression(
-            Variable horizontalCoordinate, Variable verticalCoordinate,
+            string horizontalCoordinate,
+            string verticalCoordinate,
             int width, int height,
             Expression expression
             )
@@ -27,14 +28,14 @@ namespace MetaphysicsIndustries.Solus
             get { return _expression; }
             set { _expression = value; }
         }
-        private Variable _horizontalCoordinate;
-        public Variable HorizontalCoordinate
+        private string _horizontalCoordinate;
+        public string HorizontalCoordinate
         {
             get { return _horizontalCoordinate; }
             set { _horizontalCoordinate = value; }
         }
-        private Variable _verticalCoordinate;
-        public Variable VerticalCoordinate
+        private string _verticalCoordinate;
+        public string VerticalCoordinate
         {
             get { return _verticalCoordinate; }
             set { _verticalCoordinate = value; }
@@ -88,8 +89,8 @@ namespace MetaphysicsIndustries.Solus
             }
 
             return new MathPaintExpression(
-                varTable[((VariableAccess)args[0]).VariableName],
-                varTable[((VariableAccess)args[1]).VariableName],
+                ((VariableAccess)args[0]).VariableName,
+                ((VariableAccess)args[1]).VariableName,
                 (int)(args[2].Eval(varTable).Value),
                 (int)(args[3].Eval(varTable).Value),
                 args[4]);

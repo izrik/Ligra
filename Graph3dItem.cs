@@ -13,8 +13,8 @@ namespace MetaphysicsIndustries.Ligra
             float xMin, float xMax,
             float yMin, float yMax,
             float zMin, float zMax,
-            Variable independentVariableX,
-            Variable independentVariableY)
+            string independentVariableX,
+                           string independentVariableY)
         {
             _expression = expression;
             _pen = pen;
@@ -32,8 +32,8 @@ namespace MetaphysicsIndustries.Ligra
         private Expression _expression;
         private Pen _pen;
         private Brush _brush;
-        private Variable _independentVariableX;
-        private Variable _independentVariableY;
+        private string _independentVariableX;
+        private string _independentVariableY;
         private float _xMin;
         private float _xMax;
         private float _yMin;

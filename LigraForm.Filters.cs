@@ -436,26 +436,16 @@ namespace MetaphysicsIndustries.Ligra
 
             //return;
 
-            Variable x;
-            if (_vars.ContainsKey("x"))
+            string x = "x";
+            if (!_vars.ContainsKey("x"))
             {
-                x = _vars["x"];
-            }
-            else
-            {
-                x = new Variable("x");
-                _vars.Add(x);
+                _vars.Add("x", new Literal(0));
             }
 
-            Variable y;
-            if (_vars.ContainsKey("y"))
+            string y = "y";
+            if (!_vars.ContainsKey("y"))
             {
-                y = _vars["y"];
-            }
-            else
-            {
-                y = new Variable("y");
-                _vars.Add(y);
+                _vars.Add("y", new Literal(0));
             }
 
             //_renderItems.Add(new GraphItem(SolusParser.Compile("sin(x * y + t)", _vars), Pens.Blue, y));

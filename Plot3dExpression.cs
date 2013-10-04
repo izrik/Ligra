@@ -13,8 +13,8 @@ namespace MetaphysicsIndustries.Solus
         //{
         //}
         public Plot3dExpression(
-            Variable independentVariableX,
-            Variable independentVariableY,
+            string independentVariableX,
+            string independentVariableY,
             Expression expressionToPlot,
             float xMin, float xMax,
             float yMin, float yMax,
@@ -34,15 +34,15 @@ namespace MetaphysicsIndustries.Solus
             _zMax = zMax;
         }
 
-        private Variable _independentVariableX;
-        public Variable IndependentVariableX
+        private string _independentVariableX;
+        public string IndependentVariableX
         {
             get { return _independentVariableX; }
             set { _independentVariableX = value; }
         }
 
-        private Variable _independentVariableY;
-        public Variable IndependentVariableY
+        private string _independentVariableY;
+        public string IndependentVariableY
         {
             get { return _independentVariableY; }
             set { _independentVariableY = value; }
@@ -226,8 +226,8 @@ namespace MetaphysicsIndustries.Solus
             }
 
             return new Plot3dExpression(
-                varTable[((VariableAccess)args[0]).VariableName],
-                varTable[((VariableAccess)args[1]).VariableName],
+                ((VariableAccess)args[0]).VariableName,
+                ((VariableAccess)args[1]).VariableName,
                 args[2],
                 xMin, xMax,
                 yMin, yMax,

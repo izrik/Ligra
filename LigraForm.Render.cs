@@ -48,7 +48,7 @@ namespace MetaphysicsIndustries.Ligra
                 //if (y + scroll.Y + itemSize.Height > 0 &&
                 //    y + scroll.Y < ligraControl1.ClientSize.Height)
                 //{
-                    _vars[_t] = new Literal(time);
+                    _vars["t"] = new Literal(time);
                     item.Render(ligraControl1, g, new PointF(x, y), _vars);
                 //}
 

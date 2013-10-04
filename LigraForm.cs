@@ -90,7 +90,6 @@ namespace MetaphysicsIndustries.Ligra
 
         //Variable _x;
         //Variable _y;
-        Variable _t = new Variable("t");
         VariableTable _vars = new VariableTable();
         //Set<Variable> _vars = new Set<Variable>();
 
@@ -142,11 +141,13 @@ namespace MetaphysicsIndustries.Ligra
 
             //Variable x = new Variable("x");
             //Variable y = new Variable("y");
-            Variable t = _t;
 
             //_vars.Add(x);
             //_vars.Add(y);
-            _vars.Add(t);
+            if (!_vars.ContainsKey("t"))
+            {
+                _vars.Add("t", new Literal(0));
+            }
 
             //VariableTable varTable = new VariableTable();
 

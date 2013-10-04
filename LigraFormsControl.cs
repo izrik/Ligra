@@ -12,7 +12,7 @@ namespace MetaphysicsIndustries.Ligra
 {
     public partial class LigraFormsControl : UserControl
     {
-        public LigraFormsControl(VariableTable varTable, Variable variable, Modulator valueModulator)
+        public LigraFormsControl(VariableTable varTable, string variable, Modulator valueModulator)
         {
             if (varTable == null) { throw new ArgumentNullException("varTable"); }
             if (variable == null) { throw new ArgumentNullException("variable"); }
@@ -25,7 +25,7 @@ namespace MetaphysicsIndustries.Ligra
         }
 
         private VariableTable _varTable;
-        private Variable _variable;
+        private string _variable;
         private Modulator _valueModulator;
 
         protected override void OnSizeChanged(EventArgs e)

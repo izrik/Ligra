@@ -194,7 +194,6 @@ namespace MetaphysicsIndustries.Ligra
         protected static void RenderDerivativeOfVariable(Graphics g, DerivativeOfVariable derivativeOfVariable, PointF pt, Pen pen, Brush brush, Dictionary<Expression, SizeF> expressionSizeCache, Font font)
         {
             int upperOrder = 0;
-            Dictionary<Variable, int> lowerOrders = new Dictionary<Variable, int>();
 
             upperOrder = derivativeOfVariable.Order;
 

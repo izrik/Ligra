@@ -238,8 +238,8 @@ namespace MetaphysicsIndustries.Ligra
 
             //System.IO.Directory.SetCurrentDirectory("C:\\Documents and Settings\\izrik\\Desktop\\school\\filters\\project 3\\");
 
-            if (!_vars.ContainsKey("mu")) _vars.Add(new Variable("mu"), new Literal(0.5f));
-            if (!_vars.ContainsKey("sigma")) _vars.Add(new Variable("sigma"), new Literal(0.2f));
+            if (!_vars.ContainsKey("mu")) _vars.Add("mu", new Literal(0.5f));
+            if (!_vars.ContainsKey("sigma")) _vars.Add("sigma", new Literal(0.2f));
             //_renderItems.Add(new ExpressionItem(new AssignExpression(_vars["mu"], new Literal(0.5)), p, f));
             //_renderItems.Add(new ExpressionItem(new AssignExpression(_vars["sigma"], new Literal(0.2)), p, f));
 
@@ -249,7 +249,7 @@ namespace MetaphysicsIndustries.Ligra
             //(1/(sigma*sqrt(2*pi))) * e ^ ( (x - mu)^2 / (-2 * sigma^2))
 
             _renderItems.Add(new InfoItem("A plot of the expression: ", f));
-            _renderItems.Add(new GraphItem(expr, p, _vars["x"], _parser));
+            _renderItems.Add(new GraphItem(expr, p, "x", _parser));
 
         }
     }

@@ -80,15 +80,14 @@ namespace MetaphysicsIndustries.Ligra
             _varValues.Clear();
             foreach (string var in vars)
             {
-                Variable var2 = varTable[var];
-                _varValues[var2] = varTable[var2];
+                _varValues[var] = varTable[var];
             }
         }
 
         //needs to be renamed
-        protected void UngatherVariableForValueCollection(Set<string> vars, Variable var)
+        protected void UngatherVariableForValueCollection(Set<string> vars, string var)
         {
-            vars.Remove(var.Name);
+            vars.Remove(var);
         }
 
         //needs to be renamed
@@ -97,11 +96,11 @@ namespace MetaphysicsIndustries.Ligra
             vars.AddRange(_engine.GatherVariables(expression));
         }
 
-        Dictionary<Variable, Expression> _varValues = new Dictionary<Variable, Expression>();
+        Dictionary<string, Expression> _varValues = new Dictionary<string, Expression>();
         public virtual bool HasChanged(VariableTable varTable)
         {
             //return true;
-            foreach (Variable var in _varValues.Keys)
+            foreach (string var in _varValues.Keys)
             {
                 if (!varTable.ContainsKey(var)) { return true; }
 

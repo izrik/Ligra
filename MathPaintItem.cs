@@ -11,8 +11,10 @@ namespace MetaphysicsIndustries.Ligra
     public class MathPaintItem : RenderItem
     {
         public MathPaintItem(Expression expression, 
-            Variable horizontalCoordinate, Variable verticalCoordinate,
-            int width, int height)
+                             string horizontalCoordinate,
+                             string verticalCoordinate,
+                            int width,
+                             int height)
         {
             _expression = expression;
             _horizontalCoordinate = horizontalCoordinate;
@@ -22,8 +24,8 @@ namespace MetaphysicsIndustries.Ligra
         }
 
         private Expression _expression;
-        private Variable _horizontalCoordinate;
-        private Variable _verticalCoordinate;
+        private string _horizontalCoordinate;
+        private string _verticalCoordinate;
         private int _width;
         private int _height;
         MemoryImage _image;
