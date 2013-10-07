@@ -289,6 +289,30 @@ namespace MetaphysicsIndustries.Ligra
                     }
 
                 }
+                else if (functionCall.Function == NegationOperation.Value)
+                {
+                    string symbol = NegationOperation.Value.DisplayName;
+                    SizeF symbolSize = g.MeasureString(symbol, font);
+
+                    float parenWidth = 10;
+
+                    var arg = functionCall.Arguments[0];
+                    SizeF argSize = CalcExpressionSize(arg, g, font, expressionSizeCache);
+
+                    float widthWithParen;
+                    if (arg is FunctionCall &&
+                        (arg as FunctionCall).Function is Operation &&
+                        ((arg as FunctionCall).Function as Operation).Precedence < NegationOperation.Value.Precedence)
+                    {
+                        widthWithParen = argSize.Width + parenWidth * 2;
+                    }
+                    else
+                    {
+                        widthWithParen = argSize.Width;
+                    }
+
+                    return new SizeF(widthWithParen, argSize.Height);
+                }
                 else
                 {
                     throw new InvalidOperationException("Unknown Operation: " + functionCall.Function.ToString());
