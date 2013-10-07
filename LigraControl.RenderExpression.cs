@@ -304,6 +304,10 @@ namespace MetaphysicsIndustries.Ligra
             {
                 RenderAssociativeCommutativOperation(g, functionCall, pt, pen, brush, expressionSizeCache, font, drawBoxes);
             }
+            else if (functionCall.Function == NegationOperation.Value)
+            {
+                RenderNegationOperation(g, functionCall, pt, pen, brush, expressionSizeCache, font, drawBoxes);
+            }
             else
             {
                 throw new NotImplementedException();
@@ -409,6 +413,61 @@ namespace MetaphysicsIndustries.Ligra
             else
             {
                 RenderPartBinaryOperation(g, functionCall, pt, pen, brush, expressionSizeCache, drawBoxes, font);
+            }
+        }
+
+        static void RenderNegationOperation(Graphics g, FunctionCall functionCall, PointF pt, Pen pen, Brush brush, Dictionary<Expression, SizeF> expressionSizeCache, Font font, bool drawBoxes)
+        {
+            string symbol = NegationOperation.Value.DisplayName;
+            SizeF symbolSize = g.MeasureString(symbol, font);
+
+            float parenWidth = 10;
+            RectangleF parenRect = new RectangleF(0, 0, parenWidth, 0);
+
+            bool first = true;
+            bool hasParens;
+            var arg = functionCall.Arguments[0];
+            float widthWithParens;
+
+            SizeF argSize = CalcExpressionSize(arg, g, font, expressionSizeCache);
+
+            if (arg is FunctionCall &&
+                (arg as FunctionCall).Function is Operation &&
+                ((arg as FunctionCall).Function as Operation).Precedence < NegationOperation.Value.Precedence)
+            {
+                hasParens = true;
+                widthWithParens = argSize.Width + 2 * parenWidth;
+            }
+            else
+            {
+                hasParens = false;
+                widthWithParens = argSize.Width;
+            }
+
+            float x = pt.X;
+
+            arg = functionCall.Arguments[0];
+
+            g.DrawString(symbol, font, brush, x, pt.Y + (argSize.Height - symbolSize.Height) / 2);
+            x += symbolSize.Width;
+
+            if (hasParens)
+            {
+                parenRect.X = x;
+                parenRect.Y = pt.Y + (argSize.Height - argSize.Height) / 2;
+                parenRect.Height = argSize.Height;
+                RenderOpenParenthesis(g, parenRect, pen, brush);
+                x += parenRect.Width;
+            }
+
+            InternalRenderExpression(g, arg, new PointF(x, pt.Y), pen, brush, expressionSizeCache, font, drawBoxes);
+            x += argSize.Width;
+
+            if (hasParens)
+            {
+                parenRect.X = x;
+                RenderCloseParenthesis(g, parenRect, pen, brush);
+                x += parenRect.Width;
             }
         }
 
