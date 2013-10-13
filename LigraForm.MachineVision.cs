@@ -102,7 +102,7 @@ namespace MetaphysicsIndustries.Ligra
             //System.IO.Directory.SetCurrentDirectory("C:\\data\\images\\photos\\contour for machine vision");
             System.IO.Directory.SetCurrentDirectory("C:\\Documents and Settings\\izrik\\Desktop\\school\\filters\\test_images");
 
-            int time = Environment.TickCount;
+            int time = System.Environment.TickCount;
 
             RenderItemContainer ric = new RenderItemContainer("p3t2");
             _renderItems.Add(ric);
@@ -174,10 +174,10 @@ namespace MetaphysicsIndustries.Ligra
                     {
 
                         AlphaTrimmedDualBellEdgeDetectorMatrixFilter dbFilter = new AlphaTrimmedDualBellEdgeDetectorMatrixFilter(alpha, windowSize);
-                        int time2 = Environment.TickCount;
+                        int time2 = System.Environment.TickCount;
                         temp = dbFilter.Apply(noisyImage);
                         Matrix dbedNoiseImage = IntervalFitBaseMatrixFilter.IntervalFit(temp, dbedInterval.First, dbedInterval.Second);
-                        time2 = Environment.TickCount - time2;
+                        time2 = System.Environment.TickCount - time2;
                         SaveImageForFilters("dbed_noise_image_p_" + impulseProbability.ToString() + "_w_" + windowSize.ToString() + "_a_" + alpha.ToString() + ".bmp", dbedNoiseImage);
 
                         dbedResultsLine = new List<string>();
@@ -208,7 +208,7 @@ namespace MetaphysicsIndustries.Ligra
                 }
             }
 
-            MessageBox.Show("Done. Time = " + (Environment.TickCount - time).ToString() + "ms");
+            MessageBox.Show("Done. Time = " + (System.Environment.TickCount - time).ToString() + "ms");
         }
         private void Project3Test3Command(string input, string[] args)
         {

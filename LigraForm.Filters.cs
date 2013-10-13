@@ -1261,9 +1261,9 @@ namespace MetaphysicsIndustries.Ligra
 
             Matrix mat;
 
-            int time1 = Environment.TickCount;
+            int time1 = System.Environment.TickCount;
             mat = filter.Apply(image);
-            int time2 = Environment.TickCount;
+            int time2 = System.Environment.TickCount;
 
             if (imageForError != null)
             {

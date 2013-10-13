@@ -21,7 +21,7 @@ namespace MetaphysicsIndustries.Ligra
         {
             System.IO.Directory.SetCurrentDirectory("C:\\Documents and Settings\\izrik\\Desktop\\school\\filters\\test_images");
 
-            int time = Environment.TickCount;
+            int time = System.Environment.TickCount;
 
             RenderItemContainer ric = new RenderItemContainer("atmmse paper");
             _renderItems.Add(ric);
@@ -131,7 +131,7 @@ namespace MetaphysicsIndustries.Ligra
             WriteResultsToFile(mmseResults, "mmse_results.csv");
             WriteResultsToFile(mmseatmResults, "mmseatm_results.csv");
 
-            MessageBox.Show("Done. Time = " + (Environment.TickCount - time).ToString() + "ms");
+            MessageBox.Show("Done. Time = " + (System.Environment.TickCount - time).ToString() + "ms");
         }
 
         private static void WriteResultsToFile(List<List<string>> results, string filename)
@@ -182,9 +182,9 @@ namespace MetaphysicsIndustries.Ligra
             int time;
             Matrix filtered;
 
-            time = Environment.TickCount;
+            time = System.Environment.TickCount;
             filtered = filter.Apply(noisyImage);
-            time = Environment.TickCount - time;
+            time = System.Environment.TickCount - time;
 
             if (!string.IsNullOrEmpty(filename))
             {
@@ -231,7 +231,7 @@ namespace MetaphysicsIndustries.Ligra
         {
             System.IO.Directory.SetCurrentDirectory("C:\\Documents and Settings\\izrik\\Desktop\\school\\filters\\test_images");
 
-            int time = Environment.TickCount;
+            int time = System.Environment.TickCount;
 
             RenderItemContainer ric = new RenderItemContainer("atmmse paper");
             _renderItems.Add(ric);
@@ -440,7 +440,7 @@ namespace MetaphysicsIndustries.Ligra
                 "  MSSIM = " + ztmmseztmBestImage.mssim.ToString("G3")));
 
 
-            MessageBox.Show("Done. Time = " + (Environment.TickCount - time).ToString() + "ms");
+            MessageBox.Show("Done. Time = " + (System.Environment.TickCount - time).ToString() + "ms");
         }
     }
 }

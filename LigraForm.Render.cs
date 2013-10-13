@@ -23,7 +23,7 @@ namespace MetaphysicsIndustries.Ligra
         {
             //VariableTable varTable = new VariableTable();
 
-            float time = Environment.TickCount / 1000.0f;
+            float time = System.Environment.TickCount / 1000.0f;
 
             PointF scroll = ligraControl1.AutoScrollPosition;
             g.TranslateTransform(scroll.X, scroll.Y);
