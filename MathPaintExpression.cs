@@ -75,25 +75,37 @@ namespace MetaphysicsIndustries.Solus
                 );
         }
 
-        public static Expression Convert(IEnumerable<Expression> _args, Environment env)
+        public class MathpaintMacro : Macro
         {
-            List<Expression> args = _args.ToList();
+            public static readonly MathpaintMacro Value = new MathpaintMacro();
 
-            if (!(args[0] is VariableAccess))
+            protected MathpaintMacro()
             {
-                throw new SolusParseException(-1, "First argument to MathPaint command must be a variable reference.");
-            }
-            if (!(args[1] is VariableAccess))
-            {
-                throw new SolusParseException(-1, "Second argument to MathPaint command must be a variable reference.");
+                Name = "mathpaint";
+                NumArguments = 5;
+                HasVariableNumArgs = false;
             }
 
-            return new MathPaintExpression(
-                ((VariableAccess)args[0]).VariableName,
-                ((VariableAccess)args[1]).VariableName,
-                (int)(args[2].Eval(env).Value),
-                (int)(args[3].Eval(env).Value),
-                args[4]);
+            public override Expression InternalCall(IEnumerable<Expression> _args, Environment env)
+            {
+                List<Expression> args = _args.ToList();
+
+                if (!(args[0] is VariableAccess))
+                {
+                    throw new SolusParseException(-1, "First argument to MathPaint command must be a variable reference.");
+                }
+                if (!(args[1] is VariableAccess))
+                {
+                    throw new SolusParseException(-1, "Second argument to MathPaint command must be a variable reference.");
+                }
+
+                return new MathPaintExpression(
+                    ((VariableAccess)args[0]).VariableName,
+                    ((VariableAccess)args[1]).VariableName,
+                    (int)(args[2].Eval(env).Value),
+                    (int)(args[3].Eval(env).Value),
+                    args[4]);
+            }
         }
     }
 }
