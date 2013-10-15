@@ -157,6 +157,7 @@
     <Compile Include="TextItem.cs" />
     <None Include="LigraGrammar.giza" />
     <Compile Include="LigraGrammar.cs" />
+    <Compile Include="LigraParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
