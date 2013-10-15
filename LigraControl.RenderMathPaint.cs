@@ -21,6 +21,7 @@ using MetaphysicsIndustries.Solus;
 using MetaphysicsIndustries.Collections;
 using MetaphysicsIndustries.Utilities;
 using System.Diagnostics;
+using Environment = MetaphysicsIndustries.Solus.Environment;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -32,7 +33,7 @@ namespace MetaphysicsIndustries.Ligra
                         string independentVariableY,
                         int xStart, int xEnd,
                         int yStart, int yEnd,
-                        Dictionary<string, Expression> varTable)
+                        Environment env)
         {
             MemoryImage image =
                 RenderMathPaintToMemoryImage(
@@ -41,7 +42,7 @@ namespace MetaphysicsIndustries.Ligra
                     independentVariableY, 
                     xStart, xEnd, 
                     yStart, yEnd, 
-                    varTable);
+                    env);
 
             g.DrawImage(image.Bitmap, boundsInClient);
         }
@@ -52,7 +53,7 @@ namespace MetaphysicsIndustries.Ligra
             string independentVariableY, 
             int xStart, int xEnd,
             int yStart, int yEnd,
-            Dictionary<string, Expression> varTable)
+            Environment env)
         {
             int xValues = xEnd - xStart + 1;
             int yValues = yEnd - yStart + 1;
@@ -62,16 +63,16 @@ namespace MetaphysicsIndustries.Ligra
             Expression prelimEval1;
             Expression prelimEval2;
 
-            if (varTable.ContainsKey(independentVariableX))
+            if (env.Variables.ContainsKey(independentVariableX))
             {
-                varTable.Remove(independentVariableX);
+                env.Variables.Remove(independentVariableX);
             }
-            if (varTable.ContainsKey(independentVariableY))
+            if (env.Variables.ContainsKey(independentVariableY))
             {
-                varTable.Remove(independentVariableY);
+                env.Variables.Remove(independentVariableY);
             }
 
-            prelimEval1 = _engine.PreliminaryEval(expression, varTable);
+            prelimEval1 = _engine.PreliminaryEval(expression, env);
 
             int i;
             int j;
@@ -82,19 +83,19 @@ namespace MetaphysicsIndustries.Ligra
 
             for (i = 0; i < xValues; i++)
             {
-                varTable[independentVariableX] = new Literal(i);
-                if (varTable.ContainsKey(independentVariableY))
+                env.Variables[independentVariableX] = new Literal(i);
+                if (env.Variables.ContainsKey(independentVariableY))
                 {
-                    varTable.Remove(independentVariableY);
+                    env.Variables.Remove(independentVariableY);
                 }
 
-                prelimEval2 = _engine.PreliminaryEval(prelimEval1, varTable);
+                prelimEval2 = _engine.PreliminaryEval(prelimEval1, env);
 
                 for (j = 0; j < yValues; j++)
                 {
-                    varTable[independentVariableY] = new Literal(j);
+                    env.Variables[independentVariableY] = new Literal(j);
 
-                    z = prelimEval2.Eval(varTable).Value;
+                    z = prelimEval2.Eval(env).Value;
 
                     if (double.IsNaN(z))
                     {

@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using MetaphysicsIndustries.Solus;
 using MetaphysicsIndustries.Collections;
+using Environment = MetaphysicsIndustries.Solus.Environment;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -17,7 +18,7 @@ namespace MetaphysicsIndustries.Ligra
                         Pen pen, Brush brush,
                         float xMin, float xMax, float yMin, float yMax,
                         Expression expr, string independentVariable,
-                        Dictionary<string, Expression> varTable,
+                        Environment env,
                         bool drawboundaries)
         {
             float deltaX = (xMax - xMin) / boundsInClient.Width;
@@ -40,10 +41,10 @@ namespace MetaphysicsIndustries.Ligra
                 //}
             }
 
-            varTable[independentVariable] = new Literal(xMin);//+deltaX*50);
-            //PointF lastPoint = new PointF(boundsInClient.Left, boundsInClient.Bottom - (Math.Max(Math.Min(_engine.Eval(expr, varTable).Value, yMax), yMin) - yMin) * deltaY);
+            env.Variables[independentVariable] = new Literal(xMin);//+deltaX*50);
+            //PointF lastPoint = new PointF(boundsInClient.Left, boundsInClient.Bottom - (Math.Max(Math.Min(_engine.Eval(expr, env).Value, yMax), yMin) - yMin) * deltaY);
 
-            double vvalue = expr.Eval(varTable).Value;
+            double vvalue = expr.Eval(env).Value;
             if (double.IsNaN(vvalue))
             {
                 vvalue = 0;
@@ -57,8 +58,8 @@ namespace MetaphysicsIndustries.Ligra
             for (i = 0; i < boundsInClient.Width; i++)
             {
                 float x = xMin + deltaX * i;
-                varTable[independentVariable] = new Literal(x);
-                double value = expr.Eval(varTable).Value;
+                env.Variables[independentVariable] = new Literal(x);
+                double value = expr.Eval(env).Value;
                 if (double.IsNaN(value))
                 {
                     value = 0;

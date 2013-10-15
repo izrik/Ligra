@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using MetaphysicsIndustries.Solus;
 using MetaphysicsIndustries.Collections;
+using Environment = MetaphysicsIndustries.Solus.Environment;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -21,7 +22,7 @@ namespace MetaphysicsIndustries.Ligra
                         Expression expr,
                         string independentVariableX,
                         string independentVariableY,
-                        Dictionary<string, Expression> varTable,
+                        Environment env,
                         bool drawboundaries)
         {
             int xValues = 50;
@@ -98,35 +99,35 @@ namespace MetaphysicsIndustries.Ligra
             Expression prelimEval;
             Expression prelimEval2;
 
-            if (varTable.ContainsKey(independentVariableX))
+            if (env.Variables.ContainsKey(independentVariableX))
             {
-                varTable.Remove(independentVariableX);
+                env.Variables.Remove(independentVariableX);
             }
-            if (varTable.ContainsKey(independentVariableY))
+            if (env.Variables.ContainsKey(independentVariableY))
             {
-                varTable.Remove(independentVariableY);
+                env.Variables.Remove(independentVariableY);
             }
 
-            prelimEval = _engine.PreliminaryEval(expr, varTable);
+            prelimEval = _engine.PreliminaryEval(expr, env);
 
             for (i = 0; i < xValues; i++)
             {
                 x = xMin + i * deltaX;
 
-                varTable[independentVariableX] = new Literal(x);
-                if (varTable.ContainsKey(independentVariableY))
+                env.Variables[independentVariableX] = new Literal(x);
+                if (env.Variables.ContainsKey(independentVariableY))
                 {
-                    varTable.Remove(independentVariableY);
+                    env.Variables.Remove(independentVariableY);
                 }
 
-                prelimEval2 = _engine.PreliminaryEval(prelimEval, varTable);
+                prelimEval2 = _engine.PreliminaryEval(prelimEval, env);
 
                 for (j = 0; j < yValues; j++)
                 {
                     y = yMin + j * deltaY;
-                    varTable[independentVariableY] = new Literal(y);
+                    env.Variables[independentVariableY] = new Literal(y);
 
-                    z = prelimEval2.Eval(varTable).Value;
+                    z = prelimEval2.Eval(env).Value;
 
                     if (double.IsNaN(z))
                     {

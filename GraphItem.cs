@@ -4,6 +4,7 @@ using System.Text;
 using System.Drawing;
 using MetaphysicsIndustries.Solus;
 using MetaphysicsIndustries.Collections;
+using Environment = MetaphysicsIndustries.Solus.Environment;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -68,7 +69,7 @@ namespace MetaphysicsIndustries.Ligra
         private List<GraphEntry> _entries = new List<GraphEntry>();
         //private SizeF _size = new SizeF(400, 400);
 
-        protected override void InternalRender(LigraControl control, Graphics g, PointF location, Dictionary<string, Expression> varTable)
+        protected override void InternalRender(LigraControl control, Graphics g, PointF location, Environment env)
         {
             bool first = true;
             foreach (GraphEntry entry in _entries)
@@ -77,7 +78,7 @@ namespace MetaphysicsIndustries.Ligra
                     new RectangleF(location, Rect.Size),
                     entry.Pen, entry.Pen.Brush,
                     _minX, _maxX, _minY, _maxY,
-                    entry.Expression, entry.IndependentVariable, varTable, first);
+                    entry.Expression, entry.IndependentVariable, env, first);
                 first = false;
             }
         }
@@ -87,7 +88,7 @@ namespace MetaphysicsIndustries.Ligra
             return Rect.Size;
         }
 
-        //public override bool HasChanged(VariableTable varTable)
+        //public override bool HasChanged(VariableTable env)
         //{
         //    throw new NotImplementedException();
         //}

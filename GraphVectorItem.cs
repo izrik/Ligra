@@ -6,6 +6,7 @@ using MetaphysicsIndustries.Solus;
 using System.Drawing;
 using MetaphysicsIndustries.Collections;
 using MetaphysicsIndustries.Acuity;
+using Environment = MetaphysicsIndustries.Solus.Environment;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -27,7 +28,7 @@ namespace MetaphysicsIndustries.Ligra
 
         //MemoryImage _image = null;
 
-        protected override void InternalRender(LigraControl control, Graphics g, PointF location, Dictionary<string, Expression> varTable)
+        protected override void InternalRender(LigraControl control, Graphics g, PointF location, Environment env)
         {
             RectangleF boundsInClient = new RectangleF(location, InternalCalcSize(control, g));
             boundsInClient.Height = 276;

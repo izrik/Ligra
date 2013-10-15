@@ -22,6 +22,7 @@ using MetaphysicsIndustries.Collections;
 using MetaphysicsIndustries.Utilities;
 using System.Diagnostics;
 using MetaphysicsIndustries.Acuity;
+using Environment = MetaphysicsIndustries.Solus.Environment;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -29,19 +30,19 @@ namespace MetaphysicsIndustries.Ligra
     {
         public void RenderMatrix(Graphics g, RectangleF boundsInClient,
                         SolusMatrix matrix,
-                        Dictionary<string, Expression> varTable)
+                        Environment env)
         {
             MemoryImage image =
                 RenderMatrixToMemoryImage(
                     matrix,
-                    varTable);
+                    env);
 
             g.DrawImage(image.Bitmap, Rectangle.Truncate( boundsInClient));
         }
 
         public MemoryImage RenderMatrixToMemoryImage(
             SolusMatrix matrix,
-            Dictionary<string, Expression> varTable)
+            Environment env)
         {
             int i;
             int j;
@@ -57,7 +58,7 @@ namespace MetaphysicsIndustries.Ligra
             {
                 for (j = 0; j < matrix.ColumnCount; j++)
                 {
-                    z = matrix[i, j].Eval(varTable).Value;
+                    z = matrix[i, j].Eval(env).Value;
 
                     if (double.IsNaN(z))
                     {

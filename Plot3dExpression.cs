@@ -108,11 +108,11 @@ namespace MetaphysicsIndustries.Solus
         }
 
 
-        public override Literal Eval(Dictionary<string, Expression> varTable)
+        public override Literal Eval(Environment env)
         {
             if (ExpressionToPlot != null)
             {
-                return ExpressionToPlot.Eval(varTable);
+                return ExpressionToPlot.Eval(env);
             }
             else
             {
@@ -132,7 +132,7 @@ namespace MetaphysicsIndustries.Solus
                 WirePen, FillBrush);
         }
 
-        public static Brush GetBrushFromExpression(Expression expression, Dictionary<string, Expression> varTable)
+        public static Brush GetBrushFromExpression(Expression expression, Environment env)
         {
             if (expression is ColorExpression)
             {
@@ -140,14 +140,14 @@ namespace MetaphysicsIndustries.Solus
             }
             else //if (arg is Literal)
             {
-                float value = expression.Eval(varTable).Value;// ((Literal)arg).Value;
+                float value = expression.Eval(env).Value;// ((Literal)arg).Value;
                 int iValue = (int)(value);
                 Color color = Color.FromArgb(255, Color.FromArgb(iValue));
                 return new SolidBrush(color);
             }
         }
 
-        public static Pen GetPenFromExpression(Expression arg, Dictionary<string, Expression> varTable)
+        public static Pen GetPenFromExpression(Expression arg, Environment env)
         {
             if (arg is ColorExpression)
             {
@@ -155,14 +155,14 @@ namespace MetaphysicsIndustries.Solus
             }
             else //if (arg is Literal)
             {
-                float value = arg.Eval(varTable).Value;// ((Literal)arg).Value;
+                float value = arg.Eval(env).Value;// ((Literal)arg).Value;
                 int iValue = (int)(value);
                 Color color = Color.FromArgb(255, Color.FromArgb(iValue));
                 return new Pen(color);
             }
         }
 
-        public static Expression Convert(IEnumerable<Expression> _args, Dictionary<string, Expression> varTable)
+        public static Expression Convert(IEnumerable<Expression> _args, Environment env)
         {
             List<Expression> args = _args.ToList();
 
@@ -191,34 +191,34 @@ namespace MetaphysicsIndustries.Solus
 
             if (args.Count == 4 || args.Count == 5)
             {
-                fillBrush = GetBrushFromExpression(args[3], varTable);
+                fillBrush = GetBrushFromExpression(args[3], env);
 
                 if (args.Count == 5)
                 {
-                    wirePen = GetPenFromExpression(args[4], varTable);
+                    wirePen = GetPenFromExpression(args[4], env);
                 }
             }
             else if (args.Count == 9)
             {
                 //3 --> xMin
 
-                xMin = args[3].Eval(varTable).Value;
-                xMax = args[4].Eval(varTable).Value;
-                yMin = args[5].Eval(varTable).Value;
-                yMax = args[6].Eval(varTable).Value;
-                zMin = args[7].Eval(varTable).Value;
-                zMax = args[8].Eval(varTable).Value;
+                xMin = args[3].Eval(env).Value;
+                xMax = args[4].Eval(env).Value;
+                yMin = args[5].Eval(env).Value;
+                yMax = args[6].Eval(env).Value;
+                zMin = args[7].Eval(env).Value;
+                zMax = args[8].Eval(env).Value;
             }
             else if (args.Count == 11)
             {
-                xMin = args[3].Eval(varTable).Value;
-                xMax = args[4].Eval(varTable).Value;
-                yMin = args[5].Eval(varTable).Value;
-                yMax = args[6].Eval(varTable).Value;
-                zMin = args[7].Eval(varTable).Value;
-                zMax = args[8].Eval(varTable).Value;
-                fillBrush = GetBrushFromExpression(args[9], varTable);
-                wirePen = GetPenFromExpression(args[10], varTable);
+                xMin = args[3].Eval(env).Value;
+                xMax = args[4].Eval(env).Value;
+                yMin = args[5].Eval(env).Value;
+                yMax = args[6].Eval(env).Value;
+                zMin = args[7].Eval(env).Value;
+                zMax = args[8].Eval(env).Value;
+                fillBrush = GetBrushFromExpression(args[9], env);
+                wirePen = GetPenFromExpression(args[10], env);
             }
             else if (args.Count != 3)
             {

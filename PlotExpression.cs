@@ -32,11 +32,11 @@ namespace MetaphysicsIndustries.Solus
         }
 
 
-        public override Literal Eval(Dictionary<string, Expression> varTable)
+        public override Literal Eval(Environment env)
         {
             if (ExpressionsToPlot.Length > 0)
             {
-                return ExpressionsToPlot[ExpressionsToPlot.Length - 1].Eval(varTable);
+                return ExpressionsToPlot[ExpressionsToPlot.Length - 1].Eval(env);
             }
             else
             {
@@ -49,7 +49,7 @@ namespace MetaphysicsIndustries.Solus
             return new PlotExpression(Variable, ExpressionsToPlot);
         }
 
-        public static Expression Convert(IEnumerable<Expression> args, Dictionary<string, Expression> varTable)
+        public static Expression Convert(IEnumerable<Expression> args, Environment env)
         {
             return new PlotExpression(((VariableAccess)args.First()).VariableName, args.Skip(1));
         }
