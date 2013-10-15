@@ -162,77 +162,88 @@ namespace MetaphysicsIndustries.Solus
             }
         }
 
-        public static Expression Convert(IEnumerable<Expression> _args, Environment env)
+        public class Plot3dMacro : Macro
         {
-            List<Expression> args = _args.ToList();
+            public static readonly Plot3dMacro Value = new Plot3dMacro();
 
-            if (args.Count < 3 ||
-                !(args[0] is VariableAccess) ||
-                !(args[1] is VariableAccess))
+            protected Plot3dMacro()
             {
-                throw new SolusParseException(-1, "Plot command requires two variables and one expression to plot");
+                Name = "plot3d";
+                HasVariableNumArgs = true;
             }
 
-            if ((args.Count > 5 && args.Count < 9) ||
-                args.Count == 10 ||
-                args.Count > 11)
+            public override Expression InternalCall(IEnumerable<Expression> _args, Environment env)
             {
-                throw new SolusParseException(-1, "Incorrect number of arguments");
-            }
+                List<Expression> args = _args.ToList();
 
-            Brush fillBrush = Brushes.Green;
-            Pen wirePen = Pens.Black;
-            float xMin = -4;
-            float xMax = 4;
-            float yMin = -4;
-            float yMax = 4;
-            float zMin = -2;
-            float zMax = 6;
-
-            if (args.Count == 4 || args.Count == 5)
-            {
-                fillBrush = GetBrushFromExpression(args[3], env);
-
-                if (args.Count == 5)
+                if (args.Count < 3 ||
+                    !(args[0] is VariableAccess) ||
+                    !(args[1] is VariableAccess))
                 {
-                    wirePen = GetPenFromExpression(args[4], env);
+                    throw new SolusParseException(-1, "Plot command requires two variables and one expression to plot");
                 }
-            }
-            else if (args.Count == 9)
-            {
-                //3 --> xMin
 
-                xMin = args[3].Eval(env).Value;
-                xMax = args[4].Eval(env).Value;
-                yMin = args[5].Eval(env).Value;
-                yMax = args[6].Eval(env).Value;
-                zMin = args[7].Eval(env).Value;
-                zMax = args[8].Eval(env).Value;
-            }
-            else if (args.Count == 11)
-            {
-                xMin = args[3].Eval(env).Value;
-                xMax = args[4].Eval(env).Value;
-                yMin = args[5].Eval(env).Value;
-                yMax = args[6].Eval(env).Value;
-                zMin = args[7].Eval(env).Value;
-                zMax = args[8].Eval(env).Value;
-                fillBrush = GetBrushFromExpression(args[9], env);
-                wirePen = GetPenFromExpression(args[10], env);
-            }
-            else if (args.Count != 3)
-            {
-                throw new SolusParseException(-1, "Incorrect number of arguments");
-            }
+                if ((args.Count > 5 && args.Count < 9) ||
+                    args.Count == 10 ||
+                    args.Count > 11)
+                {
+                    throw new SolusParseException(-1, "Incorrect number of arguments");
+                }
 
-            return new Plot3dExpression(
-                ((VariableAccess)args[0]).VariableName,
-                ((VariableAccess)args[1]).VariableName,
-                args[2],
-                xMin, xMax,
-                yMin, yMax,
-                zMin, zMax,
-                wirePen, fillBrush);
+                Brush fillBrush = Brushes.Green;
+                Pen wirePen = Pens.Black;
+                float xMin = -4;
+                float xMax = 4;
+                float yMin = -4;
+                float yMax = 4;
+                float zMin = -2;
+                float zMax = 6;
+
+                if (args.Count == 4 || args.Count == 5)
+                {
+                    fillBrush = GetBrushFromExpression(args[3], env);
+
+                    if (args.Count == 5)
+                    {
+                        wirePen = GetPenFromExpression(args[4], env);
+                    }
+                }
+                else if (args.Count == 9)
+                {
+                    //3 --> xMin
+
+                    xMin = args[3].Eval(env).Value;
+                    xMax = args[4].Eval(env).Value;
+                    yMin = args[5].Eval(env).Value;
+                    yMax = args[6].Eval(env).Value;
+                    zMin = args[7].Eval(env).Value;
+                    zMax = args[8].Eval(env).Value;
+                }
+                else if (args.Count == 11)
+                {
+                    xMin = args[3].Eval(env).Value;
+                    xMax = args[4].Eval(env).Value;
+                    yMin = args[5].Eval(env).Value;
+                    yMax = args[6].Eval(env).Value;
+                    zMin = args[7].Eval(env).Value;
+                    zMax = args[8].Eval(env).Value;
+                    fillBrush = GetBrushFromExpression(args[9], env);
+                    wirePen = GetPenFromExpression(args[10], env);
+                }
+                else if (args.Count != 3)
+                {
+                    throw new SolusParseException(-1, "Incorrect number of arguments");
+                }
+
+                return new Plot3dExpression(
+                    ((VariableAccess)args[0]).VariableName,
+                    ((VariableAccess)args[1]).VariableName,
+                    args[2],
+                    xMin, xMax,
+                    yMin, yMax,
+                    zMin, zMax,
+                    wirePen, fillBrush);
+            }
         }
     }
 }

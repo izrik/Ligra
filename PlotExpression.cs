@@ -49,9 +49,21 @@ namespace MetaphysicsIndustries.Solus
             return new PlotExpression(Variable, ExpressionsToPlot);
         }
 
-        public static Expression Convert(IEnumerable<Expression> args, Environment env)
+        public class PlotMacro : Macro
         {
-            return new PlotExpression(((VariableAccess)args.First()).VariableName, args.Skip(1));
+            public static readonly PlotMacro Value = new PlotMacro();
+
+            protected PlotMacro()
+            {
+                Name = "plot";
+                NumArguments = 2;
+                HasVariableNumArgs = true;
+            }
+
+            public override Expression InternalCall(IEnumerable<Expression> args, Environment env)
+            {
+                return new PlotExpression(((VariableAccess)args.First()).VariableName, args.Skip(1));
+            }
         }
     }
 }
