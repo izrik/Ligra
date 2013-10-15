@@ -28,7 +28,7 @@ namespace MetaphysicsIndustries.Ligra
         }
 
         private static SolusEngine _engine = new SolusEngine();
-        private static SolusParser _parser = new SolusParser();
+        private static LigraParser _parser = new LigraParser();
 
         //struct Formula
         //{
