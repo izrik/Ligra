@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using MetaphysicsIndustries.Solus;
+using Environment = MetaphysicsIndustries.Solus.Environment;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -15,7 +16,7 @@ namespace MetaphysicsIndustries.Ligra
 
         string _caption;
 
-        protected override void InternalRender(LigraControl control, Graphics g, PointF location, Dictionary<string, Expression> varTable)
+        protected override void InternalRender(LigraControl control, Graphics g, PointF location, Environment env)
         {
             Font font2 = new Font(control.Font.FontFamily, control.Font.Size * 2, FontStyle.Bold);
 
@@ -39,7 +40,7 @@ namespace MetaphysicsIndustries.Ligra
                     maxCurrentHeight = 0;
                 }
 
-                ri.Render(control, g, location + new SizeF(x, height), varTable);
+                ri.Render(control, g, location + new SizeF(x, height), env);
 
                 x += size.Width + 10;
                 maxCurrentHeight = Math.Max(maxCurrentHeight, size.Height);

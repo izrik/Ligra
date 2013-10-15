@@ -5,6 +5,7 @@ using System.Drawing;
 using MetaphysicsIndustries.Solus;
 using MetaphysicsIndustries.Collections;
 using System.Windows.Forms;
+using Environment = MetaphysicsIndustries.Solus.Environment;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -12,7 +13,7 @@ namespace MetaphysicsIndustries.Ligra
     {
         private static SolusEngine _engine = new SolusEngine();
 
-        protected abstract void InternalRender(LigraControl control, Graphics g, PointF location, Dictionary<string, Expression> varTable);
+        protected abstract void InternalRender(LigraControl control, Graphics g, PointF location, Environment env);
         protected abstract SizeF InternalCalcSize(LigraControl control, Graphics g);
 
         //send this down to RenderItem
@@ -20,15 +21,15 @@ namespace MetaphysicsIndustries.Ligra
         private SizeF _errorSize = new SizeF(0, 0);
 
         //send this down to RenderItem
-        public void Render(LigraControl control, Graphics g, PointF location, Dictionary<string, Expression> varTable)
+        public void Render(LigraControl control, Graphics g, PointF location, Environment env)
         {
             try
             {
                 if (string.IsNullOrEmpty(_error))
                 {
-                    InternalRender(control, g, location, varTable);
+                    InternalRender(control, g, location, env);
 
-                    CollectVariableValues(varTable);
+                    CollectVariableValues(env);
                 }
                 else
                 {
@@ -69,7 +70,7 @@ namespace MetaphysicsIndustries.Ligra
         }
 
 
-        protected void CollectVariableValues(Dictionary<string, Expression> varTable)
+        protected void CollectVariableValues(Environment env)
         {
             Set<string> vars = new Set<string>();
 
@@ -80,7 +81,7 @@ namespace MetaphysicsIndustries.Ligra
             _varValues.Clear();
             foreach (string var in vars)
             {
-                _varValues[var] = varTable[var];
+                _varValues[var] = env.Variables[var];
             }
         }
 
@@ -97,14 +98,14 @@ namespace MetaphysicsIndustries.Ligra
         }
 
         Dictionary<string, Expression> _varValues = new Dictionary<string, Expression>();
-        public virtual bool HasChanged(Dictionary<string, Expression> varTable)
+        public virtual bool HasChanged(Environment env)
         {
             //return true;
             foreach (string var in _varValues.Keys)
             {
-                if (!varTable.ContainsKey(var)) { return true; }
+                if (!env.Variables.ContainsKey(var)) { return true; }
 
-                if (varTable[var] != _varValues[var]) { return true; }
+                if (env.Variables[var] != _varValues[var]) { return true; }
             }
 
             return false;

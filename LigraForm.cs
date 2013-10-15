@@ -9,6 +9,7 @@ using MetaphysicsIndustries.Solus;
 //using MetaphysicsIndustries.Sandbox;
 using System.Drawing.Printing;
 using MetaphysicsIndustries.Collections;
+using Environment = MetaphysicsIndustries.Solus.Environment;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -90,7 +91,7 @@ namespace MetaphysicsIndustries.Ligra
 
         //Variable _x;
         //Variable _y;
-        Dictionary<string, Expression> _vars = new Dictionary<string, Expression>();
+        Environment _env = new Environment();
         //Set<Variable> _vars = new Set<Variable>();
 
         List<string> _inputHistory = new List<string>();
@@ -103,7 +104,7 @@ namespace MetaphysicsIndustries.Ligra
         ////    {
         ////    }
 
-        ////    protected override Literal InternalCall(VariableTable varTable, Literal[] args)
+        ////    protected override Literal InternalCall(VariableTable env, Literal[] args)
         ////    {
         ////        throw new Exception("The method or operation is not implemented.");
         ////    }
@@ -144,12 +145,12 @@ namespace MetaphysicsIndustries.Ligra
 
             //_vars.Add(x);
             //_vars.Add(y);
-            if (!_vars.ContainsKey("t"))
+            if (!_env.Variables.ContainsKey("t"))
             {
-                _vars.Add("t", new Literal(0));
+                _env.Variables.Add("t", new Literal(0));
             }
 
-            //VariableTable varTable = new VariableTable();
+            //VariableTable env = new VariableTable();
 
             //_x = x;
             //_y = y;
@@ -540,40 +541,40 @@ namespace MetaphysicsIndustries.Ligra
 
             //////(new ObjectMapForm(expr)).ShowDialog(this);
 
-            ////varTable.Clear();
-            ////varTable[x] = 0;
-            ////expr2 = engine.PreliminaryEval(expr, varTable);
+            ////env.Clear();
+            ////env.Variables[x] = 0;
+            ////expr2 = engine.PreliminaryEval(expr, env);
             //////(new ObjectMapForm(expr2)).ShowDialog(this);
             ////formula = new Formula("z(0,y)", expr2);
             ////_formulas.Add(formula);
 
-            ////varTable[y] = 0;
-            ////expr2 = engine.PreliminaryEval(expr2, varTable);
+            ////env.Variables[y] = 0;
+            ////expr2 = engine.PreliminaryEval(expr2, env);
             //////(new ObjectMapForm(expr2)).ShowDialog(this);
             ////formula = new Formula("z(0,0)", expr2);
             ////_formulas.Add(formula);
 
-            ////varTable[y] = 1;
-            ////expr2 = engine.PreliminaryEval(expr2, varTable);
+            ////env.Variables[y] = 1;
+            ////expr2 = engine.PreliminaryEval(expr2, env);
             //////(new ObjectMapForm(expr2)).ShowDialog(this);
             ////formula = new Formula("z(0,1)", expr2);
             ////_formulas.Add(formula);
 
-            ////varTable.Clear();
-            ////varTable[x] = 1;
-            ////expr2 = engine.PreliminaryEval(expr, varTable);
+            ////env.Clear();
+            ////env.Variables[x] = 1;
+            ////expr2 = engine.PreliminaryEval(expr, env);
             //////(new ObjectMapForm(expr2)).ShowDialog(this);
             ////formula = new Formula("z(1,y)", expr2);
             ////_formulas.Add(formula);
 
-            ////varTable[y] = 0;
-            ////expr2 = engine.PreliminaryEval(expr2, varTable);
+            ////env.Variables[y] = 0;
+            ////expr2 = engine.PreliminaryEval(expr2, env);
             //////(new ObjectMapForm(expr2)).ShowDialog(this);
             ////formula = new Formula("z(1,0)", expr2);
             ////_formulas.Add(formula);
 
-            ////varTable[y] = 1;
-            ////expr2 = engine.PreliminaryEval(expr2, varTable);
+            ////env.Variables[y] = 1;
+            ////expr2 = engine.PreliminaryEval(expr2, env);
             //////(new ObjectMapForm(expr2)).ShowDialog(this);
             ////formula = new Formula("z(1,1)", expr2);
             ////_formulas.Add(formula);
@@ -586,14 +587,14 @@ namespace MetaphysicsIndustries.Ligra
             ////formula = new Formula("f(x,y)", expr);
             ////_formulas.Add(formula);
 
-            ////varTable.Clear();
-            ////varTable[x] = 5;
-            ////expr = engine.PreliminaryEval(expr, varTable);
+            ////env.Clear();
+            ////env.Variables[x] = 5;
+            ////expr = engine.PreliminaryEval(expr, env);
             ////formula = new Formula("f(5,y)", expr);
             ////_formulas.Add(formula);
 
-            ////varTable[y] = 3;
-            ////expr = engine.PreliminaryEval(expr, varTable);
+            ////env.Variables[y] = 3;
+            ////expr = engine.PreliminaryEval(expr, env);
             ////formula = new Formula("f(5,3)", expr);
             ////_formulas.Add(formula);
 

@@ -238,12 +238,12 @@ namespace MetaphysicsIndustries.Ligra
 
             //System.IO.Directory.SetCurrentDirectory("C:\\Documents and Settings\\izrik\\Desktop\\school\\filters\\project 3\\");
 
-            if (!_vars.ContainsKey("mu")) _vars.Add("mu", new Literal(0.5f));
-            if (!_vars.ContainsKey("sigma")) _vars.Add("sigma", new Literal(0.2f));
+            if (!_env.Variables.ContainsKey("mu")) _env.Variables.Add("mu", new Literal(0.5f));
+            if (!_env.Variables.ContainsKey("sigma")) _env.Variables.Add("sigma", new Literal(0.2f));
             //_renderItems.Add(new ExpressionItem(new AssignExpression(_vars["mu"], new Literal(0.5)), p, f));
             //_renderItems.Add(new ExpressionItem(new AssignExpression(_vars["sigma"], new Literal(0.2)), p, f));
 
-            expr = _parser.Compile("2*e ^ ((x-1) ^ 2 / (-0.5)) + 2*e ^ ((x+1) ^ 2 / (-0.5))", _vars);
+            expr = _parser.Compile("2*e ^ ((x-1) ^ 2 / (-0.5)) + 2*e ^ ((x+1) ^ 2 / (-0.5))", _env);
             _renderItems.Add(new InfoItem("A complex expression, \"(1/(sigma*sqrt(2*pi))) * e ^ ( (x - mu)^2 / (-2 * sigma^2))\"", f));
             _renderItems.Add(new ExpressionItem(expr, p, f));
             //(1/(sigma*sqrt(2*pi))) * e ^ ( (x - mu)^2 / (-2 * sigma^2))

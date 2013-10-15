@@ -6,6 +6,7 @@ using MetaphysicsIndustries.Solus;
 using MetaphysicsIndustries.Utilities;
 using MetaphysicsIndustries.Collections;
 using MetaphysicsIndustries.Acuity;
+using Environment = MetaphysicsIndustries.Solus.Environment;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -24,7 +25,7 @@ namespace MetaphysicsIndustries.Ligra
 
         string _caption;
 
-        protected override void InternalRender(LigraControl control, Graphics g, PointF location, Dictionary<string, Expression> varTable)
+        protected override void InternalRender(LigraControl control, Graphics g, PointF location, Environment env)
         {
             Matrix mat = _filter.Apply(_matrix);
             mat.ApplyToAll(AcuityEngine.ConvertFloatTo24g);
@@ -91,7 +92,7 @@ namespace MetaphysicsIndustries.Ligra
             //}
         }
 
-        public override bool HasChanged(Dictionary<string, Expression> varTable)
+        public override bool HasChanged(Environment env)
         {
             return false;
         }    }

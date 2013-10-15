@@ -437,15 +437,15 @@ namespace MetaphysicsIndustries.Ligra
             //return;
 
             string x = "x";
-            if (!_vars.ContainsKey("x"))
+            if (!_env.Variables.ContainsKey("x"))
             {
-                _vars.Add("x", new Literal(0));
+                _env.Variables.Add("x", new Literal(0));
             }
 
             string y = "y";
-            if (!_vars.ContainsKey("y"))
+            if (!_env.Variables.ContainsKey("y"))
             {
-                _vars.Add("y", new Literal(0));
+                _env.Variables.Add("y", new Literal(0));
             }
 
             //_renderItems.Add(new GraphItem(SolusParser.Compile("sin(x * y + t)", _vars), Pens.Blue, y));
@@ -453,12 +453,12 @@ namespace MetaphysicsIndustries.Ligra
             _renderItems.Add(ric);
             ric.Items.Add(
                 new ApplyMatrixFilterItem(tank,
-                    new VariableSwirlMatrixFilter(_vars, x), "Swirl"));
+                    new VariableSwirlMatrixFilter(_env, x), "Swirl"));
             ric.Items.Add(
                 new ApplyMatrixFilterItem(tank,
-                    new VariableRotateCoordinatesMatrixFilter(_vars, x), "Rotate"));
+                    new VariableRotateCoordinatesMatrixFilter(_env, x), "Rotate"));
 
-            LigraFormsControl varControl = new LigraFormsControl(_vars, x, AcuityEngine.ConvertDegreesToRadians);
+            LigraFormsControl varControl = new LigraFormsControl(_env, x, AcuityEngine.ConvertDegreesToRadians);
             varControl.Minimum = -360;
             varControl.Maximum = 360;
             varControl.TickFrequency = 30;

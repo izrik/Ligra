@@ -53,11 +53,11 @@ namespace MetaphysicsIndustries.Solus
             set { _height = value; }
         }
 
-        public override Literal Eval(Dictionary<string, Expression> varTable)
+        public override Literal Eval(Environment env)
         {
             if (Expression != null)
             {
-                return Expression.Eval(varTable);
+                return Expression.Eval(env);
             }
             else
             {
@@ -75,7 +75,7 @@ namespace MetaphysicsIndustries.Solus
                 );
         }
 
-        public static Expression Convert(IEnumerable<Expression> _args, Dictionary<string, Expression> varTable)
+        public static Expression Convert(IEnumerable<Expression> _args, Environment env)
         {
             List<Expression> args = _args.ToList();
 
@@ -91,8 +91,8 @@ namespace MetaphysicsIndustries.Solus
             return new MathPaintExpression(
                 ((VariableAccess)args[0]).VariableName,
                 ((VariableAccess)args[1]).VariableName,
-                (int)(args[2].Eval(varTable).Value),
-                (int)(args[3].Eval(varTable).Value),
+                (int)(args[2].Eval(env).Value),
+                (int)(args[3].Eval(env).Value),
                 args[4]);
         }
     }

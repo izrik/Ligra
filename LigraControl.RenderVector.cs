@@ -22,6 +22,7 @@ using MetaphysicsIndustries.Collections;
 //using MetaphysicsIndustries.Utilities;
 using System.Diagnostics;
 using MetaphysicsIndustries.Acuity;
+using Environment = MetaphysicsIndustries.Solus.Environment;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -30,7 +31,7 @@ namespace MetaphysicsIndustries.Ligra
         public void RenderVector(Graphics g, RectangleF boundsInClient,
                         Pen pen, Brush brush,
                         SolusVector vector,
-                        Dictionary<string, Expression> varTable,
+                        Environment env,
                         bool drawboundaries)
         {
             double yMax = 0;
@@ -47,7 +48,7 @@ namespace MetaphysicsIndustries.Ligra
 
             for (i = 0; i < vector.Length; i++)
             {
-                values[i] = vector[i].Eval(varTable).Value;
+                values[i] = vector[i].Eval(env).Value;
             }
 
             if (vector.Length > 0)

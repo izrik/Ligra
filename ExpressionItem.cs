@@ -4,6 +4,7 @@ using System.Text;
 using MetaphysicsIndustries.Solus;
 using System.Drawing;
 using MetaphysicsIndustries.Acuity;
+using Environment = MetaphysicsIndustries.Solus.Environment;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -75,7 +76,7 @@ namespace MetaphysicsIndustries.Ligra
         }
 
 
-        protected override void InternalRender(LigraControl control, Graphics g, PointF location, Dictionary<string, Expression> varTable)
+        protected override void InternalRender(LigraControl control, Graphics g, PointF location, Environment env)
         {
             SizeF exprSize = LigraControl.CalcExpressionSize(Expression, g, Font);
             float xx = location.X;

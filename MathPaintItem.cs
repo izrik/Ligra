@@ -5,6 +5,7 @@ using MetaphysicsIndustries.Solus;
 using System.Drawing;
 using MetaphysicsIndustries.Collections;
 using MetaphysicsIndustries.Utilities;
+using Environment = MetaphysicsIndustries.Solus.Environment;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -30,11 +31,11 @@ namespace MetaphysicsIndustries.Ligra
         private int _height;
         MemoryImage _image;
 
-        protected override void InternalRender(LigraControl control, Graphics g, PointF location, Dictionary<string, Expression> varTable)
+        protected override void InternalRender(LigraControl control, Graphics g, PointF location, Environment env)
         {
             RectangleF boundsInClient = new RectangleF(location.X, location.Y, _width, _height);
 
-            if (_image == null || HasChanged(varTable))
+            if (_image == null || HasChanged(env))
             {
                 MemoryImage image =
                     control.RenderMathPaintToMemoryImage(
@@ -43,7 +44,7 @@ namespace MetaphysicsIndustries.Ligra
                             _verticalCoordinate,
                             0, _width,
                             0, _height,
-                            varTable);
+                            env);
 
                 if (_image != null)
                 {

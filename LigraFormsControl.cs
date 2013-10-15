@@ -7,24 +7,25 @@ using System.Text;
 using System.Windows.Forms;
 using MetaphysicsIndustries.Solus;
 using MetaphysicsIndustries.Acuity;
+using Environment = MetaphysicsIndustries.Solus.Environment;
 
 namespace MetaphysicsIndustries.Ligra
 {
     public partial class LigraFormsControl : UserControl
     {
-        public LigraFormsControl(Dictionary<string, Expression> varTable, string variable, Modulator valueModulator)
+        public LigraFormsControl(Environment env, string variable, Modulator valueModulator)
         {
-            if (varTable == null) { throw new ArgumentNullException("varTable"); }
+            if (env == null) { throw new ArgumentNullException("env"); }
             if (variable == null) { throw new ArgumentNullException("variable"); }
 
-            _varTable = varTable;
+            _env = env;
             _variable = variable;
             _valueModulator = valueModulator;
 
             InitializeComponent();
         }
 
-        private Dictionary<string, Expression> _varTable;
+        private Environment _env;
         private string _variable;
         private Modulator _valueModulator;
 
@@ -98,11 +99,11 @@ namespace MetaphysicsIndustries.Ligra
 
             if (_valueModulator != null)
             {
-                _varTable[_variable] = new Literal(_valueModulator((float)Value));
+                _env.Variables[_variable] = new Literal(_valueModulator((float)Value));
             }
             else
             {
-                _varTable[_variable] = new Literal(Value);
+                _env.Variables[_variable] = new Literal(Value);
             }
 
             if (Parent != null)
