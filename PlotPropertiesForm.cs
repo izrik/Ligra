@@ -95,7 +95,7 @@ namespace MetaphysicsIndustries.Ligra
             {
                 if (_expressions[i] == null)
                 {
-                    _expressions[i] = _parser.Compile(_expressionStrings[i]);
+                    _expressions[i] = _parser.GetExpression(_expressionStrings[i]);
                 }
             }
         }

@@ -206,7 +206,7 @@ namespace MetaphysicsIndustries.Ligra
                         new Literal(2))), p, f));
 
             _renderItems.Add(new InfoItem("Some derivatives, starting with x^3:", f));
-            expr = _parser.Compile("x^3", _env);
+            expr = _parser.GetExpression("x^3", _env);
             _renderItems.Add(new ExpressionItem(expr, p, f));
             DerivativeTransformer derive = new DerivativeTransformer();
             expr = derive.Transform(expr, new VariableTransformArgs("x"));
@@ -272,14 +272,14 @@ namespace MetaphysicsIndustries.Ligra
             _renderItems.Add(new InfoItem("Multiple plots on the same axes, \"x^3\", \"3 * x^2\", \"6 * x\":", f));
             _renderItems.Add(new GraphItem(
                 _parser,
-                new GraphEntry(_parser.Compile("x^3", _env), Pens.Blue, "x"),
-                new GraphEntry(_parser.Compile("3*x^2", _env), Pens.Green, "x"),
-                new GraphEntry(_parser.Compile("6*x", _env), Pens.Red, "x")));
+                new GraphEntry(_parser.GetExpression("x^3", _env), Pens.Blue, "x"),
+                new GraphEntry(_parser.GetExpression("3*x^2", _env), Pens.Green, "x"),
+                new GraphEntry(_parser.GetExpression("6*x", _env), Pens.Red, "x")));
 
             _renderItems.Add(new InfoItem("A plot that changes with time, \"sin(x+t)\":", f));
-            _renderItems.Add(new GraphItem(_parser.Compile("sin(x+t)", _env), p, "x", _parser));
+            _renderItems.Add(new GraphItem(_parser.GetExpression("sin(x+t)", _env), p, "x", _parser));
 
-            expr = _parser.Compile("unitstep((x*x+y*y)^0.5+2*(sin(t)-1))*cos(5*y+2*t)", _env);
+            expr = _parser.GetExpression("unitstep((x*x+y*y)^0.5+2*(sin(t)-1))*cos(5*y+2*t)", _env);
             _renderItems.Add(new InfoItem("Another complex expression, \"unitstep((x*x+y*y)^0.5+2*(sin(t)-1))*cos(5*y+2*t)\",\r\nwhere t is time:", f));
             _renderItems.Add(new ExpressionItem(expr, p, f));
 
@@ -518,7 +518,7 @@ namespace MetaphysicsIndustries.Ligra
                 }
                 else
                 {
-                    Expression expr = _parser.Compile(input, _env);
+                    Expression expr = _parser.GetExpression(input, _env);
 
                     if (expr != null)
                     {
