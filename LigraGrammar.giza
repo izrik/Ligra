@@ -9,19 +9,25 @@ sequence = (
 );
 
 command = (
-    'help' help-item |
-    'clear' 'all' |
-    'show' 'history' |
-    'show' ( 'vars' | 'variables' ) |
-    'show' 'constants' |
-//    user-command | 
-    'plot' expr 'for' sequence ( ',' sequence )* |
-    'paint' expr 'for' sequence ( ',' sequence )* |
-    'del' varref |
-    varref ':=' expr |
-    identifier '(' ( identifier ( ',' identifier )* )? ')' ':=' expr |
-    expr
+    help-command |
+    clear-command |
+    show-command |
+//    user-command |
+    plot-command |
+    paint-command |
+    del-command |
+    var-assign-command |
+    func-assign-command
 );
+
+help-command = 'help' help-item;
+clear-command = 'clear' 'all'?;
+show-command = 'show' ( 'history' | 'vars' | 'variables' | 'constants' );
+plot-command = 'plot' expr 'for' sequence ( ',' sequence )* ;
+paint-command = 'paint' expr 'for' sequence ( ',' sequence )* ;
+del-command = 'del' varref;
+var-assign-command = varref ':=' expr ;
+func-assign-command = identifier '(' ( identifier ( ',' identifier )* )? ')' ':=' expr ;
 
 help-item = identifier;
 
