@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using MetaphysicsIndustries.Solus;
-using Environment = MetaphysicsIndustries.Solus.Environment;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -72,7 +71,7 @@ namespace MetaphysicsIndustries.Ligra
         string _topic;
         Font _font;
 
-        protected override void InternalRender(LigraControl control, Graphics g, PointF location, Environment env)
+        protected override void InternalRender(LigraControl control, Graphics g, PointF location, SolusEnvironment env)
         {
             RectangleF rect = new RectangleF(location, CalcSize(control, g));
             g.DrawString(_topic, _font, Brushes.Magenta, location);//rect);

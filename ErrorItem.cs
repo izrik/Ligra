@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using MetaphysicsIndustries.Solus;
-using Environment = MetaphysicsIndustries.Solus.Environment;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -28,7 +27,7 @@ namespace MetaphysicsIndustries.Ligra
         Brush _brush;
         int _location;
 
-        protected override void InternalRender(LigraControl control, Graphics g, PointF location, Environment env)
+        protected override void InternalRender(LigraControl control, Graphics g, PointF location, SolusEnvironment env)
         {
             if (!string.IsNullOrEmpty(_inputText))
             {

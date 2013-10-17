@@ -53,7 +53,7 @@ namespace MetaphysicsIndustries.Solus
             set { _height = value; }
         }
 
-        public override Literal Eval(Environment env)
+        public override Literal Eval(SolusEnvironment env)
         {
             if (Expression != null)
             {
@@ -86,7 +86,7 @@ namespace MetaphysicsIndustries.Solus
                 HasVariableNumArgs = false;
             }
 
-            public override Expression InternalCall(IEnumerable<Expression> _args, Environment env)
+            public override Expression InternalCall(IEnumerable<Expression> _args, SolusEnvironment env)
             {
                 List<Expression> args = _args.ToList();
 

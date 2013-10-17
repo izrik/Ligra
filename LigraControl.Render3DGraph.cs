@@ -7,7 +7,6 @@ using System.Text;
 using System.Windows.Forms;
 using MetaphysicsIndustries.Solus;
 using MetaphysicsIndustries.Collections;
-using Environment = MetaphysicsIndustries.Solus.Environment;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -22,7 +21,7 @@ namespace MetaphysicsIndustries.Ligra
                         Expression expr,
                         string independentVariableX,
                         string independentVariableY,
-                        Environment env,
+                        SolusEnvironment env,
                         bool drawboundaries)
         {
             int xValues = 50;

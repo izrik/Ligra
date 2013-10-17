@@ -108,7 +108,7 @@ namespace MetaphysicsIndustries.Solus
         }
 
 
-        public override Literal Eval(Environment env)
+        public override Literal Eval(SolusEnvironment env)
         {
             if (ExpressionToPlot != null)
             {
@@ -132,7 +132,7 @@ namespace MetaphysicsIndustries.Solus
                 WirePen, FillBrush);
         }
 
-        public static Brush GetBrushFromExpression(Expression expression, Environment env)
+        public static Brush GetBrushFromExpression(Expression expression, SolusEnvironment env)
         {
             if (expression is ColorExpression)
             {
@@ -147,7 +147,7 @@ namespace MetaphysicsIndustries.Solus
             }
         }
 
-        public static Pen GetPenFromExpression(Expression arg, Environment env)
+        public static Pen GetPenFromExpression(Expression arg, SolusEnvironment env)
         {
             if (arg is ColorExpression)
             {
@@ -172,7 +172,7 @@ namespace MetaphysicsIndustries.Solus
                 HasVariableNumArgs = true;
             }
 
-            public override Expression InternalCall(IEnumerable<Expression> _args, Environment env)
+            public override Expression InternalCall(IEnumerable<Expression> _args, SolusEnvironment env)
             {
                 List<Expression> args = _args.ToList();
 

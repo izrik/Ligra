@@ -7,7 +7,6 @@ using System.Text;
 using System.Windows.Forms;
 using MetaphysicsIndustries.Solus;
 using MetaphysicsIndustries.Collections;
-using Environment = MetaphysicsIndustries.Solus.Environment;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -18,7 +17,7 @@ namespace MetaphysicsIndustries.Ligra
                         Pen pen, Brush brush,
                         float xMin, float xMax, float yMin, float yMax,
                         Expression expr, string independentVariable,
-                        Environment env,
+                        SolusEnvironment env,
                         bool drawboundaries)
         {
             float deltaX = (xMax - xMin) / boundsInClient.Width;

@@ -4,7 +4,6 @@ using System.Text;
 using System.Drawing;
 using MetaphysicsIndustries.Solus;
 using MetaphysicsIndustries.Collections;
-using Environment = MetaphysicsIndustries.Solus.Environment;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -69,7 +68,7 @@ namespace MetaphysicsIndustries.Ligra
         private List<GraphEntry> _entries = new List<GraphEntry>();
         //private SizeF _size = new SizeF(400, 400);
 
-        protected override void InternalRender(LigraControl control, Graphics g, PointF location, Environment env)
+        protected override void InternalRender(LigraControl control, Graphics g, PointF location, SolusEnvironment env)
         {
             bool first = true;
             foreach (GraphEntry entry in _entries)

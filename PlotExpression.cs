@@ -32,7 +32,7 @@ namespace MetaphysicsIndustries.Solus
         }
 
 
-        public override Literal Eval(Environment env)
+        public override Literal Eval(SolusEnvironment env)
         {
             if (ExpressionsToPlot.Length > 0)
             {
@@ -60,7 +60,7 @@ namespace MetaphysicsIndustries.Solus
                 HasVariableNumArgs = true;
             }
 
-            public override Expression InternalCall(IEnumerable<Expression> args, Environment env)
+            public override Expression InternalCall(IEnumerable<Expression> args, SolusEnvironment env)
             {
                 return new PlotExpression(((VariableAccess)args.First()).VariableName, args.Skip(1));
             }

@@ -7,13 +7,12 @@ using System.Text;
 using System.Windows.Forms;
 using MetaphysicsIndustries.Solus;
 using MetaphysicsIndustries.Acuity;
-using Environment = MetaphysicsIndustries.Solus.Environment;
 
 namespace MetaphysicsIndustries.Ligra
 {
     public partial class LigraFormsControl : UserControl
     {
-        public LigraFormsControl(Environment env, string variable, Modulator valueModulator)
+        public LigraFormsControl(SolusEnvironment env, string variable, Modulator valueModulator)
         {
             if (env == null) { throw new ArgumentNullException("env"); }
             if (variable == null) { throw new ArgumentNullException("variable"); }
@@ -25,7 +24,7 @@ namespace MetaphysicsIndustries.Ligra
             InitializeComponent();
         }
 
-        private Environment _env;
+        private SolusEnvironment _env;
         private string _variable;
         private Modulator _valueModulator;
 
