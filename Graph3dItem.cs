@@ -4,7 +4,6 @@ using System.Text;
 using System.Drawing;
 using MetaphysicsIndustries.Solus;
 using MetaphysicsIndustries.Collections;
-using Environment = MetaphysicsIndustries.Solus.Environment;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -43,7 +42,7 @@ namespace MetaphysicsIndustries.Ligra
         private float _zMax;
 
 
-        protected override void InternalRender(LigraControl control, Graphics g, PointF location, Environment env)
+        protected override void InternalRender(LigraControl control, Graphics g, PointF location, SolusEnvironment env)
         {
             control.Render3DGraph(g,
                 new RectangleF(location.X, location.Y, 400, 400),

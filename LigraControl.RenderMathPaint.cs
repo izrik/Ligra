@@ -21,7 +21,6 @@ using MetaphysicsIndustries.Solus;
 using MetaphysicsIndustries.Collections;
 using MetaphysicsIndustries.Utilities;
 using System.Diagnostics;
-using Environment = MetaphysicsIndustries.Solus.Environment;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -33,7 +32,7 @@ namespace MetaphysicsIndustries.Ligra
                         string independentVariableY,
                         int xStart, int xEnd,
                         int yStart, int yEnd,
-                        Environment env)
+                        SolusEnvironment env)
         {
             MemoryImage image =
                 RenderMathPaintToMemoryImage(
@@ -53,7 +52,7 @@ namespace MetaphysicsIndustries.Ligra
             string independentVariableY, 
             int xStart, int xEnd,
             int yStart, int yEnd,
-            Environment env)
+            SolusEnvironment env)
         {
             int xValues = xEnd - xStart + 1;
             int yValues = yEnd - yStart + 1;

@@ -9,7 +9,6 @@ using MetaphysicsIndustries.Solus;
 //using MetaphysicsIndustries.Sandbox;
 using System.Drawing.Printing;
 using MetaphysicsIndustries.Collections;
-using Environment = MetaphysicsIndustries.Solus.Environment;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -95,7 +94,7 @@ namespace MetaphysicsIndustries.Ligra
 
         //Variable _x;
         //Variable _y;
-        Environment _env = new Environment();
+        SolusEnvironment _env = new SolusEnvironment();
         //Set<Variable> _vars = new Set<Variable>();
 
         List<string> _inputHistory = new List<string>();

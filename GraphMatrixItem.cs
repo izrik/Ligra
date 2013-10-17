@@ -6,7 +6,6 @@ using System.Drawing;
 using MetaphysicsIndustries.Collections;
 using MetaphysicsIndustries.Utilities;
 using MetaphysicsIndustries.Acuity;
-using Environment = MetaphysicsIndustries.Solus.Environment;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -28,7 +27,7 @@ namespace MetaphysicsIndustries.Ligra
 
         MemoryImage _image = null;
 
-        protected override void InternalRender(LigraControl control, Graphics g, PointF location, Environment env)
+        protected override void InternalRender(LigraControl control, Graphics g, PointF location, SolusEnvironment env)
         {
             RectangleF boundsInClient = new RectangleF(location.X, location.Y, _matrix.ColumnCount, _matrix.RowCount);
 
@@ -93,7 +92,7 @@ namespace MetaphysicsIndustries.Ligra
             //}
         }
 
-        public override bool HasChanged(Environment env)
+        public override bool HasChanged(SolusEnvironment env)
         {
             return false;
         }

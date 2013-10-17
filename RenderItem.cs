@@ -5,7 +5,6 @@ using System.Drawing;
 using MetaphysicsIndustries.Solus;
 using MetaphysicsIndustries.Collections;
 using System.Windows.Forms;
-using Environment = MetaphysicsIndustries.Solus.Environment;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -13,7 +12,7 @@ namespace MetaphysicsIndustries.Ligra
     {
         private static SolusEngine _engine = new SolusEngine();
 
-        protected abstract void InternalRender(LigraControl control, Graphics g, PointF location, Environment env);
+        protected abstract void InternalRender(LigraControl control, Graphics g, PointF location, SolusEnvironment env);
         protected abstract SizeF InternalCalcSize(LigraControl control, Graphics g);
 
         //send this down to RenderItem
@@ -21,7 +20,7 @@ namespace MetaphysicsIndustries.Ligra
         private SizeF _errorSize = new SizeF(0, 0);
 
         //send this down to RenderItem
-        public void Render(LigraControl control, Graphics g, PointF location, Environment env)
+        public void Render(LigraControl control, Graphics g, PointF location, SolusEnvironment env)
         {
             try
             {
@@ -70,7 +69,7 @@ namespace MetaphysicsIndustries.Ligra
         }
 
 
-        protected void CollectVariableValues(Environment env)
+        protected void CollectVariableValues(SolusEnvironment env)
         {
             Set<string> vars = new Set<string>();
 
@@ -98,7 +97,7 @@ namespace MetaphysicsIndustries.Ligra
         }
 
         Dictionary<string, Expression> _varValues = new Dictionary<string, Expression>();
-        public virtual bool HasChanged(Environment env)
+        public virtual bool HasChanged(SolusEnvironment env)
         {
             //return true;
             foreach (string var in _varValues.Keys)

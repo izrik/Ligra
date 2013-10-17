@@ -22,7 +22,6 @@ using MetaphysicsIndustries.Collections;
 using MetaphysicsIndustries.Utilities;
 using System.Diagnostics;
 using MetaphysicsIndustries.Acuity;
-using Environment = MetaphysicsIndustries.Solus.Environment;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -30,7 +29,7 @@ namespace MetaphysicsIndustries.Ligra
     {
         public void RenderMatrix(Graphics g, RectangleF boundsInClient,
                         SolusMatrix matrix,
-                        Environment env)
+                        SolusEnvironment env)
         {
             MemoryImage image =
                 RenderMatrixToMemoryImage(
@@ -42,7 +41,7 @@ namespace MetaphysicsIndustries.Ligra
 
         public MemoryImage RenderMatrixToMemoryImage(
             SolusMatrix matrix,
-            Environment env)
+            SolusEnvironment env)
         {
             int i;
             int j;
