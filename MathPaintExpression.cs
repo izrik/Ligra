@@ -75,6 +75,14 @@ namespace MetaphysicsIndustries.Solus
                 );
         }
 
+        public override void AcceptVisitor(IExpressionVisitor visitor)
+        {
+            if (Expression != null)
+            {
+                Expression.AcceptVisitor(visitor);
+            }
+        }
+
         public class MathpaintMacro : Macro
         {
             public static readonly MathpaintMacro Value = new MathpaintMacro();
