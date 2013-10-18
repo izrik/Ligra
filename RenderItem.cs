@@ -93,7 +93,7 @@ namespace MetaphysicsIndustries.Ligra
         //needs to be renamed
         protected void GatherVariablesForValueCollection(Set<string> vars, Expression expression)
         {
-            vars.AddRange(_engine.GatherVariables(expression));
+            vars.AddRange(SolusEngine.GatherVariables(expression));
         }
 
         Dictionary<string, Expression> _varValues = new Dictionary<string, Expression>();
