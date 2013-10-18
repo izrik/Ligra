@@ -33,14 +33,6 @@ namespace MetaphysicsIndustries.Ligra
 //            _commands["cd"] = new Command(CdCommand);
         }
 
-        private void ProcessCommand(string input, string[] args, string cmd)
-        {
-            if (IsCommand(cmd))
-            {
-                _commands[cmd](input, args, _env);
-            }
-        }
-
         static void DeleteCommand(string input, string[] args, LigraEnvironment env)
         {
             if (args.Length > 1)
@@ -579,7 +571,7 @@ namespace MetaphysicsIndustries.Ligra
 
                 if (IsCommand(cmd))
                 {
-                    ProcessCommand(input, args, cmd);
+                    _commands[cmd](input, args, _env);
                 }
                 else
                 {
