@@ -17,7 +17,7 @@ namespace MetaphysicsIndustries.Ligra
             _numberSpanner = new Spanner(_grammar.def_float_002D_number);
         }
 
-        public object[] GetCommands(string input, SolusEnvironment env=null)
+        public Command[] GetCommands(string input, SolusEnvironment env=null)
         {
             if (env == null)
             {
@@ -59,9 +59,9 @@ namespace MetaphysicsIndustries.Ligra
             return GetCommandsFromCommands(span, env);
         }
 
-        object[] GetCommandsFromCommands(Span span, SolusEnvironment env)
+        Command[] GetCommandsFromCommands(Span span, SolusEnvironment env)
         {
-            List<object> commands = new List<object>();
+            var commands = new List<Command>();
 
             foreach (var sub in span.Subspans)
             {
@@ -73,7 +73,7 @@ namespace MetaphysicsIndustries.Ligra
             return commands.ToArray();
         }
 
-        object GetCommandFromCommand(Span span, SolusEnvironment env)
+        Command GetCommandFromCommand(Span span, SolusEnvironment env)
         {
             var sub = span.Subspans[0];
             var def = sub.DefRef;
@@ -116,42 +116,42 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        object GetHelpCommandFromHelpCommand(Span span, SolusEnvironment env)
+        Command GetHelpCommandFromHelpCommand(Span span, SolusEnvironment env)
         {
             throw new NotImplementedException();
         }
 
-        object GetClearCommandFromClearCommand(Span span, SolusEnvironment env)
+        Command GetClearCommandFromClearCommand(Span span, SolusEnvironment env)
         {
             throw new NotImplementedException();
         }
 
-        object GetShowCommandFromShowCommand(Span span, SolusEnvironment env)
+        Command GetShowCommandFromShowCommand(Span span, SolusEnvironment env)
         {
             throw new NotImplementedException();
         }
 
-        object GetPlotCommandFromPlotCommand(Span span, SolusEnvironment env)
+        Command GetPlotCommandFromPlotCommand(Span span, SolusEnvironment env)
         {
             throw new NotImplementedException();
         }
 
-        object GetPaintCommandFromPaintCommand(Span span, SolusEnvironment env)
+        Command GetPaintCommandFromPaintCommand(Span span, SolusEnvironment env)
         {
             throw new NotImplementedException();
         }
 
-        object GetDelCommandFromDelCommand(Span span, SolusEnvironment env)
+        Command GetDelCommandFromDelCommand(Span span, SolusEnvironment env)
         {
             throw new NotImplementedException();
         }
 
-        object GetVarAssignCommandFromVarAssignCommand(Span span, SolusEnvironment env)
+        Command GetVarAssignCommandFromVarAssignCommand(Span span, SolusEnvironment env)
         {
             throw new NotImplementedException();
         }
 
-        object GetFuncAssignCommandFromFuncAssignCommand(Span span, SolusEnvironment env)
+        Command GetFuncAssignCommandFromFuncAssignCommand(Span span, SolusEnvironment env)
         {
             throw new NotImplementedException();
         }
