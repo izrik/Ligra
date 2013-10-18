@@ -33,7 +33,7 @@ namespace MetaphysicsIndustries.Ligra
 //            _commands["cd"] = new Command(CdCommand);
         }
 
-        static void DeleteCommand(string input, string[] args, LigraEnvironment env)
+        public static void DeleteCommand(string input, string[] args, LigraEnvironment env)
         {
             if (args.Length > 1)
             {
@@ -73,7 +73,7 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        static void VarsCommand(string input, string[] args, LigraEnvironment env)
+        public static void VarsCommand(string input, string[] args, LigraEnvironment env)
         {
             string s = string.Empty;
             foreach (string var in env.Variables.Keys)
@@ -97,7 +97,7 @@ namespace MetaphysicsIndustries.Ligra
             env.RenderItems.Add(new InfoItem(s, env.Font));
         }
 
-        static void ClearCommand(string input, string[] args, LigraEnvironment env)
+        public static void ClearCommand(string input, string[] args, LigraEnvironment env)
         {
             if (args.Length > 1)
             {
@@ -121,7 +121,7 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        static void HelpCommand(string input, string[] args, LigraEnvironment env)
+        public static void HelpCommand(string input, string[] args, LigraEnvironment env)
         {
             if (args.Length > 1)
             {
@@ -133,7 +133,7 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        static void HistoryCommand(string input, string[] args, LigraEnvironment env)
+        public static void HistoryCommand(string input, string[] args, LigraEnvironment env)
         {
             if (args.Length > 1 && args[1].ToLower() == "clear")
             {
@@ -146,7 +146,7 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        static void ExampleCommand(string input, string[] args, LigraEnvironment env)
+        public static void ExampleCommand(string input, string[] args, LigraEnvironment env)
         {
             Font f = env.Font;
             Pen p = Pens.Blue;
@@ -479,7 +479,7 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        static void ExprCommand(string input, string[] args, LigraEnvironment env, Expression expr)
+        public static void ExprCommand(string input, string[] args, LigraEnvironment env, Expression expr)
         {
             if (expr != null)
             {
@@ -580,7 +580,6 @@ namespace MetaphysicsIndustries.Ligra
                     Expression expr = _parser.GetExpression(input, _env);
 
                     command = (input2, args2, env) => ExprCommand(input2, args2, env, expr);
-
                 }
 
                 command(input, args, _env);
