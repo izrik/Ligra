@@ -586,18 +586,21 @@ namespace MetaphysicsIndustries.Ligra
             {
                 string cmd = args[0].Trim().ToLower();
 
+                Command command;
+
                 if (IsCommand(cmd))
                 {
-                    _commands[cmd](input, args, _env);
+                    command = _commands[cmd];
                 }
                 else
                 {
                     Expression expr = _parser.GetExpression(input, _env);
 
-                    Command command = (input2, args2, env) => ExprCommand(input2, args2, env, expr);
+                    command = (input2, args2, env) => ExprCommand(input2, args2, env, expr);
 
-                    command(input, args, _env);
                 }
+
+                command(input, args, _env);
             }
 
             if (_env.History.Count <= 0 || input != _env.History[_env.History.Count - 1])
