@@ -47,6 +47,9 @@ namespace MetaphysicsIndustries.Ligra
             }
 
             ligraControl1.AutoScrollPosition = new Point(0, 0);
+
+            _env.Font = ligraControl1.Font;
+            _env.ClearCanvas = ligraControl1.Invalidate;
         }
 
         private ToolStripMenuItem _clearItem = new ToolStripMenuItem("Clear");
@@ -132,13 +135,13 @@ namespace MetaphysicsIndustries.Ligra
 
         void ClearItem_Click(object sender, EventArgs e)
         {
-            ClearOutput();
+            ClearOutput(_env);
         }
 
-        private void ClearOutput()
+        static void ClearOutput(LigraEnvironment env)
         {
-            _env.RenderItems.Clear();
-            ligraControl1.Invalidate();
+            env.RenderItems.Clear();
+            env.ClearCanvas();
         }
         
         private void timer1_Tick(object sender, EventArgs e)
