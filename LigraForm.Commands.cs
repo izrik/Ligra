@@ -16,7 +16,7 @@ namespace MetaphysicsIndustries.Ligra
     public partial class LigraForm : Form
     {
 
-        protected delegate void Command(string input, string[] args);
+        protected delegate void Command(string input, string[] args, LigraEnvironment env);
 
         Dictionary<string, Command> _commands = new Dictionary<string, Command>(StringComparer.InvariantCultureIgnoreCase);
 
@@ -29,19 +29,19 @@ namespace MetaphysicsIndustries.Ligra
             _commands["history"] = new Command(HistoryCommand);
             _commands["example"] = new Command(ExampleCommand);
             _commands["tsolve"] = new Command(TSolveCommand);
-            _commands["loadimage"] = new Command(LoadImageCommand);
-            _commands["cd"] = new Command(CdCommand);
+//            _commands["loadimage"] = new Command(LoadImageCommand);
+//            _commands["cd"] = new Command(CdCommand);
         }
 
         private void ProcessCommand(string input, string[] args, string cmd)
         {
             if (IsCommand(cmd))
             {
-                _commands[cmd](input, args);
+                _commands[cmd](input, args, _env);
             }
         }
 
-        private void DeleteCommand(string input, string[] args)
+        private void DeleteCommand(string input, string[] args, LigraEnvironment env)
         {
             if (args.Length > 1)
             {
@@ -81,7 +81,7 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        private void VarsCommand(string input, string[] args)
+        private void VarsCommand(string input, string[] args, LigraEnvironment env)
         {
             string s = string.Empty;
             foreach (string var in _env.Variables.Keys)
@@ -105,7 +105,7 @@ namespace MetaphysicsIndustries.Ligra
             _env.RenderItems.Add(new InfoItem(s, ligraControl1.Font));
         }
 
-        private void ClearCommand(string input, string[] args)
+        private void ClearCommand(string input, string[] args, LigraEnvironment env)
         {
             if (args.Length > 1)
             {
@@ -129,7 +129,7 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        private void HelpCommand(string input, string[] args)
+        private void HelpCommand(string input, string[] args, LigraEnvironment env)
         {
             if (args.Length > 1)
             {
@@ -141,7 +141,7 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        private void HistoryCommand(string input, string[] args)
+        private void HistoryCommand(string input, string[] args, LigraEnvironment env)
         {
             if (args.Length > 1 && args[1].ToLower() == "clear")
             {
@@ -154,7 +154,7 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        private void ExampleCommand(string input, string[] args)
+        private void ExampleCommand(string input, string[] args, LigraEnvironment env)
         {
             Font f = ligraControl1.Font;
             Pen p = Pens.Blue;
@@ -270,7 +270,7 @@ namespace MetaphysicsIndustries.Ligra
             _env.RenderItems.Add(new Graph3dItem(expr, Pens.Black, Brushes.Green, -4, 4, -4, 4, -2, 6, "x", "y"));
         }
 
-        private void TSolveCommand(string input, string[] args)
+        private void TSolveCommand(string input, string[] args, LigraEnvironment env)
         {
             SolusEngine _engine = new SolusEngine();
             SolusMatrix m = new SolusMatrix(7, 7);
@@ -417,7 +417,7 @@ namespace MetaphysicsIndustries.Ligra
             return _commands.ContainsKey(cmd);
         }
 
-        private void LoadImageCommand(string input, string[] args)
+        private void LoadImageCommand(string input, string[] args, LigraEnvironment env)
         {
             Font font = ligraControl1.Font;
             Brush brush = Brushes.Red;
@@ -458,7 +458,7 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        private void CdCommand(string input, string[] args)
+        private void CdCommand(string input, string[] args, LigraEnvironment env)
         {
             if (args.Length <= 1)
             {
