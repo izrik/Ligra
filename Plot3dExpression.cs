@@ -162,6 +162,14 @@ namespace MetaphysicsIndustries.Solus
             }
         }
 
+        public override void AcceptVisitor(IExpressionVisitor visitor)
+        {
+            if (ExpressionToPlot != null)
+            {
+                ExpressionToPlot.AcceptVisitor(visitor);
+            }
+        }
+
         public class Plot3dMacro : Macro
         {
             public static readonly Plot3dMacro Value = new Plot3dMacro();

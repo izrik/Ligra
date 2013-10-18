@@ -49,6 +49,14 @@ namespace MetaphysicsIndustries.Solus
             return new PlotExpression(Variable, ExpressionsToPlot);
         }
 
+        public override void AcceptVisitor(IExpressionVisitor visitor)
+        {
+            foreach (var expr in ExpressionsToPlot)
+            {
+                expr.AcceptVisitor(visitor);
+            }
+        }
+
         public class PlotMacro : Macro
         {
             public static readonly PlotMacro Value = new PlotMacro();
