@@ -135,15 +135,9 @@ namespace MetaphysicsIndustries.Ligra
 
         void ClearItem_Click(object sender, EventArgs e)
         {
-            ClearOutput(_env);
+            LigraCommands.ClearOutput(_env);
         }
 
-        static void ClearOutput(LigraEnvironment env)
-        {
-            env.RenderItems.Clear();
-            env.ClearCanvas();
-        }
-        
         private void timer1_Tick(object sender, EventArgs e)
         {
             if (_env.RenderItems.Count > 0 && WindowState != FormWindowState.Minimized)
