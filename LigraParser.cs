@@ -42,8 +42,7 @@ namespace MetaphysicsIndustries.Ligra
                     throw new InvalidOperationException();
                 }
 
-                // return the expr?
-                throw new NotImplementedException();
+                return new Command[] { (input_, args, env_) => LigraCommands.ExprCommand(input_, args, env_, expr) };
             }
             if (spans.Length < 1)
             {
