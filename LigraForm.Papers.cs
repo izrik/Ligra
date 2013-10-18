@@ -24,7 +24,7 @@ namespace MetaphysicsIndustries.Ligra
             int time = System.Environment.TickCount;
 
             RenderItemContainer ric = new RenderItemContainer("atmmse paper");
-            _renderItems.Add(ric);
+            _env.RenderItems.Add(ric);
 
             string filename = "lena256g.bmp";
 
@@ -234,7 +234,7 @@ namespace MetaphysicsIndustries.Ligra
             int time = System.Environment.TickCount;
 
             RenderItemContainer ric = new RenderItemContainer("atmmse paper");
-            _renderItems.Add(ric);
+            _env.RenderItems.Add(ric);
 
             string filename = "lena256g.bmp";
 

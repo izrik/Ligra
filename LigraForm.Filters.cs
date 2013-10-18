@@ -67,10 +67,10 @@ namespace MetaphysicsIndustries.Ligra
                 v[i] = 1;
             }
 
-            _renderItems.Add(new IntroItem());
+            _env.RenderItems.Add(new IntroItem());
 
             RenderItemContainer ric = new RenderItemContainer("1D Moving Average Filter");
-            _renderItems.Add(ric);
+            _env.RenderItems.Add(ric);
 
             ric.Items.Add(new GraphVectorItem(v, "Original signal"));
 
@@ -88,7 +88,7 @@ namespace MetaphysicsIndustries.Ligra
             ric.Items.Add(new GraphVectorItem(u, "Noisy signal after applying 51-point moving average."));
 
             ric = new RenderItemContainer("1D Moving Average Filter");
-            _renderItems.Add(ric);
+            _env.RenderItems.Add(ric);
 
             v = new Vector(252, 228.62f, 228.34f, 228.62f, 229.95f, 230.93f,
                         236.04f, 227.36f, 226.31f, 229.67f, 232.82f, 232.82f,
@@ -145,7 +145,7 @@ namespace MetaphysicsIndustries.Ligra
             Vector ff2;// = (new FourierTransformVectorFilter()).Apply(ff);
 
             ric = new RenderItemContainer("Convolution");
-            _renderItems.Add(ric);
+            _env.RenderItems.Add(ric);
 
             ff = Vector.FromUniformSequence(0, 256);
             ff[1] = 1;
@@ -163,7 +163,7 @@ namespace MetaphysicsIndustries.Ligra
             InverseFourierTransformVectorFilter idft = new InverseFourierTransformVectorFilter();
 
             ric = new RenderItemContainer("1D Discrete Fourier Transform");
-            _renderItems.Add(ric);
+            _env.RenderItems.Add(ric);
 
             ff = new Vector(256);
             for (i = 0; i < 256; i++)
@@ -232,7 +232,7 @@ namespace MetaphysicsIndustries.Ligra
 
 
             ric = new RenderItemContainer("2D Prewitt Edge Detection");
-            _renderItems.Add(ric);
+            _env.RenderItems.Add(ric);
             Matrix tank = LoadImageForFilters("tank256.bmp", "Original Image", ric, true);
             Modulator mod = (new AcuityEngine.MultiplyModulator(8)).Modulate;
             ApplyFilter(tank, new PrewittHorizontalMatrixFilter(), "Prewitt Hx Filter", ric, mod, null, useSsim, true);
@@ -408,7 +408,7 @@ namespace MetaphysicsIndustries.Ligra
             bool useSsim = false;
 
             RenderItemContainer ric = new RenderItemContainer("Coordinate Transform Filters");
-            _renderItems.Add(ric);
+            _env.RenderItems.Add(ric);
             Matrix tank = LoadImageForFilters("tank256.bmp", "Original Image", ric, true);
             Matrix fishTank = ApplyFilter(tank, new FishEyeMatrixFilter(), "Fish Eye Lens", ric, null, null, useSsim, true);
             ric.Items.Add(new SpacerItem(new SizeF(500, 200)));
@@ -450,7 +450,7 @@ namespace MetaphysicsIndustries.Ligra
 
             //_renderItems.Add(new GraphItem(SolusParser.Compile("sin(x * y + t)", _vars), Pens.Blue, y));
             ric = new RenderItemContainer("Live Examples");
-            _renderItems.Add(ric);
+            _env.RenderItems.Add(ric);
             ric.Items.Add(
                 new ApplyMatrixFilterItem(tank,
                     new VariableSwirlMatrixFilter(_env, x), "Swirl"));
@@ -462,7 +462,7 @@ namespace MetaphysicsIndustries.Ligra
             varControl.Minimum = -360;
             varControl.Maximum = 360;
             varControl.TickFrequency = 30;
-            _renderItems.Add(new ControlItem(varControl, ligraControl1));
+            _env.RenderItems.Add(new ControlItem(varControl, ligraControl1));
             //varControl.Width = 400;
 
         }
@@ -476,7 +476,7 @@ namespace MetaphysicsIndustries.Ligra
             RenderItemContainer ric;
 
             ric = new RenderItemContainer("2D Arithmetic Mean Filter");
-            _renderItems.Add(ric);
+            _env.RenderItems.Add(ric);
 
             Matrix bars;
             Matrix mat2;
@@ -505,7 +505,7 @@ namespace MetaphysicsIndustries.Ligra
 
             //return;
             ric = new RenderItemContainer("2D Median Filter");
-            _renderItems.Add(ric);
+            _env.RenderItems.Add(ric);
 
             Matrix checker = LoadImageForFilters("checker.bmp", "Original Image", ric, true);
             ApplyFilter(checker, new MedianMatrixFilter(3), "3x3 median filter", ric, null, null, useSsim, true);
@@ -515,7 +515,7 @@ namespace MetaphysicsIndustries.Ligra
 
 
             ric = new RenderItemContainer("2D Comparison of Arithmetic Mean and Median Filters");
-            _renderItems.Add(ric);
+            _env.RenderItems.Add(ric);
 
             Matrix house = LoadImageForFilters("kodak\\kodim01_sm.bmp", "Original Image", ric, true);
             ApplyFilter(house, new ArithmeticMeanFilter(5), "5x5 Arithmetic Mean", ric, null, null, useSsim, true);
@@ -528,7 +528,7 @@ namespace MetaphysicsIndustries.Ligra
 
 
             ric = new RenderItemContainer("Compare arithmetic mean and median against gaussian noise");
-            _renderItems.Add(ric);
+            _env.RenderItems.Add(ric);
 
             Matrix lena = LoadImageForFilters("lena256g.bmp", "Original Image", ric, true);
 
@@ -552,7 +552,7 @@ namespace MetaphysicsIndustries.Ligra
 
 
             ric = new RenderItemContainer("Compare arithmetic mean and median against salt & pepper noise");
-            _renderItems.Add(ric);
+            _env.RenderItems.Add(ric);
 
             Matrix box = LoadImageForFilters("Cornell_box_smg.bmp", "Original Image", ric, true);
             box = ApplyFilter(box, new SaltAndPepperNoiseMatrixFilter(0.05f), "Applied 5% Salt & Pepper noise", ric, null, box, useSsim, true);
@@ -560,7 +560,7 @@ namespace MetaphysicsIndustries.Ligra
             ApplyFilter(box, new MedianMatrixFilter(3), "Noisy image after applying 3x3 median filter", ric, null, box, useSsim, true);
 
             ric = new RenderItemContainer("Compare median and weighted median against salt & pepper noise");
-            _renderItems.Add(ric);
+            _env.RenderItems.Add(ric);
 
             Matrix checker2 = LoadImageForFilters("checker8.bmp", "Checker pattern", ric, true);
             checker2 = ApplyFilter(checker2, new SaltAndPepperNoiseMatrixFilter(0.05f), "Applied 5% Salt & Pepper noise", ric, null, checker2, useSsim, true);
@@ -582,7 +582,7 @@ namespace MetaphysicsIndustries.Ligra
             bool useSsim = false;
 
             RenderItemContainer ric = new RenderItemContainer("Discrete 2D Fourier Transform");
-            _renderItems.Add(ric);
+            _env.RenderItems.Add(ric);
 
             Matrix tank = LoadImageForFilters("tank256.bmp", "Original Image", ric, true);
 
@@ -632,7 +632,7 @@ namespace MetaphysicsIndustries.Ligra
         }
         private void FiltersCode(string input, string[] args)
         {
-            _renderItems.Add(new CodeItem());
+            _env.RenderItems.Add(new CodeItem());
         }
         private void FiltersExperiment(string input, string[] args)
         {
@@ -789,7 +789,7 @@ namespace MetaphysicsIndustries.Ligra
             System.IO.Directory.SetCurrentDirectory("C:\\Documents and Settings\\izrik\\Desktop\\school\\filters\\test_images");
 
             RenderItemContainer ric = new RenderItemContainer("p2t1");
-            _renderItems.Add(ric);
+            _env.RenderItems.Add(ric);
 
             string filename = "lena256g.bmp";
 
@@ -967,7 +967,7 @@ namespace MetaphysicsIndustries.Ligra
             Font font = ligraControl1.Font;
             System.IO.Directory.SetCurrentDirectory("C:\\Documents and Settings\\izrik\\Desktop\\school\\filters\\test_images");
             RenderItemContainer ric = new RenderItemContainer("p2t1");
-            _renderItems.Add(ric);
+            _env.RenderItems.Add(ric);
 
 
             string filename = "lena256g.bmp";
@@ -1063,7 +1063,7 @@ namespace MetaphysicsIndustries.Ligra
             System.IO.Directory.SetCurrentDirectory("C:\\Documents and Settings\\izrik\\Desktop\\school\\filters\\test_images\\p2t2");
 
             RenderItemContainer ric = new RenderItemContainer("p2t2");
-            _renderItems.Add(ric);
+            _env.RenderItems.Add(ric);
 
             string filename = "lena256g.bmp";
             string imageName = filename.Substring(0, filename.LastIndexOf('.'));
@@ -1169,7 +1169,7 @@ namespace MetaphysicsIndustries.Ligra
             System.IO.Directory.SetCurrentDirectory("C:\\Documents and Settings\\izrik\\Desktop\\school\\filters\\test_images\\");
 
             RenderItemContainer ric = new RenderItemContainer("p2t3");
-            _renderItems.Add(ric);
+            _env.RenderItems.Add(ric);
 
             string filename = "lena256g.bmp";
             Matrix image = LoadImageForFilters(filename, "Original Image", ric, true);
@@ -1309,7 +1309,7 @@ namespace MetaphysicsIndustries.Ligra
             mat2.ApplyToAll(AcuityEngine.ConvertFloatTo24g);
             if (ric == null)
             {
-                _renderItems.Add(new GraphMatrixItem(mat2, caption));
+                _env.RenderItems.Add(new GraphMatrixItem(mat2, caption));
             }
             else
             {
@@ -1325,7 +1325,7 @@ namespace MetaphysicsIndustries.Ligra
             {
                 if (ric == null)
                 {
-                    _renderItems.Add(new GraphMatrixItem(image, caption));
+                    _env.RenderItems.Add(new GraphMatrixItem(image, caption));
                 }
                 else
                 {

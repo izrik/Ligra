@@ -24,7 +24,7 @@ namespace MetaphysicsIndustries.Ligra
             System.IO.Directory.SetCurrentDirectory("C:\\Documents and Settings\\izrik\\Desktop\\school\\filters\\test_images");
 
             RenderItemContainer ric = new RenderItemContainer("Machine Vision");
-            _renderItems.Add(ric);
+            _env.RenderItems.Add(ric);
 
             string filename = "tank256g.bmp";
 
@@ -48,7 +48,7 @@ namespace MetaphysicsIndustries.Ligra
             System.IO.Directory.SetCurrentDirectory("C:\\Documents and Settings\\izrik\\Desktop\\school\\filters\\test_images");
 
             RenderItemContainer ric = new RenderItemContainer("p3t1");
-            _renderItems.Add(ric);
+            _env.RenderItems.Add(ric);
 
             string filename = "lena256g.bmp";
 
@@ -105,7 +105,7 @@ namespace MetaphysicsIndustries.Ligra
             int time = System.Environment.TickCount;
 
             RenderItemContainer ric = new RenderItemContainer("p3t2");
-            _renderItems.Add(ric);
+            _env.RenderItems.Add(ric);
 
             string filename = "lena256g.bmp";
 
@@ -244,12 +244,12 @@ namespace MetaphysicsIndustries.Ligra
             //_renderItems.Add(new ExpressionItem(new AssignExpression(_vars["sigma"], new Literal(0.2)), p, f));
 
             expr = _parser.GetExpression("2*e ^ ((x-1) ^ 2 / (-0.5)) + 2*e ^ ((x+1) ^ 2 / (-0.5))", _env);
-            _renderItems.Add(new InfoItem("A complex expression, \"(1/(sigma*sqrt(2*pi))) * e ^ ( (x - mu)^2 / (-2 * sigma^2))\"", f));
-            _renderItems.Add(new ExpressionItem(expr, p, f));
+            _env.RenderItems.Add(new InfoItem("A complex expression, \"(1/(sigma*sqrt(2*pi))) * e ^ ( (x - mu)^2 / (-2 * sigma^2))\"", f));
+            _env.RenderItems.Add(new ExpressionItem(expr, p, f));
             //(1/(sigma*sqrt(2*pi))) * e ^ ( (x - mu)^2 / (-2 * sigma^2))
 
-            _renderItems.Add(new InfoItem("A plot of the expression: ", f));
-            _renderItems.Add(new GraphItem(expr, p, "x", _parser));
+            _env.RenderItems.Add(new InfoItem("A plot of the expression: ", f));
+            _env.RenderItems.Add(new GraphItem(expr, p, "x", _parser));
 
         }
     }
