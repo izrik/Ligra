@@ -255,20 +255,21 @@ namespace MetaphysicsIndustries.Ligra
             {
                 string cmd = args[0].Trim().ToLower();
 
-                Command command;
+                Command[] commands;
 
                 if (IsCommand(cmd))
                 {
-                    command = _commands[cmd];
+                    commands = new Command[] { _commands[cmd] };
                 }
                 else
                 {
-                    Expression expr = _parser.GetExpression(input, _env);
-
-                    command = (input2, args2, env) => LigraCommands.ExprCommand(input2, args2, env, expr);
+                    commands = _parser.GetCommands(input, _env);
                 }
 
-                command(input, args, _env);
+                foreach (var command in commands)
+                {
+                    command(input, args, _env);
+                }
             }
 
             if (_env.History.Count <= 0 || input != _env.History[_env.History.Count - 1])
