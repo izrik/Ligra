@@ -86,7 +86,6 @@ namespace MetaphysicsIndustries.Ligra
 
         //}
 
-        List<RenderItem> _renderItems = new List<RenderItem>();
 
         //List<Formula> _formulas = new List<Formula>();
         //List<Graph> _graphs = new List<Graph>();
@@ -94,11 +93,9 @@ namespace MetaphysicsIndustries.Ligra
 
         //Variable _x;
         //Variable _y;
-        SolusEnvironment _env = new SolusEnvironment();
+        LigraEnvironment _env = new LigraEnvironment();
         //Set<Variable> _vars = new Set<Variable>();
 
-        List<string> _inputHistory = new List<string>();
-        int _currentHistoryIndex = -1;
 
         ////class TempFunction : Function
         ////{
@@ -705,7 +702,7 @@ namespace MetaphysicsIndustries.Ligra
 
         private RenderItem GetRenderItemFromPoint(PointF pt)
         {
-            return GetRenderItemInCollectionFromPoint(_renderItems, pt);
+            return GetRenderItemInCollectionFromPoint(_env.RenderItems, pt);
         }
 
         private RenderItem GetRenderItemInCollectionFromPoint(IEnumerable<RenderItem> items, PointF pt)
@@ -733,13 +730,13 @@ namespace MetaphysicsIndustries.Ligra
 
         private void ClearOutput()
         {
-            _renderItems.Clear();
+            _env.RenderItems.Clear();
             ligraControl1.Invalidate();
         }
         
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (_renderItems.Count > 0 && WindowState != FormWindowState.Minimized)
+            if (_env.RenderItems.Count > 0 && WindowState != FormWindowState.Minimized)
             {
                 //Invalidate();
                 //Refresh();
@@ -781,11 +778,11 @@ namespace MetaphysicsIndustries.Ligra
                     if (ee is SolusParseException)
                     {
                         SolusParseException ee2 = (SolusParseException)ee;
-                        _renderItems.Add(new ErrorItem(input, ee2.Error, ligraControl1.Font, Brushes.Red, ee2.Location));
+                        _env.RenderItems.Add(new ErrorItem(input, ee2.Error, ligraControl1.Font, Brushes.Red, ee2.Location));
                     }
                     else
                     {
-                        _renderItems.Add(new ErrorItem(input, "There was an error: " + ee.ToString(), Font, Brushes.Red));
+                        _env.RenderItems.Add(new ErrorItem(input, "There was an error: " + ee.ToString(), Font, Brushes.Red));
                     }
                 }
             }
@@ -797,36 +794,36 @@ namespace MetaphysicsIndustries.Ligra
         {
             if (e.KeyCode == Keys.Up)
             {
-                if (_inputHistory.Count > 0)
+                if (_env.History.Count > 0)
                 {
-                    if (_currentHistoryIndex < 0)
+                    if (_env.CurrentHistoryIndex < 0)
                     {
-                        _currentHistoryIndex = _inputHistory.Count - 1;
+                        _env.CurrentHistoryIndex = _env.History.Count - 1;
                     }
                     else
                     {
-                        _currentHistoryIndex--;
-                        if (_currentHistoryIndex < 0) _currentHistoryIndex = 0;
+                        _env.CurrentHistoryIndex--;
+                        if (_env.CurrentHistoryIndex < 0) _env.CurrentHistoryIndex = 0;
                     }
 
-                    evalTextBox.Text = _inputHistory[_currentHistoryIndex];
+                    evalTextBox.Text = _env.History[_env.CurrentHistoryIndex];
                 }
             }
             else if (e.KeyCode == Keys.Down)
             {
-                if (_inputHistory.Count > 0)
+                if (_env.History.Count > 0)
                 {
-                    if (_currentHistoryIndex < 0)
+                    if (_env.CurrentHistoryIndex < 0)
                     {
-                        _currentHistoryIndex = _inputHistory.Count - 1;
+                        _env.CurrentHistoryIndex = _env.History.Count - 1;
                     }
                     else
                     {
-                        _currentHistoryIndex++;
-                        if (_currentHistoryIndex >= _inputHistory.Count) _currentHistoryIndex = _inputHistory.Count - 1;
+                        _env.CurrentHistoryIndex++;
+                        if (_env.CurrentHistoryIndex >= _env.History.Count) _env.CurrentHistoryIndex = _env.History.Count - 1;
                     }
 
-                    evalTextBox.Text = _inputHistory[_currentHistoryIndex];
+                    evalTextBox.Text = _env.History[_env.CurrentHistoryIndex];
                 }
             }
         }

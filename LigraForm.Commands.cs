@@ -63,7 +63,7 @@ namespace MetaphysicsIndustries.Ligra
                     {
                         error += s + "\r\n";
                     }
-                    _renderItems.Add(new ErrorItem(input, error, ligraControl1.Font, Brushes.Red, input.IndexOf(args[0])));
+                    _env.RenderItems.Add(new ErrorItem(input, error, ligraControl1.Font, Brushes.Red, input.IndexOf(args[0])));
                 }
                 else
                 {
@@ -72,12 +72,12 @@ namespace MetaphysicsIndustries.Ligra
                         _env.Variables.Remove(args[i]);
                     }
 
-                    _renderItems.Add(new InfoItem("The variables were deleted successfully.", ligraControl1.Font));
+                    _env.RenderItems.Add(new InfoItem("The variables were deleted successfully.", ligraControl1.Font));
                 }
             }
             else
             {
-                _renderItems.Add(new ErrorItem(input, "Must specify variables to delete", ligraControl1.Font, Brushes.Red, input.IndexOf(args[0])));
+                _env.RenderItems.Add(new ErrorItem(input, "Must specify variables to delete", ligraControl1.Font, Brushes.Red, input.IndexOf(args[0])));
             }
         }
 
@@ -102,7 +102,7 @@ namespace MetaphysicsIndustries.Ligra
                 s += var + " = " + valueString + "\r\n";
             }
 
-            _renderItems.Add(new InfoItem(s, ligraControl1.Font));
+            _env.RenderItems.Add(new InfoItem(s, ligraControl1.Font));
         }
 
         private void ClearCommand(string input, string[] args)
@@ -133,11 +133,11 @@ namespace MetaphysicsIndustries.Ligra
         {
             if (args.Length > 1)
             {
-                _renderItems.Add(new HelpItem(ligraControl1.Font, args[1]));
+                _env.RenderItems.Add(new HelpItem(ligraControl1.Font, args[1]));
             }
             else
             {
-                _renderItems.Add(new HelpItem(ligraControl1.Font));
+                _env.RenderItems.Add(new HelpItem(ligraControl1.Font));
             }
         }
 
@@ -149,8 +149,8 @@ namespace MetaphysicsIndustries.Ligra
             }
             else
             {
-                string s = string.Join("\r\n", _inputHistory.ToArray());
-                _renderItems.Add(new InfoItem(s + "\r\n", ligraControl1.Font));
+                string s = string.Join("\r\n", _env.History.ToArray());
+                _env.RenderItems.Add(new InfoItem(s + "\r\n", ligraControl1.Font));
             }
         }
 
@@ -166,20 +166,20 @@ namespace MetaphysicsIndustries.Ligra
 
             Expression expr;
 
-            _renderItems.Add(new InfoItem("A number:", f));
-            _renderItems.Add(new ExpressionItem(new Literal(123.45f), p, f));
+            _env.RenderItems.Add(new InfoItem("A number:", f));
+            _env.RenderItems.Add(new ExpressionItem(new Literal(123.45f), p, f));
 
-            _renderItems.Add(new InfoItem("A variable:", f));
-            _renderItems.Add(new ExpressionItem(new VariableAccess("x"), p, f));
+            _env.RenderItems.Add(new InfoItem("A variable:", f));
+            _env.RenderItems.Add(new ExpressionItem(new VariableAccess("x"), p, f));
 
-            _renderItems.Add(new InfoItem("A function call: ", f));
-            _renderItems.Add(new ExpressionItem(
+            _env.RenderItems.Add(new InfoItem("A function call: ", f));
+            _env.RenderItems.Add(new ExpressionItem(
                 new FunctionCall(
                     CosineFunction.Value,
                     new VariableAccess("x")), p, f));
 
-            _renderItems.Add(new InfoItem("A simple expression,  \"x + y/2\" :", f));
-            _renderItems.Add(new ExpressionItem(
+            _env.RenderItems.Add(new InfoItem("A simple expression,  \"x + y/2\" :", f));
+            _env.RenderItems.Add(new ExpressionItem(
                 new FunctionCall(
                     AdditionOperation.Value,
                     new VariableAccess("x"),
@@ -188,20 +188,20 @@ namespace MetaphysicsIndustries.Ligra
                         new VariableAccess("y"),
                         new Literal(2))), p, f));
 
-            _renderItems.Add(new InfoItem("Some derivatives, starting with x^3:", f));
+            _env.RenderItems.Add(new InfoItem("Some derivatives, starting with x^3:", f));
             expr = _parser.GetExpression("x^3", _env);
-            _renderItems.Add(new ExpressionItem(expr, p, f));
+            _env.RenderItems.Add(new ExpressionItem(expr, p, f));
             DerivativeTransformer derive = new DerivativeTransformer();
             expr = derive.Transform(expr, new VariableTransformArgs("x"));
-            _renderItems.Add(new ExpressionItem(expr, p, f));
+            _env.RenderItems.Add(new ExpressionItem(expr, p, f));
             expr = derive.Transform(expr, new VariableTransformArgs("x"));
-            _renderItems.Add(new ExpressionItem(expr, p, f));
+            _env.RenderItems.Add(new ExpressionItem(expr, p, f));
             expr = derive.Transform(expr, new VariableTransformArgs("x"));
-            _renderItems.Add(new ExpressionItem(expr, p, f));
+            _env.RenderItems.Add(new ExpressionItem(expr, p, f));
 
-            _renderItems.Add(new InfoItem("Some variable assignments: ", f));
-            _renderItems.Add(new ExpressionItem(new AssignExpression("mu", new Literal(0.5f)), p, f));
-            _renderItems.Add(new ExpressionItem(new AssignExpression("sigma", new Literal(0.2f)), p, f));
+            _env.RenderItems.Add(new InfoItem("Some variable assignments: ", f));
+            _env.RenderItems.Add(new ExpressionItem(new AssignExpression("mu", new Literal(0.5f)), p, f));
+            _env.RenderItems.Add(new ExpressionItem(new AssignExpression("sigma", new Literal(0.2f)), p, f));
 
             _env.Variables["mu"] = new Literal(0.5f);
             _env.Variables["sigma"] = new Literal(0.2f);
@@ -245,29 +245,29 @@ namespace MetaphysicsIndustries.Ligra
                                     new VariableAccess("sigma"),
                                     new Literal(2))))));
 
-            _renderItems.Add(new InfoItem("A complex expression, \"(1/(sigma*sqrt(2*pi))) * e ^ ( (x - mu)^2 / (-2 * sigma^2))\"", f));
-            _renderItems.Add(new ExpressionItem(expr, p, f));
+            _env.RenderItems.Add(new InfoItem("A complex expression, \"(1/(sigma*sqrt(2*pi))) * e ^ ( (x - mu)^2 / (-2 * sigma^2))\"", f));
+            _env.RenderItems.Add(new ExpressionItem(expr, p, f));
             //(1/(sigma*sqrt(2*pi))) * e ^ ( (x - mu)^2 / (-2 * sigma^2))
 
-            _renderItems.Add(new InfoItem("A plot of the expression: ", f));
-            _renderItems.Add(new GraphItem(expr, p, "x", _parser));
+            _env.RenderItems.Add(new InfoItem("A plot of the expression: ", f));
+            _env.RenderItems.Add(new GraphItem(expr, p, "x", _parser));
 
-            _renderItems.Add(new InfoItem("Multiple plots on the same axes, \"x^3\", \"3 * x^2\", \"6 * x\":", f));
-            _renderItems.Add(new GraphItem(
+            _env.RenderItems.Add(new InfoItem("Multiple plots on the same axes, \"x^3\", \"3 * x^2\", \"6 * x\":", f));
+            _env.RenderItems.Add(new GraphItem(
                 _parser,
                 new GraphEntry(_parser.GetExpression("x^3", _env), Pens.Blue, "x"),
                 new GraphEntry(_parser.GetExpression("3*x^2", _env), Pens.Green, "x"),
                 new GraphEntry(_parser.GetExpression("6*x", _env), Pens.Red, "x")));
 
-            _renderItems.Add(new InfoItem("A plot that changes with time, \"sin(x+t)\":", f));
-            _renderItems.Add(new GraphItem(_parser.GetExpression("sin(x+t)", _env), p, "x", _parser));
+            _env.RenderItems.Add(new InfoItem("A plot that changes with time, \"sin(x+t)\":", f));
+            _env.RenderItems.Add(new GraphItem(_parser.GetExpression("sin(x+t)", _env), p, "x", _parser));
 
             expr = _parser.GetExpression("unitstep((x*x+y*y)^0.5+2*(sin(t)-1))*cos(5*y+2*t)", _env);
-            _renderItems.Add(new InfoItem("Another complex expression, \"unitstep((x*x+y*y)^0.5+2*(sin(t)-1))*cos(5*y+2*t)\",\r\nwhere t is time:", f));
-            _renderItems.Add(new ExpressionItem(expr, p, f));
+            _env.RenderItems.Add(new InfoItem("Another complex expression, \"unitstep((x*x+y*y)^0.5+2*(sin(t)-1))*cos(5*y+2*t)\",\r\nwhere t is time:", f));
+            _env.RenderItems.Add(new ExpressionItem(expr, p, f));
 
-            _renderItems.Add(new InfoItem("A 3d plot: ", f));
-            _renderItems.Add(new Graph3dItem(expr, Pens.Black, Brushes.Green, -4, 4, -4, 4, -2, 6, "x", "y"));
+            _env.RenderItems.Add(new InfoItem("A 3d plot: ", f));
+            _env.RenderItems.Add(new Graph3dItem(expr, Pens.Black, Brushes.Green, -4, 4, -4, 4, -2, 6, "x", "y"));
         }
 
         private void TSolveCommand(string input, string[] args)
@@ -371,7 +371,7 @@ namespace MetaphysicsIndustries.Ligra
             m[4, 2] = one;
             m[4, 3] = negOne;
 
-            _renderItems.Add(new ExpressionItem(m, Pens.Blue, ligraControl1.Font));
+            _env.RenderItems.Add(new ExpressionItem(m, Pens.Blue, ligraControl1.Font));
             ligraControl1.Invalidate();
         }
 
@@ -424,15 +424,15 @@ namespace MetaphysicsIndustries.Ligra
 
             if (args.Length < 3)
             {
-                _renderItems.Add(new ErrorItem(input, "Too few parameters", font, brush, input.IndexOf(args[0])));
+                _env.RenderItems.Add(new ErrorItem(input, "Too few parameters", font, brush, input.IndexOf(args[0])));
             }
             else if (!_env.Variables.ContainsKey(args[1]))
             {
-                _renderItems.Add(new ErrorItem(input, "Parameter must be a variable", font, brush, input.IndexOf(args[1])));
+                _env.RenderItems.Add(new ErrorItem(input, "Parameter must be a variable", font, brush, input.IndexOf(args[1])));
             }
             else if (!System.IO.File.Exists(args[2]))
             {
-                _renderItems.Add(new ErrorItem(input, "Parameter must be a file name", font, brush, input.IndexOf(args[1])));
+                _env.RenderItems.Add(new ErrorItem(input, "Parameter must be a file name", font, brush, input.IndexOf(args[1])));
             }
             else
             {
@@ -449,11 +449,11 @@ namespace MetaphysicsIndustries.Ligra
 
                     _env.Variables[varName] = mat;
 
-                    _renderItems.Add(new InfoItem("Image loaded successfully", font));
+                    _env.RenderItems.Add(new InfoItem("Image loaded successfully", font));
                 }
                 catch (Exception e)
                 {
-                    _renderItems.Add(new ErrorItem(input, "There was an error while loading the file: \r\n" + filename + "\r\n" + e.ToString(), font, brush));
+                    _env.RenderItems.Add(new ErrorItem(input, "There was an error while loading the file: \r\n" + filename + "\r\n" + e.ToString(), font, brush));
                 }
             }
         }
@@ -464,11 +464,11 @@ namespace MetaphysicsIndustries.Ligra
             {
                 //print the current directory
                 string dir = System.IO.Directory.GetCurrentDirectory();
-                _renderItems.Add(new InfoItem(dir, ligraControl1.Font));
+                _env.RenderItems.Add(new InfoItem(dir, ligraControl1.Font));
             }
             else if (!System.IO.Directory.Exists(args[1]))
             {
-                _renderItems.Add(new ErrorItem(input, "Parameter must be a folder name", ligraControl1.Font, Brushes.Red, input.IndexOf(args[1])));
+                _env.RenderItems.Add(new ErrorItem(input, "Parameter must be a folder name", ligraControl1.Font, Brushes.Red, input.IndexOf(args[1])));
             }
             else
             {
@@ -478,11 +478,11 @@ namespace MetaphysicsIndustries.Ligra
                 try
                 {
                     System.IO.Directory.SetCurrentDirectory(dir);
-                    _renderItems.Add(new InfoItem("Directory changed to \"" + dir + "\"", ligraControl1.Font));
+                    _env.RenderItems.Add(new InfoItem("Directory changed to \"" + dir + "\"", ligraControl1.Font));
                 }
                 catch (Exception e)
                 {
-                    _renderItems.Add(new ErrorItem(input, "There was an error: \r\n" + e.ToString(), ligraControl1.Font, Brushes.Red));
+                    _env.RenderItems.Add(new ErrorItem(input, "There was an error: \r\n" + e.ToString(), ligraControl1.Font, Brushes.Red));
                 }
             }
         }
@@ -526,13 +526,13 @@ namespace MetaphysicsIndustries.Ligra
                                 i++;
                             }
 
-                            _renderItems.Add(new GraphItem(_parser, entries.ToArray()));
+                            _env.RenderItems.Add(new GraphItem(_parser, entries.ToArray()));
                         }
                         else if (expr is Plot3dExpression)
                         {
                             Plot3dExpression expr2 = (Plot3dExpression)expr;
 
-                            _renderItems.Add(new Graph3dItem(expr2.ExpressionToPlot, expr2.WirePen, expr2.FillBrush,
+                            _env.RenderItems.Add(new Graph3dItem(expr2.ExpressionToPlot, expr2.WirePen, expr2.FillBrush,
                                 expr2.XMin, expr2.XMax,
                                 expr2.YMin, expr2.YMax,
                                 expr2.ZMin, expr2.ZMax,
@@ -542,7 +542,7 @@ namespace MetaphysicsIndustries.Ligra
                         {
                             MathPaintExpression expr2 = (MathPaintExpression)expr;
 
-                            _renderItems.Add(
+                            _env.RenderItems.Add(
                                 new MathPaintItem(
                                     expr2.Expression,
                                     expr2.HorizontalCoordinate,
@@ -578,25 +578,25 @@ namespace MetaphysicsIndustries.Ligra
                                 expr.Eval(_env);
                             }
 
-                            _renderItems.Add(new ExpressionItem(expr, Pens.Blue, Font));
+                            _env.RenderItems.Add(new ExpressionItem(expr, Pens.Blue, Font));
                         }
                     }
                 }
             }
 
-            if (_inputHistory.Count <= 0 || input != _inputHistory[_inputHistory.Count - 1])
+            if (_env.History.Count <= 0 || input != _env.History[_env.History.Count - 1])
             {
-                _inputHistory.Add(input);
+                _env.History.Add(input);
             }
             evalTextBox.SelectAll();
-            _currentHistoryIndex = -1;
+            _env.CurrentHistoryIndex = -1;
         }
 
         private void ClearHistory()
         {
-            _inputHistory.Clear();
-            _currentHistoryIndex = -1;
-            _renderItems.Add(new InfoItem("History cleared", ligraControl1.Font));
+            _env.History.Clear();
+            _env.CurrentHistoryIndex = -1;
+            _env.RenderItems.Add(new InfoItem("History cleared", ligraControl1.Font));
         }
     }
 }

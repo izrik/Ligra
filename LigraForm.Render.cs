@@ -41,7 +41,7 @@ namespace MetaphysicsIndustries.Ligra
 
             //bool stopTimer = (_renderItems.Count <= 0);
 
-            foreach (RenderItem item in _renderItems)
+            foreach (RenderItem item in _env.RenderItems)
             {
                 SizeF itemSize = item.CalcSize(ligraControl1, g);
 
