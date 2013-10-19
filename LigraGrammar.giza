@@ -3,7 +3,7 @@
 
 commands = ( command ';' )* command ';'? ;
 
-sequence = (
+interval = (
     varref '=' '[' expr '..' expr ']' |
     expr ( '<' | '<=' ) varref ( '<' | '<=' ) expr
 );
@@ -23,8 +23,8 @@ command = (
 help-command = 'help' help-item;
 clear-command = 'clear' 'all'?;
 show-command = 'show' ( 'history' | 'vars' | 'variables' | 'constants' );
-plot-command = 'plot' expr 'for' sequence ( ',' sequence )* ;
-paint-command = 'paint' expr 'for' sequence ( ',' sequence )* ;
+plot-command = 'plot' expr 'for' interval ( ',' interval )* ;
+paint-command = 'paint' expr 'for' interval ( ',' interval )* ;
 del-command = 'del' varref;
 var-assign-command = varref ':=' expr ;
 func-assign-command = identifier '(' ( identifier ( ',' identifier )* )? ')' ':=' expr ;
