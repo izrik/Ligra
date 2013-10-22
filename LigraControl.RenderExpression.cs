@@ -211,11 +211,11 @@ namespace MetaphysicsIndustries.Ligra
         {
 
             string str;
-            if (literal.Value == Math.PI)
+            if (Math.Abs(literal.Value - (float)Math.PI) < 1e-6)
             {
                 str = "π";
             }
-            else if (literal.Value == Math.E)
+            else if (Math.Abs(literal.Value - (float)Math.E) < 1e-6)
             {
                 str = "e";
             }
