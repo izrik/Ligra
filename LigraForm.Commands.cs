@@ -19,12 +19,12 @@ namespace MetaphysicsIndustries.Ligra
 
         private void InitializeCommands()
         {
-            _commands["help"] = new Command(LigraCommands.HelpCommand);
-            _commands["clear"] = new Command(LigraCommands.ClearCommand);
-            _commands["vars"] = new Command(LigraCommands.VarsCommand);
-            _commands["delete"] = new Command(LigraCommands.DeleteCommand);
-            _commands["history"] = new Command(LigraCommands.HistoryCommand);
-            _commands["example"] = new Command(LigraCommands.ExampleCommand);
+            _commands["help"] = new Command(Commands.HelpCommand);
+            _commands["clear"] = new Command(Commands.ClearCommand);
+            _commands["vars"] = new Command(Commands.VarsCommand);
+            _commands["delete"] = new Command(Commands.DeleteCommand);
+            _commands["history"] = new Command(Commands.HistoryCommand);
+            _commands["example"] = new Command(Commands.ExampleCommand);
 //            _commands["tsolve"] = new Command(LigraCommands.TSolveCommand);
 //            _commands["loadimage"] = new Command(LoadImageCommand);
 //            _commands["cd"] = new Command(CdCommand);
