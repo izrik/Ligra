@@ -42,7 +42,7 @@ namespace MetaphysicsIndustries.Ligra
                     throw new InvalidOperationException();
                 }
 
-                return new Command[] { (input_, args, env_) => LigraCommands.ExprCommand(input_, args, env_, expr) };
+                return new Command[] { (input_, args, env_) => Commands.ExprCommand(input_, args, env_, expr) };
             }
             if (spans.Length < 1)
             {
@@ -147,7 +147,7 @@ namespace MetaphysicsIndustries.Ligra
                 }
             }
 
-            return (input, args, env_) => LigraCommands.PlotCommand(input, args, env_, exprs.ToArray(), intervals.ToArray());
+            return (input, args, env_) => Commands.PlotCommand(input, args, env_, exprs.ToArray(), intervals.ToArray());
         }
 
         public VarInterval GetVarIntervalFromInterval(Span span, SolusEnvironment env)

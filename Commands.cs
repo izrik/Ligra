@@ -7,7 +7,7 @@ using MetaphysicsIndustries.Collections;
 
 namespace MetaphysicsIndustries.Ligra
 {
-    public static class LigraCommands
+    public static class Commands
     {
         public static void DeleteCommand(string input, string[] args, LigraEnvironment env)
         {
