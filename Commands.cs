@@ -404,6 +404,10 @@ namespace MetaphysicsIndustries.Ligra
                     {
                         expr.Eval(env);
                     }
+                    else
+                    {
+                        expr = expr.PreliminaryEval(env);
+                    }
 
                     env.RenderItems.Add(new ExpressionItem(expr, Pens.Blue, env.Font));
                 }
