@@ -7,14 +7,14 @@ namespace MetaphysicsIndustries.Ligra
 {
     public class LigraParser : SolusParser
     {
-        LigraGrammar _grammar = new LigraGrammar();
-        Parser _parser;
-        Spanner _numberSpanner;
+        protected new LigraGrammar _grammar;
+        protected new Parser _parser;
 
         public LigraParser()
+            : base(new LigraGrammar())
         {
+            this._grammar = (LigraGrammar)base._grammar;
             _parser = new Parser(_grammar.def_commands);
-            _numberSpanner = new Spanner(_grammar.def_float_002D_number);
         }
 
         public Command[] GetCommands(string input, SolusEnvironment env=null)
@@ -132,7 +132,76 @@ namespace MetaphysicsIndustries.Ligra
 
         Command GetPlotCommandFromPlotCommand(Span span, SolusEnvironment env)
         {
-            throw new NotImplementedException();
+            var exprs = new List<Solus.Expression>();
+            var intervals = new List<VarInterval>();
+
+            foreach (var sub in span.Subspans)
+            {
+                if (sub.DefRef == _grammar.def_expr)
+                {
+                    exprs.Add(GetExpressionFromExpr(sub, env));
+                }
+                else if (sub.DefRef == _grammar.def_interval)
+                {
+                    intervals.Add(GetVarIntervalFromInterval(sub, env));
+                }
+            }
+
+            return (input, args, env_) => LigraCommands.PlotCommand(input, args, env_, exprs.ToArray(), intervals.ToArray());
+        }
+
+        public VarInterval GetVarIntervalFromInterval(Span span, SolusEnvironment env)
+        {
+            if (span.Subspans[0].Node == _grammar.node_interval_0_varref)
+            {
+                // var = [lower .. upper]
+                string varname = span.Subspans[0].Value;
+
+                var lower = GetExpressionFromExpr(span.Subspans[3], env);
+                var upper = GetExpressionFromExpr(span.Subspans[5], env);
+                var lowerf = (float)Math.Round(lower.Eval(env).Value);
+                var upperf = (float)Math.Round(upper.Eval(env).Value);
+
+                return new VarInterval {
+                    Variable = varname,
+                    Interval = new Interval {
+                        LowerBound = lowerf,
+                        OpenLowerBound = false,
+                        UpperBound = upperf,
+                        OpenUpperBound = false,
+                        IsIntegerInterval = true,
+                    }
+                };
+
+            }
+            else
+            {
+                // lower <= var <= upper
+
+                var lower = GetExpressionFromExpr(span.Subspans[0], env);
+                var lowerf = (float)Math.Round(lower.Eval(env).Value);
+
+                var openLower = (span.Subspans[1].Value == "<");
+
+                string varname = span.Subspans[2].Subspans[0].Value;
+
+                var openUpper = (span.Subspans[3].Value == "<");
+
+                var upper = GetExpressionFromExpr(span.Subspans[4], env);
+                var upperf = (float)Math.Round(upper.Eval(env).Value);
+
+                return new VarInterval {
+                    Variable = varname,
+                    Interval = new Interval {
+                        LowerBound = lowerf,
+                        OpenLowerBound = openLower,
+                        UpperBound = upperf,
+                        OpenUpperBound = openUpper,
+                        IsIntegerInterval = false,
+                    }
+                };
+
+            }
         }
 
         Command GetPaintCommandFromPaintCommand(Span span, SolusEnvironment env)
