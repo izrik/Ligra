@@ -2,6 +2,8 @@ using System;
 using MetaphysicsIndustries.Solus;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
+using MetaphysicsIndustries.Collections;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -235,6 +237,95 @@ namespace MetaphysicsIndustries.Ligra
 
             env.RenderItems.Add(new InfoItem("A 3d plot: ", f));
             env.RenderItems.Add(new Graph3dItem(expr, Pens.Black, Brushes.Green, -4, 4, -4, 4, -2, 6, "x", "y"));
+        }
+
+        public static void PlotCommand(string input, string[] args, LigraEnvironment env, Expression[] exprs, VarInterval[] intervals)
+        {
+            if (env == null) throw new ArgumentNullException("env");
+            if (exprs == null || exprs.Length < 1) throw new ArgumentNullException("exprs");
+            if (intervals == null || intervals.Length < 1) throw new ArgumentNullException("intervals");
+
+            if (intervals.Length > 2) throw new ArgumentOutOfRangeException("Too many intervals.");
+
+            var literals = new List<Literal>();
+            foreach (var interval in intervals)
+            {
+                float midpoint = (interval.Interval.LowerBound + interval.Interval.UpperBound) / 2;
+                var literal = new Literal(midpoint);
+                env.Variables[interval.Variable] = literal;
+                literals.Add(literal);
+            }
+
+            var unboundVars = new Set<string>();
+            foreach (var expr in exprs)
+            {
+                var expr2 = expr.PreliminaryEval(env);
+                if (!(expr2 is Literal))
+                {
+                    unboundVars.AddRange(SolusEngine.GatherVariables(expr2));
+                }
+            }
+
+            if (intervals.Length == 1)
+            {
+                List<GraphEntry> entries = new List<GraphEntry>();
+
+                List<Pen> pens = new List<Pen>();
+                pens.Add(ColorExpression.Blue.Pen);
+                pens.Add(ColorExpression.Red.Pen);
+                pens.Add(ColorExpression.Green.Pen);
+                pens.Add(ColorExpression.Yellow.Pen);
+                pens.Add(ColorExpression.Cyan.Pen);
+                pens.Add(ColorExpression.Magenta.Pen);
+
+                int i = 0;
+                VarInterval interval = intervals.First();
+                foreach (Expression entry in exprs)
+                {
+                    entries.Add(new GraphEntry(entry, pens[i % pens.Count], interval.Variable));
+                    i++;
+                }
+
+                env.RenderItems.Add(new GraphItem(new SolusParser(), entries.ToArray()));
+            }
+            else // intervals.Length == 2
+            {
+                if (exprs.Length > 1)
+                {
+                    throw new NotImplementedException("Can't plot more than one 3d surface at a time.");
+                }
+
+                var expr = exprs[0];
+                var zs = new List<float>();
+
+                literals[0].Value = intervals[0].Interval.LowerBound;
+                literals[1].Value = intervals[1].Interval.LowerBound;
+                zs.Add(expr.Eval(env).Value);
+
+                literals[0].Value = intervals[0].Interval.LowerBound;
+                literals[1].Value = intervals[1].Interval.UpperBound;
+                zs.Add(expr.Eval(env).Value);
+
+                literals[0].Value = intervals[0].Interval.UpperBound;
+                literals[1].Value = intervals[1].Interval.LowerBound;
+                zs.Add(expr.Eval(env).Value);
+
+                literals[0].Value = intervals[0].Interval.UpperBound;
+                literals[1].Value = intervals[1].Interval.UpperBound;
+                zs.Add(expr.Eval(env).Value);
+
+                float zmin = zs.Min();
+                float zmax = zs.Max();
+
+                env.RenderItems.Add(new Graph3dItem(expr, Pens.Black, Brushes.Green,
+                                                    intervals[0].Interval.LowerBound,
+                                                    intervals[0].Interval.UpperBound,
+                                                    intervals[1].Interval.LowerBound,
+                                                    intervals[1].Interval.UpperBound,
+                                                    zmin, zmax,
+                                                    intervals[0].Variable,
+                                                    intervals[1].Variable));
+            }
         }
 
         public static void ExprCommand(string input, string[] args, LigraEnvironment env, Expression expr)
