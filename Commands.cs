@@ -328,6 +328,15 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
+        public static void PaintCommand(string input, string[] args, LigraEnvironment env, Expression expr, VarInterval[] intervals)
+        {
+            env.RenderItems.Add(
+                new MathPaintItem(
+                    expr,
+                    intervals[0],
+                    intervals[1]));
+        }
+
         public static void ExprCommand(string input, string[] args, LigraEnvironment env, Expression expr)
         {
             if (expr != null)
