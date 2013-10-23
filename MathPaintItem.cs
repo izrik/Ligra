@@ -24,6 +24,20 @@ namespace MetaphysicsIndustries.Ligra
             _vStart = 0;
             _height = height;
         }
+        public MathPaintItem(Expression expression,
+                             VarInterval horizontalCoordinate,
+                             VarInterval verticalCoordinate)
+        {
+            _expression = expression;
+            _horizontalCoordinate = horizontalCoordinate.Variable;
+            _verticalCoordinate = verticalCoordinate.Variable;
+            var horiz = horizontalCoordinate.Interval.Round();
+            _hStart = (int)horiz.LowerBound;
+            _width = (int)horiz.Length;
+            var vert = verticalCoordinate.Interval.Round();
+            _vStart = (int)vert.LowerBound;
+            _height = (int)vert.Length;
+        }
 
         private Expression _expression;
         private string _horizontalCoordinate;
