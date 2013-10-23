@@ -13,21 +13,25 @@ namespace MetaphysicsIndustries.Ligra
         public MathPaintItem(Expression expression, 
                              string horizontalCoordinate,
                              string verticalCoordinate,
-                            int width,
+                             int width,
                              int height)
         {
             _expression = expression;
             _horizontalCoordinate = horizontalCoordinate;
             _verticalCoordinate = verticalCoordinate;
+            _hStart = 0;
             _width = width;
+            _vStart = 0;
             _height = height;
         }
 
         private Expression _expression;
         private string _horizontalCoordinate;
         private string _verticalCoordinate;
-        private int _width;
-        private int _height;
+        int _hStart;
+        int _width;
+        int _vStart;
+        int _height;
         MemoryImage _image;
 
         protected override void InternalRender(LigraControl control, Graphics g, PointF location, SolusEnvironment env)
@@ -41,8 +45,10 @@ namespace MetaphysicsIndustries.Ligra
                             _expression,
                             _horizontalCoordinate,
                             _verticalCoordinate,
-                            0, _width,
-                            0, _height,
+                            _hStart,
+                            _width,
+                            _vStart,
+                            _height,
                             env);
 
                 if (_image != null)
