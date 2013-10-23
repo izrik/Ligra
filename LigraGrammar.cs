@@ -400,13 +400,11 @@ namespace MetaphysicsIndustries.Ligra
             def_paint_002D_command.Nodes.Add(node_paint_002D_command_5_interval);
             def_paint_002D_command.StartNodes.Add(node_paint_002D_command_0_paint);
             def_paint_002D_command.EndNodes.Add(node_paint_002D_command_5_interval);
-            def_paint_002D_command.EndNodes.Add(node_paint_002D_command_3_interval);
             node_paint_002D_command_0_paint.NextNodes.Add(node_paint_002D_command_1_expr);
             node_paint_002D_command_1_expr.NextNodes.Add(node_paint_002D_command_2_for);
             node_paint_002D_command_2_for.NextNodes.Add(node_paint_002D_command_3_interval);
             node_paint_002D_command_3_interval.NextNodes.Add(node_paint_002D_command_4__002C_);
             node_paint_002D_command_4__002C_.NextNodes.Add(node_paint_002D_command_5_interval);
-            node_paint_002D_command_5_interval.NextNodes.Add(node_paint_002D_command_4__002C_);
 
             node_del_002D_command_0_del = new DefRefNode(def__0024_implicit_0020_literal_0020_del, "del");
             node_del_002D_command_1_varref = new DefRefNode(def_varref, "varref");
