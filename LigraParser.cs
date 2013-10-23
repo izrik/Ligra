@@ -155,7 +155,7 @@ namespace MetaphysicsIndustries.Ligra
             if (span.Subspans[0].Node == _grammar.node_interval_0_varref)
             {
                 // var = [lower .. upper]
-                string varname = span.Subspans[0].Value;
+                string varname = span.Subspans[0].Subspans[0].Value;
 
                 var lower = GetExpressionFromExpr(span.Subspans[3], env);
                 var upper = GetExpressionFromExpr(span.Subspans[5], env);
@@ -206,7 +206,11 @@ namespace MetaphysicsIndustries.Ligra
 
         Command GetPaintCommandFromPaintCommand(Span span, SolusEnvironment env)
         {
-            throw new NotImplementedException();
+            var expr = GetExpressionFromExpr(span.Subspans[1], env);
+            var interval1 = GetVarIntervalFromInterval(span.Subspans[3], env);
+            var interval2 = GetVarIntervalFromInterval(span.Subspans[5], env);
+
+            return (input, args, env_) => Commands.PaintCommand(input, args, env_, expr, interval1, interval2);
         }
 
         Command GetDelCommandFromDelCommand(Span span, SolusEnvironment env)
