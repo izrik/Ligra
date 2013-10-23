@@ -77,10 +77,12 @@ namespace MetaphysicsIndustries.Ligra
         public DefRefNode node_show_002D_command_4_constants;
         public DefRefNode node_plot_002D_command_0_plot;
         public DefRefNode node_plot_002D_command_1_expr;
-        public DefRefNode node_plot_002D_command_2_for;
-        public DefRefNode node_plot_002D_command_3_interval;
-        public DefRefNode node_plot_002D_command_4__002C_;
+        public DefRefNode node_plot_002D_command_2__002C_;
+        public DefRefNode node_plot_002D_command_3_expr;
+        public DefRefNode node_plot_002D_command_4_for;
         public DefRefNode node_plot_002D_command_5_interval;
+        public DefRefNode node_plot_002D_command_6__002C_;
+        public DefRefNode node_plot_002D_command_7_interval;
         public DefRefNode node_paint_002D_command_0_paint;
         public DefRefNode node_paint_002D_command_1_expr;
         public DefRefNode node_paint_002D_command_2_for;
@@ -356,25 +358,33 @@ namespace MetaphysicsIndustries.Ligra
 
             node_plot_002D_command_0_plot = new DefRefNode(def__0024_implicit_0020_literal_0020_plot, "plot");
             node_plot_002D_command_1_expr = new DefRefNode(def_expr, "expr");
-            node_plot_002D_command_2_for = new DefRefNode(def__0024_implicit_0020_literal_0020_for, "for");
-            node_plot_002D_command_3_interval = new DefRefNode(def_interval, "interval");
-            node_plot_002D_command_4__002C_ = new DefRefNode(def__0024_implicit_0020_literal_0020__002C_, ",");
+            node_plot_002D_command_2__002C_ = new DefRefNode(def__0024_implicit_0020_literal_0020__002C_, ",");
+            node_plot_002D_command_3_expr = new DefRefNode(def_expr, "expr");
+            node_plot_002D_command_4_for = new DefRefNode(def__0024_implicit_0020_literal_0020_for, "for");
             node_plot_002D_command_5_interval = new DefRefNode(def_interval, "interval");
+            node_plot_002D_command_6__002C_ = new DefRefNode(def__0024_implicit_0020_literal_0020__002C_, ",");
+            node_plot_002D_command_7_interval = new DefRefNode(def_interval, "interval");
             def_plot_002D_command.Nodes.Add(node_plot_002D_command_0_plot);
             def_plot_002D_command.Nodes.Add(node_plot_002D_command_1_expr);
-            def_plot_002D_command.Nodes.Add(node_plot_002D_command_2_for);
-            def_plot_002D_command.Nodes.Add(node_plot_002D_command_3_interval);
-            def_plot_002D_command.Nodes.Add(node_plot_002D_command_4__002C_);
+            def_plot_002D_command.Nodes.Add(node_plot_002D_command_2__002C_);
+            def_plot_002D_command.Nodes.Add(node_plot_002D_command_3_expr);
+            def_plot_002D_command.Nodes.Add(node_plot_002D_command_4_for);
             def_plot_002D_command.Nodes.Add(node_plot_002D_command_5_interval);
+            def_plot_002D_command.Nodes.Add(node_plot_002D_command_6__002C_);
+            def_plot_002D_command.Nodes.Add(node_plot_002D_command_7_interval);
             def_plot_002D_command.StartNodes.Add(node_plot_002D_command_0_plot);
+            def_plot_002D_command.EndNodes.Add(node_plot_002D_command_7_interval);
             def_plot_002D_command.EndNodes.Add(node_plot_002D_command_5_interval);
-            def_plot_002D_command.EndNodes.Add(node_plot_002D_command_3_interval);
             node_plot_002D_command_0_plot.NextNodes.Add(node_plot_002D_command_1_expr);
-            node_plot_002D_command_1_expr.NextNodes.Add(node_plot_002D_command_2_for);
-            node_plot_002D_command_2_for.NextNodes.Add(node_plot_002D_command_3_interval);
-            node_plot_002D_command_3_interval.NextNodes.Add(node_plot_002D_command_4__002C_);
-            node_plot_002D_command_4__002C_.NextNodes.Add(node_plot_002D_command_5_interval);
-            node_plot_002D_command_5_interval.NextNodes.Add(node_plot_002D_command_4__002C_);
+            node_plot_002D_command_1_expr.NextNodes.Add(node_plot_002D_command_2__002C_);
+            node_plot_002D_command_1_expr.NextNodes.Add(node_plot_002D_command_4_for);
+            node_plot_002D_command_2__002C_.NextNodes.Add(node_plot_002D_command_3_expr);
+            node_plot_002D_command_3_expr.NextNodes.Add(node_plot_002D_command_2__002C_);
+            node_plot_002D_command_3_expr.NextNodes.Add(node_plot_002D_command_4_for);
+            node_plot_002D_command_4_for.NextNodes.Add(node_plot_002D_command_5_interval);
+            node_plot_002D_command_5_interval.NextNodes.Add(node_plot_002D_command_6__002C_);
+            node_plot_002D_command_6__002C_.NextNodes.Add(node_plot_002D_command_7_interval);
+            node_plot_002D_command_7_interval.NextNodes.Add(node_plot_002D_command_6__002C_);
 
             node_paint_002D_command_0_paint = new DefRefNode(def__0024_implicit_0020_literal_0020_paint, "paint");
             node_paint_002D_command_1_expr = new DefRefNode(def_expr, "expr");
@@ -812,6 +822,7 @@ namespace MetaphysicsIndustries.Ligra
             def__0024_implicit_0020_literal_0020__003A__003D_.StartNodes.Add(node__0024_implicit_0020_literal_0020__003A__003D__0_);
             def__0024_implicit_0020_literal_0020__003A__003D_.EndNodes.Add(node__0024_implicit_0020_literal_0020__003A__003D__1_);
             node__0024_implicit_0020_literal_0020__003A__003D__0_.NextNodes.Add(node__0024_implicit_0020_literal_0020__003A__003D__1_);
+
         }
     }
 }
