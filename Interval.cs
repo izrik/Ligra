@@ -6,6 +6,10 @@ namespace MetaphysicsIndustries.Ligra
     {
         public float LowerBound;
         public float UpperBound;
+        public float Length
+        {
+            get { return UpperBound - LowerBound; }
+        }
 
         public bool OpenLowerBound;
         public bool OpenUpperBound;
