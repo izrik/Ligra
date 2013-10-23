@@ -114,10 +114,7 @@
     <Compile Include="LigraFormsControl.Designer.cs">
       <DependentUpon>LigraFormsControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="MathPaintExpression.cs" />
     <Compile Include="MathPaintItem.cs" />
-    <Compile Include="Plot3dExpression.cs" />
-    <Compile Include="PlotExpression.cs" />
     <Compile Include="PlotPropertiesForm.cs">
       <SubType>Form</SubType>
     </Compile>
