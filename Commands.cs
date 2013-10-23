@@ -339,88 +339,22 @@ namespace MetaphysicsIndustries.Ligra
 
         public static void ExprCommand(string input, string[] args, LigraEnvironment env, Expression expr)
         {
-            if (expr != null)
+            if (expr is AssignExpression)
             {
-                if (expr is PlotExpression)
-                {
-                    PlotExpression expr2 = (PlotExpression)expr;
+                AssignExpression expr2 = (AssignExpression)expr;
 
-                    List<GraphEntry> entries = new List<GraphEntry>();
-
-                    List<Pen> pens = new List<Pen>();
-                    pens.Add(ColorExpression.Blue.Pen);
-                    pens.Add(ColorExpression.Red.Pen);
-                    pens.Add(ColorExpression.Green.Pen);
-                    pens.Add(ColorExpression.Yellow.Pen);
-                    pens.Add(ColorExpression.Cyan.Pen);
-                    pens.Add(ColorExpression.Magenta.Pen);
-
-                    int i = 0;
-                    foreach (Expression entry in expr2.ExpressionsToPlot)
-                    {
-                        entries.Add(new GraphEntry(entry, pens[i % pens.Count], expr2.Variable));
-                        i++;
-                    }
-
-                    env.RenderItems.Add(new GraphItem(new SolusParser(), entries.ToArray()));
-                }
-                else if (expr is Plot3dExpression)
-                {
-                    Plot3dExpression expr2 = (Plot3dExpression)expr;
-
-                    env.RenderItems.Add(new Graph3dItem(expr2.ExpressionToPlot, expr2.WirePen, expr2.FillBrush,
-                                                        expr2.XMin, expr2.XMax,
-                                                        expr2.YMin, expr2.YMax,
-                                                        expr2.ZMin, expr2.ZMax,
-                                                        expr2.IndependentVariableX, expr2.IndependentVariableY));
-                }
-                else if (expr is MathPaintExpression)
-                {
-                    MathPaintExpression expr2 = (MathPaintExpression)expr;
-
-                    env.RenderItems.Add(
-                        new MathPaintItem(
-                        expr2.Expression,
-                        expr2.HorizontalCoordinate,
-                        expr2.VerticalCoordinate,
-                        expr2.Width,
-                        expr2.Height));
-                }
-                //else if (expr is PlotMatrixExpression)
-                //{
-                //    throw new NotImplementedException();
-                //    //PlotMatrixExpression expr2 = (PlotMatrixExpression)expr;
-                //    //_renderItems.Add(
-                //    //    new GraphMatrixItem(
-                //    //        expr2.Matrix,
-                //    //        string.Empty));
-                //}
-                //else if (expr is PlotVectorExpression)
-                //{
-                //    throw new NotImplementedException();
-                //    //PlotVectorExpression expr2 = (PlotVectorExpression)expr;
-                //    //_renderItems.Add(new GraphVectorItem(expr2.Vector, string.Empty));
-                //}
-                else
-                {
-                    if (expr is AssignExpression)
-                    {
-                        AssignExpression expr2 = (AssignExpression)expr;
-
-                        env.Variables[expr2.Variable] = (Literal)(expr2.Value.Clone());
-                    }
-                    else if (expr is DelayAssignExpression)
-                    {
-                        expr.Eval(env);
-                    }
-                    else
-                    {
-                        expr = expr.PreliminaryEval(env);
-                    }
-
-                    env.RenderItems.Add(new ExpressionItem(expr, Pens.Blue, env.Font));
-                }
+                env.Variables[expr2.Variable] = (Literal)(expr2.Value.Clone());
             }
+            else if (expr is DelayAssignExpression)
+            {
+                expr.Eval(env);
+            }
+            else
+            {
+                expr = expr.PreliminaryEval(env);
+            }
+
+            env.RenderItems.Add(new ExpressionItem(expr, Pens.Blue, env.Font));
         }
 
         public static void ClearHistory(LigraEnvironment env)

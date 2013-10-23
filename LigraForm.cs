@@ -16,10 +16,6 @@ namespace MetaphysicsIndustries.Ligra
     {
         public LigraForm()
         {
-            _env.AddMacro(PlotExpression.PlotMacro.Value);
-            _env.AddMacro(Plot3dExpression.Plot3dMacro.Value);
-            _env.AddMacro(MathPaintExpression.MathpaintMacro.Value);
-
             InitializeComponent();
 
             if (Environment.OSVersion.Platform == PlatformID.Unix ||
