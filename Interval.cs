@@ -1,4 +1,5 @@
 using System;
+using MetaphysicsIndustries.Solus;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -25,6 +26,11 @@ namespace MetaphysicsIndustries.Ligra
                 OpenUpperBound = false,
                 IsIntegerInterval = true,
             };
+        }
+
+        public Interval Round()
+        {
+            return Integer(LowerBound.RoundInt(), UpperBound.RoundInt());
         }
     }
 }
