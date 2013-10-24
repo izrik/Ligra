@@ -53,11 +53,6 @@
     <Compile Include="GraphMatrixItem.cs" />
     <Compile Include="GraphVectorItem.cs" />
     <Compile Include="HelpItem.cs" />
-    <Compile Include="HelpStrings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>HelpStrings.resx</DependentUpon>
-    </Compile>
     <Compile Include="InfoItem.cs" />
     <Compile Include="IntroItem.cs" />
     <Compile Include="LigraControl.CalcExpressionSize.cs">
@@ -123,11 +118,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="HelpStrings.resx">
-      <SubType>Designer</SubType>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>HelpStrings.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="LigraControl.resx">
       <SubType>Designer</SubType>
       <DependentUpon>LigraControl.cs</DependentUpon>
