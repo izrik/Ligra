@@ -55,14 +55,6 @@ namespace MetaphysicsIndustries.Ligra
             {
                 RenderRandomExpression(g, expr as RandomExpression, pt, pen, brush, expressionSizeCache, font);
             }
-            else if (expr is AssignExpression)
-            {
-                RenderAssignExpression(g, (AssignExpression)expr, pt, pen, brush, expressionSizeCache, font, drawBoxes);
-            }
-            else if (expr is DelayAssignExpression)
-            {
-                RenderDelayAssignExpression(g, (DelayAssignExpression)expr, pt, pen, brush, expressionSizeCache, font, drawBoxes);
-            }
             else if (expr is SolusMatrix)
             {
                 RenderMatrix(g, (SolusMatrix)expr, pt, pen, brush, expressionSizeCache, font, drawBoxes);
@@ -155,30 +147,6 @@ namespace MetaphysicsIndustries.Ligra
                 }
                 y += height;
             }
-        }
-
-        protected static void RenderDelayAssignExpression(Graphics g, DelayAssignExpression delayAssignExpression, PointF pt, Pen pen, Brush brush, Dictionary<Expression, SizeF> expressionSizeCache, Font font, bool drawBoxes)
-        {
-
-            string varText = delayAssignExpression.Variable + " := ";
-            SizeF varTextSize = g.MeasureString(varText, font) + new SizeF(2, 0);
-            float frontWidth = varTextSize.Width;
-            SizeF valueSize = CalcExpressionSize(delayAssignExpression.Expression, g, font, expressionSizeCache);
-
-            g.DrawString(varText, font, brush, pt + new SizeF(2, (valueSize.Height - varTextSize.Height) / 2));
-            InternalRenderExpression(g, delayAssignExpression.Expression, pt + new SizeF(frontWidth, 0), pen, brush, expressionSizeCache, font, drawBoxes);
-        }
-
-        protected static void RenderAssignExpression(Graphics g, AssignExpression assignExpression, PointF pt, Pen pen, Brush brush, Dictionary<Expression, SizeF> expressionSizeCache, Font font, bool drawBoxes)
-        {
-
-            string varText = assignExpression.Variable + " = ";
-            SizeF varTextSize = g.MeasureString(varText, font) + new SizeF(2, 0);
-            float frontWidth = varTextSize.Width;
-            SizeF valueSize = CalcExpressionSize(assignExpression.Value, g, font, expressionSizeCache);
-
-            g.DrawString(varText, font, brush, pt + new SizeF(2, (valueSize.Height - varTextSize.Height) / 2));
-            InternalRenderExpression(g, assignExpression.Value, pt + new SizeF(frontWidth, 0), pen, brush, expressionSizeCache, font, drawBoxes);
         }
 
         protected static void RenderRandomExpression(Graphics g, RandomExpression randomExpression, PointF pt, Pen pen, Brush brush, Dictionary<Expression, SizeF> expressionSizeCache, Font font)
@@ -657,8 +625,7 @@ namespace MetaphysicsIndustries.Ligra
                 (functionCall.Arguments[1] as FunctionCall).Function is Operation &&
                 ((functionCall.Arguments[1] as FunctionCall).Function as Operation).Precedence < (functionCall.Function as Operation).Precedence) ||
                 (functionCall.Arguments[1] is FunctionCall && (functionCall.Arguments[1] as FunctionCall).Function is ExponentOperation) ||
-                (functionCall.Arguments[1] is FunctionCall && (functionCall.Arguments[1] as FunctionCall).Function is DivisionOperation) ||
-                (functionCall.Arguments[1] is DelayAssignExpression);
+                (functionCall.Arguments[1] is FunctionCall && (functionCall.Arguments[1] as FunctionCall).Function is DivisionOperation);
         }
 
         private static bool NeedsLeftParen(FunctionCall functionCall)
@@ -667,8 +634,7 @@ namespace MetaphysicsIndustries.Ligra
                 (functionCall.Arguments[0] as FunctionCall).Function is Operation &&
                 ((functionCall.Arguments[0] as FunctionCall).Function as Operation).Precedence < (functionCall.Function as Operation).Precedence) ||
                 (functionCall.Arguments[0] is FunctionCall && (functionCall.Arguments[0] as FunctionCall).Function is ExponentOperation) ||
-                (functionCall.Arguments[0] is FunctionCall && (functionCall.Arguments[0] as FunctionCall).Function is DivisionOperation) || 
-                (functionCall.Arguments[0] is DelayAssignExpression);
+                (functionCall.Arguments[0] is FunctionCall && (functionCall.Arguments[0] as FunctionCall).Function is DivisionOperation);
         }
 
         protected static void RenderDivisionOperation(Graphics g, FunctionCall functionCall, PointF pt, Pen pen, Brush brush, Dictionary<Expression, SizeF> expressionSizeCache, bool drawBoxes, Font font)

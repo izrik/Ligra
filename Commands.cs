@@ -173,8 +173,20 @@ namespace MetaphysicsIndustries.Ligra
             env.RenderItems.Add(new ExpressionItem(expr, p, f));
 
             env.RenderItems.Add(new InfoItem("Some variable assignments: ", f));
-            env.RenderItems.Add(new ExpressionItem(new AssignExpression("mu", new Literal(0.5f)), p, f));
-            env.RenderItems.Add(new ExpressionItem(new AssignExpression("sigma", new Literal(0.2f)), p, f));
+            env.RenderItems.Add(new ExpressionItem(
+                new FunctionCall(
+                    AssignOperation.Value,
+                    new VariableAccess("mu"),
+                    new Literal(0.5f)),
+                p,
+                f));
+            env.RenderItems.Add(new ExpressionItem(
+                new FunctionCall(
+                    AssignOperation.Value,
+                    new VariableAccess("sigma"),
+                    new Literal(0.2f)),
+                p,
+                f));
 
             env.Variables["mu"] = new Literal(0.5f);
             env.Variables["sigma"] = new Literal(0.2f);
@@ -341,22 +353,21 @@ namespace MetaphysicsIndustries.Ligra
                     interval2));
         }
 
+        public static void VarAssignCommand(string input, string[] args, LigraEnvironment env, string varname, Expression expr)
+        {
+            env.Variables[varname] = expr;
+
+            var expr2 = new FunctionCall(
+                            AssignOperation.Value,
+                            new VariableAccess(varname),
+                            expr);
+
+            env.RenderItems.Add(new ExpressionItem(expr2, Pens.Blue, env.Font));
+        }
+
         public static void ExprCommand(string input, string[] args, LigraEnvironment env, Expression expr)
         {
-            if (expr is AssignExpression)
-            {
-                AssignExpression expr2 = (AssignExpression)expr;
-
-                env.Variables[expr2.Variable] = (Literal)(expr2.Value.Clone());
-            }
-            else if (expr is DelayAssignExpression)
-            {
-                expr.Eval(env);
-            }
-            else
-            {
-                expr = expr.PreliminaryEval(env);
-            }
+            expr = expr.PreliminaryEval(env);
 
             env.RenderItems.Add(new ExpressionItem(expr, Pens.Blue, env.Font));
         }
