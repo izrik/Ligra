@@ -97,15 +97,19 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        public static void HelpCommand(string input, string[] args, LigraEnvironment env)
+        public static void HelpCommand(string input, string[] args, LigraEnvironment env, string topic)
         {
-            if (args.Length > 1)
+            if (!string.IsNullOrEmpty(topic))
             {
-                env.RenderItems.Add(new HelpItem(env.Font, args[1]));
+                env.RenderItems.Add(new HelpItem(env.Font, topic, env));
+            }
+            else if (args.Length > 1)
+            {
+                env.RenderItems.Add(new HelpItem(env.Font, args[1], env));
             }
             else
             {
-                env.RenderItems.Add(new HelpItem(env.Font));
+                env.RenderItems.Add(new HelpItem(env.Font, env));
             }
         }
 

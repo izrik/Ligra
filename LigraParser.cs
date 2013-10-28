@@ -117,7 +117,9 @@ namespace MetaphysicsIndustries.Ligra
 
         Command GetHelpCommandFromHelpCommand(Span span, SolusEnvironment env)
         {
-            throw new NotImplementedException();
+            var topic = span.Subspans[1].Subspans[0].Value;
+
+            return (input, args, env_) => Commands.HelpCommand(input, args, env_, topic);
         }
 
         Command GetClearCommandFromClearCommand(Span span, SolusEnvironment env)
