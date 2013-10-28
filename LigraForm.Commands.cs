@@ -19,7 +19,7 @@ namespace MetaphysicsIndustries.Ligra
 
         private void InitializeCommands()
         {
-            _commands["help"] = new Command(Commands.HelpCommand);
+//            _commands["help"] = new Command(Commands.HelpCommand);
             _commands["clear"] = new Command(Commands.ClearCommand);
             _commands["vars"] = new Command(Commands.VarsCommand);
             _commands["delete"] = new Command(Commands.DeleteCommand);
