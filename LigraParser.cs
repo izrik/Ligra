@@ -222,7 +222,11 @@ namespace MetaphysicsIndustries.Ligra
 
         Command GetVarAssignCommandFromVarAssignCommand(Span span, SolusEnvironment env)
         {
-            throw new NotImplementedException();
+            var varname = span.Subspans[0].Subspans[0].Value;
+            var expr = GetExpressionFromExpr(span.Subspans[2], env);
+            expr = expr.PreliminaryEval(env);
+
+            return (input, args, env_) => Commands.VarAssignCommand(input, args, env_, varname, expr);
         }
 
         Command GetFuncAssignCommandFromFuncAssignCommand(Span span, SolusEnvironment env)

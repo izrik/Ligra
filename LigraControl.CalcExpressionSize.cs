@@ -64,26 +64,6 @@ namespace MetaphysicsIndustries.Ligra
             {
                 size = g.MeasureString("rand()", font);
             }
-            else if (expr is AssignExpression)
-            {
-                AssignExpression expr2 = (AssignExpression)expr;
-
-                size = g.MeasureString(expr2.Variable + " = ", font);
-
-                SizeF size2 = CalcExpressionSize(expr2.Value, g, font, expressionSizeCache);
-                size.Width += size2.Width;
-                size.Height = Math.Max(size.Height, size2.Height);
-            }
-            else if (expr is DelayAssignExpression)
-            {
-                DelayAssignExpression expr2 = (DelayAssignExpression)expr;
-
-                size = g.MeasureString(expr2.Variable + " := ", font);
-
-                SizeF size2 = CalcExpressionSize(expr2.Expression, g, font, expressionSizeCache);
-                size.Width += size2.Width;
-                size.Height = Math.Max(size.Height, size2.Height);
-            }
             else if (expr is SolusMatrix)
             {
                 SolusMatrix expr2 = (SolusMatrix)expr;
