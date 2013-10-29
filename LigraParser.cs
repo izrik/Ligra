@@ -2,6 +2,7 @@ using System;
 using MetaphysicsIndustries.Solus;
 using MetaphysicsIndustries.Giza;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -231,7 +232,33 @@ namespace MetaphysicsIndustries.Ligra
 
         Command GetFuncAssignCommandFromFuncAssignCommand(Span span, SolusEnvironment env)
         {
-            throw new NotImplementedException();
+            var funcname = span.Subspans[0].Value;
+
+            var args = new List<string>();
+
+            foreach (var sub in span.Subspans.Skip(1))
+            {
+                if (sub.DefRef == _grammar.def_identifier)
+                {
+                    args.Add(sub.Value);
+                }
+            }
+
+            SolusEnvironment env2 = env.CreateChildEnvironment();
+
+            // create the functino, with no expr
+            var func = new UserDefinedFunction(funcname, args.ToArray(), null);
+            if (env2.Functions.ContainsKey(funcname))
+            {
+                env2.Functions.Remove(funcname);
+            }
+            env2.AddFunction(func);
+
+            // read the expr. this order of things allows for recursion
+            var expr = GetExpressionFromExpr(span.Subspans.Last(), env2);
+            func.Expression = expr;
+
+            return (input, args_, env_) => Commands.FuncAssignCommand(input, args_, env_, func);
         }
     }
 }

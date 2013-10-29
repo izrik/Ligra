@@ -365,6 +365,22 @@ namespace MetaphysicsIndustries.Ligra
             env.RenderItems.Add(new ExpressionItem(expr2, Pens.Blue, env.Font));
         }
 
+        public static void FuncAssignCommand(string input, string[] args, LigraEnvironment env, UserDefinedFunction func)
+        {
+//            var func = new UserDefinedFunction(funcname, argnames, expr);
+            if (env.Functions.ContainsKey(func.DisplayName))
+            {
+                env.Functions.Remove(func.DisplayName);
+            }
+            env.AddFunction(func);
+
+            var varrefs = func.Argnames.Select(x => new VariableAccess(x));
+            var fcall = new FunctionCall(func, varrefs);
+            var expr2 = new FunctionCall(AssignOperation.Value, fcall, func.Expression);
+
+            env.RenderItems.Add(new ExpressionItem(expr2, Pens.Blue, env.Font));
+        }
+
         public static void ExprCommand(string input, string[] args, LigraEnvironment env, Expression expr)
         {
             expr = expr.PreliminaryEval(env);

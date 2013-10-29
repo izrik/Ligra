@@ -11,9 +11,9 @@ namespace MetaphysicsIndustries.Solus
         protected AssignOperation()
         {
             Name = ":=";
-            Types.Clear();
-            Types.Add(typeof(VariableAccess));
-            Types.Add(typeof(Expression));
+//            Types.Clear();
+//            Types.Add(typeof(VariableAccess));
+//            Types.Add(typeof(Expression));
         }
 
         public override bool HasIdentityValue { get { return false; } }
