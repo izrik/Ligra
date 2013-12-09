@@ -27,7 +27,7 @@ namespace MetaphysicsIndustries.Ligra
 
             var errors1 = new List<Error>();
 
-            var spans = _parser.Parse(input, errors1);
+            var spans = _parser.Parse(input.ToCharacterSource(), errors1);
 
             if (errors1.ContainsNonWarnings())
             {
