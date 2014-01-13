@@ -25,6 +25,7 @@ namespace MetaphysicsIndustries.Ligra
             _commands["delete"] = new Command(Commands.DeleteCommand);
             _commands["history"] = new Command(Commands.HistoryCommand);
             _commands["example"] = new Command(Commands.ExampleCommand);
+            _commands["example2"] = new Command(Commands.Example2Command);
 //            _commands["tsolve"] = new Command(LigraCommands.TSolveCommand);
 //            _commands["loadimage"] = new Command(LoadImageCommand);
 //            _commands["cd"] = new Command(CdCommand);
