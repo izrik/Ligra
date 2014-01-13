@@ -255,6 +255,21 @@ namespace MetaphysicsIndustries.Ligra
             env.RenderItems.Add(new Graph3dItem(expr, Pens.Black, Brushes.Green, -4, 4, -4, 4, -2, 6, "x", "y"));
         }
 
+        public static void Example2Command(string input, string[] args, LigraEnvironment env)
+        {
+            Font f = env.Font;
+
+            if (!env.Variables.ContainsKey("x")) env.Variables.Add("x", new Literal(0));
+            if (!env.Variables.ContainsKey("y")) env.Variables.Add("y", new Literal(0));
+
+            Expression expr;
+
+            var parser = new SolusParser();
+            expr = parser.GetExpression("unitstep((x*x+y*y)^0.5+2*(sin(t)-1))*cos(5*y+2*t)", env);
+            env.RenderItems.Add(new InfoItem("unitstep((x*x+y*y)^0.5+2*(sin(t)-1))*cos(5*y+2*t)", f));
+            env.RenderItems.Add(new Graph3dItem(expr, Pens.Black, Brushes.Green, -4, 4, -4, 4, -2, 6, "x", "y"));
+        }
+
         public static void PlotCommand(string input, string[] args, LigraEnvironment env, Expression[] exprs, VarInterval[] intervals)
         {
             if (env == null) throw new ArgumentNullException("env");
