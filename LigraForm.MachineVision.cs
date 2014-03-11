@@ -122,13 +122,13 @@ namespace MetaphysicsIndustries.Ligra
             System.IO.Directory.SetCurrentDirectory("C:\\Documents and Settings\\izrik\\Desktop\\school\\filters\\project 3\\");
 
             Matrix temp = dbedFilter.Apply(image);
-            Pair<float> dbedInterval = IntervalFitMatrixFilter.CalcInterval(temp);
-            Matrix dbedImage = IntervalFitBaseMatrixFilter.IntervalFit(temp, dbedInterval.First, dbedInterval.Second);
+            var dbedInterval = IntervalFitMatrixFilter.CalcInterval(temp);
+            Matrix dbedImage = IntervalFitBaseMatrixFilter.IntervalFit(temp, dbedInterval.Value1, dbedInterval.Value2);
             SaveImageForFilters("dual_bell_image.bmp", dbedImage);
 
             temp = SobelMatrixFilter.GenerateMagnitudeMap(image);
-            Pair<float> sobelInterval = IntervalFitMatrixFilter.CalcInterval(temp);
-            Matrix sobelImage = IntervalFitBaseMatrixFilter.IntervalFit(temp, sobelInterval.First, sobelInterval.Second);
+            var sobelInterval = IntervalFitMatrixFilter.CalcInterval(temp);
+            Matrix sobelImage = IntervalFitBaseMatrixFilter.IntervalFit(temp, sobelInterval.Value1, sobelInterval.Value2);
             SaveImageForFilters("sobel_image.bmp", sobelImage);
 
             List<List<string>> sobelResults = new List<List<string>>();
@@ -156,7 +156,7 @@ namespace MetaphysicsIndustries.Ligra
                 SaveImageForFilters("noisy_image_p_" + impulseProbability.ToString("G3") + ".bmp", noisyImage);
 
                 temp = SobelMatrixFilter.GenerateMagnitudeMap(noisyImage);
-                Matrix sobelNoiseImage = IntervalFitBaseMatrixFilter.IntervalFit(temp, sobelInterval.First, sobelInterval.Second);
+                Matrix sobelNoiseImage = IntervalFitBaseMatrixFilter.IntervalFit(temp, sobelInterval.Value1, sobelInterval.Value2);
                 SaveImageForFilters("sobel_noise_image_p_" + impulseProbability.ToString("G3") + ".bmp", sobelNoiseImage);
 
                 sobelResultsLine = new List<string>();
@@ -176,7 +176,7 @@ namespace MetaphysicsIndustries.Ligra
                         AlphaTrimmedDualBellEdgeDetectorMatrixFilter dbFilter = new AlphaTrimmedDualBellEdgeDetectorMatrixFilter(alpha, windowSize);
                         int time2 = System.Environment.TickCount;
                         temp = dbFilter.Apply(noisyImage);
-                        Matrix dbedNoiseImage = IntervalFitBaseMatrixFilter.IntervalFit(temp, dbedInterval.First, dbedInterval.Second);
+                        Matrix dbedNoiseImage = IntervalFitBaseMatrixFilter.IntervalFit(temp, dbedInterval.Value1, dbedInterval.Value2);
                         time2 = System.Environment.TickCount - time2;
                         SaveImageForFilters("dbed_noise_image_p_" + impulseProbability.ToString() + "_w_" + windowSize.ToString() + "_a_" + alpha.ToString() + ".bmp", dbedNoiseImage);
 

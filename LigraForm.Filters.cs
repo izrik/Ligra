@@ -171,7 +171,7 @@ namespace MetaphysicsIndustries.Ligra
                 ff[i] = (float)Math.Cos(i/10.0);
             }
             ff2 = dft.Apply(ff);
-            Pair<Vector> ffc = dft.Apply2(ff);
+            var ffc = dft.Apply2(ff);
 
             ric.Items.Add(new GraphVectorItem(ff, "Sinusoidal function"));
             ric.Items.Add(new GraphVectorItem(ff2, "Discrete Fourier transform"));
@@ -179,7 +179,7 @@ namespace MetaphysicsIndustries.Ligra
             //            new GraphVectorItem(
             //                idft.Apply(ff2),
             //                "Reconstructed"));
-            ric.Items.Add(new GraphVectorItem(idft.Apply2(ffc).First, "Reconstructed"));
+            ric.Items.Add(new GraphVectorItem(idft.Apply2(ffc).Value1, "Reconstructed"));
 
             ric.Items.Add(new SpacerItem(new SizeF(250, 250)));
             int j;
@@ -203,7 +203,7 @@ namespace MetaphysicsIndustries.Ligra
             ric.Items.Add(new GraphVectorItem(ff2, "Discrete Fourier transform"));
             ric.Items.Add(
                         new GraphVectorItem(
-                            idft.Apply2(ffc).First,
+                            idft.Apply2(ffc).Value1,
                             "Reconstructed"));
 
 
@@ -297,7 +297,7 @@ namespace MetaphysicsIndustries.Ligra
             FourierTransformMatrixFilter fourier = new FourierTransformMatrixFilter();
 
 
-            Pair<Matrix> pair = fourier.Apply2(block);
+            var pair = fourier.Apply2(block);
             Matrix output;
 
             int i;
@@ -305,13 +305,13 @@ namespace MetaphysicsIndustries.Ligra
             float rr;
             float ii;
 
-            output = pair.First.Clone();
+            output = pair.Value1.Clone();
             for (i = 0; i < output.RowCount; i++)
             {
                 for (j = 0; j < output.ColumnCount; j++)
                 {
-                    rr = pair.First[i, j];
-                    ii = pair.Second[i, j];
+                    rr = pair.Value1[i, j];
+                    ii = pair.Value2[i, j];
                     output[i, j] = (float)Math.Sqrt(rr * rr + ii * ii);
                 }
             }
@@ -319,12 +319,12 @@ namespace MetaphysicsIndustries.Ligra
             output.ApplyToAll(AcuityEngine.ConvertFloatTo24g);
             AcuityEngine.SaveImage("block_fourier_amplitude.bmp", output);
 
-            output = pair.First.Clone();
+            output = pair.Value1.Clone();
             //output.ApplyToAll(Math.Log);
             output.ApplyToAll(AcuityEngine.ConvertFloatTo24g);
             AcuityEngine.SaveImage("block_fourier_real.bmp", output);
 
-            output = pair.First.Clone();
+            output = pair.Value1.Clone();
             //output.ApplyToAll(Math.Log);
             output.ApplyToAll(AcuityEngine.ConvertFloatTo24g);
             AcuityEngine.SaveImage("block_fourier_imaginary.bmp", output);
@@ -589,11 +589,11 @@ namespace MetaphysicsIndustries.Ligra
             FourierTransformMatrixFilter dft = new FourierTransformMatrixFilter();
             InverseFourierTransformMatrixFilter idft = new InverseFourierTransformMatrixFilter();
 
-            Pair<Matrix> ff = dft.Apply2(tank);
+            var ff = dft.Apply2(tank);
 
             AcuityEngine.MultiplyModulator mod = new AcuityEngine.MultiplyModulator(1 / (float)tank.RowCount);
-            ff.First.ApplyToAll(mod.Modulate);
-            ff.Second.ApplyToAll(mod.Modulate);
+            ff.Value1.ApplyToAll(mod.Modulate);
+            ff.Value2.ApplyToAll(mod.Modulate);
 
             IntervalFitMatrixFilter fit = new IntervalFitMatrixFilter();
 
@@ -601,13 +601,13 @@ namespace MetaphysicsIndustries.Ligra
 
             if (doFit)
             {
-                ApplyFilter(ff.First, fit, "DFT Real Part", ric, null, null, useSsim, true);
-                ApplyFilter(ff.Second, fit, "DFT Imaginary Part", ric, null, null, useSsim, true);
+                ApplyFilter(ff.Value1, fit, "DFT Real Part", ric, null, null, useSsim, true);
+                ApplyFilter(ff.Value2, fit, "DFT Imaginary Part", ric, null, null, useSsim, true);
             }
             else
             {
-                AddMatrixImage("DFT Real Part", ric, ff.First, null);
-                AddMatrixImage("DFT Imaginary Part", ric, ff.Second, null);
+                AddMatrixImage("DFT Real Part", ric, ff.Value1, null);
+                AddMatrixImage("DFT Imaginary Part", ric, ff.Value2, null);
             }
 
             BiModulatorMatrixFilter magFilter = new BiModulatorMatrixFilter(AcuityEngine.ComplexMagnitude);
@@ -625,10 +625,10 @@ namespace MetaphysicsIndustries.Ligra
             }
 
             mod = new AcuityEngine.MultiplyModulator((float)tank.RowCount);
-            ff.First.ApplyToAll(mod.Modulate);
-            ff.Second.ApplyToAll(mod.Modulate);
+            ff.Value1.ApplyToAll(mod.Modulate);
+            ff.Value2.ApplyToAll(mod.Modulate);
 
-            AddMatrixImage("Reconstructed", ric, idft.Apply2(ff).First, null);
+            AddMatrixImage("Reconstructed", ric, idft.Apply2(ff).Value1, null);
         }
         private void FiltersCode(string input, string[] args)
         {
