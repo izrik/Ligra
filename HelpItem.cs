@@ -52,11 +52,8 @@ namespace MetaphysicsIndustries.Ligra
 //            _helpLookups["floor"] = "The floor function\n  floor(x)\n\nReturns the highest integer that is less than or equal to x.";
         }
 
-        public HelpItem(Font font, LigraEnvironment env)
-            : this(font, "help", env)
-        {
-        }
-        public HelpItem(Font font, string topic, LigraEnvironment env)
+        public HelpItem(Font font, LigraEnvironment env, string topic="help")
+            : base(env)
         {
             _font = font;
 

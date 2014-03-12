@@ -8,11 +8,8 @@ namespace MetaphysicsIndustries.Ligra
 {
     public class ErrorItem : RenderItem
     {
-        public ErrorItem(string inputText, string errorText, Font font, Brush brush)
-            : this(inputText, errorText, font, brush, -1)
-        {
-        }
-        public ErrorItem(string inputText, string errorText, Font font, Brush brush, int location)
+        public ErrorItem(string inputText, string errorText, Font font, Brush brush, LigraEnvironment env, int location=-1)
+            : base(env)
         {
             _errorText = errorText;
             _inputText = inputText;

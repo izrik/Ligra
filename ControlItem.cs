@@ -9,7 +9,8 @@ namespace MetaphysicsIndustries.Ligra
 {
     public class ControlItem : RenderItem
     {
-        public ControlItem(LigraFormsControl control, LigraControl parent)
+        public ControlItem(LigraFormsControl control, LigraControl parent, LigraEnvironment env)
+            : base(env)
         {
             if (control == null) { throw new ArgumentNullException("control"); }
             if (parent == null) { throw new ArgumentNullException("parent"); }

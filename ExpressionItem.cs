@@ -9,18 +9,19 @@ namespace MetaphysicsIndustries.Ligra
 {
     public class ExpressionItem : RenderItem
     {
-        public ExpressionItem(Expression expression, Pen pen, Font font)
+        public ExpressionItem(Expression expression, Pen pen, Font font, LigraEnvironment env)
+            : base(env)
         {
             _expression = expression;
             _pen = pen;
             _font = font;
         }
-        public ExpressionItem(Vector vector, Pen pen, Font font)
-            : this(GenerateVector(vector), pen, font)
+        public ExpressionItem(Vector vector, Pen pen, Font font, LigraEnvironment env)
+            : this(GenerateVector(vector), pen, font, env)
         {
         }
-        public ExpressionItem(Matrix matrix, Pen pen, Font font)
-            : this(GenerateMatrix(matrix), pen, font)
+        public ExpressionItem(Matrix matrix, Pen pen, Font font, LigraEnvironment env)
+            : this(GenerateMatrix(matrix), pen, font, env)
         {
         }
 

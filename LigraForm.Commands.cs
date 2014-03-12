@@ -132,7 +132,7 @@ namespace MetaphysicsIndustries.Ligra
             m[4, 2] = one;
             m[4, 3] = negOne;
 
-            env.AddRenderItem(new ExpressionItem(m, Pens.Blue, env.Font));
+            env.AddRenderItem(new ExpressionItem(m, Pens.Blue, env.Font, env));
             env.ClearCanvas();
         }
 
@@ -185,15 +185,15 @@ namespace MetaphysicsIndustries.Ligra
 
             if (args.Length < 3)
             {
-                _env.AddRenderItem(new ErrorItem(input, "Too few parameters", font, brush, input.IndexOf(args[0])));
+                _env.AddRenderItem(new ErrorItem(input, "Too few parameters", font, brush, env, input.IndexOf(args[0])));
             }
             else if (!_env.Variables.ContainsKey(args[1]))
             {
-                _env.AddRenderItem(new ErrorItem(input, "Parameter must be a variable", font, brush, input.IndexOf(args[1])));
+                _env.AddRenderItem(new ErrorItem(input, "Parameter must be a variable", font, brush, env, input.IndexOf(args[1])));
             }
             else if (!System.IO.File.Exists(args[2]))
             {
-                _env.AddRenderItem(new ErrorItem(input, "Parameter must be a file name", font, brush, input.IndexOf(args[1])));
+                _env.AddRenderItem(new ErrorItem(input, "Parameter must be a file name", font, brush, env, input.IndexOf(args[1])));
             }
             else
             {
@@ -210,11 +210,11 @@ namespace MetaphysicsIndustries.Ligra
 
                     _env.Variables[varName] = mat;
 
-                    _env.AddRenderItem(new InfoItem("Image loaded successfully", font));
+                    _env.AddRenderItem(new InfoItem("Image loaded successfully", font, env));
                 }
                 catch (Exception e)
                 {
-                    _env.AddRenderItem(new ErrorItem(input, "There was an error while loading the file: \r\n" + filename + "\r\n" + e.ToString(), font, brush));
+                    _env.AddRenderItem(new ErrorItem(input, "There was an error while loading the file: \r\n" + filename + "\r\n" + e.ToString(), font, brush, env));
                 }
             }
         }
@@ -225,11 +225,11 @@ namespace MetaphysicsIndustries.Ligra
             {
                 //print the current directory
                 string dir = System.IO.Directory.GetCurrentDirectory();
-                _env.AddRenderItem(new InfoItem(dir, ligraControl1.Font));
+                _env.AddRenderItem(new InfoItem(dir, ligraControl1.Font, env));
             }
             else if (!System.IO.Directory.Exists(args[1]))
             {
-                _env.AddRenderItem(new ErrorItem(input, "Parameter must be a folder name", ligraControl1.Font, Brushes.Red, input.IndexOf(args[1])));
+                _env.AddRenderItem(new ErrorItem(input, "Parameter must be a folder name", ligraControl1.Font, Brushes.Red, env, input.IndexOf(args[1])));
             }
             else
             {
@@ -239,11 +239,11 @@ namespace MetaphysicsIndustries.Ligra
                 try
                 {
                     System.IO.Directory.SetCurrentDirectory(dir);
-                    _env.AddRenderItem(new InfoItem("Directory changed to \"" + dir + "\"", ligraControl1.Font));
+                    _env.AddRenderItem(new InfoItem("Directory changed to \"" + dir + "\"", ligraControl1.Font, env));
                 }
                 catch (Exception e)
                 {
-                    _env.AddRenderItem(new ErrorItem(input, "There was an error: \r\n" + e.ToString(), ligraControl1.Font, Brushes.Red));
+                    _env.AddRenderItem(new ErrorItem(input, "There was an error: \r\n" + e.ToString(), ligraControl1.Font, Brushes.Red, env));
                 }
             }
         }

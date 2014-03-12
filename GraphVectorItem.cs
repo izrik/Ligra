@@ -11,7 +11,8 @@ namespace MetaphysicsIndustries.Ligra
 {
     public class GraphVectorItem : RenderItem
     {
-        public GraphVectorItem(Vector vector, string caption)
+        public GraphVectorItem(Vector vector, string caption, LigraEnvironment env)
+            : base(env)
         {
             _vector = vector.Clone();
             _caption = caption;

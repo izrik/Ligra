@@ -14,7 +14,9 @@ namespace MetaphysicsIndustries.Ligra
             float yMin, float yMax,
             float zMin, float zMax,
             string independentVariableX,
-                           string independentVariableY)
+            string independentVariableY,
+            LigraEnvironment env)
+            : base(env)
         {
             _expression = expression;
             _pen = pen;

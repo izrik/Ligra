@@ -8,19 +8,10 @@ namespace MetaphysicsIndustries.Ligra
 {
     public class TextItem : RenderItem
     {
-        public TextItem()
-        {
-        }
-
-        public TextItem(string text)
-            : this()
+        public TextItem(LigraEnvironment env, string text="", Font font=null)
+            : base(env)
         {
             _text = text;
-        }
-
-        public TextItem(string text, Font font)
-            : this(text)
-        {
             _font = font;
         }
 

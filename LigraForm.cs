@@ -184,11 +184,11 @@ namespace MetaphysicsIndustries.Ligra
                     if (ee is SolusParseException)
                     {
                         SolusParseException ee2 = (SolusParseException)ee;
-                        _env.AddRenderItem(new ErrorItem(input, ee2.Error, ligraControl1.Font, Brushes.Red, ee2.Location));
+                        _env.AddRenderItem(new ErrorItem(input, ee2.Error, ligraControl1.Font, Brushes.Red, _env, ee2.Location));
                     }
                     else
                     {
-                        _env.AddRenderItem(new ErrorItem(input, "There was an error: " + ee.ToString(), Font, Brushes.Red));
+                        _env.AddRenderItem(new ErrorItem(input, "There was an error: " + ee.ToString(), Font, Brushes.Red, _env));
                     }
                 }
             }

@@ -11,7 +11,8 @@ namespace MetaphysicsIndustries.Ligra
 {
     public class GraphMatrixItem : RenderItem
     {
-        public GraphMatrixItem(Matrix matrix, string caption)
+        public GraphMatrixItem(Matrix matrix, string caption, LigraEnvironment env)
+            : base(env)
         {
             _matrix = matrix.Clone();
             _caption = caption;

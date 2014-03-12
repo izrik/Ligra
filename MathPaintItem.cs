@@ -14,7 +14,9 @@ namespace MetaphysicsIndustries.Ligra
                              string horizontalCoordinate,
                              string verticalCoordinate,
                              int width,
-                             int height)
+                             int height,
+                             LigraEnvironment env)
+            : base(env)
         {
             _expression = expression;
             _horizontalCoordinate = horizontalCoordinate;
@@ -26,7 +28,9 @@ namespace MetaphysicsIndustries.Ligra
         }
         public MathPaintItem(Expression expression,
                              VarInterval horizontalCoordinate,
-                             VarInterval verticalCoordinate)
+                             VarInterval verticalCoordinate,
+                             LigraEnvironment env)
+            : base(env)
         {
             _expression = expression;
             _horizontalCoordinate = horizontalCoordinate.Variable;

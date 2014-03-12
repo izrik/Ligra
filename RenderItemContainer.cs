@@ -8,7 +8,8 @@ namespace MetaphysicsIndustries.Ligra
 {
     public class RenderItemContainer : RenderItem
     {
-        public RenderItemContainer(string caption)
+        public RenderItemContainer(string caption, LigraEnvironment env)
+            : base(env)
         {
             _caption = caption;
         }
@@ -39,7 +40,7 @@ namespace MetaphysicsIndustries.Ligra
                     maxCurrentHeight = 0;
                 }
 
-                ri.Render(control, g, location + new SizeF(x, height), env);
+                ri.Refresh();
 
                 x += size.Width + 10;
                 maxCurrentHeight = Math.Max(maxCurrentHeight, size.Height);

@@ -49,7 +49,7 @@ namespace MetaphysicsIndustries.Ligra
                 //    y + scroll.Y < ligraControl1.ClientSize.Height)
                 //{
                     _env.Variables["t"] = new Literal(time);
-                    item.Render(ligraControl1, g, new PointF(x, y), _env);
+                    item.Refresh();
                 //}
 
                 item.Location = Point.Truncate(new PointF(x, y));

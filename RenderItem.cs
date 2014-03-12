@@ -12,15 +12,25 @@ namespace MetaphysicsIndustries.Ligra
     {
         private static SolusEngine _engine = new SolusEngine();
 
+        protected RenderItem(LigraEnvironment env)
+        {
+            _env = env;
+        }
+
         protected abstract void InternalRender(LigraControl control, Graphics g, PointF location, SolusEnvironment env);
         protected abstract SizeF InternalCalcSize(LigraControl control, Graphics g);
 
-        //send this down to RenderItem
         private string _error = string.Empty;
         private SizeF _errorSize = new SizeF(0, 0);
 
-        //send this down to RenderItem
-        public void Render(LigraControl control, Graphics g, PointF location, SolusEnvironment env) // OnPaint
+        readonly LigraEnvironment _env;
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            Render((LigraControl)(this.Parent), e.Graphics, new PointF(0, 0), _env);
+        }
+        protected void Render(LigraControl control, Graphics g, PointF location, SolusEnvironment env) // OnPaint
         {
             try
             {
@@ -46,7 +56,6 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        //send this down to RenderItem
         public SizeF CalcSize(LigraControl control, Graphics g) // Size, Height, Width, Bounds, ClientRectangle, etc.
         {
             if (string.IsNullOrEmpty(_error))
