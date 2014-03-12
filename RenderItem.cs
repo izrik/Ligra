@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace MetaphysicsIndustries.Ligra
 {
-    public abstract class RenderItem
+    public abstract class RenderItem : Panel
     {
         private static SolusEngine _engine = new SolusEngine();
 
@@ -20,7 +20,7 @@ namespace MetaphysicsIndustries.Ligra
         private SizeF _errorSize = new SizeF(0, 0);
 
         //send this down to RenderItem
-        public void Render(LigraControl control, Graphics g, PointF location, SolusEnvironment env)
+        public void Render(LigraControl control, Graphics g, PointF location, SolusEnvironment env) // OnPaint
         {
             try
             {
@@ -47,7 +47,7 @@ namespace MetaphysicsIndustries.Ligra
         }
 
         //send this down to RenderItem
-        public SizeF CalcSize(LigraControl control, Graphics g)
+        public SizeF CalcSize(LigraControl control, Graphics g) // Size, Height, Width, Bounds, ClientRectangle, etc.
         {
             if (string.IsNullOrEmpty(_error))
             {
@@ -62,7 +62,7 @@ namespace MetaphysicsIndustries.Ligra
         }
 
         private RectangleF _rect;
-        public RectangleF Rect
+        public RectangleF Rect // Size, Height, Width, Bounds, ClientRectangle, etc.
         {
             get { return _rect; }
             set { _rect = value; }
@@ -120,28 +120,28 @@ namespace MetaphysicsIndustries.Ligra
         {
         }
 
-        public void SetLocation(PointF location)
+        public void SetLocation(PointF location) // Location, won't be needed
         {
             Rect = new RectangleF(location, Rect.Size);
 
             InternalSetLocation(location);
         }
 
-        protected virtual void InternalSetLocation(PointF location)
+        protected virtual void InternalSetLocation(PointF location) // Location, won't be needed
         {
         }
 
-        public ToolStripItem[] GetMenuItems()
+        public ToolStripItem[] GetMenuItems() // per-control context menus
         {
             return new ToolStripItem[0];
         }
 
-        public virtual bool HasPropertyWindow
+        public virtual bool HasPropertyWindow // per-control context menus
         {
             get { return false; }
         }
 
-        public virtual void OpenPropertiesWindow(LigraControl control)
+        public virtual void OpenPropertiesWindow(LigraControl control) // per-control context menus
         {
         }
     }
