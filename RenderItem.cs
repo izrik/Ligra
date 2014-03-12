@@ -61,11 +61,10 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        private RectangleF _rect;
         public RectangleF Rect // Size, Height, Width, Bounds, ClientRectangle, etc.
         {
-            get { return _rect; }
-            set { _rect = value; }
+            get { return Bounds; }
+            set { Bounds = Rectangle.Truncate(value); }
         }
 
 
@@ -117,17 +116,6 @@ namespace MetaphysicsIndustries.Ligra
 
         //needs to be renamed
         protected virtual void AddVariablesForValueCollection(HashSet<string> vars)
-        {
-        }
-
-        public void SetLocation(PointF location) // Location, won't be needed
-        {
-            Rect = new RectangleF(location, Rect.Size);
-
-            InternalSetLocation(location);
-        }
-
-        protected virtual void InternalSetLocation(PointF location) // Location, won't be needed
         {
         }
 
