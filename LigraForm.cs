@@ -24,12 +24,14 @@ namespace MetaphysicsIndustries.Ligra
                 this.Controls.Remove(this.toolStripContainer1);
                 this.Controls.Add(this.splitContainer1);
             }
+
+            _env = new LigraEnvironment(this.ligraControl1);
         }
 
         private static SolusEngine _engine = new SolusEngine();
         private static LigraParser _parser = new LigraParser();
 
-        LigraEnvironment _env = new LigraEnvironment();
+        LigraEnvironment _env;
 
         ToolStripMenuItem _renderItemItem = new ToolStripMenuItem("Render Item");
         ToolStripMenuItem _propertiesItem = new ToolStripMenuItem("Properties");
@@ -182,11 +184,11 @@ namespace MetaphysicsIndustries.Ligra
                     if (ee is SolusParseException)
                     {
                         SolusParseException ee2 = (SolusParseException)ee;
-                        _env.RenderItems.Add(new ErrorItem(input, ee2.Error, ligraControl1.Font, Brushes.Red, ee2.Location));
+                        _env.AddRenderItem(new ErrorItem(input, ee2.Error, ligraControl1.Font, Brushes.Red, ee2.Location));
                     }
                     else
                     {
-                        _env.RenderItems.Add(new ErrorItem(input, "There was an error: " + ee.ToString(), Font, Brushes.Red));
+                        _env.AddRenderItem(new ErrorItem(input, "There was an error: " + ee.ToString(), Font, Brushes.Red));
                     }
                 }
             }
