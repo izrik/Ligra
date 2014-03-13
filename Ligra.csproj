@@ -67,9 +67,6 @@
     <Compile Include="LigraControl.RenderExpression.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="LigraControl.RenderMathPaint.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="LigraControl.RenderMatrix.cs">
       <SubType>UserControl</SubType>
     </Compile>
