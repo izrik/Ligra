@@ -146,7 +146,11 @@ namespace MetaphysicsIndustries.Ligra
             {
                 //Invalidate();
                 //Refresh();
-                ligraControl1.Refresh();
+                ligraControl1.Invalidate();
+                foreach (var ri in _env.RenderItems)
+                {
+                    ri.Invalidate();
+                }
             }
         }
 
