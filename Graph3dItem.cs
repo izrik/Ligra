@@ -48,11 +48,11 @@ namespace MetaphysicsIndustries.Ligra
         int numTicks = 0;
         string fps = "";
 
-        protected override void InternalRender(LigraControl control, Graphics g, SolusEnvironment env)
+            protected override void InternalRender(Graphics g, SolusEnvironment env)
         {
             var stime = Environment.TickCount;
 
-            control.Render3DGraph(g,
+            LigraControl.Render3DGraph(g,
                 new RectangleF(0, 0, 400, 400),
                 _pen, _brush,
                 _xMin, _xMax,
@@ -61,7 +61,7 @@ namespace MetaphysicsIndustries.Ligra
                 _expression,
                 _independentVariableX,
                 _independentVariableY,
-                env, true);
+                env, true, this.Font);
 
             var dtime = Environment.TickCount - stime;
             numTicks += dtime;
@@ -76,10 +76,10 @@ namespace MetaphysicsIndustries.Ligra
                 numRenders = 0;
             }
 
-            g.DrawString(fps, control.Font, Brushes.Blue, new PointF(0, 0));
+            g.DrawString(fps, this.Font, Brushes.Blue, new PointF(0, 0));
         }
 
-        protected override SizeF InternalCalcSize(LigraControl control, Graphics g)
+        protected override SizeF InternalCalcSize(Graphics g)
         {
             return new SizeF(400, 400);
         }

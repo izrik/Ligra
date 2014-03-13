@@ -14,7 +14,7 @@ namespace MetaphysicsIndustries.Ligra
     public partial class LigraControl : UserControl
     {
 
-        public void RenderGraph(Graphics g, RectangleF boundsInClient,
+        public static void RenderGraph(Graphics g, RectangleF boundsInClient,
                         Pen pen, Brush brush,
                         float xMin, float xMax, float yMin, float yMax,
                         Expression expr, string independentVariable,
@@ -75,7 +75,7 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        public void RenderVectors(Graphics g, RectangleF boundsInClient,
+        public static void RenderVectors(Graphics g, RectangleF boundsInClient,
             Pen pen, Brush brush,
             float xMin, float xMax, float yMin, float yMax,
             SolusVector x, SolusVector y,

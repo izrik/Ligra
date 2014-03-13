@@ -86,7 +86,7 @@ namespace MetaphysicsIndustries.Ligra
         private List<GraphEntry> _entries = new List<GraphEntry>();
         //private SizeF _size = new SizeF(400, 400);
 
-        protected override void InternalRender(LigraControl control, Graphics g, SolusEnvironment env)
+        protected override void InternalRender(Graphics g, SolusEnvironment env)
         {
             bool first = true;
             foreach (GraphEntry entry in _entries)
@@ -95,7 +95,7 @@ namespace MetaphysicsIndustries.Ligra
                 var location = new PointF(0, 0);
                 if (ve != null)
                 {
-                    control.RenderVectors(g,
+                    LigraControl.RenderVectors(g,
                         new RectangleF(location, Rect.Size),
                         entry.Pen, entry.Pen.Brush,
                         _minX, _maxX, _minY, _maxY,
@@ -104,7 +104,7 @@ namespace MetaphysicsIndustries.Ligra
                 }
                 else
                 {
-                    control.RenderGraph(g,
+                    LigraControl.RenderGraph(g,
                         new RectangleF(location, Rect.Size),
                         entry.Pen, entry.Pen.Brush,
                         _minX, _maxX, _minY, _maxY,
@@ -114,7 +114,7 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        protected override SizeF InternalCalcSize(LigraControl control, Graphics g)
+        protected override SizeF InternalCalcSize(Graphics g)
         {
             return Rect.Size;
         }

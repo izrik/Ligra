@@ -13,7 +13,7 @@ namespace MetaphysicsIndustries.Ligra
     public partial class LigraControl : UserControl
     {
 
-        public void Render3DGraph(Graphics g, RectangleF boundsInClient,
+        public static void Render3DGraph(Graphics g, RectangleF boundsInClient,
                         Pen pen, Brush brush,
                         float xMin, float xMax,
                         float yMin, float yMax,
@@ -22,7 +22,8 @@ namespace MetaphysicsIndustries.Ligra
                         string independentVariableX,
                         string independentVariableY,
                         SolusEnvironment env,
-                        bool drawboundaries)
+                        bool drawboundaries,
+                        Font font)
         {
             int xValues = 50;
             int yValues = 50;
@@ -59,30 +60,30 @@ namespace MetaphysicsIndustries.Ligra
 
                 //xmin
                 g.DrawLine(Pens.Black, x1, y4, x1 + 6, y4 + 3);
-                g.DrawString(xMin.ToString(), Font, Brushes.Black, x1 + 6, y4 + 3);
+                g.DrawString(xMin.ToString(), font, Brushes.Black, x1 + 6, y4 + 3);
                 //xmax
                 g.DrawLine(Pens.Black, x2, y3, x2 + 6, y3 + 3);
-                g.DrawString(xMax.ToString(), Font, Brushes.Black, x2 + 6, y3 + 3);
+                g.DrawString(xMax.ToString(), font, Brushes.Black, x2 + 6, y3 + 3);
 
                 //ymin
                 g.DrawLine(Pens.Black, x1, y4, x1 - 6, y4 + 3);
-                size = g.MeasureString(yMin.ToString(), Font);
-                g.DrawString(yMin.ToString(), Font, Brushes.Black, x1 - 6 - size.Width, y4 + 3);
+                size = g.MeasureString(yMin.ToString(), font);
+                g.DrawString(yMin.ToString(), font, Brushes.Black, x1 - 6 - size.Width, y4 + 3);
                 //ymax
                 g.DrawLine(Pens.Black, x0, y3, x0 - 6, y3 + 3);
-                g.DrawString(yMax.ToString(), Font, Brushes.Black, x0 - 6, y3 + 3);
+                g.DrawString(yMax.ToString(), font, Brushes.Black, x0 - 6, y3 + 3);
 
                 //zmin
                 g.DrawLine(Pens.Black, x2, y3, x2 + 6, y3 - 3);
-                g.DrawString(zMin.ToString(), Font, Brushes.Black, x2 + 6, y3 - 3 - 14);
+                g.DrawString(zMin.ToString(), font, Brushes.Black, x2 + 6, y3 - 3 - 14);
                 //zmax
                 g.DrawLine(Pens.Black, x2, y1, x2 + 6, y1 - 3);
-                g.DrawString(zMax.ToString(), Font, Brushes.Black, x2 + 6, y1 - 3);
+                g.DrawString(zMax.ToString(), font, Brushes.Black, x2 + 6, y1 - 3);
 
 
-                g.DrawString(independentVariableX, Font, Brushes.Black, (x1 + x2) / 2, (y3 + y4) / 2);
-                size = g.MeasureString(independentVariableY, Font);
-                g.DrawString(independentVariableY, Font, Brushes.Black, (x1 + x0) / 2 - size.Width, (y3 + y4) / 2);
+                g.DrawString(independentVariableX, font, Brushes.Black, (x1 + x2) / 2, (y3 + y4) / 2);
+                size = g.MeasureString(independentVariableY, font);
+                g.DrawString(independentVariableY, font, Brushes.Black, (x1 + x0) / 2 - size.Width, (y3 + y4) / 2);
 
 
                 //g.DrawRectangle(Pens.Black, boundsInClient.Left, boundsInClient.Top, boundsInClient.Width, boundsInClient.Height);

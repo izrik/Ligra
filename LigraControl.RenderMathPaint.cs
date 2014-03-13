@@ -46,7 +46,7 @@ namespace MetaphysicsIndustries.Ligra
             g.DrawImage(image.Bitmap, boundsInClient);
         }
 
-        public MemoryImage RenderMathPaintToMemoryImage(
+        public static MemoryImage RenderMathPaintToMemoryImage(
             Expression expression, 
             string independentVariableX, 
             string independentVariableY, 

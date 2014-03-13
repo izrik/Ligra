@@ -52,14 +52,14 @@ namespace MetaphysicsIndustries.Ligra
         int _height;
         MemoryImage _image;
 
-        protected override void InternalRender(LigraControl control, Graphics g, SolusEnvironment env)
+            protected override void InternalRender(Graphics g, SolusEnvironment env)
         {
             RectangleF boundsInClient = new RectangleF(0, 0, _width, _height);
 
             if (_image == null || HasChanged(env))
             {
                 MemoryImage image =
-                    control.RenderMathPaintToMemoryImage(
+                    LigraControl.RenderMathPaintToMemoryImage(
                             _expression,
                             _horizontalCoordinate,
                             _verticalCoordinate,
@@ -93,7 +93,7 @@ namespace MetaphysicsIndustries.Ligra
         }
 
 
-        protected override SizeF InternalCalcSize(LigraControl control, Graphics g)
+        protected override SizeF InternalCalcSize(Graphics g)
         {
             return new SizeF(_width, _height);
         }

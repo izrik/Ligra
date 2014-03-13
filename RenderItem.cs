@@ -17,8 +17,8 @@ namespace MetaphysicsIndustries.Ligra
             _env = env;
         }
 
-        protected abstract void InternalRender(LigraControl control, Graphics g, SolusEnvironment env);
-        protected abstract SizeF InternalCalcSize(LigraControl control, Graphics g);
+        protected abstract void InternalRender(Graphics g, SolusEnvironment env);
+        protected abstract SizeF InternalCalcSize(Graphics g);
 
         private string _error = string.Empty;
         private SizeF _errorSize = new SizeF(0, 0);
@@ -28,22 +28,22 @@ namespace MetaphysicsIndustries.Ligra
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            Render((LigraControl)(this.Parent), e.Graphics, _env);
+            Render(e.Graphics, _env);
             base.OnPaint(e);
         }
-        protected void Render(LigraControl control, Graphics g, SolusEnvironment env) // OnPaint
+        protected void Render(Graphics g, SolusEnvironment env) // OnPaint
         {
             try
             {
                 if (string.IsNullOrEmpty(_error))
                 {
-                    InternalRender(control, g, env);
+                    InternalRender(g, env);
 
                     CollectVariableValues(env);
                 }
                 else
                 {
-                    g.DrawString(_error, control.Font, Brushes.Red, new PointF(0, 0));
+                    g.DrawString(_error, this.Font, Brushes.Red, new PointF(0, 0));
                 }
             }
             catch (Exception e)
@@ -51,14 +51,14 @@ namespace MetaphysicsIndustries.Ligra
                 _error = "There was an error while trying to render the item: \r\n" + e.ToString();
                 _changeSize = true;
 
-                g.DrawString(_error, control.Font, Brushes.Red, new PointF(0, 0));
-                _errorSize = g.MeasureString(_error, control.Font);
+                g.DrawString(_error, this.Font, Brushes.Red, new PointF(0, 0));
+                _errorSize = g.MeasureString(_error, this.Font);
 
                 g.DrawRectangle(Pens.Red, 0, 0, _errorSize.Width, _errorSize.Height);
             }
         }
 
-        public SizeF CalcSize(LigraControl control, Graphics g) // Size, Height, Width, Bounds, ClientRectangle, etc.
+        public SizeF CalcSize(Graphics g) // Size, Height, Width, Bounds, ClientRectangle, etc.
         {
             if (!_changeSize) return Size;
 
@@ -66,7 +66,7 @@ namespace MetaphysicsIndustries.Ligra
 
             if (string.IsNullOrEmpty(_error))
             {
-                SizeF size = InternalCalcSize(control, g);
+                SizeF size = InternalCalcSize(g);
                 Rect = new RectangleF(0, 0, size.Width, size.Height);
                 return size;
             }

@@ -76,7 +76,7 @@ namespace MetaphysicsIndustries.Ligra
         }
 
 
-        protected override void InternalRender(LigraControl control, Graphics g, SolusEnvironment env)
+            protected override void InternalRender(Graphics g, SolusEnvironment env)
         {
             SizeF exprSize = LigraControl.CalcExpressionSize(Expression, g, Font);
             float xx = 0;
@@ -91,7 +91,7 @@ namespace MetaphysicsIndustries.Ligra
             LigraControl.RenderExpression(g, Expression, new PointF(xx, 0), Pen, Pen.Brush, Font, false);
         }
 
-        protected override SizeF InternalCalcSize(LigraControl control, Graphics g)
+        protected override SizeF InternalCalcSize(Graphics g)
         {
             SizeF exprSize = LigraControl.CalcExpressionSize(Expression, g, Font);
 

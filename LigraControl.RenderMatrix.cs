@@ -27,7 +27,7 @@ namespace MetaphysicsIndustries.Ligra
 {
     public partial class LigraControl : UserControl
     {
-        public void RenderMatrix(Graphics g, RectangleF boundsInClient,
+        public static void RenderMatrix(Graphics g, RectangleF boundsInClient,
                         SolusMatrix matrix,
                         SolusEnvironment env)
         {
@@ -39,7 +39,7 @@ namespace MetaphysicsIndustries.Ligra
             g.DrawImage(image.Bitmap, Rectangle.Truncate( boundsInClient));
         }
 
-        public MemoryImage RenderMatrixToMemoryImage(
+        public static MemoryImage RenderMatrixToMemoryImage(
             SolusMatrix matrix,
             SolusEnvironment env)
         {
@@ -76,7 +76,7 @@ namespace MetaphysicsIndustries.Ligra
             return image;
         }
 
-        public void RenderMatrix(Graphics g, RectangleF boundsInClient, Matrix matrix)
+        public static void RenderMatrix(Graphics g, RectangleF boundsInClient, Matrix matrix)
         {
             MemoryImage image = RenderMatrixToMemoryImage(matrix);
 
@@ -84,7 +84,7 @@ namespace MetaphysicsIndustries.Ligra
         }
 
 
-        public MemoryImage RenderMatrixToMemoryImage(Matrix matrix)
+        public static MemoryImage RenderMatrixToMemoryImage(Matrix matrix)
         {
             return RenderMatrixToMemoryImageS(matrix);
         }

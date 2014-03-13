@@ -115,7 +115,7 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        public void RenderVector(Graphics g, RectangleF boundsInClient,
+        public static void RenderVector(Graphics g, RectangleF boundsInClient,
                     Pen pen, Brush brush,
                     Vector vector,
                     bool drawboundaries)

@@ -21,11 +21,11 @@ namespace MetaphysicsIndustries.Ligra
 
         readonly SizeF _size;
 
-        protected override void InternalRender(LigraControl control, System.Drawing.Graphics g, SolusEnvironment env)
+        protected override void InternalRender(System.Drawing.Graphics g, SolusEnvironment env)
         {
         }
 
-        protected override System.Drawing.SizeF InternalCalcSize(LigraControl control, System.Drawing.Graphics g)
+        protected override System.Drawing.SizeF InternalCalcSize(System.Drawing.Graphics g)
         {
             return _size;
         }

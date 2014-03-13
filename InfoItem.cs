@@ -19,12 +19,12 @@ namespace MetaphysicsIndustries.Ligra
         Font _font;
 
 
-        protected override void InternalRender(LigraControl control, Graphics g, SolusEnvironment env)
+            protected override void InternalRender(Graphics g, SolusEnvironment env)
         {
             g.DrawString(_text, _font, Brushes.Black, new PointF(0, 0));
         }
 
-        protected override SizeF InternalCalcSize(LigraControl control, Graphics g)
+        protected override SizeF InternalCalcSize(Graphics g)
         {
             return g.MeasureString(_text, _font);
         }

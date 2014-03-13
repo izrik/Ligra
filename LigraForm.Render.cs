@@ -43,7 +43,7 @@ namespace MetaphysicsIndustries.Ligra
 
             foreach (RenderItem item in _env.RenderItems)
             {
-                SizeF itemSize = item.CalcSize(ligraControl1, g);
+                SizeF itemSize = item.CalcSize(g);
 
                 //if (y + scroll.Y + itemSize.Height > 0 &&
                 //    y + scroll.Y < ligraControl1.ClientSize.Height)

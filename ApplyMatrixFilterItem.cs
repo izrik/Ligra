@@ -25,12 +25,12 @@ namespace MetaphysicsIndustries.Ligra
 
         string _caption;
 
-        protected override void InternalRender(LigraControl control, Graphics g, SolusEnvironment env)
+            protected override void InternalRender(Graphics g, SolusEnvironment env)
         {
             Matrix mat = _filter.Apply(_matrix);
             mat.ApplyToAll(AcuityEngine.ConvertFloatTo24g);
 
-            MemoryImage image = control.RenderMatrixToMemoryImage(mat);
+            MemoryImage image = LigraControl.RenderMatrixToMemoryImage(mat);
 
             RectangleF boundsInClient = new RectangleF(0, 0, mat.ColumnCount, mat.RowCount);
 
@@ -40,11 +40,11 @@ namespace MetaphysicsIndustries.Ligra
             rect.Size = new SizeF(GetImageWidth(mat), GetImageHeight(mat));
             g.DrawImage(image.Bitmap, rect);
 
-            SizeF textSize = g.MeasureString(_caption, control.Font, GetImageWidth(mat));
+            SizeF textSize = g.MeasureString(_caption, this.Font, GetImageWidth(mat));
             float textWidth = textSize.Width;
             float textHeight = textSize.Height;
             rect = new RectangleF(0, GetImageHeight(mat) + 2, textWidth, textHeight);
-            g.DrawString(_caption, control.Font, Brushes.Black, rect);
+            g.DrawString(_caption, this.Font, Brushes.Black, rect);
 
             _lastSize = new SizeF(GetImageWidth(mat), GetImageHeight(mat));
 
@@ -55,9 +55,9 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        protected override SizeF InternalCalcSize(LigraControl control, Graphics g)
+        protected override SizeF InternalCalcSize(Graphics g)
         {
-            return _lastSize + new SizeF(0, g.MeasureString(_caption, control.Font, (int)_lastSize.Width).Height + 2);
+            return _lastSize + new SizeF(0, g.MeasureString(_caption, this.Font, (int)_lastSize.Width).Height + 2);
         }
 
         private int GetImageHeight(Matrix mat)

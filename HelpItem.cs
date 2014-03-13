@@ -80,13 +80,13 @@ namespace MetaphysicsIndustries.Ligra
         string _topic;
         Font _font;
 
-        protected override void InternalRender(LigraControl control, Graphics g, SolusEnvironment env)
+            protected override void InternalRender(Graphics g, SolusEnvironment env)
         {
-            RectangleF rect = new RectangleF(new PointF(0, 0), CalcSize(control, g));
+            RectangleF rect = new RectangleF(new PointF(0, 0), CalcSize(g));
             g.DrawString(_topic, _font, Brushes.Magenta, new PointF(0, 0));//rect);
         }
 
-        protected override SizeF InternalCalcSize(LigraControl control, Graphics g)
+        protected override SizeF InternalCalcSize(Graphics g)
         {
             return g.MeasureString(_topic, _font);//, 500);
         }

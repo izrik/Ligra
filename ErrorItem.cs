@@ -24,7 +24,7 @@ namespace MetaphysicsIndustries.Ligra
         Brush _brush;
         int _location;
 
-        protected override void InternalRender(LigraControl control, Graphics g, SolusEnvironment env)
+            protected override void InternalRender(Graphics g, SolusEnvironment env)
         {
             float y = 0;
             if (!string.IsNullOrEmpty(_inputText))
@@ -49,7 +49,7 @@ namespace MetaphysicsIndustries.Ligra
             g.DrawString(_errorText, _font, _brush, new PointF(0, y));
         }
 
-        protected override SizeF InternalCalcSize(LigraControl control, Graphics g)
+        protected override SizeF InternalCalcSize(Graphics g)
         {
             float y = 0;
 

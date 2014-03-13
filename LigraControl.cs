@@ -28,7 +28,7 @@ namespace MetaphysicsIndustries.Ligra
             InitializeComponent();
         }
 
-        SolusEngine _engine = new SolusEngine();
+        static readonly SolusEngine _engine = new SolusEngine();
 
         private bool _drawBoxes = false;
         public bool DrawBoxes
