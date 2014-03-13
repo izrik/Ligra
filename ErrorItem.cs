@@ -24,11 +24,12 @@ namespace MetaphysicsIndustries.Ligra
         Brush _brush;
         int _location;
 
-        protected override void InternalRender(LigraControl control, Graphics g, PointF location, SolusEnvironment env)
+        protected override void InternalRender(LigraControl control, Graphics g, SolusEnvironment env)
         {
+            float y = 0;
             if (!string.IsNullOrEmpty(_inputText))
             {
-                g.DrawString(_inputText, _font, _brush, location);
+                g.DrawString(_inputText, _font, _brush, new PointF(0, y));
 
                 if (_location >= 0)
                 {
@@ -39,13 +40,13 @@ namespace MetaphysicsIndustries.Ligra
 
                     float xx = prefixWidth - firstWidth;
 
-                    g.DrawString("_", _font, _brush, location.X + xx, location.Y + 2);
+                    g.DrawString("_", _font, _brush, xx, y + 2);
                 }
 
-                location.Y += g.MeasureString(_inputText, _font).Height + 10;
+                y += g.MeasureString(_inputText, _font).Height + 10;
             }
 
-            g.DrawString(_errorText, _font, _brush, location);
+            g.DrawString(_errorText, _font, _brush, new PointF(0, y));
         }
 
         protected override SizeF InternalCalcSize(LigraControl control, Graphics g)

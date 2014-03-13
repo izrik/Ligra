@@ -42,9 +42,9 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        protected override void InternalRender(LigraControl control, Graphics g, PointF location, SolusEnvironment env)
+        protected override void InternalRender(LigraControl control, Graphics g, SolusEnvironment env)
         {
-            RectangleF rect = new RectangleF(location, InternalCalcSize(control, g));
+            RectangleF rect = new RectangleF(new PointF(0, 0), InternalCalcSize(control, g));
 
             Font font2 = GetFont(control);
 

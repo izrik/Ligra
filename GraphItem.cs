@@ -86,12 +86,13 @@ namespace MetaphysicsIndustries.Ligra
         private List<GraphEntry> _entries = new List<GraphEntry>();
         //private SizeF _size = new SizeF(400, 400);
 
-        protected override void InternalRender(LigraControl control, Graphics g, PointF location, SolusEnvironment env)
+        protected override void InternalRender(LigraControl control, Graphics g, SolusEnvironment env)
         {
             bool first = true;
             foreach (GraphEntry entry in _entries)
             {
                 var ve = entry as GraphVectorEntry;
+                var location = new PointF(0, 0);
                 if (ve != null)
                 {
                     control.RenderVectors(g,

@@ -16,16 +16,16 @@ namespace MetaphysicsIndustries.Ligra
 
         string _caption;
 
-        protected override void InternalRender(LigraControl control, Graphics g, PointF location, SolusEnvironment env)
+        protected override void InternalRender(LigraControl control, Graphics g, SolusEnvironment env)
         {
             Font font2 = new Font(control.Font.FontFamily, control.Font.Size * 2, FontStyle.Bold);
 
             float width = control.ClientSize.Width - 20;
             float height = g.MeasureString(_caption, font2, (int)width).Height;
 
-            g.DrawString(_caption, font2, Brushes.Black, location + new SizeF(2, 2));
+            g.DrawString(_caption, font2, Brushes.Black, new PointF(2, 2));
             SizeF size = CalcSize(control, g);
-            g.DrawRectangle(Pens.Black, location.X, location.Y, size.Width, size.Height- 250);
+            g.DrawRectangle(Pens.Black, 0, 0, size.Width, size.Height- 250);
 
             float x = 20;
             List<float> currentHeights = new List<float>();

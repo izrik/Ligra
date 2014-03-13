@@ -17,7 +17,7 @@ namespace MetaphysicsIndustries.Ligra
             _env = env;
         }
 
-        protected abstract void InternalRender(LigraControl control, Graphics g, PointF location, SolusEnvironment env);
+        protected abstract void InternalRender(LigraControl control, Graphics g, SolusEnvironment env);
         protected abstract SizeF InternalCalcSize(LigraControl control, Graphics g);
 
         private string _error = string.Empty;
@@ -27,32 +27,32 @@ namespace MetaphysicsIndustries.Ligra
 
         protected override void OnPaint(PaintEventArgs e)
         {
+            Render((LigraControl)(this.Parent), e.Graphics, _env);
             base.OnPaint(e);
-            Render((LigraControl)(this.Parent), e.Graphics, new PointF(0, 0), _env);
         }
-        protected void Render(LigraControl control, Graphics g, PointF location, SolusEnvironment env) // OnPaint
+        protected void Render(LigraControl control, Graphics g, SolusEnvironment env) // OnPaint
         {
             try
             {
                 if (string.IsNullOrEmpty(_error))
                 {
-                    InternalRender(control, g, location, env);
+                    InternalRender(control, g, env);
 
                     CollectVariableValues(env);
                 }
                 else
                 {
-                    g.DrawString(_error, control.Font, Brushes.Red, location);
+                    g.DrawString(_error, control.Font, Brushes.Red, new PointF(0, 0));
                 }
             }
             catch (Exception e)
             {
                 _error = "There was an error while trying to render the item: \r\n" + e.ToString();
 
-                g.DrawString(_error, control.Font, Brushes.Red, location);
+                g.DrawString(_error, control.Font, Brushes.Red, new PointF(0, 0));
                 _errorSize = g.MeasureString(_error, control.Font);
 
-                g.DrawRectangle(Pens.Red, location.X, location.Y, _errorSize.Width, _errorSize.Height);
+                g.DrawRectangle(Pens.Red, 0, 0, _errorSize.Width, _errorSize.Height);
             }
         }
 

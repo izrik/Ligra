@@ -25,14 +25,14 @@ namespace MetaphysicsIndustries.Ligra
 
         string _caption;
 
-        protected override void InternalRender(LigraControl control, Graphics g, PointF location, SolusEnvironment env)
+        protected override void InternalRender(LigraControl control, Graphics g, SolusEnvironment env)
         {
             Matrix mat = _filter.Apply(_matrix);
             mat.ApplyToAll(AcuityEngine.ConvertFloatTo24g);
 
             MemoryImage image = control.RenderMatrixToMemoryImage(mat);
 
-            RectangleF boundsInClient = new RectangleF(location.X, location.Y, mat.ColumnCount, mat.RowCount);
+            RectangleF boundsInClient = new RectangleF(0, 0, mat.ColumnCount, mat.RowCount);
 
 
 
@@ -43,7 +43,7 @@ namespace MetaphysicsIndustries.Ligra
             SizeF textSize = g.MeasureString(_caption, control.Font, GetImageWidth(mat));
             float textWidth = textSize.Width;
             float textHeight = textSize.Height;
-            rect = new RectangleF(location.X, location.Y + GetImageHeight(mat) + 2, textWidth, textHeight);
+            rect = new RectangleF(0, GetImageHeight(mat) + 2, textWidth, textHeight);
             g.DrawString(_caption, control.Font, Brushes.Black, rect);
 
             _lastSize = new SizeF(GetImageWidth(mat), GetImageHeight(mat));

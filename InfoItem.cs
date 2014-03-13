@@ -19,9 +19,9 @@ namespace MetaphysicsIndustries.Ligra
         Font _font;
 
 
-        protected override void InternalRender(LigraControl control, Graphics g, PointF location, SolusEnvironment env)
+        protected override void InternalRender(LigraControl control, Graphics g, SolusEnvironment env)
         {
-            g.DrawString(_text, _font, Brushes.Black, location);
+            g.DrawString(_text, _font, Brushes.Black, new PointF(0, 0));
         }
 
         protected override SizeF InternalCalcSize(LigraControl control, Graphics g)

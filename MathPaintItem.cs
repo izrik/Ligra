@@ -52,9 +52,9 @@ namespace MetaphysicsIndustries.Ligra
         int _height;
         MemoryImage _image;
 
-        protected override void InternalRender(LigraControl control, Graphics g, PointF location, SolusEnvironment env)
+        protected override void InternalRender(LigraControl control, Graphics g, SolusEnvironment env)
         {
-            RectangleF boundsInClient = new RectangleF(location.X, location.Y, _width, _height);
+            RectangleF boundsInClient = new RectangleF(0, 0, _width, _height);
 
             if (_image == null || HasChanged(env))
             {
