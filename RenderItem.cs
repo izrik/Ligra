@@ -22,6 +22,7 @@ namespace MetaphysicsIndustries.Ligra
 
         private string _error = string.Empty;
         private SizeF _errorSize = new SizeF(0, 0);
+        bool _changeSize = true;
 
         readonly LigraEnvironment _env;
 
@@ -48,6 +49,7 @@ namespace MetaphysicsIndustries.Ligra
             catch (Exception e)
             {
                 _error = "There was an error while trying to render the item: \r\n" + e.ToString();
+                _changeSize = true;
 
                 g.DrawString(_error, control.Font, Brushes.Red, new PointF(0, 0));
                 _errorSize = g.MeasureString(_error, control.Font);
@@ -58,6 +60,10 @@ namespace MetaphysicsIndustries.Ligra
 
         public SizeF CalcSize(LigraControl control, Graphics g) // Size, Height, Width, Bounds, ClientRectangle, etc.
         {
+            if (!_changeSize) return Size;
+
+            _changeSize = false;
+
             if (string.IsNullOrEmpty(_error))
             {
                 SizeF size = InternalCalcSize(control, g);
