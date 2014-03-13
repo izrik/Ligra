@@ -88,5 +88,10 @@ namespace MetaphysicsIndustries.Ligra
 
             base.OnKeyDown(e);
         }
+
+        public void AddRenderItem(RenderItem item)
+        {
+            this.Controls.Add(item);
+        }
     }
 }

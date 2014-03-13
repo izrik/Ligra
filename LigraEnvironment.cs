@@ -20,7 +20,7 @@ namespace MetaphysicsIndustries.Ligra
         public void AddRenderItem(RenderItem item)
         {
             RenderItems.Add(item);
-            Control.Controls.Add(item);
+            Control.AddRenderItem(item);
         }
 
         public readonly List<string> History = new List<string>();
