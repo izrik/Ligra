@@ -64,9 +64,6 @@
     <Compile Include="LigraControl.Designer.cs">
       <DependentUpon>LigraControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="LigraControl.Render3DGraph.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="LigraControl.RenderExpression.cs">
       <SubType>UserControl</SubType>
     </Compile>
