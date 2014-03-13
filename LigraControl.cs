@@ -63,27 +63,27 @@ namespace MetaphysicsIndustries.Ligra
         {
             if (e.KeyCode == Keys.Down)
             {
-                Point pt = AutoScrollPosition;
-                AutoScrollPosition = new Point(-pt.X, -pt.Y + 20);
+//                Point pt = AutoScrollPosition;
+//                AutoScrollPosition = new Point(-pt.X, -pt.Y + 20);
             }                                              
             else if (e.KeyCode == Keys.Up)                 
             {                                              
-                Point pt = AutoScrollPosition;             
-                AutoScrollPosition = new Point(-pt.X, -pt.Y - 20);
+//                Point pt = AutoScrollPosition;             
+//                AutoScrollPosition = new Point(-pt.X, -pt.Y - 20);
             }                                              
             else if (e.KeyCode == Keys.PageDown)           
             {                                              
-                Point pt = AutoScrollPosition;             
-                AutoScrollPosition = new Point(-pt.X, -pt.Y + ClientSize.Height);
+//                Point pt = AutoScrollPosition;             
+//                AutoScrollPosition = new Point(-pt.X, -pt.Y + ClientSize.Height);
             }                                              
             else if (e.KeyCode == Keys.PageUp)             
             {                                              
-                Point pt = AutoScrollPosition;
-                AutoScrollPosition = new Point(-pt.X, -pt.Y - ClientSize.Height);
+//                Point pt = AutoScrollPosition;
+//                AutoScrollPosition = new Point(-pt.X, -pt.Y - ClientSize.Height);
             }
             else if (e.KeyCode == Keys.Home)
             {
-                AutoScrollPosition = new Point(0, 0);
+//                AutoScrollPosition = new Point(0, 0);
             }
 
             base.OnKeyDown(e);

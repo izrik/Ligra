@@ -25,8 +25,8 @@ namespace MetaphysicsIndustries.Ligra
 
             float time = System.Environment.TickCount / 1000.0f;
 
-            PointF scroll = ligraControl1.AutoScrollPosition;
-            g.TranslateTransform(scroll.X, scroll.Y);
+//            PointF scroll = ligraControl1.AutoScrollPosition;
+//            g.TranslateTransform(scroll.X, scroll.Y);
 
             float x = 10;// +ligraControl1.AutoScrollPosition.X;
             float y = 10;// +ligraControl1.AutoScrollPosition.Y;
@@ -140,15 +140,15 @@ namespace MetaphysicsIndustries.Ligra
             //    y += 410;
             //}
 
-            Size s = (new SizeF(maxWidth, y)).ToSize();
+//            Size s = (new SizeF(maxWidth, y)).ToSize();
 
-            if (ligraControl1.AutoScrollMinSize != s)
-            {
-                ligraControl1.AutoScrollMinSize = s;
-                Point pt = ligraControl1.AutoScrollPosition;
-                pt.Y = s.Height - ligraControl1.ClientSize.Height;
-                ligraControl1.AutoScrollPosition = pt;
-            }
+//            if (ligraControl1.AutoScrollMinSize != s)
+//            {
+//                ligraControl1.AutoScrollMinSize = s;
+//                Point pt = ligraControl1.AutoScrollPosition;
+//                pt.Y = s.Height - ligraControl1.ClientSize.Height;
+//                ligraControl1.AutoScrollPosition = pt;
+//            }
         }
 
     }

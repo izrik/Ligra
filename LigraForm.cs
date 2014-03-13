@@ -48,8 +48,6 @@ namespace MetaphysicsIndustries.Ligra
                 _env.Variables.Add("t", new Literal(0));
             }
 
-            ligraControl1.AutoScrollPosition = new Point(0, 0);
-
             _env.Font = ligraControl1.Font;
             _env.ClearCanvas = ligraControl1.Invalidate;
         }
