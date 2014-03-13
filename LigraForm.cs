@@ -140,6 +140,9 @@ namespace MetaphysicsIndustries.Ligra
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            float time = System.Environment.TickCount / 1000.0f;
+            _env.Variables["t"] = new Literal(time);
+
             if (_env.RenderItems.Count > 0 && WindowState != FormWindowState.Minimized)
             {
                 //Invalidate();
@@ -154,7 +157,7 @@ namespace MetaphysicsIndustries.Ligra
 
         private void printDocument1_PrintPage(object sender, PrintPageEventArgs e)
         {
-            Render(e.Graphics);
+            throw new NotImplementedException();
         }
 
         private void printToolStripMenuItem_Click(object sender, EventArgs e)

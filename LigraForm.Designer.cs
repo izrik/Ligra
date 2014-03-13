@@ -134,7 +134,6 @@ namespace MetaphysicsIndustries.Ligra
             this.ligraControl1.Name = "ligraControl1";
             this.ligraControl1.Size = new System.Drawing.Size(392, 314);
             this.ligraControl1.TabIndex = 0;
-            this.ligraControl1.Paint += new System.Windows.Forms.PaintEventHandler(this.ligraControl1_Paint);
             this.ligraControl1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ligraControl1_KeyDown);
             // 
             // evalTextBox
