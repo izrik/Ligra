@@ -67,6 +67,11 @@ namespace MetaphysicsIndustries.Ligra
         public GraphItem(SolusParser parser, LigraEnvironment env, IEnumerable<GraphEntry> entries)
             : base(env)
         {
+            _timer = new System.Windows.Forms.Timer();
+            _timer.Tick += _timer_Tick;
+            _timer.Interval = 250;
+            _timer.Enabled = true;
+
             _entries.AddRange(entries);
 
             Rect = new RectangleF(0, 0, 400, 400);
@@ -76,6 +81,13 @@ namespace MetaphysicsIndustries.Ligra
             _minY = -2;
             _parser = parser;
         }
+
+        void _timer_Tick (object sender, EventArgs e)
+        {
+            this.Invalidate();
+        }
+
+        System.Windows.Forms.Timer _timer;
 
         public float _maxX;
         public float _minX;

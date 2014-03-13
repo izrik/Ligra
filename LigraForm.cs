@@ -142,17 +142,6 @@ namespace MetaphysicsIndustries.Ligra
         {
             float time = System.Environment.TickCount / 1000.0f;
             _env.Variables["t"] = new Literal(time);
-
-            if (_env.RenderItems.Count > 0 && WindowState != FormWindowState.Minimized)
-            {
-                //Invalidate();
-                //Refresh();
-                ligraControl1.Invalidate();
-                foreach (var ri in _env.RenderItems)
-                {
-                    ri.Invalidate();
-                }
-            }
         }
 
         private void printDocument1_PrintPage(object sender, PrintPageEventArgs e)

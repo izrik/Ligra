@@ -18,6 +18,11 @@ namespace MetaphysicsIndustries.Ligra
             LigraEnvironment env)
             : base(env)
         {
+            _timer = new System.Windows.Forms.Timer();
+            _timer.Tick += _timer_Tick;
+            _timer.Interval = 250;
+            _timer.Enabled = true;
+
             _expression = expression;
             _pen = pen;
             _brush = brush;
@@ -30,6 +35,13 @@ namespace MetaphysicsIndustries.Ligra
             _zMin = zMin;
             _zMax = zMax;
         }
+
+        void _timer_Tick (object sender, EventArgs e)
+        {
+            this.Invalidate();
+        }
+
+        System.Windows.Forms.Timer _timer;
 
         private Expression _expression;
         private Pen _pen;
