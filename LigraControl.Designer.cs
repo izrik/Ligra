@@ -54,6 +54,8 @@ namespace MetaphysicsIndustries.Ligra
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel1.WrapContents = false;
+            this.flowLayoutPanel1.AutoScroll = true;
             // 
             // LigraControl
             // 
