@@ -82,8 +82,7 @@ namespace MetaphysicsIndustries.Ligra
 
             protected override void InternalRender(Graphics g, SolusEnvironment env)
         {
-            RectangleF rect = new RectangleF(new PointF(0, 0), CalcSize(g));
-            g.DrawString(_topic, _font, Brushes.Magenta, new PointF(0, 0));//rect);
+            g.DrawString(_topic, _font, Brushes.Magenta, new PointF(0, 0));
         }
 
         protected override SizeF InternalCalcSize(Graphics g)

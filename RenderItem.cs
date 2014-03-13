@@ -56,23 +56,25 @@ namespace MetaphysicsIndustries.Ligra
 
                 g.DrawRectangle(Pens.Red, 0, 0, _errorSize.Width, _errorSize.Height);
             }
-        }
 
-        public SizeF CalcSize(Graphics g) // Size, Height, Width, Bounds, ClientRectangle, etc.
-        {
-            if (!_changeSize) return Size;
-
-            _changeSize = false;
-
-            if (string.IsNullOrEmpty(_error))
+            if (_changeSize)
             {
-                SizeF size = InternalCalcSize(g);
-                Rect = new RectangleF(0, 0, size.Width, size.Height);
-                return size;
-            }
-            else
-            {
-                return _errorSize;
+                _changeSize = false;
+
+                try
+                {
+                    if (string.IsNullOrEmpty(_error))
+                    {
+                        Size = Size.Truncate(InternalCalcSize(g));
+                    }
+                    else
+                    {
+                        Size = Size.Truncate(_errorSize);
+                    }
+                }
+                catch (Exception)
+                {
+                }
             }
         }
 

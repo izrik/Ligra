@@ -16,7 +16,7 @@ namespace MetaphysicsIndustries.Ligra
 
         string _caption;
 
-            protected override void InternalRender(Graphics g, SolusEnvironment env)
+        protected override void InternalRender(Graphics g, SolusEnvironment env)
         {
             Font font2 = new Font(this.Font.FontFamily, this.Font.Size * 2, FontStyle.Bold);
 
@@ -24,15 +24,14 @@ namespace MetaphysicsIndustries.Ligra
             float height = g.MeasureString(_caption, font2, (int)width).Height;
 
             g.DrawString(_caption, font2, Brushes.Black, new PointF(2, 2));
-            SizeF size = CalcSize(g);
-            g.DrawRectangle(Pens.Black, 0, 0, size.Width, size.Height- 250);
+            g.DrawRectangle(Pens.Black, 0, 0, this.Width, this.Height- 250);
 
             float x = 20;
             List<float> currentHeights = new List<float>();
             float maxCurrentHeight = 0;
             foreach (RenderItem ri in Items)
             {
-                size = ri.CalcSize(g);
+                var size = ri.Size;
                 if (x + size.Width > width)
                 {
                     height += maxCurrentHeight;
@@ -69,7 +68,7 @@ namespace MetaphysicsIndustries.Ligra
             float maxCurrentHeight = 0;
             foreach (RenderItem ri in Items)
             {
-                SizeF size = ri.CalcSize(g);
+                SizeF size = ri.Size;
                 if (x + size.Width > width)
                 {
                     height += maxCurrentHeight;
