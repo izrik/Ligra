@@ -91,7 +91,7 @@ namespace MetaphysicsIndustries.Ligra
 
         public void AddRenderItem(RenderItem item)
         {
-            this.Controls.Add(item);
+            this.flowLayoutPanel1.Controls.Add(item);
         }
     }
 }
