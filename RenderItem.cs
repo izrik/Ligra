@@ -28,27 +28,26 @@ namespace MetaphysicsIndustries.Ligra
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            Render(e.Graphics, _env);
             base.OnPaint(e);
-        }
-        protected void Render(Graphics g, SolusEnvironment env) // OnPaint
-        {
+
+            var g = e.Graphics;
+
             try
             {
                 if (string.IsNullOrEmpty(_error))
                 {
-                    InternalRender(g, env);
+                    InternalRender(g, _env);
 
-                    CollectVariableValues(env);
+                    CollectVariableValues(_env);
                 }
                 else
                 {
                     g.DrawString(_error, this.Font, Brushes.Red, new PointF(0, 0));
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                _error = "There was an error while trying to render the item: \r\n" + e.ToString();
+                _error = "There was an error while trying to render the item: \r\n" + ex.ToString();
                 _changeSize = true;
 
                 g.DrawString(_error, this.Font, Brushes.Red, new PointF(0, 0));
