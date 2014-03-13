@@ -74,12 +74,16 @@ namespace MetaphysicsIndustries.Ligra
 
             _entries.AddRange(entries);
 
-            Rect = new RectangleF(0, 0, 400, 400);
             _maxX = 2;
             _minX = -2;
             _maxY = 2;
             _minY = -2;
             _parser = parser;
+        }
+
+        protected override Size DefaultSize
+        {
+            get { return new Size(400, 400); }
         }
 
         void _timer_Tick (object sender, EventArgs e)
