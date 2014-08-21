@@ -11,3 +11,11 @@ plot3d(x,y,u(sqrt(x*x+y*y)+2*(sin(t)-1))*cos(5*(x*y)+2*t), blue)
 
 //error:
 mathpaint(i,j,256,256,i*j+min(0xff0000,min(0x10000,t)))
+
+
+
+//function definitions
+factorial(n) := if (n, n * factorial(n-1), 1)
+cos_taylor(x, n, sign) := if (n-8, sign * (x ^ n) / factorial(n) + cos_taylor(x, n+2, -sign), 0)
+cos2(x) := cos_taylor(x, 0, 1)
+
