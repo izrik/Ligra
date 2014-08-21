@@ -27,11 +27,11 @@ namespace MetaphysicsIndustries.Ligra
 
         MemoryImage _image = null;
 
-        protected override void InternalRender(LigraControl control, Graphics g, PointF location, MetaphysicsIndustries.Solus.VariableTable varTable)
+        protected override void InternalRender(LigraControl control, Graphics g, PointF location, SolusEnvironment env)
         {
             RectangleF boundsInClient = new RectangleF(location.X, location.Y, _matrix.ColumnCount, _matrix.RowCount);
 
-            if (_image == null || HasChanged(varTable))
+            if (_image == null || HasChanged(env))
             {
                 MemoryImage image = control.RenderMatrixToMemoryImage(_matrix);
 
@@ -84,7 +84,7 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        protected override void AddVariablesForValueCollection(Set<Variable> vars)
+        protected override void AddVariablesForValueCollection(Set<string> vars)
         {
             //foreach (Expression expr in _matrix)
             //{
@@ -92,7 +92,7 @@ namespace MetaphysicsIndustries.Ligra
             //}
         }
 
-        public override bool HasChanged(VariableTable varTable)
+        public override bool HasChanged(SolusEnvironment env)
         {
             return false;
         }

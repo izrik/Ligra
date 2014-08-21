@@ -21,9 +21,9 @@ namespace MetaphysicsIndustries.Ligra
 
         private void Render(Graphics g)
         {
-            //VariableTable varTable = new VariableTable();
+            //VariableTable env = new VariableTable();
 
-            float time = Environment.TickCount / 1000.0f;
+            float time = System.Environment.TickCount / 1000.0f;
 
             PointF scroll = ligraControl1.AutoScrollPosition;
             g.TranslateTransform(scroll.X, scroll.Y);
@@ -41,15 +41,15 @@ namespace MetaphysicsIndustries.Ligra
 
             //bool stopTimer = (_renderItems.Count <= 0);
 
-            foreach (RenderItem item in _renderItems)
+            foreach (RenderItem item in _env.RenderItems)
             {
                 SizeF itemSize = item.CalcSize(ligraControl1, g);
 
                 //if (y + scroll.Y + itemSize.Height > 0 &&
                 //    y + scroll.Y < ligraControl1.ClientSize.Height)
                 //{
-                    _vars[_t] = new Literal(time);
-                    item.Render(ligraControl1, g, new PointF(x, y), _vars);
+                    _env.Variables["t"] = new Literal(time);
+                    item.Render(ligraControl1, g, new PointF(x, y), _env);
                 //}
 
                 item.SetLocation(new PointF(x, y));
@@ -97,10 +97,10 @@ namespace MetaphysicsIndustries.Ligra
             //                new Pen(graph.Color), new SolidBrush(graph.Color),
             //                -2, 2, -2, 2,
             //                //0, 1, 0, 1.5f, 
-            //                graph.Formula.Expr, _x, varTable, first);
+            //                graph.Formula.Expr, _x, env, first);
             //            first = false;
 
-            //            //float value = graph.Formula.Expr.Eval(varTable).Value;
+            //            //float value = graph.Formula.Expr.Eval(env).Value;
             //            //float yy = 750 - value * 500;
 
             //            //g.DrawString(value.ToString(), Font, new SolidBrush(graph.Color), 575 + 10, yy+50);
@@ -126,13 +126,13 @@ namespace MetaphysicsIndustries.Ligra
             //        foreach (Graph graph in _graphs3d)
             //        {
             //            Graph3dItem item = new Graph3dItem(graph.Formula.Expr, new Pen(graph.Color), new SolidBrush(graph.Color), _x, _y);
-            //            item.Render(ligraControl1, g, new PointF(x, y), varTable);
+            //            item.Render(ligraControl1, g, new PointF(x, y), env);
             //            //ligraControl1.Render3DGraph(g,
             //            //    new RectangleF(x, y, 400, 400),
             //            //    //new RectangleF(600, 420, 400, 400),
             //            //    new Pen(graph.Color), new SolidBrush(graph.Color),
             //            //    -4, 0, -4, 0, -2, 6,
-            //            //    graph.Formula.Expr, _x, _y, varTable, first);
+            //            //    graph.Formula.Expr, _x, _y, env, first);
             //            //first = false;
             //        }
             //    }

@@ -13,8 +13,8 @@ namespace MetaphysicsIndustries.Ligra
             float xMin, float xMax,
             float yMin, float yMax,
             float zMin, float zMax,
-            Variable independentVariableX,
-            Variable independentVariableY)
+            string independentVariableX,
+                           string independentVariableY)
         {
             _expression = expression;
             _pen = pen;
@@ -32,8 +32,8 @@ namespace MetaphysicsIndustries.Ligra
         private Expression _expression;
         private Pen _pen;
         private Brush _brush;
-        private Variable _independentVariableX;
-        private Variable _independentVariableY;
+        private string _independentVariableX;
+        private string _independentVariableY;
         private float _xMin;
         private float _xMax;
         private float _yMin;
@@ -42,7 +42,7 @@ namespace MetaphysicsIndustries.Ligra
         private float _zMax;
 
 
-        protected override void InternalRender(LigraControl control, Graphics g, PointF location, VariableTable varTable)
+        protected override void InternalRender(LigraControl control, Graphics g, PointF location, SolusEnvironment env)
         {
             control.Render3DGraph(g,
                 new RectangleF(location.X, location.Y, 400, 400),
@@ -53,7 +53,7 @@ namespace MetaphysicsIndustries.Ligra
                 _expression,
                 _independentVariableX,
                 _independentVariableY,
-                varTable, true);
+                env, true);
         }
 
         protected override SizeF InternalCalcSize(LigraControl control, Graphics g)
@@ -61,17 +61,17 @@ namespace MetaphysicsIndustries.Ligra
             return new SizeF(400, 400);
         }
 
-        //public override bool HasChanged(VariableTable varTable)
+        //public override bool HasChanged(VariableTable env)
         //{
         //    throw new NotImplementedException();
         //}
 
-        protected override void AddVariablesForValueCollection(Set<Variable> vars)
+        protected override void AddVariablesForValueCollection(Set<string> vars)
         {
             GatherVariablesForValueCollection(vars, _expression);
         }
 
-        protected override void RemoveVariablesForValueCollection(Set<Variable> vars)
+        protected override void RemoveVariablesForValueCollection(Set<string> vars)
         {
             UngatherVariableForValueCollection(vars, _independentVariableX);
             UngatherVariableForValueCollection(vars, _independentVariableY);

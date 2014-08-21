@@ -27,7 +27,7 @@ namespace MetaphysicsIndustries.Ligra
         Brush _brush;
         int _location;
 
-        protected override void InternalRender(LigraControl control, Graphics g, PointF location, VariableTable varTable)
+        protected override void InternalRender(LigraControl control, Graphics g, PointF location, SolusEnvironment env)
         {
             if (!string.IsNullOrEmpty(_inputText))
             {

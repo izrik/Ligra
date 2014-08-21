@@ -27,7 +27,7 @@ namespace MetaphysicsIndustries.Ligra
 
         //MemoryImage _image = null;
 
-        protected override void InternalRender(LigraControl control, Graphics g, PointF location, VariableTable varTable)
+        protected override void InternalRender(LigraControl control, Graphics g, PointF location, SolusEnvironment env)
         {
             RectangleF boundsInClient = new RectangleF(location, InternalCalcSize(control, g));
             boundsInClient.Height = 276;
@@ -50,7 +50,7 @@ namespace MetaphysicsIndustries.Ligra
             return new SizeF(_vector.Length + 20, 296 + g.MeasureString(_caption, control.Font, _vector.Length).Height);
         }
 
-        protected override void AddVariablesForValueCollection(Set<Variable> vars)
+        protected override void AddVariablesForValueCollection(Set<string> vars)
         {
             //foreach (Expression expr in _vector)
             //{

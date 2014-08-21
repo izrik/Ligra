@@ -9,7 +9,7 @@ namespace MetaphysicsIndustries.Ligra
 {
     public class GraphEntry
     {
-        public GraphEntry(Expression expression, Pen pen, Variable independentVariable)
+        public GraphEntry(Expression expression, Pen pen, string independentVariable)
         {
             _expression = expression;
             _pen = pen;
@@ -22,8 +22,8 @@ namespace MetaphysicsIndustries.Ligra
             get { return _expression; }
         }
 
-        private Variable _independentVariable;
-        public Variable IndependentVariable
+        private string _independentVariable;
+        public string IndependentVariable
         {
             get { return _independentVariable; }
         }
@@ -37,7 +37,7 @@ namespace MetaphysicsIndustries.Ligra
 
     public class GraphItem : RenderItem
     {
-        public GraphItem(Expression expression, Pen pen, Variable independentVariable, SolusParser parser)
+        public GraphItem(Expression expression, Pen pen, string independentVariable, SolusParser parser)
             : this(parser, new GraphEntry(expression, pen, independentVariable))
         {
         }
@@ -68,7 +68,7 @@ namespace MetaphysicsIndustries.Ligra
         private List<GraphEntry> _entries = new List<GraphEntry>();
         //private SizeF _size = new SizeF(400, 400);
 
-        protected override void InternalRender(LigraControl control, Graphics g, PointF location, VariableTable varTable)
+        protected override void InternalRender(LigraControl control, Graphics g, PointF location, SolusEnvironment env)
         {
             bool first = true;
             foreach (GraphEntry entry in _entries)
@@ -77,7 +77,7 @@ namespace MetaphysicsIndustries.Ligra
                     new RectangleF(location, Rect.Size),
                     entry.Pen, entry.Pen.Brush,
                     _minX, _maxX, _minY, _maxY,
-                    entry.Expression, entry.IndependentVariable, varTable, first);
+                    entry.Expression, entry.IndependentVariable, env, first);
                 first = false;
             }
         }
@@ -87,14 +87,14 @@ namespace MetaphysicsIndustries.Ligra
             return Rect.Size;
         }
 
-        //public override bool HasChanged(VariableTable varTable)
+        //public override bool HasChanged(VariableTable env)
         //{
         //    throw new NotImplementedException();
         //}
 
-        protected override void AddVariablesForValueCollection(Set<Variable> vars)
+        protected override void AddVariablesForValueCollection(Set<string> vars)
         {
-            Set<Variable> tempVars = new Set<Variable>();
+            Set<string> tempVars = new Set<string>();
             foreach (GraphEntry entry in _entries)
             {
                 tempVars.Clear();

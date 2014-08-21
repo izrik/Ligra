@@ -12,7 +12,7 @@ namespace MetaphysicsIndustries.Ligra
     {
         private static SolusEngine _engine = new SolusEngine();
 
-        protected abstract void InternalRender(LigraControl control, Graphics g, PointF location, VariableTable varTable);
+        protected abstract void InternalRender(LigraControl control, Graphics g, PointF location, SolusEnvironment env);
         protected abstract SizeF InternalCalcSize(LigraControl control, Graphics g);
 
         //send this down to RenderItem
@@ -20,15 +20,15 @@ namespace MetaphysicsIndustries.Ligra
         private SizeF _errorSize = new SizeF(0, 0);
 
         //send this down to RenderItem
-        public void Render(LigraControl control, Graphics g, PointF location, VariableTable varTable)
+        public void Render(LigraControl control, Graphics g, PointF location, SolusEnvironment env)
         {
             try
             {
                 if (string.IsNullOrEmpty(_error))
                 {
-                    InternalRender(control, g, location, varTable);
+                    InternalRender(control, g, location, env);
 
-                    CollectVariableValues(varTable);
+                    CollectVariableValues(env);
                 }
                 else
                 {
@@ -69,54 +69,54 @@ namespace MetaphysicsIndustries.Ligra
         }
 
 
-        protected void CollectVariableValues(VariableTable varTable)
+        protected void CollectVariableValues(SolusEnvironment env)
         {
-            Set<Variable> vars = new Set<Variable>();
+            Set<string> vars = new Set<string>();
 
             AddVariablesForValueCollection(vars);
 
             RemoveVariablesForValueCollection(vars);
 
             _varValues.Clear();
-            foreach (Variable var in vars)
+            foreach (string var in vars)
             {
-                _varValues[var] = varTable[var];
+                _varValues[var] = env.Variables[var];
             }
         }
 
         //needs to be renamed
-        protected void UngatherVariableForValueCollection(Set<Variable> vars, Variable var)
+        protected void UngatherVariableForValueCollection(Set<string> vars, string var)
         {
             vars.Remove(var);
         }
 
         //needs to be renamed
-        protected void GatherVariablesForValueCollection(Set<Variable> vars, Expression expression)
+        protected void GatherVariablesForValueCollection(Set<string> vars, Expression expression)
         {
-            vars.AddRange(_engine.GatherVariables(expression));
+            vars.AddRange(SolusEngine.GatherVariables(expression));
         }
 
-        Dictionary<Variable, Expression> _varValues = new Dictionary<Variable, Expression>();
-        public virtual bool HasChanged(VariableTable varTable)
+        Dictionary<string, Expression> _varValues = new Dictionary<string, Expression>();
+        public virtual bool HasChanged(SolusEnvironment env)
         {
             //return true;
-            foreach (Variable var in _varValues.Keys)
+            foreach (string var in _varValues.Keys)
             {
-                if (!varTable.ContainsKey(var)) { return true; }
+                if (!env.Variables.ContainsKey(var)) { return true; }
 
-                if (varTable[var] != _varValues[var]) { return true; }
+                if (env.Variables[var] != _varValues[var]) { return true; }
             }
 
             return false;
         }
 
         //needs to be renamed
-        protected virtual void RemoveVariablesForValueCollection(Set<Variable> vars)
+        protected virtual void RemoveVariablesForValueCollection(Set<string> vars)
         {
         }
 
         //needs to be renamed
-        protected virtual void AddVariablesForValueCollection(Set<Variable> vars)
+        protected virtual void AddVariablesForValueCollection(Set<string> vars)
         {
         }
 

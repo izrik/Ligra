@@ -15,7 +15,7 @@ namespace MetaphysicsIndustries.Ligra
 
         string _caption;
 
-        protected override void InternalRender(LigraControl control, Graphics g, PointF location, VariableTable varTable)
+        protected override void InternalRender(LigraControl control, Graphics g, PointF location, SolusEnvironment env)
         {
             Font font2 = new Font(control.Font.FontFamily, control.Font.Size * 2, FontStyle.Bold);
 
@@ -39,7 +39,7 @@ namespace MetaphysicsIndustries.Ligra
                     maxCurrentHeight = 0;
                 }
 
-                ri.Render(control, g, location + new SizeF(x, height), varTable);
+                ri.Render(control, g, location + new SizeF(x, height), env);
 
                 x += size.Width + 10;
                 maxCurrentHeight = Math.Max(maxCurrentHeight, size.Height);

@@ -38,27 +38,23 @@ namespace MetaphysicsIndustries.Ligra
             }
             else if (expr is VariableAccess)
             {
-                if (((VariableAccess)expr).Variable is DerivativeOfVariable)
-                {
-                    DerivativeOfVariable derivativeOfVariable = (DerivativeOfVariable)(((VariableAccess)expr).Variable);
+                size = g.MeasureString((expr as VariableAccess).VariableName, font);
+            }
+            else if (expr is DerivativeOfVariable)
+            {
+                DerivativeOfVariable derivativeOfVariable = (DerivativeOfVariable)expr;
 
-                    int upperOrder = 0;
-                    Dictionary<Variable, int> lowerOrders = new Dictionary<Variable, int>();
+                int upperOrder = 0;
 
-                    upperOrder = derivativeOfVariable.Order;
+                upperOrder = derivativeOfVariable.Order;
 
-                    string upperString = "d" + (upperOrder > 1 ? upperOrder.ToString() : string.Empty) + derivativeOfVariable.Variable.Name;
-                    string lowerString = "d" + derivativeOfVariable.LowerVariable.Name + (upperOrder > 1 ? upperOrder.ToString() : string.Empty);
+                string upperString = "d" + (upperOrder > 1 ? upperOrder.ToString() : string.Empty) + derivativeOfVariable.Variable;
+                string lowerString = "d" + derivativeOfVariable.LowerVariable + (upperOrder > 1 ? upperOrder.ToString() : string.Empty);
 
-                    SizeF size2 = g.MeasureString(upperString, font);
-                    SizeF size3 = g.MeasureString(lowerString, font);
+                SizeF size2 = g.MeasureString(upperString, font);
+                SizeF size3 = g.MeasureString(lowerString, font);
 
-                    size = new SizeF(Math.Max(size2.Width, size3.Width), size2.Height + size3.Height + 2);
-                }
-                else
-                {
-                    size = g.MeasureString((expr as VariableAccess).Variable.Name, font);
-                }
+                size = new SizeF(Math.Max(size2.Width, size3.Width), size2.Height + size3.Height + 2);
             }
             else if (expr is ColorExpression)
             {
@@ -67,26 +63,6 @@ namespace MetaphysicsIndustries.Ligra
             else if (expr is RandomExpression)
             {
                 size = g.MeasureString("rand()", font);
-            }
-            else if (expr is AssignExpression)
-            {
-                AssignExpression expr2 = (AssignExpression)expr;
-
-                size = g.MeasureString(expr2.Variable.Name + " = ", font);
-
-                SizeF size2 = CalcExpressionSize(expr2.Value, g, font, expressionSizeCache);
-                size.Width += size2.Width;
-                size.Height = Math.Max(size.Height, size2.Height);
-            }
-            else if (expr is DelayAssignExpression)
-            {
-                DelayAssignExpression expr2 = (DelayAssignExpression)expr;
-
-                size = g.MeasureString(expr2.Variable.Name + " := ", font);
-
-                SizeF size2 = CalcExpressionSize(expr2.Expression, g, font, expressionSizeCache);
-                size.Width += size2.Width;
-                size.Height = Math.Max(size.Height, size2.Height);
             }
             else if (expr is SolusMatrix)
             {
@@ -292,6 +268,30 @@ namespace MetaphysicsIndustries.Ligra
                         size.Height = Math.Max(size.Height, argSize.Height);
                     }
 
+                }
+                else if (functionCall.Function == NegationOperation.Value)
+                {
+                    string symbol = NegationOperation.Value.DisplayName;
+                    SizeF symbolSize = g.MeasureString(symbol, font);
+
+                    float parenWidth = 10;
+
+                    var arg = functionCall.Arguments[0];
+                    SizeF argSize = CalcExpressionSize(arg, g, font, expressionSizeCache);
+
+                    float widthWithParen;
+                    if (arg is FunctionCall &&
+                        (arg as FunctionCall).Function is Operation &&
+                        ((arg as FunctionCall).Function as Operation).Precedence < NegationOperation.Value.Precedence)
+                    {
+                        widthWithParen = argSize.Width + parenWidth * 2;
+                    }
+                    else
+                    {
+                        widthWithParen = argSize.Width;
+                    }
+
+                    return new SizeF(widthWithParen, argSize.Height);
                 }
                 else
                 {

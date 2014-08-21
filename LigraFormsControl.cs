@@ -12,20 +12,20 @@ namespace MetaphysicsIndustries.Ligra
 {
     public partial class LigraFormsControl : UserControl
     {
-        public LigraFormsControl(VariableTable varTable, Variable variable, Modulator valueModulator)
+        public LigraFormsControl(SolusEnvironment env, string variable, Modulator valueModulator)
         {
-            if (varTable == null) { throw new ArgumentNullException("varTable"); }
+            if (env == null) { throw new ArgumentNullException("env"); }
             if (variable == null) { throw new ArgumentNullException("variable"); }
 
-            _varTable = varTable;
+            _env = env;
             _variable = variable;
             _valueModulator = valueModulator;
 
             InitializeComponent();
         }
 
-        private VariableTable _varTable;
-        private Variable _variable;
+        private SolusEnvironment _env;
+        private string _variable;
         private Modulator _valueModulator;
 
         protected override void OnSizeChanged(EventArgs e)
@@ -98,11 +98,11 @@ namespace MetaphysicsIndustries.Ligra
 
             if (_valueModulator != null)
             {
-                _varTable[_variable] = new Literal(_valueModulator((float)Value));
+                _env.Variables[_variable] = new Literal(_valueModulator((float)Value));
             }
             else
             {
-                _varTable[_variable] = new Literal(Value);
+                _env.Variables[_variable] = new Literal(Value);
             }
 
             if (Parent != null)

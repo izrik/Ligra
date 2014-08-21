@@ -29,19 +29,19 @@ namespace MetaphysicsIndustries.Ligra
     {
         public void RenderMatrix(Graphics g, RectangleF boundsInClient,
                         SolusMatrix matrix,
-                        VariableTable varTable)
+                        SolusEnvironment env)
         {
             MemoryImage image =
                 RenderMatrixToMemoryImage(
                     matrix,
-                    varTable);
+                    env);
 
             g.DrawImage(image.Bitmap, Rectangle.Truncate( boundsInClient));
         }
 
         public MemoryImage RenderMatrixToMemoryImage(
             SolusMatrix matrix,
-            VariableTable varTable)
+            SolusEnvironment env)
         {
             int i;
             int j;
@@ -57,7 +57,7 @@ namespace MetaphysicsIndustries.Ligra
             {
                 for (j = 0; j < matrix.ColumnCount; j++)
                 {
-                    z = matrix[i, j].Eval(varTable).Value;
+                    z = matrix[i, j].Eval(env).Value;
 
                     if (double.IsNaN(z))
                     {

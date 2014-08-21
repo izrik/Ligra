@@ -19,9 +19,9 @@ namespace MetaphysicsIndustries.Ligra
                         float yMin, float yMax,
                         float zMin, float zMax,
                         Expression expr,
-                        Variable independentVariableX,
-                        Variable independentVariableY,
-                        VariableTable varTable,
+                        string independentVariableX,
+                        string independentVariableY,
+                        SolusEnvironment env,
                         bool drawboundaries)
         {
             int xValues = 50;
@@ -80,9 +80,9 @@ namespace MetaphysicsIndustries.Ligra
                 g.DrawString(zMax.ToString(), Font, Brushes.Black, x2 + 6, y1 - 3);
 
 
-                g.DrawString(independentVariableX.Name, Font, Brushes.Black, (x1 + x2) / 2, (y3 + y4) / 2);
-                size = g.MeasureString(independentVariableY.Name, Font);
-                g.DrawString(independentVariableY.Name, Font, Brushes.Black, (x1 + x0) / 2 - size.Width, (y3 + y4) / 2);
+                g.DrawString(independentVariableX, Font, Brushes.Black, (x1 + x2) / 2, (y3 + y4) / 2);
+                size = g.MeasureString(independentVariableY, Font);
+                g.DrawString(independentVariableY, Font, Brushes.Black, (x1 + x0) / 2 - size.Width, (y3 + y4) / 2);
 
 
                 //g.DrawRectangle(Pens.Black, boundsInClient.Left, boundsInClient.Top, boundsInClient.Width, boundsInClient.Height);
@@ -98,35 +98,35 @@ namespace MetaphysicsIndustries.Ligra
             Expression prelimEval;
             Expression prelimEval2;
 
-            if (varTable.ContainsKey(independentVariableX))
+            if (env.Variables.ContainsKey(independentVariableX))
             {
-                varTable.Remove(independentVariableX);
+                env.Variables.Remove(independentVariableX);
             }
-            if (varTable.ContainsKey(independentVariableY))
+            if (env.Variables.ContainsKey(independentVariableY))
             {
-                varTable.Remove(independentVariableY);
+                env.Variables.Remove(independentVariableY);
             }
 
-            prelimEval = _engine.PreliminaryEval(expr, varTable);
+            prelimEval = _engine.PreliminaryEval(expr, env);
 
             for (i = 0; i < xValues; i++)
             {
                 x = xMin + i * deltaX;
 
-                varTable[independentVariableX] = new Literal(x);
-                if (varTable.ContainsKey(independentVariableY))
+                env.Variables[independentVariableX] = new Literal(x);
+                if (env.Variables.ContainsKey(independentVariableY))
                 {
-                    varTable.Remove(independentVariableY);
+                    env.Variables.Remove(independentVariableY);
                 }
 
-                prelimEval2 = _engine.PreliminaryEval(prelimEval, varTable);
+                prelimEval2 = _engine.PreliminaryEval(prelimEval, env);
 
                 for (j = 0; j < yValues; j++)
                 {
                     y = yMin + j * deltaY;
-                    varTable[independentVariableY] = new Literal(y);
+                    env.Variables[independentVariableY] = new Literal(y);
 
-                    z = prelimEval2.Eval(varTable).Value;
+                    z = prelimEval2.Eval(env).Value;
 
                     if (double.IsNaN(z))
                     {

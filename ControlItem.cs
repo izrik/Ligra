@@ -26,7 +26,7 @@ namespace MetaphysicsIndustries.Ligra
         LigraFormsControl _control;
         LigraControl _parent;
 
-        protected override void InternalRender(LigraControl control, Graphics g, PointF location, VariableTable varTable)
+        protected override void InternalRender(LigraControl control, Graphics g, PointF location, SolusEnvironment env)
         {
             SizeF size = CalcSize(control, g);
             g.DrawRectangle(Pens.Black, location.X, location.Y, size.Width, size.Height);
