@@ -24,6 +24,12 @@ namespace MetaphysicsIndustries.Ligra
                         SolusEnvironment env,
                         bool drawboundaries)
         {
+//            var bakedEnv = new Dictionary<string, float>();
+//            foreach (var kvp in env.Variables)
+//            {
+//                bakedEnv[kvp.Key] = kvp.Value.Eval(env).Value;
+//            }
+
             int xValues = 50;
             int yValues = 50;
 
