@@ -6,7 +6,7 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 using MetaphysicsIndustries.Solus;
-using MetaphysicsIndustries.Collections;
+
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -296,7 +296,7 @@ namespace MetaphysicsIndustries.Ligra
 
             SizeF allArgSize = new SizeF(0, 0);
 
-            Set<Expression> hasParens = new Set<Expression>();
+            HashSet<Expression> hasParens = new HashSet<Expression>();
 
             bool first = true;
             foreach (Expression arg in functionCall.Arguments)

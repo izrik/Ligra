@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using MetaphysicsIndustries.Solus;
 using System.Drawing;
-using MetaphysicsIndustries.Collections;
+
 using MetaphysicsIndustries.Utilities;
 
 namespace MetaphysicsIndustries.Ligra
@@ -77,13 +77,13 @@ namespace MetaphysicsIndustries.Ligra
             g.DrawImage(_image.Bitmap, boundsInClient);
         }
 
-        protected override void RemoveVariablesForValueCollection(Set<string> vars)
+        protected override void RemoveVariablesForValueCollection(HashSet<string> vars)
         {
             UngatherVariableForValueCollection(vars, _horizontalCoordinate);
             UngatherVariableForValueCollection(vars, _verticalCoordinate);
         }
 
-        protected override void AddVariablesForValueCollection(Set<string> vars)
+        protected override void AddVariablesForValueCollection(HashSet<string> vars)
         {
             GatherVariablesForValueCollection(vars, _expression);
         }

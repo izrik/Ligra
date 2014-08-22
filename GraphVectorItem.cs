@@ -4,7 +4,7 @@ using System.Text;
 using MetaphysicsIndustries.Solus;
 //using MetaphysicsIndustries.Utilities;
 using System.Drawing;
-using MetaphysicsIndustries.Collections;
+
 using MetaphysicsIndustries.Acuity;
 
 namespace MetaphysicsIndustries.Ligra
@@ -50,7 +50,7 @@ namespace MetaphysicsIndustries.Ligra
             return new SizeF(_vector.Length + 20, 296 + g.MeasureString(_caption, control.Font, _vector.Length).Height);
         }
 
-        protected override void AddVariablesForValueCollection(Set<string> vars)
+        protected override void AddVariablesForValueCollection(HashSet<string> vars)
         {
             //foreach (Expression expr in _vector)
             //{

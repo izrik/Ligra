@@ -4,7 +4,7 @@ using System.Text;
 using System.Drawing;
 using MetaphysicsIndustries.Solus;
 using MetaphysicsIndustries.Utilities;
-using MetaphysicsIndustries.Collections;
+
 using MetaphysicsIndustries.Acuity;
 
 namespace MetaphysicsIndustries.Ligra
@@ -83,7 +83,7 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        protected override void AddVariablesForValueCollection(Set<string> vars)
+        protected override void AddVariablesForValueCollection(HashSet<string> vars)
         {
             //foreach (Expression expr in _matrix)
             //{

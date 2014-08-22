@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using MetaphysicsIndustries.Solus;
-using MetaphysicsIndustries.Collections;
+
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -92,15 +92,15 @@ namespace MetaphysicsIndustries.Ligra
         //    throw new NotImplementedException();
         //}
 
-        protected override void AddVariablesForValueCollection(Set<string> vars)
+        protected override void AddVariablesForValueCollection(HashSet<string> vars)
         {
-            Set<string> tempVars = new Set<string>();
+            HashSet<string> tempVars = new HashSet<string>();
             foreach (GraphEntry entry in _entries)
             {
                 tempVars.Clear();
                 GatherVariablesForValueCollection(tempVars, entry.Expression);
                 UngatherVariableForValueCollection(tempVars, entry.IndependentVariable);
-                vars.AddRange(tempVars);
+                vars.UnionWith(tempVars);
             }
         }
 

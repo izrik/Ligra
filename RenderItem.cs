@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using MetaphysicsIndustries.Solus;
-using MetaphysicsIndustries.Collections;
+
 using System.Windows.Forms;
 
 namespace MetaphysicsIndustries.Ligra
@@ -71,7 +71,7 @@ namespace MetaphysicsIndustries.Ligra
 
         protected void CollectVariableValues(SolusEnvironment env)
         {
-            Set<string> vars = new Set<string>();
+            HashSet<string> vars = new HashSet<string>();
 
             AddVariablesForValueCollection(vars);
 
@@ -85,15 +85,15 @@ namespace MetaphysicsIndustries.Ligra
         }
 
         //needs to be renamed
-        protected void UngatherVariableForValueCollection(Set<string> vars, string var)
+        protected void UngatherVariableForValueCollection(HashSet<string> vars, string var)
         {
             vars.Remove(var);
         }
 
         //needs to be renamed
-        protected void GatherVariablesForValueCollection(Set<string> vars, Expression expression)
+        protected void GatherVariablesForValueCollection(HashSet<string> vars, Expression expression)
         {
-            vars.AddRange(SolusEngine.GatherVariables(expression));
+            vars.UnionWith(SolusEngine.GatherVariables(expression));
         }
 
         Dictionary<string, Expression> _varValues = new Dictionary<string, Expression>();
@@ -111,12 +111,12 @@ namespace MetaphysicsIndustries.Ligra
         }
 
         //needs to be renamed
-        protected virtual void RemoveVariablesForValueCollection(Set<string> vars)
+        protected virtual void RemoveVariablesForValueCollection(HashSet<string> vars)
         {
         }
 
         //needs to be renamed
-        protected virtual void AddVariablesForValueCollection(Set<string> vars)
+        protected virtual void AddVariablesForValueCollection(HashSet<string> vars)
         {
         }
 

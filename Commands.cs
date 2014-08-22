@@ -3,7 +3,7 @@ using MetaphysicsIndustries.Solus;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using MetaphysicsIndustries.Collections;
+
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -294,13 +294,13 @@ namespace MetaphysicsIndustries.Ligra
                 literals.Add(literal);
             }
 
-            var unboundVars = new Set<string>();
+            var unboundVars = new HashSet<string>();
             foreach (var expr in exprs)
             {
                 var expr2 = expr.PreliminaryEval(env);
                 if (!(expr2 is Literal))
                 {
-                    unboundVars.AddRange(SolusEngine.GatherVariables(expr2));
+                    unboundVars.UnionWith(SolusEngine.GatherVariables(expr2));
                 }
             }
 
