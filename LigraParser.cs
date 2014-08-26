@@ -118,7 +118,11 @@ namespace MetaphysicsIndustries.Ligra
 
         Command GetHelpCommandFromHelpCommand(Span span, SolusEnvironment env)
         {
-            var topic = span.Subspans[1].Subspans[0].Value;
+            string topic = "help";
+            if (span.Subspans.Count >= 2)
+            {
+                topic = span.Subspans[1].Subspans[0].Value;
+            }
 
             return (input, args, env_) => Commands.HelpCommand(input, args, env_, topic);
         }

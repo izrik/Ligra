@@ -325,6 +325,7 @@ namespace MetaphysicsIndustries.Ligra
             def_help_002D_command.Nodes.Add(node_help_002D_command_1_help_002D_item);
             def_help_002D_command.StartNodes.Add(node_help_002D_command_0_help);
             def_help_002D_command.EndNodes.Add(node_help_002D_command_1_help_002D_item);
+            def_help_002D_command.EndNodes.Add(node_help_002D_command_0_help);
             node_help_002D_command_0_help.NextNodes.Add(node_help_002D_command_1_help_002D_item);
 
             node_clear_002D_command_0_clear = new DefRefNode(def__0024_implicit_0020_literal_0020_clear, "clear");

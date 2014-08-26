@@ -20,7 +20,7 @@ command = (
     func-assign-command
 );
 
-help-command = 'help' help-item;
+help-command = 'help' help-item?;
 clear-command = 'clear' 'all'?;
 show-command = 'show' ( 'history' | 'vars' | 'variables' | 'constants' );
 plot-command = 'plot' expr (',' expr)* 'for' interval ( ',' interval )* ;
