@@ -45,6 +45,7 @@ namespace MetaphysicsIndustries.Ligra
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -53,7 +54,7 @@ namespace MetaphysicsIndustries.Ligra
             // timer1
             // 
             this.timer1.Enabled = true;
-            this.timer1.Interval = 250;
+            this.timer1.Interval = 16;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // menuStrip1
@@ -139,9 +140,9 @@ namespace MetaphysicsIndustries.Ligra
             // 
             // evalTextBox
             // 
-            this.evalTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.evalTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.evalTextBox.Location = new System.Drawing.Point(0, 3);
             this.evalTextBox.Multiline = true;
             this.evalTextBox.Name = "evalTextBox";
@@ -151,8 +152,8 @@ namespace MetaphysicsIndustries.Ligra
             // 
             // evalButton
             // 
-            this.evalButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.evalButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.evalButton.Location = new System.Drawing.Point(314, 5);
             this.evalButton.Name = "evalButton";
             this.evalButton.Size = new System.Drawing.Size(75, 23);
@@ -192,6 +193,7 @@ namespace MetaphysicsIndustries.Ligra
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
 

@@ -266,8 +266,63 @@ namespace MetaphysicsIndustries.Ligra
 
             var parser = new SolusParser();
             expr = parser.GetExpression("unitstep((x*x+y*y)^0.5+2*(sin(t)-1))*cos(5*y+2*t)", env);
-            env.RenderItems.Add(new InfoItem("unitstep((x*x+y*y)^0.5+2*(sin(t)-1))*cos(5*y+2*t)", f));
-            env.RenderItems.Add(new Graph3dItem(expr, Pens.Black, Brushes.Green, -4, 4, -4, 4, -2, 6, "x", "y"));
+
+            var env2 = new Dictionary<string, float>();
+            foreach (var kvp in env.Variables)
+            {
+                env2[kvp.Key] = kvp.Value.Eval(env).Value;
+            }
+
+            env.RenderItems.Add(new InfoItem("timing unitstep((x*x+y*y)^0.5+2*(sin(t)-1))*cos(5*y+2*t):", f));
+
+            var tv = new Literal(0);
+            var xv = new Literal(0);
+            var yv = new Literal(0);
+
+            env.Variables["t"] = tv;
+            env.Variables["x"] = xv;
+            env.Variables["y"] = yv;
+
+            int x, y, t;
+
+            var stime = Environment.TickCount;
+            for (t = 0; t < 100; t++)
+            {
+                tv.Value = t / 1000.0f;
+                for (x = -100; x <= 100; x++)
+                {
+                    xv.Value = x / 10.0f;
+                    for (y = -100; y <= 100; y++)
+                    {
+                        yv.Value = y / 10.0f;
+                        expr.Eval(env);
+                    }
+                }
+            }
+            var dtime = Environment.TickCount - stime;
+
+            env.RenderItems.Add(new InfoItem(string.Format("Eval, no preliminary: {0} ms", dtime), f));
+
+            stime = Environment.TickCount;
+            for (t = 0; t < 100; t++)
+            {
+                env2["t"] = t / 1000.0f;
+                for (x = -100; x <= 100; x++)
+                {
+                    env2["x"] = x / 10.0f;
+                    for (y = -100; y <= 100; y++)
+                    {
+                        env2["y"] = y / 10.0f;
+                        expr.FastEval(env2);
+                    }
+                }
+            }
+            dtime = Environment.TickCount - stime;
+
+            env.RenderItems.Add(new InfoItem(string.Format("FastEval, no preliminary: {0} ms", dtime), f));
+
+
+            //env.RenderItems.Add(new Graph3dItem(expr, Pens.Black, Brushes.Green, -4, 4, -4, 4, -2, 6, "x", "y"));
         }
 
         public static void PlotCommand(string input, string[] args, LigraEnvironment env, Expression[] exprs, VarInterval[] intervals)

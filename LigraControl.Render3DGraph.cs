@@ -24,8 +24,14 @@ namespace MetaphysicsIndustries.Ligra
                         SolusEnvironment env,
                         bool drawboundaries)
         {
-            int xValues = 50;
-            int yValues = 50;
+            var env2 = new Dictionary<string, float>();
+            foreach (var kvp in env.Variables)
+            {
+                env2[kvp.Key] = kvp.Value.Eval(env).Value;
+            }
+
+            int xValues = 100;
+            int yValues = 100;
 
             float[,] values = new float[xValues, yValues];
 
@@ -98,35 +104,40 @@ namespace MetaphysicsIndustries.Ligra
             Expression prelimEval;
             Expression prelimEval2;
 
-            if (env.Variables.ContainsKey(independentVariableX))
-            {
-                env.Variables.Remove(independentVariableX);
-            }
-            if (env.Variables.ContainsKey(independentVariableY))
-            {
-                env.Variables.Remove(independentVariableY);
-            }
+            //if (env.Variables.ContainsKey(independentVariableX))
+            //{
+            //    env.Variables.Remove(independentVariableX);
+            //}
+            //if (env.Variables.ContainsKey(independentVariableY))
+            //{
+            //    env.Variables.Remove(independentVariableY);
+            //}
 
-            prelimEval = _engine.PreliminaryEval(expr, env);
+            //prelimEval = _engine.PreliminaryEval(expr, env);
+            prelimEval = expr;// _engine.PreliminaryEval(expr, env);
 
             for (i = 0; i < xValues; i++)
             {
                 x = xMin + i * deltaX;
 
-                env.Variables[independentVariableX] = new Literal(x);
-                if (env.Variables.ContainsKey(independentVariableY))
-                {
-                    env.Variables.Remove(independentVariableY);
-                }
+                //env.Variables[independentVariableX] = new Literal(x);
+                //if (env.Variables.ContainsKey(independentVariableY))
+                //{
+                //    env.Variables.Remove(independentVariableY);
+                //}
+                env2[independentVariableX] = x;
 
-                prelimEval2 = _engine.PreliminaryEval(prelimEval, env);
+                //prelimEval2 = _engine.PreliminaryEval(prelimEval, env);
+                prelimEval2 = prelimEval;//_engine.PreliminaryEval(prelimEval, env);
 
                 for (j = 0; j < yValues; j++)
                 {
                     y = yMin + j * deltaY;
-                    env.Variables[independentVariableY] = new Literal(y);
+                    //env.Variables[independentVariableY] = new Literal(y);
+                    env2[independentVariableY] = y;
 
-                    z = prelimEval2.Eval(env).Value;
+                    //z = prelimEval2.Eval(env).Value;
+                    z = prelimEval2.FastEval(env2);
 
                     if (double.IsNaN(z))
                     {
