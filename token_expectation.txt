@@ -1,0 +1,15 @@
+                |                        |
+                |       expecting        |    not expecting
+                |                        |
+================================================================
+                |                        |
+                |       functions        |
+    expected    |  unary operator        |    values, variables
+                |  open paren/bracket    |        rand
+                |                        |
+================================================================
+                |                        |
+not expected    | binary operator        |    close paren/bracket
+                |                        |
+
+
