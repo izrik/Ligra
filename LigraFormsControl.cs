@@ -51,8 +51,9 @@ namespace MetaphysicsIndustries.Ligra
 
         private void OnMinimumChanged(EventArgs eventArgs)
         {
-            Value = Math.Max(Value, Minimum);
+            var current = Value;
             trackBar1.Minimum = (int)Math.Round(Minimum);
+            Value = Math.Max(current, Minimum);
         }
 
         private float _maximum;
@@ -72,8 +73,9 @@ namespace MetaphysicsIndustries.Ligra
 
         private void OnMaximumChanged(EventArgs eventArgs)
         {
-            Value = Math.Min(Value, Maximum);
+            var current = Value;
             trackBar1.Maximum = (int)Math.Round(Maximum);
+            Value = Math.Min(current, Maximum);
         }
 
         private float _value;
