@@ -6,6 +6,7 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 using MetaphysicsIndustries.Solus;
+using System.Linq;
 
 
 namespace MetaphysicsIndustries.Ligra
@@ -73,6 +74,52 @@ namespace MetaphysicsIndustries.Ligra
                 lastPoint = pt;
             }
         }
+
+        public void RenderVectors(Graphics g, RectangleF boundsInClient,
+            Pen pen, Brush brush,
+            float xMin, float xMax, float yMin, float yMax,
+            SolusVector x, SolusVector y,
+            SolusEnvironment env,
+            bool drawboundaries)
+        {
+            var xs = x.Select(e => e.FastEval(env).Value).ToArray();
+            var ys = y.Select(e => e.FastEval(env).Value).ToArray();
+
+            float deltaX = (xMax - xMin) / boundsInClient.Width;
+            float deltaY = (yMax - yMin) / boundsInClient.Height;
+
+            Func<PointF,PointF> clientFromGraph = (PointF pt) => 
+                new PointF(boundsInClient.X +      (pt.X - xMin) / deltaX,
+                           boundsInClient.Bottom - (pt.Y - yMin) / deltaY);
+
+            if (drawboundaries)
+            {
+                g.DrawRectangle(Pens.Black, boundsInClient.X, boundsInClient.Y, boundsInClient.Width, boundsInClient.Height);
+
+                var zz = clientFromGraph(new PointF(0, 0));
+                if (xMax > 0 && xMin < 0)
+                {
+                    g.DrawLine(Pens.Black, zz.X, boundsInClient.Top, zz.X, boundsInClient.Bottom);
+                }
+
+                if (yMax > 0 && yMin < 0)
+                {
+                    g.DrawLine(Pens.Black, boundsInClient.Left, zz.Y, boundsInClient.Right, zz.Y);
+                }
+            }
+
+            int i;
+            int N = Math.Min(xs.Length,ys.Length);
+            PointF lastPoint = clientFromGraph(new PointF(xs[0],ys[0]));
+            for (i = 1; i < N; i++)
+            {
+                var next = clientFromGraph(new PointF(xs[i],ys[i]));
+                g.DrawLine(pen, lastPoint, next);
+                lastPoint = next;
+            }
+        }
+
+
 
     }
 }

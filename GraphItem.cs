@@ -15,6 +15,10 @@ namespace MetaphysicsIndustries.Ligra
             _pen = pen;
             _independentVariable = independentVariable;
         }
+        protected GraphEntry(Pen pen)
+        {
+            _pen = pen;
+        }
 
         private Expression _expression;
         public Expression Expression
@@ -33,6 +37,19 @@ namespace MetaphysicsIndustries.Ligra
         {
             get { return _pen; }
         }
+    }
+
+    public class GraphVectorEntry : GraphEntry
+    {
+        public GraphVectorEntry(SolusVector x, SolusVector y, Pen pen)
+            : base(pen)
+        {
+            X = x;
+            Y = y;
+        }
+
+        public readonly SolusVector X;
+        public readonly SolusVector Y;
     }
 
     public class GraphItem : RenderItem
@@ -59,10 +76,10 @@ namespace MetaphysicsIndustries.Ligra
             _parser = parser;
         }
 
-        float _maxX;
-        float _minX;
-        float _maxY;
-        float _minY;
+        public float _maxX;
+        public float _minX;
+        public float _maxY;
+        public float _minY;
         SolusParser _parser;
 
         private List<GraphEntry> _entries = new List<GraphEntry>();
@@ -73,11 +90,24 @@ namespace MetaphysicsIndustries.Ligra
             bool first = true;
             foreach (GraphEntry entry in _entries)
             {
-                control.RenderGraph(g,
-                    new RectangleF(location, Rect.Size),
-                    entry.Pen, entry.Pen.Brush,
-                    _minX, _maxX, _minY, _maxY,
-                    entry.Expression, entry.IndependentVariable, env, first);
+                var ve = entry as GraphVectorEntry;
+                if (ve != null)
+                {
+                    control.RenderVectors(g,
+                        new RectangleF(location, Rect.Size),
+                        entry.Pen, entry.Pen.Brush,
+                        _minX, _maxX, _minY, _maxY,
+                        ve.X, ve.Y,
+                        env, first);
+                }
+                else
+                {
+                    control.RenderGraph(g,
+                        new RectangleF(location, Rect.Size),
+                        entry.Pen, entry.Pen.Brush,
+                        _minX, _maxX, _minY, _maxY,
+                        entry.Expression, entry.IndependentVariable, env, first);
+                }
                 first = false;
             }
         }
@@ -98,8 +128,17 @@ namespace MetaphysicsIndustries.Ligra
             foreach (GraphEntry entry in _entries)
             {
                 tempVars.Clear();
-                GatherVariablesForValueCollection(tempVars, entry.Expression);
-                UngatherVariableForValueCollection(tempVars, entry.IndependentVariable);
+                var ve = entry as GraphVectorEntry;
+                if (ve != null)
+                {
+                    GatherVariablesForValueCollection(tempVars, ve.X);
+                    GatherVariablesForValueCollection(tempVars, ve.Y);
+                }
+                else
+                {
+                    GatherVariablesForValueCollection(tempVars, entry.Expression);
+                    UngatherVariableForValueCollection(tempVars, entry.IndependentVariable);
+                }
                 vars.UnionWith(tempVars);
             }
         }
