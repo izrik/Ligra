@@ -58,7 +58,7 @@ namespace MetaphysicsIndustries.Ligra
             {
                 float x = xMin + deltaX * i;
                 env.Variables[independentVariable] = new Literal(x);
-                double value = expr.Eval(env).Value;
+                double value = expr.FastEval(env).Value;
                 if (double.IsNaN(value))
                 {
                     value = 0;
