@@ -8,13 +8,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F8175F
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetaphysicsIndustries.Giza", "MetaphysicsIndustries.Acuity\MetaphysicsIndustries.Solus\MetaphysicsIndustries.Giza\MetaphysicsIndustries.Giza.csproj", "{98B42ACF-8370-4428-9D41-73FF1CEFB2E4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetaphysicsIndustries.Utilities", "..\MetaphysicsIndustries.Utilities\MetaphysicsIndustries.Utilities.csproj", "{221A3FBA-E14C-4F05-A099-42508116E910}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetaphysicsIndustries.Utilities", "MetaphysicsIndustries.Acuity\MetaphysicsIndustries.Solus\MetaphysicsIndustries.Utilities\MetaphysicsIndustries.Utilities.csproj", "{221A3FBA-E14C-4F05-A099-42508116E910}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetaphysicsIndustries.Giza", "..\MetaphysicsIndustries.Giza\MetaphysicsIndustries.Giza.csproj", "{98B42ACF-8370-4428-9D41-73FF1CEFB2E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetaphysicsIndustries.Solus", "MetaphysicsIndustries.Acuity\MetaphysicsIndustries.Solus\MetaphysicsIndustries.Solus.csproj", "{A630057C-40CF-4DF3-BE44-FC660B3E6BA3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetaphysicsIndustries.Solus", "..\MetaphysicsIndustries.Solus\MetaphysicsIndustries.Solus.csproj", "{A630057C-40CF-4DF3-BE44-FC660B3E6BA3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetaphysicsIndustries.Acuity", "MetaphysicsIndustries.Acuity\MetaphysicsIndustries.Acuity.csproj", "{28E66D7B-4A7F-4A0E-A358-5C41E35ACE33}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetaphysicsIndustries.Acuity", "..\MetaphysicsIndustries.Acuity\MetaphysicsIndustries.Acuity.csproj", "{28E66D7B-4A7F-4A0E-A358-5C41E35ACE33}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,9 +44,6 @@ Global
 		{D9689EE5-94CD-4C13-AD95-FA8780D72545}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Ligra.csproj
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
