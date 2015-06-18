@@ -1,6 +1,11 @@
 
+(in no particular order)
+
 opentk
 help
 nugetize everything
 sphere plot
 vtol engine
+
+new terminal/console-style LigraControl
+    remove the textbox and eval button, splitter, toolstripcontainer, etc.
