@@ -9,18 +9,19 @@ namespace MetaphysicsIndustries.Ligra
 {
     public class ExpressionItem : RenderItem
     {
-        public ExpressionItem(Expression expression, Pen pen, Font font)
+        public ExpressionItem(Expression expression, Pen pen, Font font, LigraEnvironment env)
+            : base(env)
         {
             _expression = expression;
             _pen = pen;
             _font = font;
         }
-        public ExpressionItem(Vector vector, Pen pen, Font font)
-            : this(GenerateVector(vector), pen, font)
+        public ExpressionItem(Vector vector, Pen pen, Font font, LigraEnvironment env)
+            : this(GenerateVector(vector), pen, font, env)
         {
         }
-        public ExpressionItem(Matrix matrix, Pen pen, Font font)
-            : this(GenerateMatrix(matrix), pen, font)
+        public ExpressionItem(Matrix matrix, Pen pen, Font font, LigraEnvironment env)
+            : this(GenerateMatrix(matrix), pen, font, env)
         {
         }
 
@@ -75,10 +76,10 @@ namespace MetaphysicsIndustries.Ligra
         }
 
 
-        protected override void InternalRender(LigraControl control, Graphics g, PointF location, SolusEnvironment env)
+            protected override void InternalRender(Graphics g, SolusEnvironment env)
         {
             SizeF exprSize = LigraControl.CalcExpressionSize(Expression, g, Font);
-            float xx = location.X;
+            float xx = 0;
 
             //if (!string.IsNullOrEmpty(Name))
             //{
@@ -87,10 +88,10 @@ namespace MetaphysicsIndustries.Ligra
             //    g.DrawString(Name + " = ", Font, Pen.Brush, new PointF(location.X, location.Y + (exprSize.Height - textSize.Height) / 2));
             //}
 
-            LigraControl.RenderExpression(g, Expression, new PointF(xx, location.Y), Pen, Pen.Brush, Font, false);
+            LigraControl.RenderExpression(g, Expression, new PointF(xx, 0), Pen, Pen.Brush, Font, false);
         }
 
-        protected override SizeF InternalCalcSize(LigraControl control, Graphics g)
+        protected override SizeF InternalCalcSize(Graphics g)
         {
             SizeF exprSize = LigraControl.CalcExpressionSize(Expression, g, Font);
 

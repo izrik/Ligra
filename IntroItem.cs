@@ -8,6 +8,11 @@ namespace MetaphysicsIndustries.Ligra
 {
     public class IntroItem : TextItem
     {
+        public IntroItem(LigraEnvironment env)
+            : base(env)
+        {
+        }
+
         public override string Text
         {
             get

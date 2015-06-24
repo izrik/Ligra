@@ -28,7 +28,7 @@ namespace MetaphysicsIndustries.Ligra
             InitializeComponent();
         }
 
-        SolusEngine _engine = new SolusEngine();
+        static readonly SolusEngine _engine = new SolusEngine();
 
         private bool _drawBoxes = false;
         public bool DrawBoxes
@@ -63,30 +63,35 @@ namespace MetaphysicsIndustries.Ligra
         {
             if (e.KeyCode == Keys.Down)
             {
-                Point pt = AutoScrollPosition;
-                AutoScrollPosition = new Point(-pt.X, -pt.Y + 20);
+//                Point pt = AutoScrollPosition;
+//                AutoScrollPosition = new Point(-pt.X, -pt.Y + 20);
             }                                              
             else if (e.KeyCode == Keys.Up)                 
             {                                              
-                Point pt = AutoScrollPosition;             
-                AutoScrollPosition = new Point(-pt.X, -pt.Y - 20);
+//                Point pt = AutoScrollPosition;             
+//                AutoScrollPosition = new Point(-pt.X, -pt.Y - 20);
             }                                              
             else if (e.KeyCode == Keys.PageDown)           
             {                                              
-                Point pt = AutoScrollPosition;             
-                AutoScrollPosition = new Point(-pt.X, -pt.Y + ClientSize.Height);
+//                Point pt = AutoScrollPosition;             
+//                AutoScrollPosition = new Point(-pt.X, -pt.Y + ClientSize.Height);
             }                                              
             else if (e.KeyCode == Keys.PageUp)             
             {                                              
-                Point pt = AutoScrollPosition;
-                AutoScrollPosition = new Point(-pt.X, -pt.Y - ClientSize.Height);
+//                Point pt = AutoScrollPosition;
+//                AutoScrollPosition = new Point(-pt.X, -pt.Y - ClientSize.Height);
             }
             else if (e.KeyCode == Keys.Home)
             {
-                AutoScrollPosition = new Point(0, 0);
+//                AutoScrollPosition = new Point(0, 0);
             }
 
             base.OnKeyDown(e);
+        }
+
+        public void AddRenderItem(RenderItem item)
+        {
+            this.flowLayoutPanel1.Controls.Add(item);
         }
     }
 }

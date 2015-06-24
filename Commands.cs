@@ -31,7 +31,7 @@ namespace MetaphysicsIndustries.Ligra
                     {
                         error += s + "\r\n";
                     }
-                    env.RenderItems.Add(new ErrorItem(input, error, env.Font, Brushes.Red, input.IndexOf(args[0])));
+                    env.AddRenderItem(new ErrorItem(input, error, env.Font, Brushes.Red, env, input.IndexOf(args[0])));
                 }
                 else
                 {
@@ -40,12 +40,12 @@ namespace MetaphysicsIndustries.Ligra
                         env.Variables.Remove(args[i]);
                     }
 
-                    env.RenderItems.Add(new InfoItem("The variables were deleted successfully.", env.Font));
+                    env.AddRenderItem(new InfoItem("The variables were deleted successfully.", env.Font, env));
                 }
             }
             else
             {
-                env.RenderItems.Add(new ErrorItem(input, "Must specify variables to delete", env.Font, Brushes.Red, input.IndexOf(args[0])));
+                env.AddRenderItem(new ErrorItem(input, "Must specify variables to delete", env.Font, Brushes.Red, env, input.IndexOf(args[0])));
             }
         }
 
@@ -70,7 +70,7 @@ namespace MetaphysicsIndustries.Ligra
                 s += var + " = " + valueString + "\r\n";
             }
 
-            env.RenderItems.Add(new InfoItem(s, env.Font));
+            env.AddRenderItem(new InfoItem(s, env.Font, env));
         }
 
         public static void ClearCommand(string input, string[] args, LigraEnvironment env)
@@ -101,15 +101,15 @@ namespace MetaphysicsIndustries.Ligra
         {
             if (!string.IsNullOrEmpty(topic))
             {
-                env.RenderItems.Add(new HelpItem(env.Font, topic, env));
+                env.AddRenderItem(new HelpItem(env.Font, env, topic));
             }
             else if (args.Length > 1)
             {
-                env.RenderItems.Add(new HelpItem(env.Font, args[1], env));
+                env.AddRenderItem(new HelpItem(env.Font, env, args[1]));
             }
             else
             {
-                env.RenderItems.Add(new HelpItem(env.Font, env));
+                env.AddRenderItem(new HelpItem(env.Font, env));
             }
         }
 
@@ -122,7 +122,7 @@ namespace MetaphysicsIndustries.Ligra
             else
             {
                 string s = string.Join("\r\n", env.History.ToArray());
-                env.RenderItems.Add(new InfoItem(s + "\r\n", env.Font));
+                env.AddRenderItem(new InfoItem(s + "\r\n", env.Font, env));
             }
         }
 
@@ -138,55 +138,55 @@ namespace MetaphysicsIndustries.Ligra
 
             Expression expr;
 
-            env.RenderItems.Add(new InfoItem("A number:", f));
-            env.RenderItems.Add(new ExpressionItem(new Literal(123.45f), p, f));
+            env.AddRenderItem(new InfoItem("A number:", f, env));
+            env.AddRenderItem(new ExpressionItem(new Literal(123.45f), p, f, env));
 
-            env.RenderItems.Add(new InfoItem("A variable:", f));
-            env.RenderItems.Add(new ExpressionItem(new VariableAccess("x"), p, f));
+            env.AddRenderItem(new InfoItem("A variable:", f, env));
+            env.AddRenderItem(new ExpressionItem(new VariableAccess("x"), p, f, env));
 
-            env.RenderItems.Add(new InfoItem("A function call: ", f));
-            env.RenderItems.Add(new ExpressionItem(
+            env.AddRenderItem(new InfoItem("A function call: ", f, env));
+            env.AddRenderItem(new ExpressionItem(
                 new FunctionCall(
                 CosineFunction.Value,
-                new VariableAccess("x")), p, f));
+                    new VariableAccess("x")), p, f, env));
 
-            env.RenderItems.Add(new InfoItem("A simple expression,  \"x + y/2\" :", f));
-            env.RenderItems.Add(new ExpressionItem(
-                new FunctionCall(
-                AdditionOperation.Value,
-                new VariableAccess("x"),
-                new FunctionCall(
-                DivisionOperation.Value,
-                new VariableAccess("y"),
-                new Literal(2))), p, f));
+            env.AddRenderItem(new InfoItem("A simple expression,  \"x + y/2\" :", f, env));
+            env.AddRenderItem(new ExpressionItem(
+                                new FunctionCall(
+                                    AdditionOperation.Value,
+                                    new VariableAccess("x"),
+                                        new FunctionCall(
+                                            DivisionOperation.Value,
+                                                new VariableAccess("y"),
+                                                    new Literal(2))), p, f, env));
 
-            env.RenderItems.Add(new InfoItem("Some derivatives, starting with x^3:", f));
+            env.AddRenderItem(new InfoItem("Some derivatives, starting with x^3:", f, env));
             var parser = new SolusParser();
             expr = parser.GetExpression("x^3", env);
-            env.RenderItems.Add(new ExpressionItem(expr, p, f));
+            env.AddRenderItem(new ExpressionItem(expr, p, f, env));
             DerivativeTransformer derive = new DerivativeTransformer();
             expr = derive.Transform(expr, new VariableTransformArgs("x"));
-            env.RenderItems.Add(new ExpressionItem(expr, p, f));
+            env.AddRenderItem(new ExpressionItem(expr, p, f, env));
             expr = derive.Transform(expr, new VariableTransformArgs("x"));
-            env.RenderItems.Add(new ExpressionItem(expr, p, f));
+            env.AddRenderItem(new ExpressionItem(expr, p, f, env));
             expr = derive.Transform(expr, new VariableTransformArgs("x"));
-            env.RenderItems.Add(new ExpressionItem(expr, p, f));
+            env.AddRenderItem(new ExpressionItem(expr, p, f, env));
 
-            env.RenderItems.Add(new InfoItem("Some variable assignments: ", f));
-            env.RenderItems.Add(new ExpressionItem(
+            env.AddRenderItem(new InfoItem("Some variable assignments: ", f, env));
+            env.AddRenderItem(new ExpressionItem(
                 new FunctionCall(
                     AssignOperation.Value,
                     new VariableAccess("mu"),
                     new Literal(0.5f)),
                 p,
-                f));
-            env.RenderItems.Add(new ExpressionItem(
+                f, env));
+            env.AddRenderItem(new ExpressionItem(
                 new FunctionCall(
                     AssignOperation.Value,
                     new VariableAccess("sigma"),
                     new Literal(0.2f)),
                 p,
-                f));
+                f, env));
 
             env.Variables["mu"] = new Literal(0.5f);
             env.Variables["sigma"] = new Literal(0.2f);
@@ -230,29 +230,29 @@ namespace MetaphysicsIndustries.Ligra
                                             new VariableAccess("sigma"),
                                             new Literal(2))))));
 
-            env.RenderItems.Add(new InfoItem("A complex expression, \"(1/(sigma*sqrt(2*pi))) * e ^ ( (x - mu)^2 / (-2 * sigma^2))\"", f));
-            env.RenderItems.Add(new ExpressionItem(expr, p, f));
+            env.AddRenderItem(new InfoItem("A complex expression, \"(1/(sigma*sqrt(2*pi))) * e ^ ( (x - mu)^2 / (-2 * sigma^2))\"", f, env));
+            env.AddRenderItem(new ExpressionItem(expr, p, f, env));
             //(1/(sigma*sqrt(2*pi))) * e ^ ( (x - mu)^2 / (-2 * sigma^2))
 
-            env.RenderItems.Add(new InfoItem("A plot of the expression: ", f));
-            env.RenderItems.Add(new GraphItem(expr, p, "x", parser));
+            env.AddRenderItem(new InfoItem("A plot of the expression: ", f, env));
+            env.AddRenderItem(new GraphItem(expr, p, "x", parser, env));
 
-            env.RenderItems.Add(new InfoItem("Multiple plots on the same axes, \"x^3\", \"3 * x^2\", \"6 * x\":", f));
-            env.RenderItems.Add(new GraphItem(
-                parser,
+            env.AddRenderItem(new InfoItem("Multiple plots on the same axes, \"x^3\", \"3 * x^2\", \"6 * x\":", f, env));
+            env.AddRenderItem(new GraphItem(
+                parser, env,
                 new GraphEntry(parser.GetExpression("x^3", env), Pens.Blue, "x"),
                 new GraphEntry(parser.GetExpression("3*x^2", env), Pens.Green, "x"),
                 new GraphEntry(parser.GetExpression("6*x", env), Pens.Red, "x")));
 
-            env.RenderItems.Add(new InfoItem("A plot that changes with time, \"sin(x+t)\":", f));
-            env.RenderItems.Add(new GraphItem(parser.GetExpression("sin(x+t)", env), p, "x", parser));
+            env.AddRenderItem(new InfoItem("A plot that changes with time, \"sin(x+t)\":", f, env));
+            env.AddRenderItem(new GraphItem(parser.GetExpression("sin(x+t)", env), p, "x", parser, env));
 
             expr = parser.GetExpression("unitstep((x*x+y*y)^0.5+2*(sin(t)-1))*cos(5*y+2*t)", env);
-            env.RenderItems.Add(new InfoItem("Another complex expression, \"unitstep((x*x+y*y)^0.5+2*(sin(t)-1))*cos(5*y+2*t)\",\r\nwhere t is time:", f));
-            env.RenderItems.Add(new ExpressionItem(expr, p, f));
+            env.AddRenderItem(new InfoItem("Another complex expression, \"unitstep((x*x+y*y)^0.5+2*(sin(t)-1))*cos(5*y+2*t)\",\r\nwhere t is time:", f, env));
+            env.AddRenderItem(new ExpressionItem(expr, p, f, env));
 
-            env.RenderItems.Add(new InfoItem("A 3d plot: ", f));
-            env.RenderItems.Add(new Graph3dItem(expr, Pens.Black, Brushes.Green, -4, 4, -4, 4, -2, 6, "x", "y"));
+            env.AddRenderItem(new InfoItem("A 3d plot: ", f, env));
+            env.AddRenderItem(new Graph3dItem(expr, Pens.Black, Brushes.Green, -4, 4, -4, 4, -2, 6, "x", "y", env));
         }
 
         public static void Example2Command(string input, string[] args, LigraEnvironment env)
@@ -265,8 +265,8 @@ namespace MetaphysicsIndustries.Ligra
 
             var parser = new LigraParser();
 //            expr = parser.GetExpression("unitstep((x*x+y*y)^0.5+2*(sin(t)-1))*cos(5*y+2*t)", env);
-//            env.RenderItems.Add(new InfoItem("unitstep((x*x+y*y)^0.5+2*(sin(t)-1))*cos(5*y+2*t)", f));
-//            env.RenderItems.Add(new Graph3dItem(expr, Pens.Black, Brushes.Green, -4, 4, -4, 4, -2, 6, "x", "y"));
+//            env.AddRenderItem(new InfoItem("unitstep((x*x+y*y)^0.5+2*(sin(t)-1))*cos(5*y+2*t)", env.Font, env));
+//            env.AddRenderItem(new Graph3dItem(expr, Pens.Black, Brushes.Green, -4, 4, -4, 4, -2, 6, "x", "y", env));
 
             var input2 = "factorial(n) := if (n, n * factorial(n-1), 1)";
             var input3 = "cos_taylor(x, n, sign) := if (n-8, sign * (x ^ n) / factorial(n) + cos_taylor(x, n+2, -sign), 0)";
@@ -324,7 +324,7 @@ namespace MetaphysicsIndustries.Ligra
                     i++;
                 }
 
-                env.RenderItems.Add(new GraphItem(new SolusParser(), entries.ToArray()));
+                env.AddRenderItem(new GraphItem(new SolusParser(), env, entries.ToArray()));
             }
             else // intervals.Length == 2
             {
@@ -355,24 +355,24 @@ namespace MetaphysicsIndustries.Ligra
                 float zmin = zs.Min();
                 float zmax = zs.Max();
 
-                env.RenderItems.Add(new Graph3dItem(expr, Pens.Black, Brushes.Green,
+                env.AddRenderItem(new Graph3dItem(expr, Pens.Black, Brushes.Green,
                                                     intervals[0].Interval.LowerBound,
                                                     intervals[0].Interval.UpperBound,
                                                     intervals[1].Interval.LowerBound,
                                                     intervals[1].Interval.UpperBound,
                                                     zmin, zmax,
                                                     intervals[0].Variable,
-                                                    intervals[1].Variable));
+                    intervals[1].Variable, env));
             }
         }
 
         public static void PaintCommand(string input, string[] args, LigraEnvironment env, Expression expr, VarInterval interval1, VarInterval interval2)
         {
-            env.RenderItems.Add(
+            env.AddRenderItem(
                 new MathPaintItem(
                     expr,
                     interval1,
-                    interval2));
+                    interval2, env));
         }
 
         public static void VarAssignCommand(string input, string[] args, LigraEnvironment env, string varname, Expression expr)
@@ -384,7 +384,7 @@ namespace MetaphysicsIndustries.Ligra
                             new VariableAccess(varname),
                             expr);
 
-            env.RenderItems.Add(new ExpressionItem(expr2, Pens.Blue, env.Font));
+            env.AddRenderItem(new ExpressionItem(expr2, Pens.Blue, env.Font, env));
         }
 
         public static void FuncAssignCommand(string input, string[] args, LigraEnvironment env, UserDefinedFunction func)
@@ -400,21 +400,21 @@ namespace MetaphysicsIndustries.Ligra
             var fcall = new FunctionCall(func, varrefs);
             var expr2 = new FunctionCall(AssignOperation.Value, fcall, func.Expression);
 
-            env.RenderItems.Add(new ExpressionItem(expr2, Pens.Blue, env.Font));
+            env.AddRenderItem(new ExpressionItem(expr2, Pens.Blue, env.Font, env));
         }
 
         public static void ExprCommand(string input, string[] args, LigraEnvironment env, Expression expr)
         {
             expr = expr.PreliminaryEval(env);
 
-            env.RenderItems.Add(new ExpressionItem(expr, Pens.Blue, env.Font));
+            env.AddRenderItem(new ExpressionItem(expr, Pens.Blue, env.Font, env));
         }
 
         public static void ClearHistory(LigraEnvironment env)
         {
             env.History.Clear();
             env.CurrentHistoryIndex = -1;
-            env.RenderItems.Add(new InfoItem("History cleared", env.Font));
+            env.AddRenderItem(new InfoItem("History cleared", env.Font, env));
         }
 
         public static void ClearOutput(LigraEnvironment env)

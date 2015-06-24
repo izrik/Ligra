@@ -24,12 +24,14 @@ namespace MetaphysicsIndustries.Ligra
                 this.Controls.Remove(this.toolStripContainer1);
                 this.Controls.Add(this.splitContainer1);
             }
+
+            _env = new LigraEnvironment(this.ligraControl1);
         }
 
         private static SolusEngine _engine = new SolusEngine();
         private static LigraParser _parser = new LigraParser();
 
-        LigraEnvironment _env = new LigraEnvironment();
+        LigraEnvironment _env;
 
         ToolStripMenuItem _renderItemItem = new ToolStripMenuItem("Render Item");
         ToolStripMenuItem _propertiesItem = new ToolStripMenuItem("Properties");
@@ -45,8 +47,6 @@ namespace MetaphysicsIndustries.Ligra
             {
                 _env.Variables.Add("t", new Literal(0));
             }
-
-            ligraControl1.AutoScrollPosition = new Point(0, 0);
 
             _env.Font = ligraControl1.Font;
             _env.ClearCanvas = ligraControl1.Invalidate;
@@ -140,17 +140,13 @@ namespace MetaphysicsIndustries.Ligra
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (_env.RenderItems.Count > 0 && WindowState != FormWindowState.Minimized)
-            {
-                //Invalidate();
-                //Refresh();
-                ligraControl1.Refresh();
-            }
+            float time = System.Environment.TickCount / 1000.0f;
+            _env.Variables["t"] = new Literal(time);
         }
 
         private void printDocument1_PrintPage(object sender, PrintPageEventArgs e)
         {
-            Render(e.Graphics);
+            throw new NotImplementedException();
         }
 
         private void printToolStripMenuItem_Click(object sender, EventArgs e)
@@ -182,11 +178,11 @@ namespace MetaphysicsIndustries.Ligra
                     if (ee is SolusParseException)
                     {
                         SolusParseException ee2 = (SolusParseException)ee;
-                        _env.RenderItems.Add(new ErrorItem(input, ee2.Error, ligraControl1.Font, Brushes.Red, ee2.Location));
+                        _env.AddRenderItem(new ErrorItem(input, ee2.Error, ligraControl1.Font, Brushes.Red, _env, ee2.Location));
                     }
                     else
                     {
-                        _env.RenderItems.Add(new ErrorItem(input, "There was an error: " + ee.ToString(), Font, Brushes.Red));
+                        _env.AddRenderItem(new ErrorItem(input, "There was an error: " + ee.ToString(), Font, Brushes.Red, _env));
                     }
                 }
             }

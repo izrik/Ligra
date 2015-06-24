@@ -8,30 +8,30 @@ namespace MetaphysicsIndustries.Ligra
 {
     public class RenderItemContainer : RenderItem
     {
-        public RenderItemContainer(string caption)
+        public RenderItemContainer(string caption, LigraEnvironment env)
+            : base(env)
         {
             _caption = caption;
         }
 
         string _caption;
 
-        protected override void InternalRender(LigraControl control, Graphics g, PointF location, SolusEnvironment env)
+        protected override void InternalRender(Graphics g, SolusEnvironment env)
         {
-            Font font2 = new Font(control.Font.FontFamily, control.Font.Size * 2, FontStyle.Bold);
+            Font font2 = new Font(this.Font.FontFamily, this.Font.Size * 2, FontStyle.Bold);
 
-            float width = control.ClientSize.Width - 20;
+            float width = this.Parent.ClientSize.Width - 20;
             float height = g.MeasureString(_caption, font2, (int)width).Height;
 
-            g.DrawString(_caption, font2, Brushes.Black, location + new SizeF(2, 2));
-            SizeF size = CalcSize(control, g);
-            g.DrawRectangle(Pens.Black, location.X, location.Y, size.Width, size.Height- 250);
+            g.DrawString(_caption, font2, Brushes.Black, new PointF(2, 2));
+            g.DrawRectangle(Pens.Black, 0, 0, this.Width, this.Height- 250);
 
             float x = 20;
             List<float> currentHeights = new List<float>();
             float maxCurrentHeight = 0;
             foreach (RenderItem ri in Items)
             {
-                size = ri.CalcSize(control, g);
+                var size = ri.Size;
                 if (x + size.Width > width)
                 {
                     height += maxCurrentHeight;
@@ -39,7 +39,7 @@ namespace MetaphysicsIndustries.Ligra
                     maxCurrentHeight = 0;
                 }
 
-                ri.Render(control, g, location + new SizeF(x, height), env);
+                ri.Refresh();
 
                 x += size.Width + 10;
                 maxCurrentHeight = Math.Max(maxCurrentHeight, size.Height);
@@ -56,11 +56,11 @@ namespace MetaphysicsIndustries.Ligra
         }
 
 
-        protected override SizeF InternalCalcSize(LigraControl control, Graphics g)
+        protected override SizeF InternalCalcSize(Graphics g)
         {
-            Font font2 = new Font(control.Font.FontFamily, control.Font.Size * 2);
+            Font font2 = new Font(this.Font.FontFamily, this.Font.Size * 2);
 
-            float width = control.ClientSize.Width - 20;
+            float width = this.Parent.ClientSize.Width - 20;
             float height = g.MeasureString(_caption, font2, (int)width).Height;
 
             float x = 20;
@@ -68,7 +68,7 @@ namespace MetaphysicsIndustries.Ligra
             float maxCurrentHeight = 0;
             foreach (RenderItem ri in Items)
             {
-                SizeF size = ri.CalcSize(control, g);
+                SizeF size = ri.Size;
                 if (x + size.Width > width)
                 {
                     height += maxCurrentHeight;

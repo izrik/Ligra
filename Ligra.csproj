@@ -64,16 +64,7 @@
     <Compile Include="LigraControl.Designer.cs">
       <DependentUpon>LigraControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="LigraControl.Render3DGraph.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="LigraControl.RenderExpression.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="LigraControl.RenderGraph.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="LigraControl.RenderMathPaint.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="LigraControl.RenderMatrix.cs">
@@ -90,9 +81,6 @@
     </Compile>
     <Compile Include="LigraForm.Designer.cs">
       <DependentUpon>LigraForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="LigraForm.Render.cs">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="LigraFormsControl.cs">
       <SubType>UserControl</SubType>

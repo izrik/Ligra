@@ -52,11 +52,8 @@ namespace MetaphysicsIndustries.Ligra
 //            _helpLookups["floor"] = "The floor function\n  floor(x)\n\nReturns the highest integer that is less than or equal to x.";
         }
 
-        public HelpItem(Font font, LigraEnvironment env)
-            : this(font, "help", env)
-        {
-        }
-        public HelpItem(Font font, string topic, LigraEnvironment env)
+        public HelpItem(Font font, LigraEnvironment env, string topic="help")
+            : base(env)
         {
             _font = font;
 
@@ -83,13 +80,12 @@ namespace MetaphysicsIndustries.Ligra
         string _topic;
         Font _font;
 
-        protected override void InternalRender(LigraControl control, Graphics g, PointF location, SolusEnvironment env)
+            protected override void InternalRender(Graphics g, SolusEnvironment env)
         {
-            RectangleF rect = new RectangleF(location, CalcSize(control, g));
-            g.DrawString(_topic, _font, Brushes.Magenta, location);//rect);
+            g.DrawString(_topic, _font, Brushes.Magenta, new PointF(0, 0));
         }
 
-        protected override SizeF InternalCalcSize(LigraControl control, Graphics g)
+        protected override SizeF InternalCalcSize(Graphics g)
         {
             return g.MeasureString(_topic, _font);//, 500);
         }

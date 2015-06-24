@@ -9,7 +9,8 @@ namespace MetaphysicsIndustries.Ligra
 {
     public class ControlItem : RenderItem
     {
-        public ControlItem(LigraFormsControl control, LigraControl parent)
+        public ControlItem(LigraFormsControl control, LigraControl parent, LigraEnvironment env)
+            : base(env)
         {
             if (control == null) { throw new ArgumentNullException("control"); }
             if (parent == null) { throw new ArgumentNullException("parent"); }
@@ -26,20 +27,21 @@ namespace MetaphysicsIndustries.Ligra
         LigraFormsControl _control;
         LigraControl _parent;
 
-        protected override void InternalRender(LigraControl control, Graphics g, PointF location, SolusEnvironment env)
+        protected override void InternalRender(Graphics g, SolusEnvironment env)
         {
-            SizeF size = CalcSize(control, g);
-            g.DrawRectangle(Pens.Black, location.X, location.Y, size.Width, size.Height);
+            g.DrawRectangle(Pens.Black, 0, 0, this.Width, this.Height);
         }
 
-        protected override SizeF InternalCalcSize(LigraControl control, Graphics g)
+        protected override SizeF InternalCalcSize(Graphics g)
         {
             return _control.Size;
         }
 
-        protected override void InternalSetLocation(PointF location)
+        protected override void OnLocationChanged(EventArgs e)
         {
-            _control.Location = Point.Round(location) + new Size(_parent.AutoScrollPosition);
+            _control.Location = Location;//Point.Round(Location) + new Size(_parent.AutoScrollPosition);
+
+            base.OnLocationChanged(e);
         }
     }
 }

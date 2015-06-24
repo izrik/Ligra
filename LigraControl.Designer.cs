@@ -31,6 +31,7 @@ namespace MetaphysicsIndustries.Ligra
             this.components = new System.ComponentModel.Container();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.drawBoxesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -47,9 +48,18 @@ namespace MetaphysicsIndustries.Ligra
             this.drawBoxesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.drawBoxesToolStripMenuItem.Text = "Draw Boxes";
             this.drawBoxesToolStripMenuItem.Click += new System.EventHandler(this.drawBoxesToolStripMenuItem_Click);
+            //
+            //
+            //
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel1.WrapContents = false;
+            this.flowLayoutPanel1.AutoScroll = true;
             // 
             // LigraControl
             // 
+            this.Controls.Add(this.flowLayoutPanel1);
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
@@ -69,5 +79,6 @@ namespace MetaphysicsIndustries.Ligra
 
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem drawBoxesToolStripMenuItem;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
     }
 }

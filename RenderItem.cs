@@ -8,64 +8,79 @@ using System.Windows.Forms;
 
 namespace MetaphysicsIndustries.Ligra
 {
-    public abstract class RenderItem
+    public abstract class RenderItem : Panel
     {
         private static SolusEngine _engine = new SolusEngine();
 
-        protected abstract void InternalRender(LigraControl control, Graphics g, PointF location, SolusEnvironment env);
-        protected abstract SizeF InternalCalcSize(LigraControl control, Graphics g);
+        protected RenderItem(LigraEnvironment env)
+        {
+            _env = env;
+        }
 
-        //send this down to RenderItem
+        protected abstract void InternalRender(Graphics g, SolusEnvironment env);
+        protected abstract SizeF InternalCalcSize(Graphics g);
+
         private string _error = string.Empty;
         private SizeF _errorSize = new SizeF(0, 0);
+        bool _changeSize = true;
 
-        //send this down to RenderItem
-        public void Render(LigraControl control, Graphics g, PointF location, SolusEnvironment env)
+        readonly LigraEnvironment _env;
+
+        protected override void OnPaint(PaintEventArgs e)
         {
+            base.OnPaint(e);
+
+            var g = e.Graphics;
+
             try
             {
                 if (string.IsNullOrEmpty(_error))
                 {
-                    InternalRender(control, g, location, env);
+                    InternalRender(g, _env);
 
-                    CollectVariableValues(env);
+                    CollectVariableValues(_env);
                 }
                 else
                 {
-                    g.DrawString(_error, control.Font, Brushes.Red, location);
+                    g.DrawString(_error, this.Font, Brushes.Red, new PointF(0, 0));
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                _error = "There was an error while trying to render the item: \r\n" + e.ToString();
+                _error = "There was an error while trying to render the item: \r\n" + ex.ToString();
+                _changeSize = true;
 
-                g.DrawString(_error, control.Font, Brushes.Red, location);
-                _errorSize = g.MeasureString(_error, control.Font);
+                g.DrawString(_error, this.Font, Brushes.Red, new PointF(0, 0));
+                _errorSize = g.MeasureString(_error, this.Font);
 
-                g.DrawRectangle(Pens.Red, location.X, location.Y, _errorSize.Width, _errorSize.Height);
+                g.DrawRectangle(Pens.Red, 0, 0, _errorSize.Width, _errorSize.Height);
+            }
+
+            if (_changeSize)
+            {
+                _changeSize = false;
+
+                try
+                {
+                    if (string.IsNullOrEmpty(_error))
+                    {
+                        Size = Size.Truncate(InternalCalcSize(g));
+                    }
+                    else
+                    {
+                        Size = Size.Truncate(_errorSize);
+                    }
+                }
+                catch (Exception)
+                {
+                }
             }
         }
 
-        //send this down to RenderItem
-        public SizeF CalcSize(LigraControl control, Graphics g)
+        public RectangleF Rect // Size, Height, Width, Bounds, ClientRectangle, etc.
         {
-            if (string.IsNullOrEmpty(_error))
-            {
-                SizeF size = InternalCalcSize(control, g);
-                Rect = new RectangleF(0, 0, size.Width, size.Height);
-                return size;
-            }
-            else
-            {
-                return _errorSize;
-            }
-        }
-
-        private RectangleF _rect;
-        public RectangleF Rect
-        {
-            get { return _rect; }
-            set { _rect = value; }
+            get { return Bounds; }
+            set { Bounds = Rectangle.Truncate(value); }
         }
 
 
@@ -120,28 +135,17 @@ namespace MetaphysicsIndustries.Ligra
         {
         }
 
-        public void SetLocation(PointF location)
-        {
-            Rect = new RectangleF(location, Rect.Size);
-
-            InternalSetLocation(location);
-        }
-
-        protected virtual void InternalSetLocation(PointF location)
-        {
-        }
-
-        public ToolStripItem[] GetMenuItems()
+        public ToolStripItem[] GetMenuItems() // per-control context menus
         {
             return new ToolStripItem[0];
         }
 
-        public virtual bool HasPropertyWindow
+        public virtual bool HasPropertyWindow // per-control context menus
         {
             get { return false; }
         }
 
-        public virtual void OpenPropertiesWindow(LigraControl control)
+        public virtual void OpenPropertiesWindow(LigraControl control) // per-control context menus
         {
         }
     }
