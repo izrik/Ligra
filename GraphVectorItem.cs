@@ -33,7 +33,7 @@ namespace MetaphysicsIndustries.Ligra
             RectangleF boundsInClient = new RectangleF(new PointF(0, 0), InternalCalcSize(g));
             boundsInClient.Height = 276;
 
-            LigraControl.RenderVector(g, boundsInClient, Pens.Blue, Brushes.Blue, _vector, true);
+            RenderVector(g, boundsInClient, Pens.Blue, Brushes.Blue, _vector, true);
 
             RectangleF rect = new RectangleF(10, 276, _vector.Length, g.MeasureString(_caption, this.Font).Height);
             g.DrawString(_caption, this.Font, Brushes.Black, rect);
@@ -58,5 +58,175 @@ namespace MetaphysicsIndustries.Ligra
             //    GatherVariablesForValueCollection(vars, expr);
             //}
         }
+
+
+        public void RenderVector(Graphics g, RectangleF boundsInClient,
+            Pen pen, Brush brush,
+            SolusVector vector,
+            SolusEnvironment env,
+            bool drawboundaries)
+        {
+            double yMax = 0;
+            double yMin = 0;
+            int i;
+            //int xMax;
+            float deltaX;
+            double deltaY = 1;
+
+            float margin = 10;
+            float margin2 = 2 * margin;
+
+            double[] values = new double[vector.Length];
+
+            for (i = 0; i < vector.Length; i++)
+            {
+                values[i] = vector[i].Eval(env).Value;
+            }
+
+            if (vector.Length > 0)
+            {
+                yMin = values[0];
+                yMax = values[0];
+
+                foreach (double val in values)
+                {
+                    yMin = Math.Min(yMin, val);
+                    yMax = Math.Max(yMax, val);
+                }
+
+                deltaY = (boundsInClient.Height - margin2) / (yMax - yMin);
+            }
+
+            //xMax = Math.Max(400, vector.Length);
+            deltaX = (boundsInClient.Width - margin2) / vector.Length;
+
+            if (drawboundaries)
+            {
+                g.FillRectangle(Brushes.White, boundsInClient);
+                g.DrawRectangle(Pens.Black, boundsInClient.X, boundsInClient.Y, boundsInClient.Width, boundsInClient.Height);
+
+                if (yMax > 0 && yMin < 0)
+                {
+                    float y = (float)(boundsInClient.Bottom + yMin * deltaY);
+                    g.DrawLine(Pens.Black, boundsInClient.Left, y, boundsInClient.Right, y);
+                }
+            }
+
+            PointF lastPoint = boundsInClient.Location;
+
+            if (vector.Length > 0)
+            {
+                double vvalue = values[0];
+                if (double.IsNaN(vvalue))
+                {
+                    vvalue = 0;
+                }
+                vvalue = Math.Min(vvalue, yMax);
+                vvalue = Math.Max(vvalue, yMin);
+                double yy = boundsInClient.Bottom - (vvalue - yMin) * deltaY - margin;
+                lastPoint = new PointF(boundsInClient.Left + margin, (float)yy);
+            }
+
+            for (i = 0; i < vector.Length; i++)
+            {
+                float x = deltaX * i;
+                double value = values[i];
+                if (double.IsNaN(value))
+                {
+                    value = 0;
+                }
+                value = Math.Min(value, yMax);
+                value = Math.Max(value, yMin);
+                double y = boundsInClient.Bottom - (value - yMin) * deltaY - margin;
+
+                PointF pt = new PointF(x + boundsInClient.X + margin, (float)y);
+
+                g.DrawLine(pen, lastPoint, pt);
+                g.DrawLine(pen, pt.X, pt.Y, pt.X + deltaX - 1, pt.Y);
+
+                lastPoint = pt + new SizeF(deltaX - 1, 0);
+            }
+        }
+
+        public static void RenderVector(Graphics g, RectangleF boundsInClient,
+            Pen pen, Brush brush,
+            Vector vector,
+            bool drawboundaries)
+        {
+            double yMax = 0;
+            double yMin = 0;
+            int i;
+            //int xMax;
+            float deltaX;
+            double deltaY = 1;
+
+            float margin = 10;
+            float margin2 = 2 * margin;
+
+            if (vector.Length > 0)
+            {
+                yMin = vector[0];
+                yMax = vector[0];
+
+                foreach (double val in vector)
+                {
+                    yMin = Math.Min(yMin, val);
+                    yMax = Math.Max(yMax, val);
+                }
+
+                deltaY = (boundsInClient.Height - margin2) / Math.Max(yMax - yMin, 1);
+            }
+
+            //xMax = Math.Max(400, vector.Length);
+            deltaX = (boundsInClient.Width - margin2) / vector.Length;
+
+            if (drawboundaries)
+            {
+                g.FillRectangle(Brushes.White, boundsInClient);
+                g.DrawRectangle(Pens.Black, boundsInClient.X, boundsInClient.Y, boundsInClient.Width, boundsInClient.Height);
+
+                if (yMax > 0 && yMin < 0)
+                {
+                    float y = (float)(boundsInClient.Bottom + yMin * deltaY);
+                    g.DrawLine(Pens.Black, boundsInClient.Left, y, boundsInClient.Right, y);
+                }
+            }
+
+            PointF lastPoint = boundsInClient.Location;
+
+            if (vector.Length > 0)
+            {
+                double vvalue = vector[0];
+                if (double.IsNaN(vvalue))
+                {
+                    vvalue = 0;
+                }
+                vvalue = Math.Min(vvalue, yMax);
+                vvalue = Math.Max(vvalue, yMin);
+                double yy = boundsInClient.Bottom - (vvalue - yMin) * deltaY - margin;
+                lastPoint = new PointF(boundsInClient.Left + margin, (float)yy);
+            }
+
+            for (i = 0; i < vector.Length; i++)
+            {
+                float x = deltaX * i;
+                double value = vector[i];
+                if (double.IsNaN(value))
+                {
+                    value = 0;
+                }
+                value = Math.Min(value, yMax);
+                value = Math.Max(value, yMin);
+                double y = boundsInClient.Bottom - (value - yMin) * deltaY - margin;
+
+                PointF pt = new PointF(x + boundsInClient.X + margin, (float)y);
+
+                g.DrawLine(pen, lastPoint, pt);
+                g.DrawLine(pen, pt.X, pt.Y, pt.X + deltaX - 1, pt.Y);
+
+                lastPoint = pt + new SizeF(deltaX - 1, 0);
+            }
+        }
+
     }
 }

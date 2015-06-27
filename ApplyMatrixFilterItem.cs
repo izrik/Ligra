@@ -30,7 +30,7 @@ namespace MetaphysicsIndustries.Ligra
             Matrix mat = _filter.Apply(_matrix);
             mat.ApplyToAll(AcuityEngine.ConvertFloatTo24g);
 
-            MemoryImage image = LigraControl.RenderMatrixToMemoryImage(mat);
+            MemoryImage image = GraphMatrixItem.RenderMatrixToMemoryImage(mat);
 
             RectangleF boundsInClient = new RectangleF(0, 0, mat.ColumnCount, mat.RowCount);
 
