@@ -45,6 +45,11 @@ namespace MetaphysicsIndustries.Ligra
             get { return _source.Count; }
         }
 
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
         #endregion
     }
 }

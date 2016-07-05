@@ -1,0 +1,96 @@
+
+a * x^2 + b*y^2 + c*x*y +  d*x + f*y + g - h(s);
+
+
+
+f(g(h(x)));
+
+f(x,y) := 2*x^2 + 3*x*y -6;
+
+u := x + derive(y);
+
+
+
+del f;
+del u;
+
+plot i|j for i=[1..256], j=[1..256];
+
+
+paint i|j for i=[1..256], j=[1..256];
+    // the [a..b] bounds must evaluate to integers
+    // paint exprs either:
+    //      must evaluate to integers, or
+    //      will automatically be truncated/rounded to integers
+    // either way, they evaluate to some kind of number, not strings, not vectors, and no free variables
+
+
+plot sin(x*x+y*y) for -5<=x<=5, -5<=y<=5;
+
+plot sin(x+t) for 0 <= x <= pi * 2 + z;
+    // the a<=v<=b bounds must evaluate to numbers (not necessarily integers) (no free variables)
+    // plot exprs must evaluate to numbers (or vectors in the future) (no free variables)
+    // 1 var with bounds, 1 output dimension -> normal plot
+    // 1 var with bounds, 2 output dims -> parametric 2D path plot
+    // 1 var with bounds, 3 output dims -> parametric 3D path plot
+    // 2 vars with bounds, 1 output dim -> normal plot3d
+    // 2 vars with bounds, 2 output dims -> 2d vector field
+    // 2 vars with bounds, 3 output dims -> parametric 3D surface plot
+    // 3 vars with bounds, 1 output dim -> 3d amplitude field
+    // 3 vars with bounds, 2 output dims -> ??? 3d field of 2d vectors?
+    // 3 vars with bounds, 3 output dims -> 3d vector field
+
+history;
+
+help;
+
+help mathpaint;
+
+clear;
+vars;
+
+
+
+//future ideas
+////////////////
+/*
+
+vector(x, y, z)
+vector(sin(5*a), -3, ln(q + p))
+
+//lists?
+[ 1 2 3 ]
+//or
+[ 1, 2, 3 ]
+
+[ 1, 2, x + sin(t) ]
+
+//matrices? 
+[ 1 0 0; 0 1 0; 0 0 1 ]
+//or 
+[ 1, 0, 0; 0, 1, 0; 0, 0, 1 ]
+
+R = [ sx*sin(t) 0   cos(t)   0;
+         0     sy     0      0;
+       cos(t)   0 -sz*sin(t) 0;
+         tx    ty     tz     1 ]
+
+//plot multiple expressions (maybe in a list)?
+plot [x^3, 3*x^2, 6*x, 6] for -2<=x<=2
+
+//list as bounds?
+plot x^2 for x=[1, 2, 3, 9]
+
+//sets
+{ 2, 3, x^2 for 1<=x<=3 }
+
+//sets as bounds
+plot sin(x^2) for x={1,2,4,8}
+
+functions as variables ?
+g(f, x) := f(x) + 1 ???
+
+plot f(x) for f=[sin, cos, tan], -pi<=x<=pi
+
+*/
+

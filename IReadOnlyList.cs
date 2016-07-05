@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MetaphysicsIndustries.Ligra
 {
-    public interface IReadOnlyList<T>
+    public interface IReadOnlyList<T> : IEnumerable<T>
     {
         int IndexOf(T item);
 
@@ -14,8 +14,6 @@ namespace MetaphysicsIndustries.Ligra
         void CopyTo(T[] array, int arrayIndex);
 
         int Count { get; }
-
-        IEnumerator<T> GetEnumerator();
     }
 }
 
