@@ -71,6 +71,41 @@ namespace MetaphysicsIndustries.Ligra
             {
                 _topic = _helpLookups[topic];
             }
+            else if (topic == "list")
+            {
+                var sb = new StringBuilder();
+                if (env.Functions.Count > 0)
+                {
+                    sb.AppendLine("Functions:");
+                    foreach (var f in env.Functions.Values)
+                    {
+                        sb.AppendFormat("  {0}: {1}", f.DisplayName, f.DocString);
+                        sb.AppendLine();
+                    }
+                    sb.AppendLine();
+                }
+                if (env.Macros.Count > 0)
+                {
+                    sb.AppendLine("Macros:");
+                    foreach (var m in env.Macros.Values)
+                    {
+                        sb.AppendFormat("  {0}: {1}", m.Name, m.DocString);
+                        sb.AppendLine();
+                    }
+                    sb.AppendLine();
+                }
+                if (env.Variables.Count > 0)
+                {
+                    sb.AppendLine("Variables:");
+                    foreach (var v in env.Variables)
+                    {
+                        sb.AppendFormat("  {0}: {1}", v.Key, v.Value);
+                        sb.AppendLine();
+                    }
+                    sb.AppendLine();
+                }
+                _topic = sb.ToString();
+            }
             else
             {
                 _topic = "Unknown topic \"" + topic + "\"";
