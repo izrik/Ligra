@@ -79,7 +79,9 @@ namespace MetaphysicsIndustries.Ligra
                     sb.AppendLine("Functions:");
                     foreach (var f in env.Functions.Values)
                     {
-                        sb.AppendFormat("  {0}: {1}", f.DisplayName, f.DocString);
+                        sb.AppendFormat("  {0}:", f.Name);
+                        sb.AppendLine();
+                        sb.Append(f.DocString.PrefixLines("    "));
                         sb.AppendLine();
                     }
                     sb.AppendLine();
@@ -89,7 +91,9 @@ namespace MetaphysicsIndustries.Ligra
                     sb.AppendLine("Macros:");
                     foreach (var m in env.Macros.Values)
                     {
-                        sb.AppendFormat("  {0}: {1}", m.Name, m.DocString);
+                        sb.AppendFormat("  {0}:", m.Name);
+                        sb.AppendLine();
+                        sb.Append(m.DocString.PrefixLines("    "));
                         sb.AppendLine();
                     }
                     sb.AppendLine();
@@ -100,6 +104,7 @@ namespace MetaphysicsIndustries.Ligra
                     foreach (var v in env.Variables)
                     {
                         sb.AppendFormat("  {0}: {1}", v.Key, v.Value);
+                        sb.AppendLine();
                         sb.AppendLine();
                     }
                     sb.AppendLine();
