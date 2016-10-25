@@ -4,7 +4,6 @@ using System.Text;
 using MetaphysicsIndustries.Solus;
 using System.Drawing;
 
-using MetaphysicsIndustries.Utilities;
 using MetaphysicsIndustries.Acuity;
 
 namespace MetaphysicsIndustries.Ligra

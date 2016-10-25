@@ -4,8 +4,6 @@ using System.Text;
 using MetaphysicsIndustries.Solus;
 using System.Drawing;
 
-using MetaphysicsIndustries.Utilities;
-
 namespace MetaphysicsIndustries.Ligra
 {
     public class MathPaintItem : RenderItem
