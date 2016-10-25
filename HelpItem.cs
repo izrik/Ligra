@@ -31,7 +31,9 @@ Available Topics:
 
   Plotting: plot, plot3d;
 
-  Commands: help, clear, vars, delete, history, example";
+  Commands: help, clear, vars, delete, history, example
+
+Type ""help list"" to see the current environment";
 //            _helpLookups["ligra"] = HelpStrings.ligra;
 //            _helpLookups["Functions"] = HelpStrings.functions;
 //            _helpLookups["cos"] = "The cosine function\n  cos(x)\n\nReturns the cosine of x.";
