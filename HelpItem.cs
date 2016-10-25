@@ -12,7 +12,26 @@ namespace MetaphysicsIndustries.Ligra
 
         static HelpItem()
         {
-            _helpLookups["help"] = "Ligra - Advanced Mathematics Visualization and Simulation Program\n\nGeneral Help: \n  help <topic> \n\nAvailable Topics: \n  Ligra \n\n  Functions: cos, sin, tan, sec, csc, cot, acos,   \n             asin, atan, atan2, asec, acsc, acot,   \n             ln, log, log2, log10, sqrt,  \n             int, abs, rand, ceil, u \n\n  Operators: + - * /\n\n  Special: derive \n\n  Plotting: plot, plot3d;\n\n  Commands: help, clear, vars, delete, history, example";
+            _helpLookups["help"] = @"Ligra - Advanced Mathematics Visualization and Simulation Program
+
+General Help:
+  help <topic>
+
+Available Topics:
+  Ligra
+
+  Functions: cos, sin, tan, sec, csc, cot, acos,
+             asin, atan, atan2, asec, acsc, acot,
+             ln, log, log2, log10, sqrt,
+             int, abs, rand, ceil, u
+
+  Operators: + - * /
+
+  Special: derive
+
+  Plotting: plot, plot3d;
+
+  Commands: help, clear, vars, delete, history, example";
 //            _helpLookups["ligra"] = HelpStrings.ligra;
 //            _helpLookups["Functions"] = HelpStrings.functions;
 //            _helpLookups["cos"] = "The cosine function\n  cos(x)\n\nReturns the cosine of x.";
@@ -46,8 +65,30 @@ namespace MetaphysicsIndustries.Ligra
 //            _helpLookups["Special"] = HelpStrings.special;
 //            _helpLookups["derive"] = "The derive operator\n  derive(f(x), x)\n\nReturns the derivative of f(x) with respect to x.";
 //            _helpLookups["Plotting"] = HelpStrings.plotting;
-            _helpLookups["plot"] = "Curve Plot\n  plot(x, f1(x), f2(x), ... fn(x))\n\n  x - independent variable that defines the \"x axis\"\n  fn(x) - the expressions to plot\n\n  Plots one or more curves.";
-            _helpLookups["plot3d"] = "3D Surface Plot\n  plot3d(x, y, f(x,y))\n  plot3d(x, y, f(x,y), fillColor)\n  plot3d(x, y, f(x,y), fillColor, wireColor)\n  plot3d(x, y, f(x,y), xMin, xMax, yMin, yMax, zMin, zMax)\n  plot3d(x, y, f(x,y), xMin, xMax, yMin, yMax, zMin, zMax, fillColor, wireColor)\n\n  x - first independent variable\n  y - second independent variable\n  f(x,y) - the expression to plot\n  fillColor - the color of the surface of the plot; default is green\n  wireColor - the color of the wireframe of the plot; default is black\n  xMin, xMax - the minimum and maximum values along the first independent variable for the plot\n  yMin, yMax - the minimum and maximum values along the second independent variable for the plot\n  zMin, zMax - the minimum and maximum values of the function to allow. Values outside this range are clipped\n\n  Plots f(x,y) as a surface in three dimensions.";
+            _helpLookups["plot"] = @"Curve Plot
+  plot(x, f1(x), f2(x), ... fn(x))
+
+  x - independent variable that defines the ""x axis""
+  fn(x) - the expressions to plot
+
+  Plots one or more curves.";
+            _helpLookups["plot3d"] = @"3D Surface Plot
+  plot3d(x, y, f(x,y))
+  plot3d(x, y, f(x,y), fillColor)
+  plot3d(x, y, f(x,y), fillColor, wireColor)
+  plot3d(x, y, f(x,y), xMin, xMax, yMin, yMax, zMin, zMax)
+  plot3d(x, y, f(x,y), xMin, xMax, yMin, yMax, zMin, zMax, fillColor, wireColor)
+
+  x - first independent variable
+  y - second independent variable
+  f(x,y) - the expression to plot
+  fillColor - the color of the surface of the plot; default is green
+  wireColor - the color of the wireframe of the plot; default is black
+  xMin, xMax - the minimum and maximum values along the first independent variable for the plot
+  yMin, yMax - the minimum and maximum values along the second independent variable for the plot
+  zMin, zMax - the minimum and maximum values of the function to allow. Values outside this range are clipped
+
+  Plots f(x,y) as a surface in three dimensions.";
             _helpLookups["t"] = "default time variable";
 //            _helpLookups["floor"] = "The floor function\n  floor(x)\n\nReturns the highest integer that is less than or equal to x.";
         }
