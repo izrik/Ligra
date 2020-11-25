@@ -100,7 +100,7 @@ namespace MetaphysicsIndustries.Ligra
         void AddRenderItem(RenderItem item);
     }
 
-    public class LigraWidget : DrawingArea, ILigraUI
+    public class LigraWidget : VBox, ILigraUI
     {
         public LigraWidget()
         {
