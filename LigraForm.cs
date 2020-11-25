@@ -270,7 +270,7 @@ namespace MetaphysicsIndustries.Ligra
         }
 
         Gtk.Button evalButton;
-        Gtk.TextView input;
+        Gtk.Entry input;
         LigraWidget output;
 
         void InitializeComponent()
@@ -286,13 +286,20 @@ namespace MetaphysicsIndustries.Ligra
 
             var hbox = new HBox(false, 1);
             vbox.PackEnd(hbox, false, false, 0);
-            input = new TextView();
+            input = new Entry();
             input.SetSizeRequest(308, 25);
+            input.Activated += (o, e) => EvaluateInput();
             hbox.PackStart(input, true, true, 0);
 
             evalButton = new Gtk.Button("Eval");
             evalButton.SetSizeRequest(75, 23);
+            evalButton.Clicked += (o, e) => EvaluateInput();
             hbox.PackEnd(evalButton, false, false, 0);
+        }
+
+        void EvaluateInput()
+        {
+
         }
     }
 }
