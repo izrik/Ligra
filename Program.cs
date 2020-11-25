@@ -23,11 +23,11 @@ namespace MetaphysicsIndustries.Ligra
         public static void Main()
         {
             Gtk.Application.Init();
-            var win = new Gtk.Window("Ligra");
+            var win = new LigraWindow();
 
             win.DeleteEvent += (o, e) => Gtk.Application.Quit();
 
-            win.Resize(200, 200);
+            //win.Resize(200, 200);
             win.ShowAll();
 
             Gtk.Application.Run();

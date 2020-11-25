@@ -8,7 +8,7 @@ using System.Windows.Forms;
 using MetaphysicsIndustries.Solus;
 //using MetaphysicsIndustries.Sandbox;
 using System.Drawing.Printing;
-
+using Gtk;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -259,5 +259,14 @@ namespace MetaphysicsIndustries.Ligra
 
 
 
+    }
+
+    public class LigraWindow : Window
+    {
+        public LigraWindow()
+            : base(WindowType.Toplevel)
+        {
+            Title = "Ligra";
+        }
     }
 }
