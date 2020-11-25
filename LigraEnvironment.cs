@@ -16,10 +16,9 @@ namespace MetaphysicsIndustries.Ligra
 
         public readonly ILigraUI Control;
 
-        public readonly List<RenderItem> RenderItems = new List<RenderItem>();
+        public IList<RenderItem> RenderItems => Control.RenderItems;
         public void AddRenderItem(RenderItem item)
         {
-            RenderItems.Add(item);
             Control.AddRenderItem(item);
         }
 

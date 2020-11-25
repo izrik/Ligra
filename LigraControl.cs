@@ -89,8 +89,11 @@ namespace MetaphysicsIndustries.Ligra
             base.OnKeyDown(e);
         }
 
+        public readonly List<RenderItem> _items = new List<RenderItem>();
+        public IList<RenderItem> RenderItems => _items;
         public void AddRenderItem(RenderItem item)
         {
+            _items.Add(item);
             this.flowLayoutPanel1.Controls.Add(item);
         }
     }
@@ -98,6 +101,7 @@ namespace MetaphysicsIndustries.Ligra
     public interface ILigraUI
     {
         void AddRenderItem(RenderItem item);
+        IList<RenderItem> RenderItems { get; }
     }
 
     public class LigraWidget : VBox, ILigraUI
@@ -110,9 +114,11 @@ namespace MetaphysicsIndustries.Ligra
         void InitializeComponent() { }
 
         readonly List<RenderItem> _items = new List<RenderItem>();
+        public IList<RenderItem> RenderItems => _items;
         public void AddRenderItem(RenderItem item)
         {
-
+            _items.Add(item);
+            this.PackEnd(item.GetAdapter(), false, false, 3);
         }
     }
 }
