@@ -17,7 +17,7 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 using MetaphysicsIndustries.Solus;
-
+using Gtk;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -93,5 +93,15 @@ namespace MetaphysicsIndustries.Ligra
         {
             this.flowLayoutPanel1.Controls.Add(item);
         }
+    }
+
+    public class LigraWidget : DrawingArea
+    {
+        public LigraWidget()
+        {
+            InitializeComponent();
+        }
+
+        void InitializeComponent() { }
     }
 }
