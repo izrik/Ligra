@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using MetaphysicsIndustries.Solus;
-
+using Gtk;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -282,6 +282,11 @@ namespace MetaphysicsIndustries.Ligra
                     g.DrawPolygon(pen, poly);
                 }
             }
+        }
+
+        protected override Widget GetAdapterInternal()
+        {
+            throw new NotImplementedException();
         }
     }
 }

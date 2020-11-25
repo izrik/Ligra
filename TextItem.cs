@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using MetaphysicsIndustries.Solus;
+using Gtk;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -49,6 +50,11 @@ namespace MetaphysicsIndustries.Ligra
         public override bool HasChanged(SolusEnvironment env)
         {
             return false;
+        }
+
+        protected override Widget GetAdapterInternal()
+        {
+            throw new NotImplementedException();
         }
     }
 }

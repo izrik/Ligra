@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using MetaphysicsIndustries.Solus;
 using System.Drawing;
+using Gtk;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -160,6 +161,11 @@ namespace MetaphysicsIndustries.Ligra
 
             image.CopyPixelsToBitmap();
             return image;
+        }
+
+        protected override Widget GetAdapterInternal()
+        {
+            throw new NotImplementedException();
         }
     }
 }

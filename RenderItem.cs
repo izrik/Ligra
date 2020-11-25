@@ -5,6 +5,7 @@ using System.Drawing;
 using MetaphysicsIndustries.Solus;
 
 using System.Windows.Forms;
+using Gtk;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -148,5 +149,14 @@ namespace MetaphysicsIndustries.Ligra
         public virtual void OpenPropertiesWindow(LigraControl control) // per-control context menus
         {
         }
+
+        Widget _adapter;
+        public Widget GetAdapter()
+        {
+            if (_adapter == null)
+                _adapter = GetAdapterInternal();
+            return _adapter;
+        }
+        protected abstract Widget GetAdapterInternal();
     }
 }

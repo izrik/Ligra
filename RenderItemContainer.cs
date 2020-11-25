@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using MetaphysicsIndustries.Solus;
+using Gtk;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -83,6 +84,11 @@ namespace MetaphysicsIndustries.Ligra
             height += 260;
 
             return new SizeF(width, height);
+        }
+
+        protected override Widget GetAdapterInternal()
+        {
+            throw new NotImplementedException();
         }
     }
 }

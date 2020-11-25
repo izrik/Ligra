@@ -5,6 +5,7 @@ using MetaphysicsIndustries.Solus;
 using System.Drawing;
 
 using MetaphysicsIndustries.Acuity;
+using Gtk;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -249,6 +250,11 @@ namespace MetaphysicsIndustries.Ligra
 
             image.CopyPixelsToBitmap();
             return image;
+        }
+
+        protected override Widget GetAdapterInternal()
+        {
+            throw new NotImplementedException();
         }
     }
 }

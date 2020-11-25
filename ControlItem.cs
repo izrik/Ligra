@@ -4,6 +4,7 @@ using System.Text;
 using System.Drawing;
 
 using MetaphysicsIndustries.Solus;
+using Gtk;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -42,6 +43,11 @@ namespace MetaphysicsIndustries.Ligra
             _control.Location = Location;//Point.Round(Location) + new Size(_parent.AutoScrollPosition);
 
             base.OnLocationChanged(e);
+        }
+
+        protected override Widget GetAdapterInternal()
+        {
+            throw new NotImplementedException();
         }
     }
 }

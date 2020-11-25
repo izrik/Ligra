@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using MetaphysicsIndustries.Solus;
+using Gtk;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -171,6 +172,11 @@ Type ""help list"" to see the current environment";
         protected override SizeF InternalCalcSize(Graphics g)
         {
             return g.MeasureString(_topic, _font);//, 500);
+        }
+
+        protected override Widget GetAdapterInternal()
+        {
+            throw new NotImplementedException();
         }
     }
 }
