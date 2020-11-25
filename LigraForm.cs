@@ -266,7 +266,35 @@ namespace MetaphysicsIndustries.Ligra
         public LigraWindow()
             : base(WindowType.Toplevel)
         {
+            InitializeComponent();
+        }
+
+        Gtk.Button evalButton;
+        Gtk.TextView input;
+        Widget ligraControl;
+
+        void InitializeComponent()
+        {
             Title = "Ligra";
+
+            var vbox = new VBox(false, 1);
+            this.Add(vbox);
+
+            TextView tv;
+            ligraControl = tv = new TextView();
+            tv.Buffer.Text = "Ligra control goes here";
+            ligraControl.SetSizeRequest(392, 314);
+            vbox.PackStart(ligraControl, true, true, 0);
+
+            var hbox = new HBox(false, 1);
+            vbox.PackEnd(hbox, false, false, 0);
+            input = new TextView();
+            input.SetSizeRequest(308, 25);
+            hbox.PackStart(input, true, true, 0);
+
+            evalButton = new Gtk.Button("Eval");
+            evalButton.SetSizeRequest(75, 23);
+            hbox.PackEnd(evalButton, false, false, 0);
         }
     }
 }

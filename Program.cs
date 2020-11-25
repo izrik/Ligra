@@ -27,11 +27,9 @@ namespace MetaphysicsIndustries.Ligra
 
             win.DeleteEvent += (o, e) => Gtk.Application.Quit();
 
-            //win.Resize(200, 200);
             win.ShowAll();
 
             Gtk.Application.Run();
-
         }
     }
 }
