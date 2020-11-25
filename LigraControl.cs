@@ -21,7 +21,7 @@ using Gtk;
 
 namespace MetaphysicsIndustries.Ligra
 {
-    public partial class LigraControl : UserControl
+    public partial class LigraControl : UserControl, ILigraUI
     {
         public LigraControl()
         {
@@ -95,7 +95,12 @@ namespace MetaphysicsIndustries.Ligra
         }
     }
 
-    public class LigraWidget : DrawingArea
+    public interface ILigraUI
+    {
+        void AddRenderItem(RenderItem item);
+    }
+
+    public class LigraWidget : DrawingArea, ILigraUI
     {
         public LigraWidget()
         {
@@ -103,5 +108,11 @@ namespace MetaphysicsIndustries.Ligra
         }
 
         void InitializeComponent() { }
+
+        readonly List<RenderItem> _items = new List<RenderItem>();
+        public void AddRenderItem(RenderItem item)
+        {
+
+        }
     }
 }

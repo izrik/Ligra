@@ -267,7 +267,10 @@ namespace MetaphysicsIndustries.Ligra
             : base(WindowType.Toplevel)
         {
             InitializeComponent();
+            env = new LigraEnvironment(this.output);
         }
+
+        LigraEnvironment env;
 
         Gtk.Button evalButton;
         Gtk.Entry input;

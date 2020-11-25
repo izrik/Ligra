@@ -7,14 +7,14 @@ namespace MetaphysicsIndustries.Ligra
 {
     public class LigraEnvironment : SolusEnvironment
     {
-        public LigraEnvironment(LigraControl control)
+        public LigraEnvironment(ILigraUI control)
         {
             if (control == null) throw new ArgumentNullException("control");
 
             Control = control;
         }
 
-        public readonly LigraControl Control;
+        public readonly ILigraUI Control;
 
         public readonly List<RenderItem> RenderItems = new List<RenderItem>();
         public void AddRenderItem(RenderItem item)
