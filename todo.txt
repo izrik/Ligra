@@ -1,6 +1,7 @@
 
 (in no particular order)
 
+fix scrolling
 opentk
 help
 nugetize everything
@@ -9,3 +10,9 @@ vtol engine
 
 new terminal/console-style LigraControl
     remove the textbox and eval button, splitter, toolstripcontainer, etc.
+
+audio simulation
+
+fem
+
+strange materials
