@@ -167,7 +167,7 @@ namespace MetaphysicsIndustries.Ligra
             return entry.Expression;
         }
 
-        public override void OpenPropertiesWindow(LigraControl control)
+        public override void OpenPropertiesWindow(ILigraUI control)
         {
             PlotPropertiesForm form = new PlotPropertiesForm(_parser);
 
@@ -179,7 +179,8 @@ namespace MetaphysicsIndustries.Ligra
 
             form.SetExpressions(Array.ConvertAll<GraphEntry, Expression>(_entries.ToArray(), ExpressionFromGraphEntry));
 
-            if (form.ShowDialog(control) == System.Windows.Forms.DialogResult.OK)
+            LigraControl _control = (LigraControl)control;
+            if (form.ShowDialog(_control) == System.Windows.Forms.DialogResult.OK)
             {
                 Rect = new RectangleF(Rect.Location, form.PlotSize);
 
@@ -187,8 +188,6 @@ namespace MetaphysicsIndustries.Ligra
                 _minX = form.PlotMinX;
                 _maxY = form.PlotMaxY;
                 _minY = form.PlotMinY;
-
-
             }
         }
 

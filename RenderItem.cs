@@ -146,7 +146,7 @@ namespace MetaphysicsIndustries.Ligra
             get { return false; }
         }
 
-        public virtual void OpenPropertiesWindow(LigraControl control) // per-control context menus
+        public virtual void OpenPropertiesWindow(ILigraUI control) // per-control context menus
         {
         }
 
