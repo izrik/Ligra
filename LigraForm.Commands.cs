@@ -173,9 +173,10 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        private bool IsCommand(string cmd)
+        public static bool IsCommand(string cmd,
+            Dictionary<string, Command> availableCommands)
         {
-            return _commands.ContainsKey(cmd);
+            return availableCommands.ContainsKey(cmd);
         }
 
         private void LoadImageCommand(string input, string[] args, LigraEnvironment env)
@@ -250,6 +251,12 @@ namespace MetaphysicsIndustries.Ligra
 
         private void ProcessInput(string input)
         {
+            ProcessInput(input, _env, _commands, evalTextBox.SelectAll);
+        }
+        public static void ProcessInput(string input, LigraEnvironment env,
+            Dictionary<string, Command> availableCommands,
+            Action selectAllInputText)
+        {
             var args = input.Split(new char[] { ' ', '\t', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
             if (args.Length > 0)
@@ -258,27 +265,27 @@ namespace MetaphysicsIndustries.Ligra
 
                 Command[] commands;
 
-                if (IsCommand(cmd))
+                if (IsCommand(cmd, availableCommands))
                 {
-                    commands = new Command[] { _commands[cmd] };
+                    commands = new Command[] { availableCommands[cmd] };
                 }
                 else
                 {
-                    commands = _parser.GetCommands(input, _env);
+                    commands = _parser.GetCommands(input, env);
                 }
 
                 foreach (var command in commands)
                 {
-                    command(input, args, _env);
+                    command(input, args, env);
                 }
             }
 
-            if (_env.History.Count <= 0 || input != _env.History[_env.History.Count - 1])
+            if (env.History.Count <= 0 || input != env.History[env.History.Count - 1])
             {
-                _env.History.Add(input);
+                env.History.Add(input);
             }
-            evalTextBox.SelectAll();
-            _env.CurrentHistoryIndex = -1;
+            selectAllInputText();
+            env.CurrentHistoryIndex = -1;
         }
     }
 }

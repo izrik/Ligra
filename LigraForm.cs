@@ -271,6 +271,11 @@ namespace MetaphysicsIndustries.Ligra
         }
 
         LigraEnvironment env;
+        Dictionary<string, Command> availableCommands =
+            new Dictionary<string, Command>(
+                StringComparer.InvariantCultureIgnoreCase);
+
+        object font = null;
 
         Gtk.Button evalButton;
         Gtk.Entry input;
@@ -302,7 +307,26 @@ namespace MetaphysicsIndustries.Ligra
 
         void EvaluateInput()
         {
+            var s = (input.Text ?? string.Empty).Trim();
 
+            if (s.Length > 0)
+            {
+                try
+                {
+                    LigraForm.ProcessInput(s, env, availableCommands,
+                        () => input.SelectRegion(0, input.Text.Length));
+                }
+                catch (SolusParseException e)
+                {
+                    env.AddRenderItem(new ErrorItem(s, e.Error, null, Brushes.Red, env, e.Location));
+                }
+                catch (Exception e)
+                {
+                    env.AddRenderItem(new ErrorItem(s, "There was an error: " + e.ToString(), null, Brushes.Red, env));
+                }
+            }
+
+            // Invalidate(); ??
         }
     }
 }
