@@ -120,7 +120,7 @@ namespace MetaphysicsIndustries.Ligra
             _items.Add(item);
             var widget = item.GetAdapter();
             widget.Show();
-            this.PackEnd(widget, false, false, 3);
+            this.PackStart(widget, false, false, 3);
         }
     }
 }
