@@ -104,15 +104,20 @@ namespace MetaphysicsIndustries.Ligra
         IList<RenderItem> RenderItems { get; }
     }
 
-    public class LigraWidget : VBox, ILigraUI
+    public class LigraWidget : Gtk.Alignment, ILigraUI
     {
         public LigraWidget()
+            : base(0, 0, 0, 0)
         {
             InitializeComponent();
         }
 
-        void InitializeComponent() { }
+        void InitializeComponent()
+        {
+            this.Add(_vbox);
+        }
 
+        VBox _vbox = new VBox(false, 1);
         readonly List<RenderItem> _items = new List<RenderItem>();
         public IList<RenderItem> RenderItems => _items;
         public void AddRenderItem(RenderItem item)
@@ -120,7 +125,7 @@ namespace MetaphysicsIndustries.Ligra
             _items.Add(item);
             var widget = item.GetAdapter();
             widget.Show();
-            this.PackStart(widget, false, false, 3);
+            _vbox.PackStart(widget, false, false, 3);
         }
     }
 }
