@@ -19,13 +19,51 @@ namespace MetaphysicsIndustries.Ligra
             _caption = caption;
         }
 
-        private SizeF _lastSize = new SizeF(0, 0);
-        private Matrix _matrix;
-        private MatrixFilter _filter;
+        public SizeF _lastSize = new SizeF(0, 0);
+        public Matrix _matrix;
+        public MatrixFilter _filter;
 
-        string _caption;
+        public string _caption;
 
-            protected override void InternalRender(Graphics g, SolusEnvironment env)
+        protected override Widget GetAdapterInternal()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override RenderItemControl GetControlInternal()
+        {
+            return new ApplyMatrixFilterItemControl(this);
+        }
+
+        protected override void AddVariablesForValueCollection(HashSet<string> vars)
+        {
+            //foreach (Expression expr in _matrix)
+            //{
+            //    GatherVariablesForValueCollection(vars, expr);
+            //}
+        }
+
+        public override bool HasChanged(SolusEnvironment env)
+        {
+            return false;
+        }
+    }
+
+    public class ApplyMatrixFilterItemControl : RenderItemControl
+    {
+        public ApplyMatrixFilterItemControl(ApplyMatrixFilterItem owner)
+            : base(owner)
+        {
+        }
+
+        public new ApplyMatrixFilterItem _owner => (ApplyMatrixFilterItem)base._owner;
+
+        private SizeF _lastSize => _owner._lastSize;
+        private Matrix _matrix => _owner._matrix;
+        private MatrixFilter _filter => _owner._filter;
+        string _caption => _owner._caption;
+
+        protected override void InternalRender(Graphics g, SolusEnvironment env)
         {
             Matrix mat = _filter.Apply(_matrix);
             mat.ApplyToAll(AcuityEngine.ConvertFloatTo24g);
@@ -46,7 +84,7 @@ namespace MetaphysicsIndustries.Ligra
             rect = new RectangleF(0, GetImageHeight(mat) + 2, textWidth, textHeight);
             g.DrawString(_caption, this.Font, Brushes.Black, rect);
 
-            _lastSize = new SizeF(GetImageWidth(mat), GetImageHeight(mat));
+            _owner._lastSize = new SizeF(GetImageWidth(mat), GetImageHeight(mat));
 
             if (image != null)
             {
@@ -82,24 +120,6 @@ namespace MetaphysicsIndustries.Ligra
             {
                 return mat.ColumnCount;
             }
-        }
-
-        protected override void AddVariablesForValueCollection(HashSet<string> vars)
-        {
-            //foreach (Expression expr in _matrix)
-            //{
-            //    GatherVariablesForValueCollection(vars, expr);
-            //}
-        }
-
-        public override bool HasChanged(SolusEnvironment env)
-        {
-            return false;
-        }
-
-        protected override Widget GetAdapterInternal()
-        {
-            throw new NotImplementedException();
         }
     }
 }

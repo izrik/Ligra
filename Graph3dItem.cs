@@ -9,7 +9,7 @@ namespace MetaphysicsIndustries.Ligra
 {
     public class Graph3dItem : RenderItem
     {
-        public Graph3dItem(Expression expression, Pen pen, Brush brush,
+        public Graph3dItem(Expression expression, object pen, object brush,
             float xMin, float xMax,
             float yMin, float yMax,
             float zMin, float zMax,
@@ -18,11 +18,6 @@ namespace MetaphysicsIndustries.Ligra
             LigraEnvironment env)
             : base(env)
         {
-            _timer = new System.Windows.Forms.Timer();
-            _timer.Tick += _timer_Tick;
-            _timer.Interval = 250;
-            _timer.Enabled = true;
-
             _expression = expression;
             _pen = pen;
             _brush = brush;
@@ -36,26 +31,79 @@ namespace MetaphysicsIndustries.Ligra
             _zMax = zMax;
         }
 
-        static readonly SolusEngine _engine = new SolusEngine();
+        public static readonly SolusEngine _engine = new SolusEngine();
 
-        void _timer_Tick (object sender, EventArgs e)
+        public Expression _expression;
+        public object _pen;
+        public object _brush;
+        public string _independentVariableX;
+        public string _independentVariableY;
+        public float _xMin;
+        public float _xMax;
+        public float _yMin;
+        public float _yMax;
+        public float _zMin;
+        public float _zMax;
+
+        //public override bool HasChanged(VariableTable env)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        protected override void AddVariablesForValueCollection(HashSet<string> vars)
+        {
+            GatherVariablesForValueCollection(vars, _expression);
+        }
+
+        protected override void RemoveVariablesForValueCollection(HashSet<string> vars)
+        {
+            UngatherVariableForValueCollection(vars, _independentVariableX);
+            UngatherVariableForValueCollection(vars, _independentVariableY);
+        }
+
+        protected override Widget GetAdapterInternal()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override RenderItemControl GetControlInternal()
+        {
+            return new Graph3dItemControl(this);
+        }
+    }
+
+    public class Graph3dItemControl : RenderItemControl
+    {
+        public Graph3dItemControl(Graph3dItem owner)
+            : base(owner)
+        {
+            _timer = new System.Windows.Forms.Timer();
+            _timer.Tick += _timer_Tick;
+            _timer.Interval = 250;
+            _timer.Enabled = true;
+        }
+
+        public new Graph3dItem _owner => (Graph3dItem)base._owner;
+
+        void _timer_Tick(object sender, EventArgs e)
         {
             this.Invalidate();
         }
 
         System.Windows.Forms.Timer _timer;
 
-        private Expression _expression;
-        private Pen _pen;
-        private Brush _brush;
-        private string _independentVariableX;
-        private string _independentVariableY;
-        private float _xMin;
-        private float _xMax;
-        private float _yMin;
-        private float _yMax;
-        private float _zMin;
-        private float _zMax;
+        static SolusEngine _engine => Graph3dItem._engine;
+        private Expression _expression => _owner._expression;
+        private Pen _pen => (Pen)_owner._pen;
+        private Brush _brush => (Brush)_owner._brush;
+        private string _independentVariableX => _owner._independentVariableX;
+        private string _independentVariableY => _owner._independentVariableY;
+        private float _xMin => _owner._xMin;
+        private float _xMax => _owner._xMax;
+        private float _yMin => _owner._yMin;
+        private float _yMax => _owner._yMax;
+        private float _zMin => _owner._zMin;
+        private float _zMax => _owner._zMax;
 
         int lastTime = Environment.TickCount;
         int numRenders = 0;
@@ -96,22 +144,6 @@ namespace MetaphysicsIndustries.Ligra
         protected override SizeF InternalCalcSize(Graphics g)
         {
             return new SizeF(400, 400);
-        }
-
-        //public override bool HasChanged(VariableTable env)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        protected override void AddVariablesForValueCollection(HashSet<string> vars)
-        {
-            GatherVariablesForValueCollection(vars, _expression);
-        }
-
-        protected override void RemoveVariablesForValueCollection(HashSet<string> vars)
-        {
-            UngatherVariableForValueCollection(vars, _independentVariableX);
-            UngatherVariableForValueCollection(vars, _independentVariableY);
         }
 
         public static void Render3DGraph(Graphics g, RectangleF boundsInClient,
@@ -282,11 +314,6 @@ namespace MetaphysicsIndustries.Ligra
                     g.DrawPolygon(pen, poly);
                 }
             }
-        }
-
-        protected override Widget GetAdapterInternal()
-        {
-            throw new NotImplementedException();
         }
     }
 }

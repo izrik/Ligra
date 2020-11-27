@@ -19,17 +19,48 @@ namespace MetaphysicsIndustries.Ligra
             _caption = caption;
         }
 
-        private Vector _vector;
+        private readonly Vector _vector;
         public Vector Vector
         {
             get { return _vector; }
         }
 
-        string _caption;
+        public readonly string _caption;
 
         //MemoryImage _image = null;
 
-            protected override void InternalRender(Graphics g, SolusEnvironment env)
+        protected override void AddVariablesForValueCollection(HashSet<string> vars)
+        {
+            //foreach (Expression expr in _vector)
+            //{
+            //    GatherVariablesForValueCollection(vars, expr);
+            //}
+        }
+
+        protected override Widget GetAdapterInternal()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override RenderItemControl GetControlInternal()
+        {
+            return new GraphVectorItemControl(this);
+        }
+    }
+
+    public class GraphVectorItemControl : RenderItemControl
+    {
+        public GraphVectorItemControl(GraphVectorItem owner)
+            : base(owner)
+        {
+        }
+
+        public new GraphVectorItem _owner => (GraphVectorItem)base._owner;
+
+        Vector _vector => _owner.Vector;
+        string _caption => _owner._caption;
+
+        protected override void InternalRender(Graphics g, SolusEnvironment env)
         {
             RectangleF boundsInClient = new RectangleF(new PointF(0, 0), InternalCalcSize(g));
             boundsInClient.Height = 276;
@@ -51,15 +82,6 @@ namespace MetaphysicsIndustries.Ligra
             }
             return new SizeF(_vector.Length + 20, 296 + g.MeasureString(_caption, this.Font, _vector.Length).Height);
         }
-
-        protected override void AddVariablesForValueCollection(HashSet<string> vars)
-        {
-            //foreach (Expression expr in _vector)
-            //{
-            //    GatherVariablesForValueCollection(vars, expr);
-            //}
-        }
-
 
         public void RenderVector(Graphics g, RectangleF boundsInClient,
             Pen pen, Brush brush,
@@ -227,11 +249,6 @@ namespace MetaphysicsIndustries.Ligra
 
                 lastPoint = pt + new SizeF(deltaX - 1, 0);
             }
-        }
-
-        protected override Widget GetAdapterInternal()
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -9,7 +9,8 @@ namespace MetaphysicsIndustries.Ligra
 {
     public class ErrorItem : RenderItem
     {
-        public ErrorItem(string inputText, string errorText, Font font, Brush brush, LigraEnvironment env, int location=-1)
+        public ErrorItem(string inputText, string errorText, object font,
+            object brush, LigraEnvironment env, int location = -1)
             : base(env)
         {
             _errorText = errorText;
@@ -19,13 +20,46 @@ namespace MetaphysicsIndustries.Ligra
             _location = location;
         }
 
-        string _errorText;
-        string _inputText;
-        Font _font;
-        Brush _brush;
-        int _location;
+        public string _errorText;
+        public string _inputText;
+        public object _font;
+        public object _brush;
+        public int _location;
 
-            protected override void InternalRender(Graphics g, SolusEnvironment env)
+        protected override Widget GetAdapterInternal()
+        {
+            string s = "";
+            if (!string.IsNullOrEmpty(_inputText))
+            {
+                s += _inputText + "\r\n";
+                if (_location >= 0)
+                    s += new string(' ', _location) + "^\r\n";
+            }
+            s += _errorText;
+            return new Gtk.Label(s);
+        }
+
+        protected override RenderItemControl GetControlInternal()
+        {
+            return new ErrorItemControl(this);
+        }
+    }
+    public class ErrorItemControl : RenderItemControl
+    {
+        public ErrorItemControl(ErrorItem owner)
+            : base(owner)
+        {
+        }
+
+        public new ErrorItem _owner => (ErrorItem)base._owner;
+
+        string _errorText => _owner._errorText;
+        string _inputText => _owner._inputText;
+        Font _font => (Font)_owner._font;
+        Brush _brush => (Brush)_owner._brush;
+        int _location => _owner._location;
+
+        protected override void InternalRender(Graphics g, SolusEnvironment env)
         {
             float y = 0;
             if (!string.IsNullOrEmpty(_inputText))
@@ -60,11 +94,6 @@ namespace MetaphysicsIndustries.Ligra
             }
 
             return g.MeasureString(_errorText, _font) + new SizeF(0, y);
-        }
-
-        protected override Widget GetAdapterInternal()
-        {
-            throw new NotImplementedException();
         }
     }
 }

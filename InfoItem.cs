@@ -9,18 +9,40 @@ namespace MetaphysicsIndustries.Ligra
 {
     public class InfoItem : RenderItem
     {
-        public InfoItem(string text, Font font, LigraEnvironment env)
+        public InfoItem(string text, object font, LigraEnvironment env)
             : base(env)
         {
             _text = text;
             _font = font;
         }
 
-        string _text;
-        Font _font;
+        public string _text;
+        public object _font;
 
+        protected override Widget GetAdapterInternal()
+        {
+            throw new NotImplementedException();
+        }
 
-            protected override void InternalRender(Graphics g, SolusEnvironment env)
+        protected override RenderItemControl GetControlInternal()
+        {
+            return new InfoItemControl(this);
+        }
+    }
+
+    public class InfoItemControl : RenderItemControl
+    {
+        public InfoItemControl(InfoItem owner)
+            : base(owner)
+        {
+        }
+
+        public new InfoItem _owner => (InfoItem)base._owner;
+
+        string _text => _owner._text;
+        Font _font => (Font)_owner._font;
+
+        protected override void InternalRender(Graphics g, SolusEnvironment env)
         {
             g.DrawString(_text, _font, Brushes.Black, new PointF(0, 0));
         }
@@ -28,11 +50,6 @@ namespace MetaphysicsIndustries.Ligra
         protected override SizeF InternalCalcSize(Graphics g)
         {
             return g.MeasureString(_text, _font);
-        }
-
-        protected override Widget GetAdapterInternal()
-        {
-            throw new NotImplementedException();
         }
     }
 }

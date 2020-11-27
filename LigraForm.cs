@@ -123,7 +123,7 @@ namespace MetaphysicsIndustries.Ligra
                 {
                     return GetRenderItemInCollectionFromPoint(((RenderItemContainer)ri).Items, pt);
                 }
-                else if (ri.Rect.Contains(pt))
+                else if (ri.GetControl().Rect.Contains(pt))
                 {
                     return ri;
                 }

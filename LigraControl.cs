@@ -94,7 +94,7 @@ namespace MetaphysicsIndustries.Ligra
         public void AddRenderItem(RenderItem item)
         {
             _items.Add(item);
-            this.flowLayoutPanel1.Controls.Add(item);
+            this.flowLayoutPanel1.Controls.Add(item.GetControl());
         }
     }
 
@@ -118,7 +118,9 @@ namespace MetaphysicsIndustries.Ligra
         public void AddRenderItem(RenderItem item)
         {
             _items.Add(item);
-            this.PackEnd(item.GetAdapter(), false, false, 3);
+            var widget = item.GetAdapter();
+            widget.Show();
+            this.PackEnd(widget, false, false, 3);
         }
     }
 }

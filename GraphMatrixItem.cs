@@ -11,7 +11,8 @@ namespace MetaphysicsIndustries.Ligra
 {
     public class GraphMatrixItem : RenderItem
     {
-        public GraphMatrixItem(Matrix matrix, string caption, LigraEnvironment env)
+        public GraphMatrixItem(Matrix matrix, string caption,
+            LigraEnvironment env)
             : base(env)
         {
             _matrix = matrix.Clone();
@@ -24,44 +25,11 @@ namespace MetaphysicsIndustries.Ligra
             get { return _matrix; }
         }
 
-        string _caption;
+        public string _caption;
 
-        MemoryImage _image = null;
+        public MemoryImage _image = null;
 
-        protected override void InternalRender(Graphics g, SolusEnvironment env)
-        {
-            RectangleF boundsInClient = new RectangleF(0, 0, _matrix.ColumnCount, _matrix.RowCount);
-
-            if (_image == null || HasChanged(env))
-            {
-                MemoryImage image = RenderMatrixToMemoryImage(_matrix);
-
-                if (_image != null)
-                {
-                    _image.Dispose();
-                    _image = null;
-                }
-
-                _image = image;
-            }
-
-            RectangleF rect = boundsInClient;
-            rect.Size = new SizeF(GetImageWidth(), GetImageHeight());
-            g.DrawImage(_image.Bitmap, rect);
-
-            SizeF textSize = g.MeasureString(_caption, this.Font, GetImageWidth());
-            float textWidth = textSize.Width;
-            float textHeight = textSize.Height;
-            rect = new RectangleF(0, GetImageHeight() + 2, textWidth, textHeight);
-            g.DrawString(_caption, this.Font, Brushes.Black, rect);
-        }
-
-        protected override SizeF InternalCalcSize(Graphics g)
-        {
-            return new SizeF(GetImageWidth(), GetImageHeight() + g.MeasureString(_caption, this.Font, GetImageWidth()).Height + 2);
-        }
-
-        private int GetImageHeight()
+        public int GetImageHeight()
         {
             if (_matrix.RowCount < 256)
             {
@@ -73,7 +41,7 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        private int GetImageWidth()
+        public int GetImageWidth()
         {
             if (_matrix.ColumnCount < 256)
             {
@@ -85,7 +53,8 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        protected override void AddVariablesForValueCollection(HashSet<string> vars)
+        protected override void AddVariablesForValueCollection(
+            HashSet<string> vars)
         {
             //foreach (Expression expr in _matrix)
             //{
@@ -96,18 +65,6 @@ namespace MetaphysicsIndustries.Ligra
         public override bool HasChanged(SolusEnvironment env)
         {
             return false;
-        }
-
-        public static void RenderMatrix(Graphics g, RectangleF boundsInClient,
-            SolusMatrix matrix,
-            SolusEnvironment env)
-        {
-            MemoryImage image =
-                RenderMatrixToMemoryImage(
-                    matrix,
-                    env);
-
-            g.DrawImage(image.Bitmap, Rectangle.Truncate( boundsInClient));
         }
 
         public static MemoryImage RenderMatrixToMemoryImage(
@@ -121,7 +78,8 @@ namespace MetaphysicsIndustries.Ligra
             int g;
             int b;
 
-            MemoryImage image = new MemoryImage(matrix.ColumnCount, matrix.RowCount);
+            MemoryImage image = new MemoryImage(matrix.ColumnCount,
+                matrix.RowCount);
             //image.Size = new Size(matrix.RowCount, matrix.ColumnCount);
 
             for (i = 0; i < matrix.RowCount; i++)
@@ -147,29 +105,13 @@ namespace MetaphysicsIndustries.Ligra
             return image;
         }
 
-        public static void RenderMatrix(Graphics g, RectangleF boundsInClient, Matrix matrix)
-        {
-            MemoryImage image = RenderMatrixToMemoryImage(matrix);
-
-            g.DrawImage(image.Bitmap, Rectangle.Truncate(boundsInClient));
-        }
-
-
         public static MemoryImage RenderMatrixToMemoryImage(Matrix matrix)
         {
             return RenderMatrixToMemoryImageS(matrix);
         }
 
-        public static Bitmap RenderMatrixToBitmapS(Matrix matrix)
-        {
-            return RenderMatrixToMemoryImageS(matrix).Bitmap;
-        }
-        public static Bitmap RenderMatrixToColorBitmapS(Matrix r, Matrix g, Matrix b)
-        {
-            return RenderMatrixToMemoryImageColorS(r, g, b).Bitmap;
-        }
-
-        public static MemoryImage RenderMatrixToMemoryImageColorS(Matrix rr, Matrix gg, Matrix bb)
+        public static MemoryImage RenderMatrixToMemoryImageColorS(Matrix rr,
+            Matrix gg, Matrix bb)
         {
             int i;
             int j;
@@ -187,7 +129,8 @@ namespace MetaphysicsIndustries.Ligra
                 rr.RowCount != bb.RowCount ||
                 gg.RowCount != bb.RowCount)
             {
-                throw new InvalidOperationException("Input channels must be the same size");
+                throw new InvalidOperationException(
+                    "Input channels must be the same size");
             }
 
             MemoryImage image = new MemoryImage(rr.ColumnCount, rr.RowCount);
@@ -226,7 +169,8 @@ namespace MetaphysicsIndustries.Ligra
             int g;
             int b;
 
-            MemoryImage image = new MemoryImage(matrix.ColumnCount,matrix.RowCount);
+            MemoryImage image =
+                new MemoryImage(matrix.ColumnCount,matrix.RowCount);
             //image.Size = new Size(matrix.RowCount, matrix.ColumnCount);
 
             for (i = 0; i < matrix.RowCount; i++)
@@ -255,6 +199,108 @@ namespace MetaphysicsIndustries.Ligra
         protected override Widget GetAdapterInternal()
         {
             throw new NotImplementedException();
+        }
+
+        protected override RenderItemControl GetControlInternal()
+        {
+            return new GraphMatrixItemControl(this);
+        }
+    }
+
+    public class GraphMatrixItemControl : RenderItemControl
+    {
+        public GraphMatrixItemControl(GraphMatrixItem owner)
+            : base(owner)
+        {
+        }
+
+        public new GraphMatrixItem _owner => (GraphMatrixItem)base._owner;
+
+        //private Matrix _matrix;
+        Matrix Matrix => _owner.Matrix;
+        string _caption => _owner._caption;
+        MemoryImage _image => _owner._image;
+
+        int GetImageHeight() => _owner.GetImageHeight();
+        int GetImageWidth() => _owner.GetImageWidth();
+        bool HasChanged(SolusEnvironment env) => _owner.HasChanged(env);
+
+        protected override void InternalRender(Graphics g,
+            SolusEnvironment env)
+        {
+            RectangleF boundsInClient = new RectangleF(0, 0,
+                Matrix.ColumnCount, Matrix.RowCount);
+
+            if (_image == null || HasChanged(env))
+            {
+                MemoryImage image =
+                    GraphMatrixItem.RenderMatrixToMemoryImage(Matrix);
+
+                if (_image != null)
+                {
+                    _image.Dispose();
+                    _owner._image = null;
+                }
+
+                _owner._image = image;
+            }
+
+            RectangleF rect = boundsInClient;
+            rect.Size = new SizeF(GetImageWidth(),
+                GetImageHeight());
+            g.DrawImage(_image.Bitmap, rect);
+
+            SizeF textSize = g.MeasureString(_caption, this.Font,
+                GetImageWidth());
+            float textWidth = textSize.Width;
+            float textHeight = textSize.Height;
+            rect = new RectangleF(0, GetImageHeight() + 2, textWidth,
+                textHeight);
+            g.DrawString(_caption, this.Font, Brushes.Black, rect);
+        }
+
+        protected override SizeF InternalCalcSize(Graphics g)
+        {
+            var width = GetImageWidth();
+            var captionSize = g.MeasureString(_caption, this.Font,
+                GetImageWidth());
+
+            return new SizeF(
+                width,
+                GetImageHeight() + captionSize.Height + 2);
+        }
+
+        public static void RenderMatrix(Graphics g, RectangleF boundsInClient,
+            SolusMatrix matrix,
+            SolusEnvironment env)
+        {
+            MemoryImage image =
+                GraphMatrixItem.RenderMatrixToMemoryImage(
+                    matrix,
+                    env);
+
+            g.DrawImage(image.Bitmap, Rectangle.Truncate(boundsInClient));
+        }
+
+        public static void RenderMatrix(Graphics g, RectangleF boundsInClient,
+            Matrix matrix)
+        {
+            MemoryImage image =
+                GraphMatrixItem.RenderMatrixToMemoryImage(matrix);
+
+            g.DrawImage(image.Bitmap, Rectangle.Truncate(boundsInClient));
+        }
+
+        public static Bitmap RenderMatrixToBitmapS(Matrix matrix)
+        {
+            return GraphMatrixItem.RenderMatrixToMemoryImageS(matrix).Bitmap;
+        }
+        public static Bitmap RenderMatrixToColorBitmapS(Matrix r, Matrix g,
+            Matrix b)
+        {
+            var image =
+                GraphMatrixItem.RenderMatrixToMemoryImageColorS(r, g, b);
+            return image.Bitmap;
         }
     }
 }

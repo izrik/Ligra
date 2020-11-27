@@ -42,43 +42,14 @@ namespace MetaphysicsIndustries.Ligra
             _height = (int)vert.Length;
         }
 
-        private Expression _expression;
-        private string _horizontalCoordinate;
-        private string _verticalCoordinate;
-        int _hStart;
-        int _width;
-        int _vStart;
-        int _height;
-        MemoryImage _image;
-
-            protected override void InternalRender(Graphics g, SolusEnvironment env)
-        {
-            RectangleF boundsInClient = new RectangleF(0, 0, _width, _height);
-
-            if (_image == null || HasChanged(env))
-            {
-                MemoryImage image =
-                    RenderMathPaintToMemoryImage(
-                            _expression,
-                            _horizontalCoordinate,
-                            _verticalCoordinate,
-                            _hStart,
-                            _width,
-                            _vStart,
-                            _height,
-                            env);
-
-                if (_image != null)
-                {
-                    _image.Dispose();
-                    _image = null;
-                }
-
-                _image = image;
-            }
-
-            g.DrawImage(_image.Bitmap, boundsInClient);
-        }
+        public Expression _expression;
+        public string _horizontalCoordinate;
+        public string _verticalCoordinate;
+        public int _hStart;
+        public int _width;
+        public int _vStart;
+        public int _height;
+        public MemoryImage _image;
 
         protected override void RemoveVariablesForValueCollection(HashSet<string> vars)
         {
@@ -91,14 +62,29 @@ namespace MetaphysicsIndustries.Ligra
             GatherVariablesForValueCollection(vars, _expression);
         }
 
-
-        protected override SizeF InternalCalcSize(Graphics g)
-        {
-            return new SizeF(_width, _height);
-        }
-
         static readonly SolusEngine _engine = new SolusEngine();
 
+        public MemoryImage RenderMathPaintToMemoryImage(SolusEnvironment env)
+        {
+            var image = RenderMathPaintToMemoryImage(
+                            _expression,
+                            _horizontalCoordinate,
+                            _verticalCoordinate,
+                            _hStart,
+                            _width,
+                            _vStart,
+                            _height,
+                            env);
+
+            if (_image != null)
+            {
+                _image.Dispose();
+                _image = null;
+            }
+
+            _image = image;
+            return image;
+        }
         public static MemoryImage RenderMathPaintToMemoryImage(
             Expression expression, 
             string independentVariableX, 
@@ -166,6 +152,51 @@ namespace MetaphysicsIndustries.Ligra
         protected override Widget GetAdapterInternal()
         {
             throw new NotImplementedException();
+        }
+
+        protected override RenderItemControl GetControlInternal()
+        {
+            return new MathPaintItemControl(this);
+        }
+    }
+
+    public class MathPaintItemControl : RenderItemControl
+    {
+        public MathPaintItemControl(MathPaintItem owner)
+            : base(owner)
+        {
+        }
+
+        public new MathPaintItem _owner => (MathPaintItem)base._owner;
+
+        public Expression _expression => _owner._expression;
+        public string _horizontalCoordinate => _owner._horizontalCoordinate;
+        public string _verticalCoordinate => _owner._verticalCoordinate;
+        public int _hStart => _owner._hStart;
+        public int _width => _owner._width;
+        public int _vStart => _owner._vStart;
+        public int _height => _owner._height;
+        public MemoryImage _image => _owner._image;
+
+        bool HasChanged(SolusEnvironment env) => _owner.HasChanged(env);
+        MemoryImage RenderMathPaintToMemoryImage(SolusEnvironment env) =>
+            _owner.RenderMathPaintToMemoryImage(env);
+
+        protected override void InternalRender(Graphics g, SolusEnvironment env)
+        {
+            RectangleF boundsInClient = new RectangleF(0, 0, _width, _height);
+
+            if (_image == null || HasChanged(env))
+            {
+                RenderMathPaintToMemoryImage(env);
+            }
+
+            g.DrawImage(_image.Bitmap, boundsInClient);
+        }
+
+        protected override SizeF InternalCalcSize(Graphics g)
+        {
+            return new SizeF(_width, _height);
         }
     }
 }

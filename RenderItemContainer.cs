@@ -15,7 +15,37 @@ namespace MetaphysicsIndustries.Ligra
             _caption = caption;
         }
 
-        string _caption;
+        public readonly string _caption;
+
+        private List<RenderItem> _items = new List<RenderItem>();
+        public List<RenderItem> Items
+        {
+            get { return _items; }
+        }
+
+        protected override Widget GetAdapterInternal()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override RenderItemControl GetControlInternal()
+        {
+            return new RenderItemContainerControl(this);
+        }
+    }
+
+    public class RenderItemContainerControl : RenderItemControl
+    {
+        public RenderItemContainerControl(RenderItemContainer owner)
+            : base(owner)
+        {
+        }
+
+        public new RenderItemContainer _owner =>
+            (RenderItemContainer)base._owner;
+
+        string _caption => _owner._caption;
+        List<RenderItem> Items => _owner.Items;
 
         protected override void InternalRender(Graphics g, SolusEnvironment env)
         {
@@ -32,7 +62,8 @@ namespace MetaphysicsIndustries.Ligra
             float maxCurrentHeight = 0;
             foreach (RenderItem ri in Items)
             {
-                var size = ri.Size;
+                var ric = ri.GetControl();
+                var size = ric.Size;
                 if (x + size.Width > width)
                 {
                     height += maxCurrentHeight;
@@ -40,7 +71,7 @@ namespace MetaphysicsIndustries.Ligra
                     maxCurrentHeight = 0;
                 }
 
-                ri.Refresh();
+                ric.Refresh();
 
                 x += size.Width + 10;
                 maxCurrentHeight = Math.Max(maxCurrentHeight, size.Height);
@@ -49,13 +80,6 @@ namespace MetaphysicsIndustries.Ligra
 
 //            return new SizeF(width, height);
         }
-
-        private List<RenderItem> _items = new List<RenderItem>();
-        public List<RenderItem> Items
-        {
-            get { return _items; }
-        }
-
 
         protected override SizeF InternalCalcSize(Graphics g)
         {
@@ -69,7 +93,8 @@ namespace MetaphysicsIndustries.Ligra
             float maxCurrentHeight = 0;
             foreach (RenderItem ri in Items)
             {
-                SizeF size = ri.Size;
+                var ric = ri.GetControl();
+                SizeF size = ric.Size;
                 if (x + size.Width > width)
                 {
                     height += maxCurrentHeight;
@@ -84,11 +109,6 @@ namespace MetaphysicsIndustries.Ligra
             height += 260;
 
             return new SizeF(width, height);
-        }
-
-        protected override Widget GetAdapterInternal()
-        {
-            throw new NotImplementedException();
         }
     }
 }

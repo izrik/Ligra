@@ -13,15 +13,38 @@ namespace MetaphysicsIndustries.Ligra
         {
         }
 
-        public override string Text
+        protected override RenderItemControl GetControlInternal()
         {
-            get
-            {
-                return "A Survey of Digital Filters and Related Technologies\r\n" +
+            return new IntroItemControl(this);
+        }
+    }
+
+    public class IntroItemControl : TextItemControl
+    {
+        public IntroItemControl(IntroItem owner)
+            : base(owner)
+        {
+        }
+
+        static string IntroText = "A Survey of Digital Filters and Related Technologies\r\n" +
                     "by Richard Sartor\r\n" +
                     "EE 4623\r\n" +
                     "Dr. S. Agaian\r\n" +
                     "29 February 2008";
+        static StringFormat TextFormat = CreateTextFormat();
+        static StringFormat CreateTextFormat()
+        {
+            StringFormat fmt = StringFormat.GenericDefault;
+            fmt.Alignment = StringAlignment.Center;
+            fmt.LineAlignment = StringAlignment.Center;
+            return fmt;
+        }
+
+        public override string Text
+        {
+            get
+            {
+                return IntroText;
             }
         }
 
@@ -29,10 +52,7 @@ namespace MetaphysicsIndustries.Ligra
         {
             get
             {
-                StringFormat fmt = StringFormat.GenericDefault;
-                fmt.Alignment = StringAlignment.Center;
-                fmt.LineAlignment = StringAlignment.Center;
-                return fmt;
+                return TextFormat;
             }
         }
     }

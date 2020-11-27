@@ -9,7 +9,7 @@ using Gtk;
 
 namespace MetaphysicsIndustries.Ligra
 {
-    public abstract class RenderItem : Panel
+    public abstract class RenderItem
     {
         private static SolusEngine _engine = new SolusEngine();
 
@@ -18,74 +18,13 @@ namespace MetaphysicsIndustries.Ligra
             _env = env;
         }
 
-        protected abstract void InternalRender(Graphics g, SolusEnvironment env);
-        protected abstract SizeF InternalCalcSize(Graphics g);
+        public string _error = string.Empty;
+        public SizeF _errorSize = new SizeF(0, 0);
+        public bool _changeSize = true;
 
-        private string _error = string.Empty;
-        private SizeF _errorSize = new SizeF(0, 0);
-        bool _changeSize = true;
+        public readonly LigraEnvironment _env;
 
-        readonly LigraEnvironment _env;
-
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-
-            var g = e.Graphics;
-
-            try
-            {
-                if (string.IsNullOrEmpty(_error))
-                {
-                    InternalRender(g, _env);
-
-                    CollectVariableValues(_env);
-                }
-                else
-                {
-                    g.DrawString(_error, this.Font, Brushes.Red, new PointF(0, 0));
-                }
-            }
-            catch (Exception ex)
-            {
-                _error = "There was an error while trying to render the item: \r\n" + ex.ToString();
-                _changeSize = true;
-
-                g.DrawString(_error, this.Font, Brushes.Red, new PointF(0, 0));
-                _errorSize = g.MeasureString(_error, this.Font);
-
-                g.DrawRectangle(Pens.Red, 0, 0, _errorSize.Width, _errorSize.Height);
-            }
-
-            if (_changeSize)
-            {
-                _changeSize = false;
-
-                try
-                {
-                    if (string.IsNullOrEmpty(_error))
-                    {
-                        Size = Size.Truncate(InternalCalcSize(g));
-                    }
-                    else
-                    {
-                        Size = Size.Truncate(_errorSize);
-                    }
-                }
-                catch (Exception)
-                {
-                }
-            }
-        }
-
-        public RectangleF Rect // Size, Height, Width, Bounds, ClientRectangle, etc.
-        {
-            get { return Bounds; }
-            set { Bounds = Rectangle.Truncate(value); }
-        }
-
-
-        protected void CollectVariableValues(SolusEnvironment env)
+        public void CollectVariableValues(SolusEnvironment env)
         {
             HashSet<string> vars = new HashSet<string>();
 
@@ -150,6 +89,15 @@ namespace MetaphysicsIndustries.Ligra
         {
         }
 
+        RenderItemControl _control;
+        public RenderItemControl GetControl()
+        {
+            if (_control == null)
+                _control = GetControlInternal();
+            return _control;
+        }
+        protected abstract RenderItemControl GetControlInternal();
+
         Widget _adapter;
         public Widget GetAdapter()
         {
@@ -158,5 +106,80 @@ namespace MetaphysicsIndustries.Ligra
             return _adapter;
         }
         protected abstract Widget GetAdapterInternal();
+    }
+
+    public abstract class RenderItemControl : Panel
+    {
+        protected RenderItemControl(RenderItem owner)
+        {
+            _owner = owner;
+        }
+
+        protected readonly RenderItem _owner;
+
+        protected abstract void InternalRender(Graphics g,
+            SolusEnvironment env);
+        protected abstract SizeF InternalCalcSize(Graphics g);
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+
+            var g = e.Graphics;
+
+            try
+            {
+                if (string.IsNullOrEmpty(_owner._error))
+                {
+                    InternalRender(g, _owner._env);
+
+                    _owner.CollectVariableValues(_owner._env);
+                }
+                else
+                {
+                    g.DrawString(_owner._error, this.Font, Brushes.Red,
+                        new PointF(0, 0));
+                }
+            }
+            catch (Exception ex)
+            {
+                _owner._error = "There was an error while trying to render " +
+                    "the item: \r\n" + ex.ToString();
+                _owner._changeSize = true;
+
+                g.DrawString(_owner._error, this.Font, Brushes.Red,
+                    new PointF(0, 0));
+                _owner._errorSize = g.MeasureString(_owner._error, this.Font);
+
+                g.DrawRectangle(Pens.Red, 0, 0, _owner._errorSize.Width,
+                    _owner._errorSize.Height);
+            }
+
+            if (_owner._changeSize)
+            {
+                _owner._changeSize = false;
+
+                try
+                {
+                    if (string.IsNullOrEmpty(_owner._error))
+                    {
+                        Size = Size.Truncate(InternalCalcSize(g));
+                    }
+                    else
+                    {
+                        Size = Size.Truncate(_owner._errorSize);
+                    }
+                }
+                catch (Exception)
+                {
+                }
+            }
+        }
+
+        public RectangleF Rect // Size, Height, Width, Bounds, ClientRectangle, etc.
+        {
+            get { return Bounds; }
+            set { Bounds = Rectangle.Truncate(value); }
+        }
     }
 }

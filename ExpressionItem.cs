@@ -58,8 +58,8 @@ namespace MetaphysicsIndustries.Ligra
             get { return _expression; }
         }
 
-        private Pen _pen;
-        public Pen Pen
+        private object _pen;
+        public object Pen
         {
             get { return _pen; }
         }
@@ -70,16 +70,72 @@ namespace MetaphysicsIndustries.Ligra
         //    get { return _name; }
         //}
 
-        private Font _font;
-        public Font Font
+        private object _font;
+        public object Font
         {
             get { return _font; }
         }
 
-
-            protected override void InternalRender(Graphics g, SolusEnvironment env)
+        public static bool IsRootOperation(FunctionCall functionCall)
         {
-            SizeF exprSize = CalcExpressionSize(Expression, g, Font);
+            if (!(functionCall.Function is ExponentOperation)) { return false; }
+
+            if (functionCall.Arguments[1] is Literal)
+            {
+                Literal literal = (Literal)functionCall.Arguments[1];
+
+                if (literal.Value < 0) { return false; }
+
+                double value = 1 / literal.Value;
+
+                if (value == Math.Floor(value))
+                {
+                    return true;
+                }
+            }
+            //else if (functionCall.Arguments[1] is FunctionCall &&
+            //         (functionCall.Arguments[1] as FunctionCall).Function == DivisionOperation.Value &&
+            //         (functionCall.Arguments[1] as FunctionCall).Arguments[0] is Literal &&
+            //         ((functionCall.Arguments[1] as FunctionCall).Arguments[0] as Literal).Value == 1 &&
+            //          ((functionCall.Arguments[1] as FunctionCall).Arguments[1] is VariableAccess ||
+            //           (functionCall.Arguments[1] as FunctionCall).Arguments[1] is Literal))
+            //{
+            //    return true;
+            //}
+
+            return false;
+        }
+
+        protected override Widget GetAdapterInternal()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override RenderItemControl GetControlInternal()
+        {
+            return new ExpressionItemControl(this);
+        }
+    }
+
+    public class ExpressionItemControl : RenderItemControl
+    {
+        public ExpressionItemControl(ExpressionItem owner)
+            : base(owner)
+        {
+
+        }
+
+        public new ExpressionItem _owner => (ExpressionItem)base._owner;
+
+
+        Expression _expression => _owner.Expression;
+        Pen _pen => (Pen)_owner.Pen;
+        Font _font => (Font)_owner.Font;
+
+        protected override void InternalRender(Graphics g,
+            SolusEnvironment env)
+        {
+            SizeF exprSize = CalcExpressionSize(_owner.Expression, g, Font);
             float xx = 0;
 
             //if (!string.IsNullOrEmpty(Name))
@@ -89,12 +145,12 @@ namespace MetaphysicsIndustries.Ligra
             //    g.DrawString(Name + " = ", Font, Pen.Brush, new PointF(location.X, location.Y + (exprSize.Height - textSize.Height) / 2));
             //}
 
-            RenderExpression(g, Expression, new PointF(xx, 0), Pen, Pen.Brush, Font, false);
+            RenderExpression(g, _expression, new PointF(xx, 0), _pen, _pen.Brush, Font, false);
         }
 
         protected override SizeF InternalCalcSize(Graphics g)
         {
-            SizeF exprSize = CalcExpressionSize(Expression, g, Font);
+            SizeF exprSize = CalcExpressionSize(_owner.Expression, g, Font);
 
             //if (!string.IsNullOrEmpty(Name))
             //{
@@ -105,7 +161,6 @@ namespace MetaphysicsIndustries.Ligra
 
             return exprSize;
         }
-
         public static void RenderExpression(Graphics g, Expression expr, PointF pt, Pen pen, Brush brush, Font font, bool drawBoxes)
         {
 
@@ -465,7 +520,7 @@ namespace MetaphysicsIndustries.Ligra
 
             if (functionCall.Function is DivisionOperation)
             {
-                RenderDivisionOperation(g, functionCall, pt, pen, brush, expressionSizeCache, drawBoxes,font);
+                RenderDivisionOperation(g, functionCall, pt, pen, brush, expressionSizeCache, drawBoxes, font);
             }
             else if (functionCall.Function is ExponentOperation)
             {
@@ -535,7 +590,7 @@ namespace MetaphysicsIndustries.Ligra
         protected static void RenderExponentOperation(Graphics g, FunctionCall functionCall, PointF pt, Pen pen, Brush brush, Dictionary<Expression, SizeF> expressionSizeCache, bool drawBoxes, Font font)
         {
 
-            if (IsRootOperation(functionCall))
+            if (ExpressionItem.IsRootOperation(functionCall))
             {
                 RenderRootOperation(g, functionCall, pt, pen, brush, expressionSizeCache, font, drawBoxes);
             }
@@ -543,36 +598,6 @@ namespace MetaphysicsIndustries.Ligra
             {
                 RenderPartBinaryOperation(g, functionCall, pt, pen, brush, expressionSizeCache, drawBoxes, font);
             }
-        }
-
-        private static bool IsRootOperation(FunctionCall functionCall)
-        {
-            if (!(functionCall.Function is ExponentOperation)) { return false; }
-
-            if (functionCall.Arguments[1] is Literal)
-            {
-                Literal literal = (Literal)functionCall.Arguments[1];
-
-                if (literal.Value < 0) { return false; }
-
-                double value = 1 / literal.Value;
-
-                if (value == Math.Floor(value))
-                {
-                    return true;
-                }
-            }
-            //else if (functionCall.Arguments[1] is FunctionCall &&
-            //         (functionCall.Arguments[1] as FunctionCall).Function == DivisionOperation.Value &&
-            //         (functionCall.Arguments[1] as FunctionCall).Arguments[0] is Literal &&
-            //         ((functionCall.Arguments[1] as FunctionCall).Arguments[0] as Literal).Value == 1 &&
-            //          ((functionCall.Arguments[1] as FunctionCall).Arguments[1] is VariableAccess ||
-            //           (functionCall.Arguments[1] as FunctionCall).Arguments[1] is Literal))
-            //{
-            //    return true;
-            //}
-
-            return false;
         }
 
         protected static void RenderRootOperation(Graphics g, FunctionCall functionCall, PointF pt, Pen pen, Brush brush, Dictionary<Expression, SizeF> expressionSizeCache, Font font, bool drawBoxes)
@@ -959,7 +984,7 @@ namespace MetaphysicsIndustries.Ligra
 
                         size = new SizeF(width + lineExtraWidth, height + lineHeightSpacing);
                     }
-                    else if (IsRootOperation(functionCall))
+                    else if (ExpressionItem.IsRootOperation(functionCall))
                     {
                         Literal root = (Literal)functionCall.Arguments[1];
                         Literal invRoot = new Literal((float)Math.Round(1 / root.Value));
@@ -1119,11 +1144,6 @@ namespace MetaphysicsIndustries.Ligra
                 size = new SizeF(width, height);
             }
             return size;
-        }
-
-        protected override Widget GetAdapterInternal()
-        {
-            throw new NotImplementedException();
         }
     }
 }

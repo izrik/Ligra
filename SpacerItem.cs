@@ -20,20 +20,38 @@ namespace MetaphysicsIndustries.Ligra
         {
         }
 
-        readonly SizeF _size;
-
-        protected override void InternalRender(System.Drawing.Graphics g, SolusEnvironment env)
-        {
-        }
-
-        protected override System.Drawing.SizeF InternalCalcSize(System.Drawing.Graphics g)
-        {
-            return _size;
-        }
+        public readonly SizeF _size;
 
         protected override Widget GetAdapterInternal()
         {
             throw new NotImplementedException();
+        }
+
+        protected override RenderItemControl GetControlInternal()
+        {
+            return new SpacerItemControl(this);
+        }
+    }
+
+    public class SpacerItemControl : RenderItemControl
+    {
+        public SpacerItemControl(SpacerItem owner)
+            : base(owner)
+        {
+        }
+
+        public new SpacerItem _owner => (SpacerItem)base._owner;
+
+        public SizeF _size => _owner._size;
+
+        protected override void InternalRender(Graphics g,
+            SolusEnvironment env)
+        {
+        }
+
+        protected override SizeF InternalCalcSize(Graphics g)
+        {
+            return _size;
         }
     }
 }
