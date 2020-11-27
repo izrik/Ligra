@@ -108,7 +108,7 @@ namespace MetaphysicsIndustries.Ligra
 
         protected override Widget GetAdapterInternal()
         {
-            throw new NotImplementedException();
+            return new Gtk.Label(Expression.ToString());
         }
 
         protected override RenderItemControl GetControlInternal()
