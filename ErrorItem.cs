@@ -36,7 +36,9 @@ namespace MetaphysicsIndustries.Ligra
                     s += new string(' ', _location) + "^\r\n";
             }
             s += _errorText;
-            return new Gtk.Label(s);
+            var label = new Gtk.Label(s);
+            label.SetAlignment(0, 0);
+            return label;
         }
 
         protected override RenderItemControl GetControlInternal()

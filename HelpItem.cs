@@ -166,7 +166,9 @@ Type ""help list"" to see the current environment";
 
         protected override Widget GetAdapterInternal()
         {
-            return new Gtk.Label(_topic);
+            var label = new Gtk.Label(_topic);
+            label.SetAlignment(0, 0);
+            return label;
         }
 
         protected override RenderItemControl GetControlInternal()
