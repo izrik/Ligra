@@ -104,28 +104,57 @@ namespace MetaphysicsIndustries.Ligra
         IList<RenderItem> RenderItems { get; }
     }
 
-    public class LigraWidget : Gtk.Alignment, ILigraUI
+    public class LigraWidget : Gtk.ScrolledWindow, ILigraUI
     {
         public LigraWidget()
-            : base(0, 0, 0, 0)
         {
             InitializeComponent();
         }
 
         void InitializeComponent()
         {
-            this.Add(_vbox);
+            _scrolledWindow = this;
+            _viewport = new Viewport();
+            _alignment = new Alignment(0, 0, 0, 0);
+            _vbox = new VBox(false, 1);
+
+            _alignment.Add(_vbox);
+            _viewport.Add(_alignment);
+            _scrolledWindow.Add(_viewport);
+
+            _vbox.SizeAllocated += _vbox_SizeAllocated;
         }
 
-        VBox _vbox = new VBox(false, 1);
+        bool scrollToBottom = false;
+
+        private void _vbox_SizeAllocated(object o, SizeAllocatedArgs args)
+        {
+            if (scrollToBottom)
+            {
+                _scrolledWindow.Hadjustment.Value =
+                    _scrolledWindow.Hadjustment.Lower;
+
+                _scrolledWindow.Vadjustment.Value =
+                    _scrolledWindow.Vadjustment.Upper;
+                scrollToBottom = false;
+            }
+
+        }
+
+        Gtk.ScrolledWindow _scrolledWindow;
+        Gtk.Viewport _viewport;
+        Gtk.Alignment _alignment;
+        VBox _vbox;
         readonly List<RenderItem> _items = new List<RenderItem>();
         public IList<RenderItem> RenderItems => _items;
         public void AddRenderItem(RenderItem item)
         {
             _items.Add(item);
             var widget = item.GetAdapter();
-            widget.Show();
+            widget.ShowAll();
             _vbox.PackStart(widget, false, false, 3);
+
+            //scrollToBottom = true;
         }
     }
 }
