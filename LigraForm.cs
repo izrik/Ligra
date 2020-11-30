@@ -289,7 +289,7 @@ namespace MetaphysicsIndustries.Ligra
             this.Add(vbox);
 
             output = new LigraWidget();
-            output.SetSizeRequest(392, 314);
+            output.SetSizeRequest(400, 314);
             vbox.PackStart(output, true, true, 0);
 
             var hbox = new HBox(false, 1);
