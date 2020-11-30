@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using MetaphysicsIndustries.Solus;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -21,7 +22,7 @@ namespace MetaphysicsIndustries.Ligra
             RectangleF layoutRectangle, StringFormat format);
         void DrawString(string s, LFont font, LBrush bursh, Vector2 point);
         void DrawString(string s, LFont font, LBrush bursh, float x, float y);
-        void DrawImage(IImage image, RectangleF rect);
+        void DrawImage(MemoryImage image, RectangleF rect);
     }
 
     public class SwfRenderer : IRenderer
@@ -97,9 +98,10 @@ namespace MetaphysicsIndustries.Ligra
             graphics.DrawString(s, font.ToSwf(),
                 brush.ToSwf(), x, y);
         }
-        public void DrawImage(IImage image, RectangleF rect)
+        public void DrawImage(MemoryImage image, RectangleF rect)
         {
-            graphics.DrawImage(((SwfImage)image).image, rect);
+            image.CopyPixelsToBitmap();
+            graphics.DrawImage(image.Bitmap, rect);
         }
     }
 }

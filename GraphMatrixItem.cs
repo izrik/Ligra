@@ -248,7 +248,7 @@ namespace MetaphysicsIndustries.Ligra
             RectangleF rect = boundsInClient;
             rect.Size = new SizeF(GetImageWidth(),
                 GetImageHeight());
-            g.DrawImage(new SwfImage(_image.Bitmap), rect);
+            g.DrawImage(_image, rect);
 
             SizeF textSize = g.MeasureString(_caption, LFont.FromSwf(this.Font),
                 GetImageWidth());

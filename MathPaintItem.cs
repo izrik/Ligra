@@ -191,7 +191,7 @@ namespace MetaphysicsIndustries.Ligra
                 RenderMathPaintToMemoryImage(env);
             }
 
-            g.DrawImage(new SwfImage(_image.Bitmap), boundsInClient);
+            g.DrawImage(_image, boundsInClient);
         }
 
         protected override Vector2 InternalCalcSize(IRenderer g)

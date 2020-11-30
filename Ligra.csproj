@@ -141,7 +141,6 @@
     <Compile Include="FloatHelper.cs" />
     <Compile Include="Vector2Helper.cs" />
     <Compile Include="IRenderer.cs" />
-    <Compile Include="IImage.cs" />
     <Compile Include="LPen.cs" />
     <Compile Include="LColor.cs" />
     <Compile Include="LBrush.cs" />
