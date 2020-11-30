@@ -194,9 +194,9 @@ Type ""help list"" to see the current environment";
             g.DrawString(_topic, _font, Brushes.Magenta, new PointF(0, 0));
         }
 
-        protected override SizeF InternalCalcSize(Graphics g)
+        protected override Vector2 InternalCalcSize(Graphics g)
         {
-            return g.MeasureString(_topic, _font);//, 500);
+            return g.MeasureString(_topic, _font).ToVector2();//, 500);
         }
     }
 }

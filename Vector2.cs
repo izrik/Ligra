@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Drawing;
+
 namespace MetaphysicsIndustries.Ligra
 {
     public readonly struct Vector2
@@ -11,6 +13,15 @@ namespace MetaphysicsIndustries.Ligra
 
         public readonly float X;
         public readonly float Y;
+
+        public static implicit operator SizeF(Vector2 v)
+        {
+            return new SizeF(v.X, v.Y);
+        }
+        public static implicit operator PointF(Vector2 v)
+        {
+            return new PointF(v.X, v.Y);
+        }
 
         public static readonly Vector2 Zero = new Vector2(0, 0);
         public static readonly Vector2 One = new Vector2(1, 1);
@@ -148,6 +159,15 @@ namespace MetaphysicsIndustries.Ligra
         public override string ToString()
         {
             return string.Format("{{X:{0} Y:{1}}}", X, Y);
+        }
+
+        public Vector2 AddX(float dx)
+        {
+            return new Vector2(X + dx, Y);
+        }
+        public Vector2 AddY(float dy)
+        {
+            return new Vector2(X, Y + dy);
         }
     }
 }

@@ -219,9 +219,9 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        protected override SizeF InternalCalcSize(Graphics g)
+        protected override Vector2 InternalCalcSize(Graphics g)
         {
-            return Rect.Size;
+            return Rect.Size.ToVector2();
         }
 
         public static void RenderGraph(Graphics g, RectangleF boundsInClient,

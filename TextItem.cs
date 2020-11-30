@@ -71,10 +71,10 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        protected override SizeF InternalCalcSize(Graphics g)
+        protected override Vector2 InternalCalcSize(Graphics g)
         {
             return g.MeasureString(Text, Font,
-                this.Parent.ClientSize.Width - 25);
+                this.Parent.ClientSize.Width - 25).ToVector2();
         }
     }
 }

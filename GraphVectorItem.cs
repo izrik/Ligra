@@ -73,14 +73,14 @@ namespace MetaphysicsIndustries.Ligra
             //g.DrawImage(_image.Bitmap, boundsInClient);
         }
 
-        protected override SizeF InternalCalcSize(Graphics g)
+        protected override Vector2 InternalCalcSize(Graphics g)
         {
             double x = Math.Log(_vector.Length, 2);
             if (x < 8)
             {
-                return new SizeF(276, 276);
+                return new Vector2(276, 276);
             }
-            return new SizeF(_vector.Length + 20, 296 + g.MeasureString(_caption, this.Font, _vector.Length).Height);
+            return new Vector2(_vector.Length + 20, 296 + g.MeasureString(_caption, this.Font, _vector.Length).Height);
         }
 
         public void RenderVector(Graphics g, RectangleF boundsInClient,

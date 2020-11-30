@@ -259,13 +259,13 @@ namespace MetaphysicsIndustries.Ligra
             g.DrawString(_caption, this.Font, Brushes.Black, rect);
         }
 
-        protected override SizeF InternalCalcSize(Graphics g)
+        protected override Vector2 InternalCalcSize(Graphics g)
         {
             var width = GetImageWidth();
             var captionSize = g.MeasureString(_caption, this.Font,
                 GetImageWidth());
 
-            return new SizeF(
+            return new Vector2(
                 width,
                 GetImageHeight() + captionSize.Height + 2);
         }

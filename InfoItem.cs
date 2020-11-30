@@ -47,9 +47,9 @@ namespace MetaphysicsIndustries.Ligra
             g.DrawString(_text, _font, Brushes.Black, new PointF(0, 0));
         }
 
-        protected override SizeF InternalCalcSize(Graphics g)
+        protected override Vector2 InternalCalcSize(Graphics g)
         {
-            return g.MeasureString(_text, _font);
+            return g.MeasureString(_text, _font).ToVector2();
         }
     }
 }

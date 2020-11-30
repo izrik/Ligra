@@ -194,9 +194,9 @@ namespace MetaphysicsIndustries.Ligra
             g.DrawImage(_image.Bitmap, boundsInClient);
         }
 
-        protected override SizeF InternalCalcSize(Graphics g)
+        protected override Vector2 InternalCalcSize(Graphics g)
         {
-            return new SizeF(_width, _height);
+            return new Vector2(_width, _height);
         }
     }
 }

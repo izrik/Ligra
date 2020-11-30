@@ -19,7 +19,7 @@ namespace MetaphysicsIndustries.Ligra
             _caption = caption;
         }
 
-        public SizeF _lastSize = new SizeF(0, 0);
+        public Vector2 _lastSize = new Vector2(0, 0);
         public Matrix _matrix;
         public MatrixFilter _filter;
 
@@ -58,7 +58,7 @@ namespace MetaphysicsIndustries.Ligra
 
         public new ApplyMatrixFilterItem _owner => (ApplyMatrixFilterItem)base._owner;
 
-        private SizeF _lastSize => _owner._lastSize;
+        private Vector2 _lastSize => _owner._lastSize;
         private Matrix _matrix => _owner._matrix;
         private MatrixFilter _filter => _owner._filter;
         string _caption => _owner._caption;
@@ -84,7 +84,7 @@ namespace MetaphysicsIndustries.Ligra
             rect = new RectangleF(0, GetImageHeight(mat) + 2, textWidth, textHeight);
             g.DrawString(_caption, this.Font, Brushes.Black, rect);
 
-            _owner._lastSize = new SizeF(GetImageWidth(mat), GetImageHeight(mat));
+            _owner._lastSize = new Vector2(GetImageWidth(mat), GetImageHeight(mat));
 
             if (image != null)
             {
@@ -93,9 +93,9 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        protected override SizeF InternalCalcSize(Graphics g)
+        protected override Vector2 InternalCalcSize(Graphics g)
         {
-            return _lastSize + new SizeF(0, g.MeasureString(_caption, this.Font, (int)_lastSize.Width).Height + 2);
+            return _lastSize + new Vector2(0, g.MeasureString(_caption, this.Font, (int)_lastSize.X).Height + 2);
         }
 
         private int GetImageHeight(Matrix mat)

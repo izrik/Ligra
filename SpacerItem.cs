@@ -9,18 +9,18 @@ namespace MetaphysicsIndustries.Ligra
 {
     public class SpacerItem : RenderItem
     {
-        public SpacerItem(SizeF size, LigraEnvironment env)
+        public SpacerItem(Vector2 size, LigraEnvironment env)
             : base(env)
         {
             _size = size;
         }
 
         public SpacerItem(float width, float height, LigraEnvironment env)
-            : this(new SizeF(width, height), env)
+            : this(new Vector2(width, height), env)
         {
         }
 
-        public readonly SizeF _size;
+        public readonly Vector2 _size;
 
         protected override Widget GetAdapterInternal()
         {
@@ -42,14 +42,14 @@ namespace MetaphysicsIndustries.Ligra
 
         public new SpacerItem _owner => (SpacerItem)base._owner;
 
-        public SizeF _size => _owner._size;
+        public Vector2 _size => _owner._size;
 
         protected override void InternalRender(Graphics g,
             SolusEnvironment env)
         {
         }
 
-        protected override SizeF InternalCalcSize(Graphics g)
+        protected override Vector2 InternalCalcSize(Graphics g)
         {
             return _size;
         }

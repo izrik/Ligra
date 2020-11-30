@@ -141,9 +141,9 @@ namespace MetaphysicsIndustries.Ligra
             g.DrawString(fps, this.Font, Brushes.Blue, new PointF(0, 0));
         }
 
-        protected override SizeF InternalCalcSize(Graphics g)
+        protected override Vector2 InternalCalcSize(Graphics g)
         {
-            return new SizeF(400, 400);
+            return new Vector2(400, 400);
         }
 
         public static void Render3DGraph(Graphics g, RectangleF boundsInClient,

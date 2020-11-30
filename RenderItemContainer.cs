@@ -81,7 +81,7 @@ namespace MetaphysicsIndustries.Ligra
 //            return new SizeF(width, height);
         }
 
-        protected override SizeF InternalCalcSize(Graphics g)
+        protected override Vector2 InternalCalcSize(Graphics g)
         {
             Font font2 = new Font(this.Font.FontFamily, this.Font.Size * 2);
 
@@ -108,7 +108,7 @@ namespace MetaphysicsIndustries.Ligra
 
             height += 260;
 
-            return new SizeF(width, height);
+            return new Vector2(width, height);
         }
     }
 }

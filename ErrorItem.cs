@@ -86,7 +86,7 @@ namespace MetaphysicsIndustries.Ligra
             g.DrawString(_errorText, _font, _brush, new PointF(0, y));
         }
 
-        protected override SizeF InternalCalcSize(Graphics g)
+        protected override Vector2 InternalCalcSize(Graphics g)
         {
             float y = 0;
 
@@ -95,7 +95,8 @@ namespace MetaphysicsIndustries.Ligra
                 y += g.MeasureString(_inputText, _font).Height + 10;
             }
 
-            return g.MeasureString(_errorText, _font) + new SizeF(0, y);
+            return g.MeasureString(_errorText, _font).ToVector2() +
+                new Vector2(0, y);
         }
     }
 }

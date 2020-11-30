@@ -119,7 +119,7 @@ namespace MetaphysicsIndustries.Ligra
 
         protected abstract void InternalRender(Graphics g,
             SolusEnvironment env);
-        protected abstract SizeF InternalCalcSize(Graphics g);
+        protected abstract Vector2 InternalCalcSize(Graphics g);
 
         protected override void OnPaint(PaintEventArgs e)
         {
