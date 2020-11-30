@@ -132,7 +132,7 @@ namespace MetaphysicsIndustries.Ligra
             m[4, 2] = one;
             m[4, 3] = negOne;
 
-            env.AddRenderItem(new ExpressionItem(m, Pens.Blue, env.Font, env));
+            env.AddRenderItem(new ExpressionItem(m, LPen.Blue, env.Font, env));
             env.ClearCanvas();
         }
 
@@ -181,8 +181,8 @@ namespace MetaphysicsIndustries.Ligra
 
         private void LoadImageCommand(string input, string[] args, LigraEnvironment env)
         {
-            Font font = ligraControl1.Font;
-            Brush brush = Brushes.Red;
+            var font = LFont.FromSwf(ligraControl1.Font);
+            var brush = LBrush.Red;
 
             if (args.Length < 3)
             {
@@ -230,7 +230,7 @@ namespace MetaphysicsIndustries.Ligra
             }
             else if (!System.IO.Directory.Exists(args[1]))
             {
-                _env.AddRenderItem(new ErrorItem(input, "Parameter must be a folder name", ligraControl1.Font, Brushes.Red, env, input.IndexOf(args[1])));
+                _env.AddRenderItem(new ErrorItem(input, "Parameter must be a folder name", ligraControl1.Font, LBrush.Red, env, input.IndexOf(args[1])));
             }
             else
             {
@@ -244,7 +244,7 @@ namespace MetaphysicsIndustries.Ligra
                 }
                 catch (Exception e)
                 {
-                    _env.AddRenderItem(new ErrorItem(input, "There was an error: \r\n" + e.ToString(), ligraControl1.Font, Brushes.Red, env));
+                    _env.AddRenderItem(new ErrorItem(input, "There was an error: \r\n" + e.ToString(), ligraControl1.Font, LBrush.Red, env));
                 }
             }
         }

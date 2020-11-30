@@ -117,15 +117,17 @@ namespace MetaphysicsIndustries.Ligra
 
         protected readonly RenderItem _owner;
 
-        protected abstract void InternalRender(Graphics g,
+        protected abstract void InternalRender(IRenderer g,
             SolusEnvironment env);
-        protected abstract Vector2 InternalCalcSize(Graphics g);
+        protected abstract Vector2 InternalCalcSize(IRenderer g);
 
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
 
-            var g = e.Graphics;
+            var g = new SwfRenderer(e.Graphics);
+            var font = LFont.FromSwf(this.Font);
+            var red = LBrush.Red;
 
             try
             {
@@ -137,8 +139,8 @@ namespace MetaphysicsIndustries.Ligra
                 }
                 else
                 {
-                    g.DrawString(_owner._error, this.Font, Brushes.Red,
-                        new PointF(0, 0));
+                    g.DrawString(_owner._error, font, red,
+                        new Vector2(0, 0));
                 }
             }
             catch (Exception ex)
@@ -147,11 +149,11 @@ namespace MetaphysicsIndustries.Ligra
                     "the item: \r\n" + ex.ToString();
                 _owner._changeSize = true;
 
-                g.DrawString(_owner._error, this.Font, Brushes.Red,
-                    new PointF(0, 0));
-                _owner._errorSize = g.MeasureString(_owner._error, this.Font);
+                g.DrawString(_owner._error, font, red,
+                    new Vector2(0, 0));
+                _owner._errorSize = g.MeasureString(_owner._error, font);
 
-                g.DrawRectangle(Pens.Red, 0, 0, _owner._errorSize.Width,
+                g.DrawRectangle(LPen.Red, 0, 0, _owner._errorSize.Width,
                     _owner._errorSize.Height);
             }
 

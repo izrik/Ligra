@@ -225,7 +225,7 @@ namespace MetaphysicsIndustries.Ligra
         int GetImageWidth() => _owner.GetImageWidth();
         bool HasChanged(SolusEnvironment env) => _owner.HasChanged(env);
 
-        protected override void InternalRender(Graphics g,
+        protected override void InternalRender(IRenderer g,
             SolusEnvironment env)
         {
             RectangleF boundsInClient = new RectangleF(0, 0,
@@ -248,26 +248,26 @@ namespace MetaphysicsIndustries.Ligra
             RectangleF rect = boundsInClient;
             rect.Size = new SizeF(GetImageWidth(),
                 GetImageHeight());
-            g.DrawImage(_image.Bitmap, rect);
+            g.DrawImage(new SwfImage(_image.Bitmap), rect);
 
-            SizeF textSize = g.MeasureString(_caption, this.Font,
+            SizeF textSize = g.MeasureString(_caption, LFont.FromSwf(this.Font),
                 GetImageWidth());
             float textWidth = textSize.Width;
             float textHeight = textSize.Height;
             rect = new RectangleF(0, GetImageHeight() + 2, textWidth,
                 textHeight);
-            g.DrawString(_caption, this.Font, Brushes.Black, rect);
+            g.DrawString(_caption, LFont.FromSwf(this.Font), LBrush.Black, rect);
         }
 
-        protected override Vector2 InternalCalcSize(Graphics g)
+        protected override Vector2 InternalCalcSize(IRenderer g)
         {
             var width = GetImageWidth();
-            var captionSize = g.MeasureString(_caption, this.Font,
+            var captionSize = g.MeasureString(_caption, LFont.FromSwf(this.Font),
                 GetImageWidth());
 
             return new Vector2(
                 width,
-                GetImageHeight() + captionSize.Height + 2);
+                GetImageHeight() + captionSize.Y + 2);
         }
 
         public static void RenderMatrix(Graphics g, RectangleF boundsInClient,

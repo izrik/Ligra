@@ -48,7 +48,7 @@ namespace MetaphysicsIndustries.Ligra
                 _env.Variables.Add("t", new Literal(0));
             }
 
-            _env.Font = ligraControl1.Font;
+            _env.Font = LFont.FromSwf(ligraControl1.Font);
             _env.ClearCanvas = ligraControl1.Invalidate;
         }
 
@@ -178,11 +178,11 @@ namespace MetaphysicsIndustries.Ligra
                     if (ee is SolusParseException)
                     {
                         SolusParseException ee2 = (SolusParseException)ee;
-                        _env.AddRenderItem(new ErrorItem(input, ee2.Error, ligraControl1.Font, Brushes.Red, _env, ee2.Location));
+                        _env.AddRenderItem(new ErrorItem(input, ee2.Error, ligraControl1.Font, LBrush.Red, _env, ee2.Location));
                     }
                     else
                     {
-                        _env.AddRenderItem(new ErrorItem(input, "There was an error: " + ee.ToString(), Font, Brushes.Red, _env));
+                        _env.AddRenderItem(new ErrorItem(input, "There was an error: " + ee.ToString(), Font, LBrush.Red, _env));
                     }
                 }
             }
@@ -318,11 +318,11 @@ namespace MetaphysicsIndustries.Ligra
                 }
                 catch (SolusParseException e)
                 {
-                    env.AddRenderItem(new ErrorItem(s, e.Error, null, Brushes.Red, env, e.Location));
+                    env.AddRenderItem(new ErrorItem(s, e.Error, null, LBrush.Red, env, e.Location));
                 }
                 catch (Exception e)
                 {
-                    env.AddRenderItem(new ErrorItem(s, "There was an error: " + e.ToString(), null, Brushes.Red, env));
+                    env.AddRenderItem(new ErrorItem(s, "There was an error: " + e.ToString(), null, LBrush.Red, env));
                 }
             }
 

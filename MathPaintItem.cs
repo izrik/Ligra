@@ -182,7 +182,7 @@ namespace MetaphysicsIndustries.Ligra
         MemoryImage RenderMathPaintToMemoryImage(SolusEnvironment env) =>
             _owner.RenderMathPaintToMemoryImage(env);
 
-        protected override void InternalRender(Graphics g, SolusEnvironment env)
+        protected override void InternalRender(IRenderer g, SolusEnvironment env)
         {
             RectangleF boundsInClient = new RectangleF(0, 0, _width, _height);
 
@@ -191,10 +191,10 @@ namespace MetaphysicsIndustries.Ligra
                 RenderMathPaintToMemoryImage(env);
             }
 
-            g.DrawImage(_image.Bitmap, boundsInClient);
+            g.DrawImage(new SwfImage(_image.Bitmap), boundsInClient);
         }
 
-        protected override Vector2 InternalCalcSize(Graphics g)
+        protected override Vector2 InternalCalcSize(IRenderer g)
         {
             return new Vector2(_width, _height);
         }

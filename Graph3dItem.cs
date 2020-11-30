@@ -9,7 +9,7 @@ namespace MetaphysicsIndustries.Ligra
 {
     public class Graph3dItem : RenderItem
     {
-        public Graph3dItem(Expression expression, object pen, object brush,
+        public Graph3dItem(Expression expression, LPen pen, LBrush brush,
             float xMin, float xMax,
             float yMin, float yMax,
             float zMin, float zMax,
@@ -34,8 +34,8 @@ namespace MetaphysicsIndustries.Ligra
         public static readonly SolusEngine _engine = new SolusEngine();
 
         public Expression _expression;
-        public object _pen;
-        public object _brush;
+        public LPen _pen;
+        public LBrush _brush;
         public string _independentVariableX;
         public string _independentVariableY;
         public float _xMin;
@@ -94,8 +94,8 @@ namespace MetaphysicsIndustries.Ligra
 
         static SolusEngine _engine => Graph3dItem._engine;
         private Expression _expression => _owner._expression;
-        private Pen _pen => (Pen)_owner._pen;
-        private Brush _brush => (Brush)_owner._brush;
+        private LPen _pen => _owner._pen;
+        private LBrush _brush => _owner._brush;
         private string _independentVariableX => _owner._independentVariableX;
         private string _independentVariableY => _owner._independentVariableY;
         private float _xMin => _owner._xMin;
@@ -110,7 +110,7 @@ namespace MetaphysicsIndustries.Ligra
         int numTicks = 0;
         string fps = "";
 
-        protected override void InternalRender(Graphics g, SolusEnvironment env)
+        protected override void InternalRender(IRenderer g, SolusEnvironment env)
         {
             var stime = Environment.TickCount;
 
@@ -123,7 +123,7 @@ namespace MetaphysicsIndustries.Ligra
                 _expression,
                 _independentVariableX,
                 _independentVariableY,
-                env, true, this.Font);
+                env, true, LFont.FromSwf(this.Font));
 
             var dtime = Environment.TickCount - stime;
             numTicks += dtime;
@@ -138,16 +138,16 @@ namespace MetaphysicsIndustries.Ligra
                 numRenders = 0;
             }
 
-            g.DrawString(fps, this.Font, Brushes.Blue, new PointF(0, 0));
+            g.DrawString(fps, LFont.FromSwf(this.Font), LBrush.Blue, new Vector2(0, 0));
         }
 
-        protected override Vector2 InternalCalcSize(Graphics g)
+        protected override Vector2 InternalCalcSize(IRenderer g)
         {
             return new Vector2(400, 400);
         }
 
-        public static void Render3DGraph(Graphics g, RectangleF boundsInClient,
-            Pen pen, Brush brush,
+        public static void Render3DGraph(IRenderer g, RectangleF boundsInClient,
+            LPen pen, LBrush brush,
             float xMin, float xMax,
             float yMin, float yMax,
             float zMin, float zMax,
@@ -156,7 +156,7 @@ namespace MetaphysicsIndustries.Ligra
             string independentVariableY,
             SolusEnvironment env,
             bool drawboundaries,
-            Font font)
+            LFont font)
         {
             int xValues = 50;
             int yValues = 50;
@@ -178,48 +178,48 @@ namespace MetaphysicsIndustries.Ligra
 
             if (drawboundaries)
             {
-                SizeF size;
+                Vector2 size;
 
-                g.DrawLine(Pens.Black, x1, y0, x2, y1); //top right
-                g.DrawLine(Pens.Black, x2, y1, x2, y3); //right side
-                g.DrawLine(Pens.Black, x2, y3, x1, y4); //bottom right
-                g.DrawLine(Pens.Black, x1, y4, x0, y3); //bottom left
-                g.DrawLine(Pens.Black, x0, y3, x0, y1); //left side
-                g.DrawLine(Pens.Black, x0, y1, x1, y0); //top left
+                g.DrawLine(LPen.Black, x1, y0, x2, y1); //top right
+                g.DrawLine(LPen.Black, x2, y1, x2, y3); //right side
+                g.DrawLine(LPen.Black, x2, y3, x1, y4); //bottom right
+                g.DrawLine(LPen.Black, x1, y4, x0, y3); //bottom left
+                g.DrawLine(LPen.Black, x0, y3, x0, y1); //left side
+                g.DrawLine(LPen.Black, x0, y1, x1, y0); //top left
 
-                g.DrawLine(Pens.Black, x1, y0, x1, y2); //z axis
-                g.DrawLine(Pens.Black, x0, y3, x1, y2); //x axis
-                g.DrawLine(Pens.Black, x2, y3, x1, y2); //y axis
+                g.DrawLine(LPen.Black, x1, y0, x1, y2); //z axis
+                g.DrawLine(LPen.Black, x0, y3, x1, y2); //x axis
+                g.DrawLine(LPen.Black, x2, y3, x1, y2); //y axis
 
                 //xmin
-                g.DrawLine(Pens.Black, x1, y4, x1 + 6, y4 + 3);
-                g.DrawString(xMin.ToString(), font, Brushes.Black, x1 + 6, y4 + 3);
+                g.DrawLine(LPen.Black, x1, y4, x1 + 6, y4 + 3);
+                g.DrawString(xMin.ToString(), font, LBrush.Black, x1 + 6, y4 + 3);
                 //xmax
-                g.DrawLine(Pens.Black, x2, y3, x2 + 6, y3 + 3);
-                g.DrawString(xMax.ToString(), font, Brushes.Black, x2 + 6, y3 + 3);
+                g.DrawLine(LPen.Black, x2, y3, x2 + 6, y3 + 3);
+                g.DrawString(xMax.ToString(), font, LBrush.Black, x2 + 6, y3 + 3);
 
                 //ymin
-                g.DrawLine(Pens.Black, x1, y4, x1 - 6, y4 + 3);
+                g.DrawLine(LPen.Black, x1, y4, x1 - 6, y4 + 3);
                 size = g.MeasureString(yMin.ToString(), font);
-                g.DrawString(yMin.ToString(), font, Brushes.Black, x1 - 6 - size.Width, y4 + 3);
+                g.DrawString(yMin.ToString(), font, LBrush.Black, x1 - 6 - size.X, y4 + 3);
                 //ymax
-                g.DrawLine(Pens.Black, x0, y3, x0 - 6, y3 + 3);
-                g.DrawString(yMax.ToString(), font, Brushes.Black, x0 - 6, y3 + 3);
+                g.DrawLine(LPen.Black, x0, y3, x0 - 6, y3 + 3);
+                g.DrawString(yMax.ToString(), font, LBrush.Black, x0 - 6, y3 + 3);
 
                 //zmin
-                g.DrawLine(Pens.Black, x2, y3, x2 + 6, y3 - 3);
-                g.DrawString(zMin.ToString(), font, Brushes.Black, x2 + 6, y3 - 3 - 14);
+                g.DrawLine(LPen.Black, x2, y3, x2 + 6, y3 - 3);
+                g.DrawString(zMin.ToString(), font, LBrush.Black, x2 + 6, y3 - 3 - 14);
                 //zmax
-                g.DrawLine(Pens.Black, x2, y1, x2 + 6, y1 - 3);
-                g.DrawString(zMax.ToString(), font, Brushes.Black, x2 + 6, y1 - 3);
+                g.DrawLine(LPen.Black, x2, y1, x2 + 6, y1 - 3);
+                g.DrawString(zMax.ToString(), font, LBrush.Black, x2 + 6, y1 - 3);
 
 
-                g.DrawString(independentVariableX, font, Brushes.Black, (x1 + x2) / 2, (y3 + y4) / 2);
+                g.DrawString(independentVariableX, font, LBrush.Black, (x1 + x2) / 2, (y3 + y4) / 2);
                 size = g.MeasureString(independentVariableY, font);
-                g.DrawString(independentVariableY, font, Brushes.Black, (x1 + x0) / 2 - size.Width, (y3 + y4) / 2);
+                g.DrawString(independentVariableY, font, LBrush.Black, (x1 + x0) / 2 - size.X, (y3 + y4) / 2);
 
 
-                //g.DrawRectangle(Pens.Black, boundsInClient.Left, boundsInClient.Top, boundsInClient.Width, boundsInClient.Height);
+                //g.DrawRectangle(LPen.Black, boundsInClient.Left, boundsInClient.Top, boundsInClient.Width, boundsInClient.Height);
             }
 
 
@@ -273,7 +273,7 @@ namespace MetaphysicsIndustries.Ligra
                 }
             }
 
-            PointF[,] pts = new PointF[xValues, yValues];
+            Vector2[,] pts = new Vector2[xValues, yValues];
 
             for (i = 0; i < xValues; i++)
             {
@@ -286,7 +286,7 @@ namespace MetaphysicsIndustries.Ligra
                     x = x1 + (ii - jj) * boundsInClient.Width * 0.5f;
                     y = y4 - (((ii + jj) * boundsInClient.Height) / 4) - ((((z - zMin) / (zMax - zMin)) * boundsInClient.Height) / 2);
 
-                    pts[i, j] = new PointF((float)x, (float)y);
+                    pts[i, j] = new Vector2((float)x, (float)y);
                 }
             }
 
@@ -308,7 +308,7 @@ namespace MetaphysicsIndustries.Ligra
             {
                 for (j = yValues - 2; j >= 0; j--)
                 {
-                    PointF[] poly = { pts[i, j], pts[i + 1, j], pts[i + 1, j + 1], pts[i, j + 1] };
+                    Vector2[] poly = { pts[i, j], pts[i + 1, j], pts[i + 1, j + 1], pts[i, j + 1] };
                     g.FillPolygon(brush, poly);
                     //g.FillPolygon(brushes[i, j], poly);
                     g.DrawPolygon(pen, poly);

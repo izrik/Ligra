@@ -25,7 +25,7 @@ namespace MetaphysicsIndustries.Ligra
         public readonly List<string> History = new List<string>();
         public int CurrentHistoryIndex = -1;
 
-        public Font Font;
+        public LFont Font;
         public Action ClearCanvas;
     }
 }

@@ -47,15 +47,18 @@ namespace MetaphysicsIndustries.Ligra
         string _caption => _owner._caption;
         List<RenderItem> Items => _owner.Items;
 
-        protected override void InternalRender(Graphics g, SolusEnvironment env)
+        protected override void InternalRender(IRenderer g, SolusEnvironment env)
         {
-            Font font2 = new Font(this.Font.FontFamily, this.Font.Size * 2, FontStyle.Bold);
+            LFont font2 = new LFont(
+                LFont.Families.FromSwf(Font.FontFamily),
+                Font.Size * 2,
+                LFont.Styles.Bold);
 
             float width = this.Parent.ClientSize.Width - 20;
-            float height = g.MeasureString(_caption, font2, (int)width).Height;
+            float height = g.MeasureString(_caption, font2, (int)width).Y;
 
-            g.DrawString(_caption, font2, Brushes.Black, new PointF(2, 2));
-            g.DrawRectangle(Pens.Black, 0, 0, this.Width, this.Height- 250);
+            g.DrawString(_caption, font2, LBrush.Black, new Vector2(2, 2));
+            g.DrawRectangle(LPen.Black, 0, 0, this.Width, this.Height- 250);
 
             float x = 20;
             List<float> currentHeights = new List<float>();
@@ -81,12 +84,15 @@ namespace MetaphysicsIndustries.Ligra
 //            return new SizeF(width, height);
         }
 
-        protected override Vector2 InternalCalcSize(Graphics g)
+        protected override Vector2 InternalCalcSize(IRenderer g)
         {
-            Font font2 = new Font(this.Font.FontFamily, this.Font.Size * 2);
+            var font2 = new LFont(
+                LFont.Families.FromSwf(Font.FontFamily),
+                Font.Size * 2,
+                LFont.Styles.Regular);
 
             float width = this.Parent.ClientSize.Width - 20;
-            float height = g.MeasureString(_caption, font2, (int)width).Height;
+            float height = g.MeasureString(_caption, font2, (int)width).Y;
 
             float x = 20;
             List<float> currentHeights = new List<float>();

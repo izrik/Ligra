@@ -10,13 +10,13 @@ namespace MetaphysicsIndustries.Ligra
 {
     public class GraphEntry
     {
-        public GraphEntry(Expression expression, Pen pen, string independentVariable)
+        public GraphEntry(Expression expression, LPen pen, string independentVariable)
         {
             _expression = expression;
             _pen = pen;
             _independentVariable = independentVariable;
         }
-        protected GraphEntry(Pen pen)
+        protected GraphEntry(LPen pen)
         {
             _pen = pen;
         }
@@ -33,8 +33,8 @@ namespace MetaphysicsIndustries.Ligra
             get { return _independentVariable; }
         }
 
-        private Pen _pen;
-        public Pen Pen
+        private LPen _pen;
+        public LPen Pen
         {
             get { return _pen; }
         }
@@ -42,7 +42,7 @@ namespace MetaphysicsIndustries.Ligra
 
     public class GraphVectorEntry : GraphEntry
     {
-        public GraphVectorEntry(SolusVector x, SolusVector y, Pen pen)
+        public GraphVectorEntry(SolusVector x, SolusVector y, LPen pen)
             : base(pen)
         {
             X = x;
@@ -55,7 +55,7 @@ namespace MetaphysicsIndustries.Ligra
 
     public class GraphItem : RenderItem
     {
-        public GraphItem(Expression expression, Pen pen, string independentVariable, SolusParser parser, LigraEnvironment env)
+        public GraphItem(Expression expression, LPen pen, string independentVariable, SolusParser parser, LigraEnvironment env)
             : this(parser, env, new GraphEntry(expression, pen, independentVariable))
         {
         }
@@ -191,18 +191,19 @@ namespace MetaphysicsIndustries.Ligra
             this.Invalidate();
         }
 
-        protected override void InternalRender(Graphics g, SolusEnvironment env)
+        protected override void InternalRender(IRenderer g, SolusEnvironment env)
         {
             bool first = true;
             foreach (GraphEntry entry in _owner._entries)
             {
                 var ve = entry as GraphVectorEntry;
-                var location = new PointF(0, 0);
+                var location = new Vector2(0, 0);
+                var brush = entry.Pen.Brush;
                 if (ve != null)
                 {
                     RenderVectors(g,
                         new RectangleF(location, Rect.Size),
-                        entry.Pen, entry.Pen.Brush,
+                        entry.Pen, brush,
                         _owner._minX, _owner._maxX, _owner._minY, _owner._maxY,
                         ve.X, ve.Y,
                         env, first);
@@ -211,7 +212,7 @@ namespace MetaphysicsIndustries.Ligra
                 {
                     RenderGraph(g,
                         new RectangleF(location, Rect.Size),
-                        entry.Pen, entry.Pen.Brush,
+                        entry.Pen, brush,
                         _owner._minX, _owner._maxX, _owner._minY, _owner._maxY,
                         entry.Expression, entry.IndependentVariable, env, first);
                 }
@@ -219,13 +220,13 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        protected override Vector2 InternalCalcSize(Graphics g)
+        protected override Vector2 InternalCalcSize(IRenderer g)
         {
             return Rect.Size.ToVector2();
         }
 
-        public static void RenderGraph(Graphics g, RectangleF boundsInClient,
-            Pen pen, Brush brush,
+        public static void RenderGraph(IRenderer g, RectangleF boundsInClient,
+            LPen pen, LBrush brush,
             float xMin, float xMax, float yMin, float yMax,
             Expression expr, string independentVariable,
             SolusEnvironment env,
@@ -236,7 +237,7 @@ namespace MetaphysicsIndustries.Ligra
 
             if (drawboundaries)
             {
-                g.DrawRectangle(Pens.Black, boundsInClient.X, boundsInClient.Y, boundsInClient.Width, boundsInClient.Height);
+                g.DrawRectangle(LPen.Black, boundsInClient.X, boundsInClient.Y, boundsInClient.Width, boundsInClient.Height);
 
                 //if (xMax > 0 && xMin < 0)
                 //{
@@ -262,7 +263,7 @@ namespace MetaphysicsIndustries.Ligra
             vvalue = Math.Min(vvalue, yMax);
             vvalue = Math.Max(vvalue, yMin);
             double yy = boundsInClient.Bottom - (vvalue - yMin) * deltaY;
-            PointF lastPoint = new PointF(boundsInClient.Left, (float)yy);
+            var lastPoint = new Vector2(boundsInClient.Left, (float)yy);
 
             int i;
             for (i = 0; i < boundsInClient.Width; i++)
@@ -278,15 +279,15 @@ namespace MetaphysicsIndustries.Ligra
                 value = Math.Max(value, yMin);
                 double y = boundsInClient.Bottom - (value - yMin) * deltaY;
 
-                PointF pt = new PointF(i + boundsInClient.X, (float)y);
+                var pt = new Vector2(i + boundsInClient.X, (float)y);
 
                 g.DrawLine(pen, lastPoint, pt);
                 lastPoint = pt;
             }
         }
 
-        public static void RenderVectors(Graphics g, RectangleF boundsInClient,
-            Pen pen, Brush brush,
+        public static void RenderVectors(IRenderer g, RectangleF boundsInClient,
+            LPen pen, LBrush brush,
             float xMin, float xMax, float yMin, float yMax,
             SolusVector x, SolusVector y,
             SolusEnvironment env,
@@ -298,32 +299,33 @@ namespace MetaphysicsIndustries.Ligra
             float deltaX = (xMax - xMin) / boundsInClient.Width;
             float deltaY = (yMax - yMin) / boundsInClient.Height;
 
-            Func<PointF, PointF> clientFromGraph = (PointF pt) =>
-                 new PointF(boundsInClient.X + (pt.X - xMin) / deltaX,
+            Func<Vector2, Vector2> clientFromGraph = (pt) =>
+                 new Vector2(boundsInClient.X + (pt.X - xMin) / deltaX,
                      boundsInClient.Bottom - (pt.Y - yMin) / deltaY);
 
             if (drawboundaries)
             {
-                g.DrawRectangle(Pens.Black, boundsInClient.X, boundsInClient.Y, boundsInClient.Width, boundsInClient.Height);
+                var black = LPen.Black;
+                g.DrawRectangle(black, boundsInClient.X, boundsInClient.Y, boundsInClient.Width, boundsInClient.Height);
 
-                var zz = clientFromGraph(new PointF(0, 0));
+                var zz = clientFromGraph(new Vector2(0, 0));
                 if (xMax > 0 && xMin < 0)
                 {
-                    g.DrawLine(Pens.Black, zz.X, boundsInClient.Top, zz.X, boundsInClient.Bottom);
+                    g.DrawLine(black, zz.X, boundsInClient.Top, zz.X, boundsInClient.Bottom);
                 }
 
                 if (yMax > 0 && yMin < 0)
                 {
-                    g.DrawLine(Pens.Black, boundsInClient.Left, zz.Y, boundsInClient.Right, zz.Y);
+                    g.DrawLine(black, boundsInClient.Left, zz.Y, boundsInClient.Right, zz.Y);
                 }
             }
 
             int i;
             int N = Math.Min(xs.Length, ys.Length);
-            PointF lastPoint = clientFromGraph(new PointF(xs[0], ys[0]));
+            var lastPoint = clientFromGraph(new Vector2(xs[0], ys[0]));
             for (i = 1; i < N; i++)
             {
-                var next = clientFromGraph(new PointF(xs[i], ys[i]));
+                var next = clientFromGraph(new Vector2(xs[i], ys[i]));
                 g.DrawLine(pen, lastPoint, next);
                 lastPoint = next;
             }

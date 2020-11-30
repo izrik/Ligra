@@ -44,12 +44,12 @@ namespace MetaphysicsIndustries.Ligra
 
         public Vector2 _size => _owner._size;
 
-        protected override void InternalRender(Graphics g,
+        protected override void InternalRender(IRenderer g,
             SolusEnvironment env)
         {
         }
 
-        protected override Vector2 InternalCalcSize(Graphics g)
+        protected override Vector2 InternalCalcSize(IRenderer g)
         {
             return _size;
         }

@@ -60,31 +60,31 @@ namespace MetaphysicsIndustries.Ligra
         Vector _vector => _owner.Vector;
         string _caption => _owner._caption;
 
-        protected override void InternalRender(Graphics g, SolusEnvironment env)
+        protected override void InternalRender(IRenderer g, SolusEnvironment env)
         {
             RectangleF boundsInClient = new RectangleF(new PointF(0, 0), InternalCalcSize(g));
             boundsInClient.Height = 276;
 
-            RenderVector(g, boundsInClient, Pens.Blue, Brushes.Blue, _vector, true);
+            RenderVector(g, boundsInClient, LPen.Blue, LBrush.Blue, _vector, true);
 
-            RectangleF rect = new RectangleF(10, 276, _vector.Length, g.MeasureString(_caption, this.Font).Height);
-            g.DrawString(_caption, this.Font, Brushes.Black, rect);
+            RectangleF rect = new RectangleF(10, 276, _vector.Length, g.MeasureString(_caption, LFont.FromSwf(this.Font)).Y);
+            g.DrawString(_caption, LFont.FromSwf(this.Font), LBrush.Black, rect);
 
             //g.DrawImage(_image.Bitmap, boundsInClient);
         }
 
-        protected override Vector2 InternalCalcSize(Graphics g)
+        protected override Vector2 InternalCalcSize(IRenderer g)
         {
             double x = Math.Log(_vector.Length, 2);
             if (x < 8)
             {
                 return new Vector2(276, 276);
             }
-            return new Vector2(_vector.Length + 20, 296 + g.MeasureString(_caption, this.Font, _vector.Length).Height);
+            return new Vector2(_vector.Length + 20, 296 + g.MeasureString(_caption, LFont.FromSwf(this.Font), _vector.Length).Y);
         }
 
-        public void RenderVector(Graphics g, RectangleF boundsInClient,
-            Pen pen, Brush brush,
+        public void RenderVector(IRenderer g, RectangleF boundsInClient,
+            LPen pen, LBrush brush,
             SolusVector vector,
             SolusEnvironment env,
             bool drawboundaries)
@@ -125,17 +125,17 @@ namespace MetaphysicsIndustries.Ligra
 
             if (drawboundaries)
             {
-                g.FillRectangle(Brushes.White, boundsInClient);
-                g.DrawRectangle(Pens.Black, boundsInClient.X, boundsInClient.Y, boundsInClient.Width, boundsInClient.Height);
+                g.FillRectangle(LBrush.White, boundsInClient);
+                g.DrawRectangle(LPen.Black, boundsInClient.X, boundsInClient.Y, boundsInClient.Width, boundsInClient.Height);
 
                 if (yMax > 0 && yMin < 0)
                 {
                     float y = (float)(boundsInClient.Bottom + yMin * deltaY);
-                    g.DrawLine(Pens.Black, boundsInClient.Left, y, boundsInClient.Right, y);
+                    g.DrawLine(LPen.Black, boundsInClient.Left, y, boundsInClient.Right, y);
                 }
             }
 
-            PointF lastPoint = boundsInClient.Location;
+            var lastPoint = boundsInClient.Location.ToVector2();
 
             if (vector.Length > 0)
             {
@@ -147,7 +147,7 @@ namespace MetaphysicsIndustries.Ligra
                 vvalue = Math.Min(vvalue, yMax);
                 vvalue = Math.Max(vvalue, yMin);
                 double yy = boundsInClient.Bottom - (vvalue - yMin) * deltaY - margin;
-                lastPoint = new PointF(boundsInClient.Left + margin, (float)yy);
+                lastPoint = new Vector2(boundsInClient.Left + margin, (float)yy);
             }
 
             for (i = 0; i < vector.Length; i++)
@@ -162,17 +162,17 @@ namespace MetaphysicsIndustries.Ligra
                 value = Math.Max(value, yMin);
                 double y = boundsInClient.Bottom - (value - yMin) * deltaY - margin;
 
-                PointF pt = new PointF(x + boundsInClient.X + margin, (float)y);
+                var pt = new Vector2(x + boundsInClient.X + margin, (float)y);
 
                 g.DrawLine(pen, lastPoint, pt);
                 g.DrawLine(pen, pt.X, pt.Y, pt.X + deltaX - 1, pt.Y);
 
-                lastPoint = pt + new SizeF(deltaX - 1, 0);
+                lastPoint = pt + new Vector2(deltaX - 1, 0);
             }
         }
 
-        public static void RenderVector(Graphics g, RectangleF boundsInClient,
-            Pen pen, Brush brush,
+        public static void RenderVector(IRenderer g, RectangleF boundsInClient,
+            LPen pen, LBrush brush,
             Vector vector,
             bool drawboundaries)
         {
@@ -205,17 +205,17 @@ namespace MetaphysicsIndustries.Ligra
 
             if (drawboundaries)
             {
-                g.FillRectangle(Brushes.White, boundsInClient);
-                g.DrawRectangle(Pens.Black, boundsInClient.X, boundsInClient.Y, boundsInClient.Width, boundsInClient.Height);
+                g.FillRectangle(LBrush.White, boundsInClient);
+                g.DrawRectangle(LPen.Black, boundsInClient.X, boundsInClient.Y, boundsInClient.Width, boundsInClient.Height);
 
                 if (yMax > 0 && yMin < 0)
                 {
                     float y = (float)(boundsInClient.Bottom + yMin * deltaY);
-                    g.DrawLine(Pens.Black, boundsInClient.Left, y, boundsInClient.Right, y);
+                    g.DrawLine(LPen.Black, boundsInClient.Left, y, boundsInClient.Right, y);
                 }
             }
 
-            PointF lastPoint = boundsInClient.Location;
+            var lastPoint = boundsInClient.Location.ToVector2();
 
             if (vector.Length > 0)
             {
@@ -227,7 +227,7 @@ namespace MetaphysicsIndustries.Ligra
                 vvalue = Math.Min(vvalue, yMax);
                 vvalue = Math.Max(vvalue, yMin);
                 double yy = boundsInClient.Bottom - (vvalue - yMin) * deltaY - margin;
-                lastPoint = new PointF(boundsInClient.Left + margin, (float)yy);
+                lastPoint = new Vector2(boundsInClient.Left + margin, (float)yy);
             }
 
             for (i = 0; i < vector.Length; i++)
@@ -242,12 +242,12 @@ namespace MetaphysicsIndustries.Ligra
                 value = Math.Max(value, yMin);
                 double y = boundsInClient.Bottom - (value - yMin) * deltaY - margin;
 
-                PointF pt = new PointF(x + boundsInClient.X + margin, (float)y);
+                var pt = new Vector2(x + boundsInClient.X + margin, (float)y);
 
                 g.DrawLine(pen, lastPoint, pt);
                 g.DrawLine(pen, pt.X, pt.Y, pt.X + deltaX - 1, pt.Y);
 
-                lastPoint = pt + new SizeF(deltaX - 1, 0);
+                lastPoint = pt + new Vector2(deltaX - 1, 0);
             }
         }
     }

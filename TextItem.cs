@@ -55,26 +55,28 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        protected override void InternalRender(Graphics g, SolusEnvironment env)
+        protected override void InternalRender(IRenderer g, SolusEnvironment env)
         {
             RectangleF rect = new RectangleF(new PointF(0, 0),
                 InternalCalcSize(g));
 
             StringFormat fmt = Format;
+            var font = LFont.FromSwf(this.Font);
+            var black = LBrush.Black;
             if (fmt == null)
             {
-                g.DrawString(Text, this.Font, Brushes.Black, rect);
+                g.DrawString(Text, font, black, rect);
             }
             else
             {
-                g.DrawString(Text, this.Font, Brushes.Black, rect, fmt);
+                g.DrawString(Text, font, black, rect, fmt);
             }
         }
 
-        protected override Vector2 InternalCalcSize(Graphics g)
+        protected override Vector2 InternalCalcSize(IRenderer g)
         {
-            return g.MeasureString(Text, Font,
-                this.Parent.ClientSize.Width - 25).ToVector2();
+            return g.MeasureString(Text, LFont.FromSwf(Font),
+                this.Parent.ClientSize.Width - 25);
         }
     }
 }

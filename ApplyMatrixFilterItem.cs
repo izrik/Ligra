@@ -63,7 +63,7 @@ namespace MetaphysicsIndustries.Ligra
         private MatrixFilter _filter => _owner._filter;
         string _caption => _owner._caption;
 
-        protected override void InternalRender(Graphics g, SolusEnvironment env)
+        protected override void InternalRender(IRenderer g, SolusEnvironment env)
         {
             Matrix mat = _filter.Apply(_matrix);
             mat.ApplyToAll(AcuityEngine.ConvertFloatTo24g);
@@ -76,13 +76,13 @@ namespace MetaphysicsIndustries.Ligra
 
             RectangleF rect = boundsInClient;
             rect.Size = new SizeF(GetImageWidth(mat), GetImageHeight(mat));
-            g.DrawImage(image.Bitmap, rect);
+            g.DrawImage(new SwfImage(image.Bitmap), rect);
 
-            SizeF textSize = g.MeasureString(_caption, this.Font, GetImageWidth(mat));
+            SizeF textSize = g.MeasureString(_caption, LFont.FromSwf(this.Font), GetImageWidth(mat));
             float textWidth = textSize.Width;
             float textHeight = textSize.Height;
             rect = new RectangleF(0, GetImageHeight(mat) + 2, textWidth, textHeight);
-            g.DrawString(_caption, this.Font, Brushes.Black, rect);
+            g.DrawString(_caption, LFont.FromSwf(this.Font), LBrush.Black, rect);
 
             _owner._lastSize = new Vector2(GetImageWidth(mat), GetImageHeight(mat));
 
@@ -93,9 +93,9 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        protected override Vector2 InternalCalcSize(Graphics g)
+        protected override Vector2 InternalCalcSize(IRenderer g)
         {
-            return _lastSize + new Vector2(0, g.MeasureString(_caption, this.Font, (int)_lastSize.X).Height + 2);
+            return _lastSize + new Vector2(0, g.MeasureString(_caption, LFont.FromSwf(this.Font), (int)_lastSize.X).Y + 2);
         }
 
         private int GetImageHeight(Matrix mat)
