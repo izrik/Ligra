@@ -138,7 +138,6 @@ namespace MetaphysicsIndustries.Ligra
                     _scrolledWindow.Vadjustment.Upper;
                 scrollToBottom = false;
             }
-
         }
 
         Gtk.ScrolledWindow _scrolledWindow;
@@ -153,8 +152,9 @@ namespace MetaphysicsIndustries.Ligra
             var widget = item.GetAdapter();
             widget.ShowAll();
             _vbox.PackStart(widget, false, false, 3);
+            _vbox.ShowAll();
 
-            //scrollToBottom = true;
+            scrollToBottom = true;
         }
     }
 }
