@@ -191,7 +191,7 @@ namespace MetaphysicsIndustries.Ligra
             this.Invalidate();
         }
 
-        protected override void InternalRender(IRenderer g, SolusEnvironment env)
+        public override void InternalRender(IRenderer g, SolusEnvironment env)
         {
             bool first = true;
             foreach (GraphEntry entry in _owner._entries)
@@ -220,7 +220,7 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        protected override Vector2 InternalCalcSize(IRenderer g)
+        public override Vector2 InternalCalcSize(IRenderer g)
         {
             return Rect.Size.ToVector2();
         }

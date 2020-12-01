@@ -42,12 +42,12 @@ namespace MetaphysicsIndustries.Ligra
         string _text => _owner._text;
         Font _font => (Font)_owner._font;
 
-        protected override void InternalRender(IRenderer g, SolusEnvironment env)
+        public override void InternalRender(IRenderer g, SolusEnvironment env)
         {
             g.DrawString(_text, LFont.FromSwf(_font), new LBrush(LColor.FromSwf(Color.Black)), new Vector2(0, 0));
         }
 
-        protected override Vector2 InternalCalcSize(IRenderer g)
+        public override Vector2 InternalCalcSize(IRenderer g)
         {
             return g.MeasureString(_text, LFont.FromSwf(_font));
         }

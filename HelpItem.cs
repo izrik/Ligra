@@ -189,12 +189,12 @@ Type ""help list"" to see the current environment";
         string _topic => _owner._topic;
         Font _font => (Font)_owner._font;
 
-        protected override void InternalRender(IRenderer g, SolusEnvironment env)
+        public override void InternalRender(IRenderer g, SolusEnvironment env)
         {
             g.DrawString(_topic, LFont.FromSwf(_font), LBrush.Magenta, new Vector2(0, 0));
         }
 
-        protected override Vector2 InternalCalcSize(IRenderer g)
+        public override Vector2 InternalCalcSize(IRenderer g)
         {
             return g.MeasureString(_topic, LFont.FromSwf(_font));//, 500);
         }

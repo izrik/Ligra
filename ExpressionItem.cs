@@ -70,8 +70,8 @@ namespace MetaphysicsIndustries.Ligra
         //    get { return _name; }
         //}
 
-        private object _font;
-        public object Font
+        private LFont _font;
+        public LFont Font
         {
             get { return _font; }
         }
@@ -108,34 +108,17 @@ namespace MetaphysicsIndustries.Ligra
 
         protected override Widget GetAdapterInternal()
         {
-            return new Gtk.Label(Expression.ToString());
+            return new ExpressionItemWidget(this);
         }
 
         protected override RenderItemControl GetControlInternal()
         {
             return new ExpressionItemControl(this);
         }
-    }
 
-    public class ExpressionItemControl : RenderItemControl
-    {
-        public ExpressionItemControl(ExpressionItem owner)
-            : base(owner)
+        public void InternalRender2(IRenderer g, SolusEnvironment env)
         {
-
-        }
-
-        public new ExpressionItem _owner => (ExpressionItem)base._owner;
-
-
-        Expression _expression => _owner.Expression;
-        LPen _pen => _owner.Pen;
-        Font _font => (Font)_owner.Font;
-
-        protected override void InternalRender(IRenderer g,
-            SolusEnvironment env)
-        {
-            var exprSize = CalcExpressionSize(_owner.Expression, g,  LFont.FromSwf(Font));
+            var exprSize = CalcExpressionSize(Expression, g, Font);
             float xx = 0;
 
             //if (!string.IsNullOrEmpty(Name))
@@ -145,12 +128,12 @@ namespace MetaphysicsIndustries.Ligra
             //    g.DrawString(Name + " = ", Font, Pen.Brush, new Vector2(location.X, location.Y + (exprSize.Y - textSize.Y) / 2));
             //}
 
-            RenderExpression(g, _expression, new Vector2(xx, 0), _pen, _pen.Brush, LFont.FromSwf(Font), false);
+            RenderExpression(g, _expression, new Vector2(xx, 0), _pen, _pen.Brush, Font, false);
         }
 
-        protected override Vector2 InternalCalcSize(IRenderer g)
+        public Vector2 InternalCalcSize2(IRenderer g)
         {
-            var exprSize = CalcExpressionSize(_owner.Expression, g, LFont.FromSwf(Font));
+            var exprSize = CalcExpressionSize(Expression, g, Font);
 
             //if (!string.IsNullOrEmpty(Name))
             //{
@@ -161,6 +144,7 @@ namespace MetaphysicsIndustries.Ligra
 
             return exprSize;
         }
+
         public static void RenderExpression(IRenderer g, Expression expr, Vector2 pt, LPen pen, LBrush brush, LFont font, bool drawBoxes)
         {
 
@@ -1151,6 +1135,53 @@ namespace MetaphysicsIndustries.Ligra
                 size = new Vector2(width, height);
             }
             return size;
+        }
+    }
+
+    public class ExpressionItemWidget : RenderItemWidget
+    {
+        public ExpressionItemWidget(ExpressionItem owner)
+            : base(owner)
+        {
+        }
+
+        public new ExpressionItem _owner => (ExpressionItem)base._owner;
+
+        public override void InternalRender(IRenderer g, SolusEnvironment env)
+        {
+            _owner.InternalRender2(g, env);
+        }
+
+        public override Vector2 InternalCalcSize(IRenderer g)
+        {
+            return _owner.InternalCalcSize2(g);
+        }
+    }
+
+    public class ExpressionItemControl : RenderItemControl
+    {
+        public ExpressionItemControl(ExpressionItem owner)
+            : base(owner)
+        {
+
+        }
+
+        public new ExpressionItem _owner => (ExpressionItem)base._owner;
+
+
+        Expression _expression => _owner.Expression;
+        LPen _pen => _owner.Pen;
+        LFont _font => _owner.Font;
+
+        public override void InternalRender(IRenderer g,
+            SolusEnvironment env)
+        {
+            _owner.InternalRender2(g, env);
+        }
+
+        public override Vector2 InternalCalcSize(IRenderer g)
+        {
+            return _owner.InternalCalcSize2(g);
         }
     }
 }

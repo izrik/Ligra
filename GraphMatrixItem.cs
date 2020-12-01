@@ -225,7 +225,7 @@ namespace MetaphysicsIndustries.Ligra
         int GetImageWidth() => _owner.GetImageWidth();
         bool HasChanged(SolusEnvironment env) => _owner.HasChanged(env);
 
-        protected override void InternalRender(IRenderer g,
+        public override void InternalRender(IRenderer g,
             SolusEnvironment env)
         {
             RectangleF boundsInClient = new RectangleF(0, 0,
@@ -259,7 +259,7 @@ namespace MetaphysicsIndustries.Ligra
             g.DrawString(_caption, LFont.FromSwf(this.Font), LBrush.Black, rect);
         }
 
-        protected override Vector2 InternalCalcSize(IRenderer g)
+        public override Vector2 InternalCalcSize(IRenderer g)
         {
             var width = GetImageWidth();
             var captionSize = g.MeasureString(_caption, LFont.FromSwf(this.Font),

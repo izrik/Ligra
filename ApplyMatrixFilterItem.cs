@@ -63,7 +63,7 @@ namespace MetaphysicsIndustries.Ligra
         private MatrixFilter _filter => _owner._filter;
         string _caption => _owner._caption;
 
-        protected override void InternalRender(IRenderer g, SolusEnvironment env)
+        public override void InternalRender(IRenderer g, SolusEnvironment env)
         {
             Matrix mat = _filter.Apply(_matrix);
             mat.ApplyToAll(AcuityEngine.ConvertFloatTo24g);
@@ -93,7 +93,7 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        protected override Vector2 InternalCalcSize(IRenderer g)
+        public override Vector2 InternalCalcSize(IRenderer g)
         {
             return _lastSize + new Vector2(0, g.MeasureString(_caption, LFont.FromSwf(this.Font), (int)_lastSize.X).Y + 2);
         }

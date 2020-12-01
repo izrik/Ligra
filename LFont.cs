@@ -30,6 +30,15 @@ namespace MetaphysicsIndustries.Ligra
             return new SD.Font(Family.ToSwf(), Size, Style.ToSwf());
         }
 
+        public Pango.FontDescription ToGtk()
+        {
+            var fd = new Pango.FontDescription();
+            fd.Family = this.Family.ToString();
+            fd.Size = (int)(this.Size * Pango.Scale.PangoScale);
+            fd.Style = this.Style.ToGtk();
+            return fd;
+        }
+
         public class Families
         {
             protected Families() { }
@@ -46,6 +55,12 @@ namespace MetaphysicsIndustries.Ligra
             {
                 throw new NotImplementedException();
                 //if (this == CourierNew) return SD.FontFamily.ge
+            }
+
+            public string ToGtk()
+            {
+                if (this == CourierNew) return "Monospace"; // ?
+                throw new NotImplementedException("Unknown font family.");
             }
         }
 
@@ -74,6 +89,16 @@ namespace MetaphysicsIndustries.Ligra
                 if (this == Bold) return SD.FontStyle.Bold;
                 if (this == Italic) return SD.FontStyle.Italic;
                 throw new NotImplementedException();
+            }
+
+            public Pango.Style ToGtk()
+            {
+                if (this == Regular) return Pango.Style.Normal;
+                if (this == Bold)
+                    throw new NotImplementedException(
+                        "Bold text not supported yet");
+                if (this == Italic) return Pango.Style.Italic;
+                throw new NotImplementedException("Unknown text style");
             }
         }
     }

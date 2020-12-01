@@ -110,7 +110,7 @@ namespace MetaphysicsIndustries.Ligra
         int numTicks = 0;
         string fps = "";
 
-        protected override void InternalRender(IRenderer g, SolusEnvironment env)
+        public override void InternalRender(IRenderer g, SolusEnvironment env)
         {
             var stime = Environment.TickCount;
 
@@ -141,7 +141,7 @@ namespace MetaphysicsIndustries.Ligra
             g.DrawString(fps, LFont.FromSwf(this.Font), LBrush.Blue, new Vector2(0, 0));
         }
 
-        protected override Vector2 InternalCalcSize(IRenderer g)
+        public override Vector2 InternalCalcSize(IRenderer g)
         {
             return new Vector2(400, 400);
         }

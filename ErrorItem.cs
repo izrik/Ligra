@@ -61,7 +61,7 @@ namespace MetaphysicsIndustries.Ligra
         LBrush _brush => _owner._brush;
         int _location => _owner._location;
 
-        protected override void InternalRender(IRenderer g, SolusEnvironment env)
+        public override void InternalRender(IRenderer g, SolusEnvironment env)
         {
             var font = LFont.FromSwf(_font);
 
@@ -88,7 +88,7 @@ namespace MetaphysicsIndustries.Ligra
             g.DrawString(_errorText, font, _brush, new Vector2(0, y));
         }
 
-        protected override Vector2 InternalCalcSize(IRenderer g)
+        public override Vector2 InternalCalcSize(IRenderer g)
         {
             float y = 0;
             var font = LFont.FromSwf(_font);

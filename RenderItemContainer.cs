@@ -47,7 +47,7 @@ namespace MetaphysicsIndustries.Ligra
         string _caption => _owner._caption;
         List<RenderItem> Items => _owner.Items;
 
-        protected override void InternalRender(IRenderer g, SolusEnvironment env)
+        public override void InternalRender(IRenderer g, SolusEnvironment env)
         {
             LFont font2 = new LFont(
                 LFont.Families.FromSwf(Font.FontFamily),
@@ -84,7 +84,7 @@ namespace MetaphysicsIndustries.Ligra
 //            return new SizeF(width, height);
         }
 
-        protected override Vector2 InternalCalcSize(IRenderer g)
+        public override Vector2 InternalCalcSize(IRenderer g)
         {
             var font2 = new LFont(
                 LFont.Families.FromSwf(Font.FontFamily),

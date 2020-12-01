@@ -106,6 +106,119 @@ namespace MetaphysicsIndustries.Ligra
             return _adapter;
         }
         protected abstract Widget GetAdapterInternal();
+
+
+        protected void InternalRender(IRenderer g, SolusEnvironment env)
+        {
+            if (_control != null)
+                _control.InternalRender(g, env);
+            else if (_adapter is RenderItemWidget)
+                ((RenderItemWidget)_adapter).InternalRender(g, env);
+        }
+        protected Vector2 InternalCalcSize(IRenderer g)
+        {
+            if (_control != null)
+                return _control.InternalCalcSize(g);
+            else if (_adapter is RenderItemWidget)
+                return ((RenderItemWidget)_adapter).InternalCalcSize(g);
+
+            throw new NotImplementedException();
+        }
+
+        public void Render(IRenderer g, LFont font)
+        {
+            var red = LBrush.Red;
+
+            try
+            {
+                if (string.IsNullOrEmpty(_error))
+                {
+                    InternalRender(g, _env);
+
+                    CollectVariableValues(_env);
+                }
+                else
+                {
+                    g.DrawString(_error, font, red,
+                        new Vector2(0, 0));
+                }
+            }
+            catch (Exception ex)
+            {
+                _error = "There was an error while trying to render " +
+                    "the item: \r\n" + ex.ToString();
+                _changeSize = true;
+
+                g.DrawString(_error, font, red,
+                    new Vector2(0, 0));
+                _errorSize = g.MeasureString(_error, font);
+
+                g.DrawRectangle(LPen.Red, 0, 0, _errorSize.Width,
+                    _errorSize.Height);
+            }
+
+            if (_changeSize)
+            {
+                _changeSize = false;
+
+                try
+                {
+                    if (string.IsNullOrEmpty(_error))
+                    {
+                        Size = Size.Truncate(InternalCalcSize(g));
+                    }
+                    else
+                    {
+                        Size = Size.Truncate(_errorSize);
+                    }
+                }
+                catch (Exception)
+                {
+                }
+            }
+        }
+
+        public Size Size
+        {
+            get
+            {
+                if (_control != null)
+                    return _control.Size;
+                else
+                {
+                    _adapter.GetSizeRequest(out int width, out int height);
+                    return new Size(width, height);
+                }
+            }
+            set
+            {
+                if (_control != null)
+                    _control.Size = value;
+                else
+                    _adapter.SetSizeRequest(value.Width, value.Height);
+            }
+        }
+    }
+
+    public abstract class RenderItemWidget : DrawingArea
+    {
+        protected RenderItemWidget(RenderItem owner)
+        {
+            _owner = owner;
+
+            this.Drawn += RenderItemWidget_Drawn;
+        }
+
+        protected readonly RenderItem _owner;
+
+        public abstract void InternalRender(IRenderer g, SolusEnvironment env);
+        public abstract Vector2 InternalCalcSize(IRenderer g);
+
+        private void RenderItemWidget_Drawn(object o, DrawnArgs args)
+        {
+            var g = new GtkRenderer(args.Cr, this);
+            _owner.Render(g, _owner._env.Font);
+        }
     }
 
     public abstract class RenderItemControl : Panel
@@ -117,9 +230,9 @@ namespace MetaphysicsIndustries.Ligra
 
         protected readonly RenderItem _owner;
 
-        protected abstract void InternalRender(IRenderer g,
+        public abstract void InternalRender(IRenderer g,
             SolusEnvironment env);
-        protected abstract Vector2 InternalCalcSize(IRenderer g);
+        public abstract Vector2 InternalCalcSize(IRenderer g);
 
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -127,55 +240,7 @@ namespace MetaphysicsIndustries.Ligra
 
             var g = new SwfRenderer(e.Graphics);
             var font = LFont.FromSwf(this.Font);
-            var red = LBrush.Red;
-
-            try
-            {
-                if (string.IsNullOrEmpty(_owner._error))
-                {
-                    InternalRender(g, _owner._env);
-
-                    _owner.CollectVariableValues(_owner._env);
-                }
-                else
-                {
-                    g.DrawString(_owner._error, font, red,
-                        new Vector2(0, 0));
-                }
-            }
-            catch (Exception ex)
-            {
-                _owner._error = "There was an error while trying to render " +
-                    "the item: \r\n" + ex.ToString();
-                _owner._changeSize = true;
-
-                g.DrawString(_owner._error, font, red,
-                    new Vector2(0, 0));
-                _owner._errorSize = g.MeasureString(_owner._error, font);
-
-                g.DrawRectangle(LPen.Red, 0, 0, _owner._errorSize.Width,
-                    _owner._errorSize.Height);
-            }
-
-            if (_owner._changeSize)
-            {
-                _owner._changeSize = false;
-
-                try
-                {
-                    if (string.IsNullOrEmpty(_owner._error))
-                    {
-                        Size = Size.Truncate(InternalCalcSize(g));
-                    }
-                    else
-                    {
-                        Size = Size.Truncate(_owner._errorSize);
-                    }
-                }
-                catch (Exception)
-                {
-                }
-            }
+            _owner.Render(g, font);
         }
 
         public RectangleF Rect // Size, Height, Width, Bounds, ClientRectangle, etc.
