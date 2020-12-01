@@ -268,6 +268,8 @@ namespace MetaphysicsIndustries.Ligra
         {
             InitializeComponent();
             env = new LigraEnvironment(this.output);
+            env.Font = new LFont(LFont.Families.CourierNew, 12,
+                LFont.Styles.Regular);
         }
 
         LigraEnvironment env;
