@@ -116,3 +116,6 @@ UpgradeLog*.XML
 *.userprefs
 *.cachefile
 [Tt]humbs.db
+
+# Jetbrains Rider files
+.idea/
