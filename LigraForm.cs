@@ -271,6 +271,10 @@ namespace MetaphysicsIndustries.Ligra
             env = new LigraEnvironment(this.output);
             env.Font = new LFont(LFont.Families.CourierNew, 12,
                 LFont.Styles.Regular);
+
+            timer = new System.Timers.Timer(16);
+            timer.Elapsed += timer_Elapsed;
+            timer.Enabled = true;
         }
 
         LigraEnvironment env;
@@ -278,8 +282,7 @@ namespace MetaphysicsIndustries.Ligra
             new Dictionary<string, Command>(
                 StringComparer.InvariantCultureIgnoreCase);
 
-        object font = null;
-
+        System.Timers.Timer timer;
         Gtk.Button evalButton;
         Gtk.Entry input;
         LigraWidget output;
@@ -306,6 +309,12 @@ namespace MetaphysicsIndustries.Ligra
             evalButton.SetSizeRequest(75, 23);
             evalButton.Clicked += (o, e) => EvaluateInput();
             hbox.PackEnd(evalButton, false, false, 0);
+        }
+
+        private void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            float time = System.Environment.TickCount / 1000.0f;
+            env.Variables["t"] = new Literal(time);
         }
 
         void EvaluateInput()
