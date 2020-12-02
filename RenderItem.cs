@@ -89,7 +89,7 @@ namespace MetaphysicsIndustries.Ligra
         {
         }
 
-        RenderItemControl _control;
+        protected RenderItemControl _control;
         public RenderItemControl GetControl()
         {
             if (_control == null)
@@ -98,7 +98,7 @@ namespace MetaphysicsIndustries.Ligra
         }
         protected abstract RenderItemControl GetControlInternal();
 
-        Widget _adapter;
+        protected Widget _adapter;
         public Widget GetAdapter()
         {
             if (_adapter == null)

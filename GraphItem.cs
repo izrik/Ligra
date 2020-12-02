@@ -149,52 +149,37 @@ namespace MetaphysicsIndustries.Ligra
 
         protected override Widget GetAdapterInternal()
         {
-            throw new NotImplementedException();
+            return new GraphItemWidget(this);
         }
 
         protected override RenderItemControl GetControlInternal()
         {
             return new GraphItemControl(this);
         }
-    }
 
-    public class GraphItemControl : RenderItemControl
-    {
-        public GraphItemControl(GraphItem owner)
-            : base(owner)
+        public RectangleF Rect
         {
-            _timer = new System.Windows.Forms.Timer();
-            _timer.Tick += _timer_Tick;
-            _timer.Interval = 250;
-            _timer.Enabled = true;
+            get
+            {
+                if (_control != null)
+                    return _control.Rect;
+                if (_adapter != null)
+                    return new RectangleF(
+                        _adapter.Allocation.Left,
+                        _adapter.Allocation.Top,
+                        _adapter.Allocation.Width,
+                        _adapter.Allocation.Height);
+
+                throw new InvalidOperationException(
+                    "No UI element available.");
+            }
         }
 
-        public new GraphItem _owner => (GraphItem)base._owner;
-
-        float _maxX => _owner._maxX;
-        float _minX => _owner._minX;
-        float _maxY => _owner._maxY;
-        float _minY => _owner._minY;
-        SolusParser _parser => _owner._parser;
-
-        public List<GraphEntry> _entries = new List<GraphEntry>();
-
-        System.Windows.Forms.Timer _timer;
-
-        protected override Size DefaultSize
+        public void InternalRender2(IRenderer g, SolusEnvironment env)
         {
-            get { return new Size(400, 400); }
-        }
-
-        void _timer_Tick(object sender, EventArgs e)
-        {
-            this.Invalidate();
-        }
-
-        public override void InternalRender(IRenderer g, SolusEnvironment env)
-        {
+            g.DrawRectangle(LPen.Red, Rect.X, Rect.Y, Rect.Width, Rect.Height);
             bool first = true;
-            foreach (GraphEntry entry in _owner._entries)
+            foreach (GraphEntry entry in _entries)
             {
                 var ve = entry as GraphVectorEntry;
                 var location = new Vector2(0, 0);
@@ -204,7 +189,7 @@ namespace MetaphysicsIndustries.Ligra
                     RenderVectors(g,
                         new RectangleF(location, Rect.Size),
                         entry.Pen, brush,
-                        _owner._minX, _owner._maxX, _owner._minY, _owner._maxY,
+                        _minX, _maxX, _minY, _maxY,
                         ve.X, ve.Y,
                         env, first);
                 }
@@ -213,14 +198,14 @@ namespace MetaphysicsIndustries.Ligra
                     RenderGraph(g,
                         new RectangleF(location, Rect.Size),
                         entry.Pen, brush,
-                        _owner._minX, _owner._maxX, _owner._minY, _owner._maxY,
+                        _minX, _maxX, _minY, _maxY,
                         entry.Expression, entry.IndependentVariable, env, first);
                 }
                 first = false;
             }
         }
 
-        public override Vector2 InternalCalcSize(IRenderer g)
+        public Vector2 InternalCalcSize2(IRenderer g)
         {
             return Rect.Size.ToVector2();
         }
@@ -330,6 +315,72 @@ namespace MetaphysicsIndustries.Ligra
                 lastPoint = next;
             }
         }
+    }
 
+    public class GraphItemControl : RenderItemControl
+    {
+        public GraphItemControl(GraphItem owner)
+            : base(owner)
+        {
+            _timer = new System.Windows.Forms.Timer();
+            _timer.Tick += _timer_Tick;
+            _timer.Interval = 250;
+            _timer.Enabled = true;
+        }
+
+        public new GraphItem _owner => (GraphItem)base._owner;
+
+        System.Windows.Forms.Timer _timer;
+
+        protected override Size DefaultSize
+        {
+            get { return new Size(400, 400); }
+        }
+
+        void _timer_Tick(object sender, EventArgs e)
+        {
+            this.Invalidate();
+        }
+
+        public override void InternalRender(IRenderer g, SolusEnvironment env)
+        {
+            _owner.InternalRender2(g, env);
+        }
+
+        public override Vector2 InternalCalcSize(IRenderer g)
+        {
+            return _owner.InternalCalcSize2(g);
+        }
+    }
+
+    public class GraphItemWidget : RenderItemWidget
+    {
+        public GraphItemWidget(GraphItem owner)
+            : base(owner)
+        {
+            this.SetSizeRequest(400, 400);
+            _timer = new System.Timers.Timer(250);
+            _timer.Elapsed += _timer_Elapsed;
+            _timer.Enabled = true;
+        }
+
+        public new GraphItem _owner => (GraphItem)base._owner;
+
+        System.Timers.Timer _timer;
+
+        public override void InternalRender(IRenderer g, SolusEnvironment env)
+        {
+            _owner.InternalRender2(g, env);
+        }
+
+        public override Vector2 InternalCalcSize(IRenderer g)
+        {
+            return _owner.InternalCalcSize2(g);
+        }
+
+        private void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            QueueDraw();
+        }
     }
 }
