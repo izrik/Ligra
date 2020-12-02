@@ -19,16 +19,20 @@ namespace MetaphysicsIndustries.Ligra
 
         private void InitializeCommands()
         {
-//            _commands["help"] = new Command(Commands.HelpCommand);
-            _commands["clear"] = new Command(Commands.ClearCommand);
-            _commands["vars"] = new Command(Commands.VarsCommand);
-            _commands["delete"] = new Command(Commands.DeleteCommand);
-            _commands["history"] = new Command(Commands.HistoryCommand);
-            _commands["example"] = new Command(Commands.ExampleCommand);
-            _commands["example2"] = new Command(Commands.Example2Command);
-//            _commands["tsolve"] = new Command(LigraCommands.TSolveCommand);
-//            _commands["loadimage"] = new Command(LoadImageCommand);
-//            _commands["cd"] = new Command(CdCommand);
+            InitializeCommands(_commands);
+        }
+        public static void InitializeCommands(Dictionary<string, Command> commands)
+        {
+            //commands["help"] = new Command(Commands.HelpCommand);
+            commands["clear"] = new Command(Commands.ClearCommand);
+            commands["vars"] = new Command(Commands.VarsCommand);
+            commands["delete"] = new Command(Commands.DeleteCommand);
+            commands["history"] = new Command(Commands.HistoryCommand);
+            commands["example"] = new Command(Commands.ExampleCommand);
+            commands["example2"] = new Command(Commands.Example2Command);
+            //commands["tsolve"] = new Command(LigraCommands.TSolveCommand);
+            //commands["loadimage"] = new Command(LoadImageCommand);
+            //commands["cd"] = new Command(CdCommand);
         }
 
         static void TSolveCommand(string input, string[] args, LigraEnvironment env)
