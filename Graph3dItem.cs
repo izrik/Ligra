@@ -29,6 +29,10 @@ namespace MetaphysicsIndustries.Ligra
             _yMax = yMax;
             _zMin = zMin;
             _zMax = zMax;
+
+            _timer = new System.Timers.Timer(250);
+            _timer.Elapsed += _timer_Elapsed;
+            _timer.Enabled = true;
         }
 
         public static readonly SolusEngine _engine = new SolusEngine();
@@ -49,6 +53,8 @@ namespace MetaphysicsIndustries.Ligra
         int numRenders = 0;
         int numTicks = 0;
         string fps = "";
+
+        System.Timers.Timer _timer;
 
         //public override bool HasChanged(VariableTable env)
         //{
@@ -281,6 +287,11 @@ namespace MetaphysicsIndustries.Ligra
                 }
             }
         }
+
+        private void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            Invalidate();
+        }
     }
 
     public class Graph3dItemControl : RenderItemControl
@@ -288,20 +299,9 @@ namespace MetaphysicsIndustries.Ligra
         public Graph3dItemControl(Graph3dItem owner)
             : base(owner)
         {
-            _timer = new System.Windows.Forms.Timer();
-            _timer.Tick += _timer_Tick;
-            _timer.Interval = 250;
-            _timer.Enabled = true;
         }
 
         public new Graph3dItem _owner => (Graph3dItem)base._owner;
-
-        void _timer_Tick(object sender, EventArgs e)
-        {
-            this.Invalidate();
-        }
-
-        System.Windows.Forms.Timer _timer;
 
         public override void InternalRender(IRenderer g, SolusEnvironment env)
         {
@@ -320,14 +320,9 @@ namespace MetaphysicsIndustries.Ligra
             : base(owner)
         {
             this.SetSizeRequest(400, 400);
-            _timer = new System.Timers.Timer(250);
-            _timer.Elapsed += _timer_Elapsed;
-            _timer.Enabled = true;
         }
 
         public new Graph3dItem _owner => (Graph3dItem)base._owner;
-
-        System.Timers.Timer _timer;
 
         public override void InternalRender(IRenderer g, SolusEnvironment env)
         {
@@ -337,11 +332,6 @@ namespace MetaphysicsIndustries.Ligra
         public override Vector2 InternalCalcSize(IRenderer g)
         {
             return _owner.InternalCalcSize2(g);
-        }
-
-        private void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            QueueDraw();
         }
     }
 }

@@ -15,7 +15,7 @@ namespace MetaphysicsIndustries.Ligra
                              int width,
                              int height,
                              LigraEnvironment env)
-            : base(env)
+            : this(env)
         {
             _expression = expression;
             _horizontalCoordinate = horizontalCoordinate;
@@ -29,7 +29,7 @@ namespace MetaphysicsIndustries.Ligra
                              VarInterval horizontalCoordinate,
                              VarInterval verticalCoordinate,
                              LigraEnvironment env)
-            : base(env)
+            : this(env)
         {
             _expression = expression;
             _horizontalCoordinate = horizontalCoordinate.Variable;
@@ -41,6 +41,13 @@ namespace MetaphysicsIndustries.Ligra
             _vStart = (int)vert.LowerBound;
             _height = (int)vert.Length;
         }
+        protected MathPaintItem(LigraEnvironment env)
+            : base(env)
+        {
+            _timer = new System.Timers.Timer(250);
+            _timer.Elapsed += _timer_Elapsed;
+            _timer.Enabled = true;
+        }
 
         public Expression _expression;
         public string _horizontalCoordinate;
@@ -50,6 +57,8 @@ namespace MetaphysicsIndustries.Ligra
         public int _vStart;
         public int _height;
         public MemoryImage _image;
+
+        System.Timers.Timer _timer;
 
         protected override void RemoveVariablesForValueCollection(HashSet<string> vars)
         {
@@ -200,6 +209,11 @@ namespace MetaphysicsIndustries.Ligra
         {
             return new Vector2(_width, _height);
         }
+
+        private void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            Invalidate();
+        }
     }
 
     public class MathPaintItemControl : RenderItemControl
@@ -227,14 +241,9 @@ namespace MetaphysicsIndustries.Ligra
         public MathPaintItemWidget(MathPaintItem owner)
             : base(owner)
         {
-            _timer = new System.Timers.Timer(250);
-            _timer.Elapsed += _timer_Elapsed;
-            _timer.Enabled = true;
         }
 
         public new MathPaintItem _owner => (MathPaintItem)base._owner;
-
-        System.Timers.Timer _timer;
 
         public override void InternalRender(IRenderer g, SolusEnvironment env)
         {
@@ -244,11 +253,6 @@ namespace MetaphysicsIndustries.Ligra
         public override Vector2 InternalCalcSize(IRenderer g)
         {
             return _owner.InternalCalcSize2(g);
-        }
-
-        private void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            QueueDraw();
         }
     }
 }
