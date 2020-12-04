@@ -202,9 +202,14 @@ namespace MetaphysicsIndustries.Ligra
         public MathPaintItemWidget(MathPaintItem owner)
             : base(owner)
         {
+            _timer = new System.Timers.Timer(250);
+            _timer.Elapsed += _timer_Elapsed;
+            _timer.Enabled = true;
         }
 
         public new MathPaintItem _owner => (MathPaintItem)base._owner;
+
+        System.Timers.Timer _timer;
 
         public override void InternalRender(IRenderer g, SolusEnvironment env)
         {
@@ -214,6 +219,11 @@ namespace MetaphysicsIndustries.Ligra
         public override Vector2 InternalCalcSize(IRenderer g)
         {
             return _owner.InternalCalcSize2(g);
+        }
+
+        private void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            QueueDraw();
         }
     }
 }
