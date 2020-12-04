@@ -13,6 +13,14 @@ namespace MetaphysicsIndustries.Ligra
         {
             return new Vector2(v.X, v.Y);
         }
+        public static Vector2 ToVector2(this Size v)
+        {
+            return new Vector2(v.Width, v.Height);
+        }
+        public static Vector2 ToVector2(this Gdk.Size size)
+        {
+            return new Vector2(size.Width, size.Height);
+        }
 
         public static Vector2[] ToVector2(this PointF[] points)
         {

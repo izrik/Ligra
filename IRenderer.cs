@@ -264,7 +264,13 @@ namespace MetaphysicsIndustries.Ligra
 
         public Vector2 MeasureString(string s, LFont font, float width)
         {
-            throw new System.NotImplementedException();
+            var layout = widget.CreatePangoLayout(s);
+
+            layout.FontDescription = font.ToGtk();
+            layout.Width = width.RoundToInt();
+            layout.GetPixelSize(out int width2, out int height);
+
+            return new Vector2(width2, height);
         }
     }
 }

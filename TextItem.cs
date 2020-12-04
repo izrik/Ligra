@@ -9,7 +9,7 @@ namespace MetaphysicsIndustries.Ligra
 {
     public class TextItem : RenderItem
     {
-        public TextItem(LigraEnvironment env, string text = "", object font = null)
+        public TextItem(LigraEnvironment env, string text = "", LFont font = null)
             : base(env)
         {
             _text = text;
@@ -17,7 +17,7 @@ namespace MetaphysicsIndustries.Ligra
         }
 
         public readonly string _text;
-        public readonly object _font;
+        public readonly LFont _font;
 
         public override bool HasChanged(SolusEnvironment env)
         {
@@ -26,12 +26,41 @@ namespace MetaphysicsIndustries.Ligra
 
         protected override Widget GetAdapterInternal()
         {
-            throw new NotImplementedException();
+            return new TextItemWidget(this);
         }
 
         protected override RenderItemControl GetControlInternal()
         {
             return new TextItemControl(this);
+        }
+
+        public void InternalRender2(IRenderer g, SolusEnvironment env)
+        {
+            RectangleF rect = new RectangleF(new PointF(0, 0),
+                InternalCalcSize(g));
+
+            StringFormat fmt = Format;
+            if (fmt == null)
+            {
+                g.DrawString(_text, _font, LBrush.Black, rect);
+            }
+            else
+            {
+                g.DrawString(_text, _font, LBrush.Black, rect, fmt);
+            }
+        }
+
+        public Vector2 InternalCalcSize2(IRenderer g)
+        {
+            return g.MeasureString(_text, _font, Container.ClientSize.X - 25);
+        }
+
+        public virtual StringFormat Format
+        {
+            get
+            {
+                return null;
+            }
         }
     }
 
@@ -44,39 +73,34 @@ namespace MetaphysicsIndustries.Ligra
 
         public new TextItem _owner => (TextItem)base._owner;
 
-        string _text => _owner._text;
-        Font _font => (Font)_owner._font;
-
-        public virtual StringFormat Format
-        {
-            get
-            {
-                return null;
-            }
-        }
-
         public override void InternalRender(IRenderer g, SolusEnvironment env)
         {
-            RectangleF rect = new RectangleF(new PointF(0, 0),
-                InternalCalcSize(g));
-
-            StringFormat fmt = Format;
-            var font = LFont.FromSwf(this.Font);
-            var black = LBrush.Black;
-            if (fmt == null)
-            {
-                g.DrawString(Text, font, black, rect);
-            }
-            else
-            {
-                g.DrawString(Text, font, black, rect, fmt);
-            }
+            _owner.InternalRender2(g, env);
         }
 
         public override Vector2 InternalCalcSize(IRenderer g)
         {
-            return g.MeasureString(Text, LFont.FromSwf(Font),
-                this.Parent.ClientSize.Width - 25);
+            return _owner.InternalCalcSize2(g);
+        }
+    }
+
+    public class TextItemWidget : RenderItemWidget
+    {
+        public TextItemWidget(TextItem owner)
+            : base(owner)
+        {
+        }
+
+        public new TextItem _owner => (TextItem)base._owner;
+
+        public override void InternalRender(IRenderer g, SolusEnvironment env)
+        {
+            _owner.InternalRender2(g, env);
+        }
+
+        public override Vector2 InternalCalcSize(IRenderer g)
+        {
+            return _owner.InternalCalcSize2(g);
         }
     }
 }

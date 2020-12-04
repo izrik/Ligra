@@ -91,17 +91,21 @@ namespace MetaphysicsIndustries.Ligra
 
         public readonly List<RenderItem> _items = new List<RenderItem>();
         public IList<RenderItem> RenderItems => _items;
+
         public void AddRenderItem(RenderItem item)
         {
             _items.Add(item);
             this.flowLayoutPanel1.Controls.Add(item.GetControl());
         }
+
+        Vector2 ILigraUI.ClientSize => this.ClientSize.ToVector2();
     }
 
     public interface ILigraUI
     {
         void AddRenderItem(RenderItem item);
         IList<RenderItem> RenderItems { get; }
+        Vector2 ClientSize { get; }
     }
 
     public class LigraWidget : Gtk.ScrolledWindow, ILigraUI
@@ -149,6 +153,7 @@ namespace MetaphysicsIndustries.Ligra
         public void AddRenderItem(RenderItem item)
         {
             _items.Add(item);
+            item.Container = this;
             var widget = item.GetAdapter();
             widget.ShowAll();
             _vbox.PackStart(widget, false, false, 3);
@@ -156,5 +161,7 @@ namespace MetaphysicsIndustries.Ligra
 
             scrollToBottom = true;
         }
+
+        public Vector2 ClientSize => _vbox.Allocation.Size.ToVector2();
     }
 }

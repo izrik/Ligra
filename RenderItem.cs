@@ -23,6 +23,7 @@ namespace MetaphysicsIndustries.Ligra
         public bool _changeSize = true;
 
         public readonly LigraEnvironment _env;
+        public ILigraUI Container { get; set; }
 
         public void CollectVariableValues(SolusEnvironment env)
         {
