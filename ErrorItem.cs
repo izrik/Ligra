@@ -9,7 +9,7 @@ namespace MetaphysicsIndustries.Ligra
 {
     public class ErrorItem : RenderItem
     {
-        public ErrorItem(string inputText, string errorText, object font,
+        public ErrorItem(string inputText, string errorText, LFont font,
             LBrush brush, LigraEnvironment env, int location = -1)
             : base(env)
         {
@@ -22,48 +22,23 @@ namespace MetaphysicsIndustries.Ligra
 
         public string _errorText;
         public string _inputText;
-        public object _font;
+        public LFont _font;
         public LBrush _brush;
         public int _location;
 
         protected override Widget GetAdapterInternal()
         {
-            string s = "";
-            if (!string.IsNullOrEmpty(_inputText))
-            {
-                s += _inputText + "\r\n";
-                if (_location >= 0)
-                    s += new string(' ', _location) + "^\r\n";
-            }
-            s += _errorText;
-            var label = new Gtk.Label(s);
-            label.SetAlignment(0, 0);
-            return label;
+            return new ErrorItemWidget(this);
         }
 
         protected override RenderItemControl GetControlInternal()
         {
             return new ErrorItemControl(this);
         }
-    }
-    public class ErrorItemControl : RenderItemControl
-    {
-        public ErrorItemControl(ErrorItem owner)
-            : base(owner)
+
+        public void InternalRender2(IRenderer g, SolusEnvironment env)
         {
-        }
-
-        public new ErrorItem _owner => (ErrorItem)base._owner;
-
-        string _errorText => _owner._errorText;
-        string _inputText => _owner._inputText;
-        Font _font => (Font)_owner._font;
-        LBrush _brush => _owner._brush;
-        int _location => _owner._location;
-
-        public override void InternalRender(IRenderer g, SolusEnvironment env)
-        {
-            var font = LFont.FromSwf(_font);
+            var font = _font;
 
             float y = 0;
             if (!string.IsNullOrEmpty(_inputText))
@@ -88,10 +63,10 @@ namespace MetaphysicsIndustries.Ligra
             g.DrawString(_errorText, font, _brush, new Vector2(0, y));
         }
 
-        public override Vector2 InternalCalcSize(IRenderer g)
+        public Vector2 InternalCalcSize2(IRenderer g)
         {
             float y = 0;
-            var font = LFont.FromSwf(_font);
+            var font = _font;
 
             if (!string.IsNullOrEmpty(_inputText))
             {
@@ -99,6 +74,46 @@ namespace MetaphysicsIndustries.Ligra
             }
 
             return g.MeasureString(_errorText, font) + new Vector2(0, y);
+        }
+    }
+
+    public class ErrorItemControl : RenderItemControl
+    {
+        public ErrorItemControl(ErrorItem owner)
+            : base(owner)
+        {
+        }
+
+        public new ErrorItem _owner => (ErrorItem)base._owner;
+
+        public override void InternalRender(IRenderer g, SolusEnvironment env)
+        {
+            _owner.InternalRender2(g, env);
+        }
+
+        public override Vector2 InternalCalcSize(IRenderer g)
+        {
+            return _owner.InternalCalcSize2(g);
+        }
+    }
+
+    public class ErrorItemWidget : RenderItemWidget
+    {
+        public ErrorItemWidget(ErrorItem owner)
+            : base(owner)
+        {
+        }
+
+        public new ErrorItem _owner => (ErrorItem)base._owner;
+
+        public override void InternalRender(IRenderer g, SolusEnvironment env)
+        {
+            _owner.InternalRender2(g, env);
+        }
+
+        public override Vector2 InternalCalcSize(IRenderer g)
+        {
+            return _owner.InternalCalcSize2(g);
         }
     }
 }

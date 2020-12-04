@@ -124,6 +124,10 @@ namespace MetaphysicsIndustries.Ligra
 
             throw new NotImplementedException();
         }
+        public Vector2 CalculateSize(IRenderer g)
+        {
+            return InternalCalcSize(g);
+        }
 
         public void Render(IRenderer g, LFont font)
         {
@@ -197,6 +201,14 @@ namespace MetaphysicsIndustries.Ligra
                 else
                     _adapter.SetSizeRequest(value.Width, value.Height);
             }
+        }
+
+        public void Invalidate()
+        {
+            if (_control != null)
+                _control.Invalidate();
+            else
+                _adapter.QueueDraw();
         }
     }
 

@@ -175,14 +175,20 @@ namespace MetaphysicsIndustries.Ligra
                 }
                 catch (Exception ee)
                 {
+                    var font = LFont.FromSwf(ligraControl1.Font);
                     if (ee is SolusParseException)
                     {
                         SolusParseException ee2 = (SolusParseException)ee;
-                        _env.AddRenderItem(new ErrorItem(input, ee2.Error, ligraControl1.Font, LBrush.Red, _env, ee2.Location));
+                        _env.AddRenderItem(
+                            new ErrorItem(input, ee2.Error, font, LBrush.Red,
+                                _env, ee2.Location));
                     }
                     else
                     {
-                        _env.AddRenderItem(new ErrorItem(input, "There was an error: " + ee.ToString(), Font, LBrush.Red, _env));
+                        _env.AddRenderItem(
+                            new ErrorItem(input,
+                                "There was an error: " + ee.ToString(), font,
+                                LBrush.Red, _env));
                     }
                 }
             }

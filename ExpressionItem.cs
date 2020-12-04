@@ -1168,11 +1168,6 @@ namespace MetaphysicsIndustries.Ligra
 
         public new ExpressionItem _owner => (ExpressionItem)base._owner;
 
-
-        Expression _expression => _owner.Expression;
-        LPen _pen => _owner.Pen;
-        LFont _font => _owner.Font;
-
         public override void InternalRender(IRenderer g,
             SolusEnvironment env)
         {

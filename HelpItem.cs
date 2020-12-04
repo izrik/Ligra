@@ -96,7 +96,7 @@ Type ""help list"" to see the current environment";
             //            _helpLookups["floor"] = "The floor function\n  floor(x)\n\nReturns the highest integer that is less than or equal to x.";
         }
 
-        public HelpItem(object font, LigraEnvironment env, string topic = "help")
+        public HelpItem(LFont font, LigraEnvironment env, string topic = "help")
             : base(env)
         {
             _font = font;
@@ -162,18 +162,26 @@ Type ""help list"" to see the current environment";
         }
 
         public readonly string _topic;
-        public readonly object _font;
+        public readonly LFont _font;
 
         protected override Widget GetAdapterInternal()
         {
-            var label = new Gtk.Label(_topic);
-            label.SetAlignment(0, 0);
-            return label;
+            return new HelpItemWidget(this);
         }
 
         protected override RenderItemControl GetControlInternal()
         {
             return new HelpItemControl(this);
+        }
+
+        public void InternalRender2(IRenderer g, SolusEnvironment env)
+        {
+            g.DrawString(_topic, _font, LBrush.Magenta, new Vector2(0, 0));
+        }
+
+        public Vector2 InternalCalcSize2(IRenderer g)
+        {
+            return g.MeasureString(_topic, _font);//, 500);
         }
     }
 
@@ -186,17 +194,34 @@ Type ""help list"" to see the current environment";
 
         public new HelpItem _owner => (HelpItem)base._owner;
 
-        string _topic => _owner._topic;
-        Font _font => (Font)_owner._font;
-
         public override void InternalRender(IRenderer g, SolusEnvironment env)
         {
-            g.DrawString(_topic, LFont.FromSwf(_font), LBrush.Magenta, new Vector2(0, 0));
+            _owner.InternalRender2(g, env);
         }
 
         public override Vector2 InternalCalcSize(IRenderer g)
         {
-            return g.MeasureString(_topic, LFont.FromSwf(_font));//, 500);
+            return _owner.InternalCalcSize2(g);
+        }
+    }
+
+    public class HelpItemWidget : RenderItemWidget
+    {
+        public HelpItemWidget(HelpItem owner)
+            : base(owner)
+        {
+        }
+
+        public new HelpItem _owner => (HelpItem)base._owner;
+
+        public override void InternalRender(IRenderer g, SolusEnvironment env)
+        {
+            _owner.InternalRender2(g, env);
+        }
+
+        public override Vector2 InternalCalcSize(IRenderer g)
+        {
+            return _owner.InternalCalcSize2(g);
         }
     }
 }

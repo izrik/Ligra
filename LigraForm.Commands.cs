@@ -32,7 +32,7 @@ namespace MetaphysicsIndustries.Ligra
             commands["example2"] = new Command(Commands.Example2Command);
             //commands["tsolve"] = new Command(LigraCommands.TSolveCommand);
             //commands["loadimage"] = new Command(LoadImageCommand);
-            //commands["cd"] = new Command(CdCommand);
+            commands["cd"] = new Command(CdCommand);
         }
 
         static void TSolveCommand(string input, string[] args, LigraEnvironment env)
@@ -224,18 +224,24 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        private void CdCommand(string input, string[] args, LigraEnvironment env)
+        private void CdCommand(string input, string[] args)
+        {
+            CdCommand(input, args, _env);
+        }
+        public static void CdCommand(string input, string[] args,
+            LigraEnvironment env)
         {
             if (args.Length <= 1)
             {
                 //print the current directory
                 string dir = System.IO.Directory.GetCurrentDirectory();
-                _env.AddRenderItem(
-                    new InfoItem(dir, LFont.FromSwf(ligraControl1.Font), env));
+                env.AddRenderItem(new InfoItem(dir, env.Font, env));
             }
             else if (!System.IO.Directory.Exists(args[1]))
             {
-                _env.AddRenderItem(new ErrorItem(input, "Parameter must be a folder name", ligraControl1.Font, LBrush.Red, env, input.IndexOf(args[1])));
+                env.AddRenderItem(
+                    new ErrorItem(input, "Parameter must be a folder name",
+                    env.Font, LBrush.Red, env, input.IndexOf(args[1])));
             }
             else
             {
@@ -245,14 +251,17 @@ namespace MetaphysicsIndustries.Ligra
                 try
                 {
                     System.IO.Directory.SetCurrentDirectory(dir);
-                    _env.AddRenderItem(
+                    env.AddRenderItem(
                         new InfoItem(
                             "Directory changed to \"" + dir + "\"",
-                            LFont.FromSwf(ligraControl1.Font), env));
+                            env.Font, env));
                 }
                 catch (Exception e)
                 {
-                    _env.AddRenderItem(new ErrorItem(input, "There was an error: \r\n" + e.ToString(), ligraControl1.Font, LBrush.Red, env));
+                    env.AddRenderItem(
+                        new ErrorItem(
+                            input, "There was an error: \r\n" + e.ToString(),
+                            env.Font, LBrush.Red, env));
                 }
             }
         }

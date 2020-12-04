@@ -32,66 +32,48 @@ namespace MetaphysicsIndustries.Ligra
         {
             return new RenderItemContainerControl(this);
         }
-    }
 
-    public class RenderItemContainerControl : RenderItemControl
-    {
-        public RenderItemContainerControl(RenderItemContainer owner)
-            : base(owner)
+        public void InternalRender2(IRenderer g, SolusEnvironment env)
         {
-        }
-
-        public new RenderItemContainer _owner =>
-            (RenderItemContainer)base._owner;
-
-        string _caption => _owner._caption;
-        List<RenderItem> Items => _owner.Items;
-
-        public override void InternalRender(IRenderer g, SolusEnvironment env)
-        {
-            LFont font2 = new LFont(
-                LFont.Families.FromSwf(Font.FontFamily),
-                Font.Size * 2,
+            var font2 = new LFont(_env.Font.Family, _env.Font.Size * 2,
                 LFont.Styles.Bold);
 
-            float width = this.Parent.ClientSize.Width - 20;
+            float width = this.Container.ClientSize.X - 20;
             float height = g.MeasureString(_caption, font2, (int)width).Y;
 
             g.DrawString(_caption, font2, LBrush.Black, new Vector2(2, 2));
-            g.DrawRectangle(LPen.Black, 0, 0, this.Width, this.Height- 250);
+            var size1 = InternalCalcSize2(g);
+            g.DrawRectangle(LPen.Black, 0, 0, size1.X, size1.Y - 250);
 
             float x = 20;
             List<float> currentHeights = new List<float>();
             float maxCurrentHeight = 0;
             foreach (RenderItem ri in Items)
             {
-                var ric = ri.GetControl();
-                var size = ric.Size;
-                if (x + size.Width > width)
+                var size = ri.CalculateSize(g);
+                if (x + size.X > width)
                 {
                     height += maxCurrentHeight;
                     x = 20;
                     maxCurrentHeight = 0;
                 }
 
-                ric.Refresh();
+                ri.Invalidate();
 
-                x += size.Width + 10;
-                maxCurrentHeight = Math.Max(maxCurrentHeight, size.Height);
+                x += size.X + 10;
+                maxCurrentHeight = Math.Max(maxCurrentHeight, size.Y);
             }
             height += maxCurrentHeight;
 
-//            return new SizeF(width, height);
+            //return new SizeF(width, height);
         }
 
-        public override Vector2 InternalCalcSize(IRenderer g)
+        public Vector2 InternalCalcSize2(IRenderer g)
         {
-            var font2 = new LFont(
-                LFont.Families.FromSwf(Font.FontFamily),
-                Font.Size * 2,
-                LFont.Styles.Regular);
+            var font2 = new LFont(_env.Font.Family, _env.Font.Size * 2,
+                LFont.Styles.Bold);
 
-            float width = this.Parent.ClientSize.Width - 20;
+            float width = this.Container.ClientSize.X - 20;
             float height = g.MeasureString(_caption, font2, (int)width).Y;
 
             float x = 20;
@@ -115,6 +97,48 @@ namespace MetaphysicsIndustries.Ligra
             height += 260;
 
             return new Vector2(width, height);
+        }
+    }
+
+    public class RenderItemContainerControl : RenderItemControl
+    {
+        public RenderItemContainerControl(RenderItemContainer owner)
+            : base(owner)
+        {
+        }
+
+        public new RenderItemContainer _owner =>
+            (RenderItemContainer)base._owner;
+
+        public override void InternalRender(IRenderer g, SolusEnvironment env)
+        {
+            _owner.InternalRender2(g, env);
+        }
+
+        public override Vector2 InternalCalcSize(IRenderer g)
+        {
+            return _owner.InternalCalcSize2(g);
+        }
+    }
+
+    public class RenderItemContainerWidget : RenderItemWidget
+    {
+        public RenderItemContainerWidget(RenderItemContainer owner)
+            : base(owner)
+        {
+        }
+
+        public new RenderItemContainer _owner =>
+            (RenderItemContainer)base._owner;
+
+        public override void InternalRender(IRenderer g, SolusEnvironment env)
+        {
+            _owner.InternalRender2(g, env);
+        }
+
+        public override Vector2 InternalCalcSize(IRenderer g)
+        {
+            return _owner.InternalCalcSize2(g);
         }
     }
 }
