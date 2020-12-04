@@ -115,8 +115,6 @@ namespace MetaphysicsIndustries.Ligra
         {
         }
 
-        public new ApplyMatrixFilterItem _owner => (ApplyMatrixFilterItem)base._owner;
-
         public override void InternalRender(IRenderer g, SolusEnvironment env)
         {
             _owner.InternalRender2(g, env);
@@ -134,8 +132,6 @@ namespace MetaphysicsIndustries.Ligra
             : base(owner)
         {
         }
-
-        public new ApplyMatrixFilterItem _owner => (ApplyMatrixFilterItem)base._owner;
 
         public override void InternalRender(IRenderer g, SolusEnvironment env)
         {

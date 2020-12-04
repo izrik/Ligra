@@ -1145,8 +1145,6 @@ namespace MetaphysicsIndustries.Ligra
         {
         }
 
-        public new ExpressionItem _owner => (ExpressionItem)base._owner;
-
         public override void InternalRender(IRenderer g, SolusEnvironment env)
         {
             _owner.InternalRender2(g, env);
@@ -1165,8 +1163,6 @@ namespace MetaphysicsIndustries.Ligra
         {
 
         }
-
-        public new ExpressionItem _owner => (ExpressionItem)base._owner;
 
         public override void InternalRender(IRenderer g,
             SolusEnvironment env)

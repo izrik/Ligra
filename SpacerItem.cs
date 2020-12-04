@@ -49,8 +49,6 @@ namespace MetaphysicsIndustries.Ligra
         {
         }
 
-        public new SpacerItem _owner => (SpacerItem)base._owner;
-
         public override void InternalRender(IRenderer g, SolusEnvironment env)
         {
             _owner.InternalRender2(g, env);
@@ -68,8 +66,6 @@ namespace MetaphysicsIndustries.Ligra
             : base(owner)
         {
         }
-
-        public new SpacerItem _owner => (SpacerItem)base._owner;
 
         public override void InternalRender(IRenderer g, SolusEnvironment env)
         {

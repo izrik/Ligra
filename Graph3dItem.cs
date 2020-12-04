@@ -301,8 +301,6 @@ namespace MetaphysicsIndustries.Ligra
         {
         }
 
-        public new Graph3dItem _owner => (Graph3dItem)base._owner;
-
         public override void InternalRender(IRenderer g, SolusEnvironment env)
         {
             _owner.InternalRender2(g, env);
@@ -321,8 +319,6 @@ namespace MetaphysicsIndustries.Ligra
         {
             this.SetSizeRequest(400, 400);
         }
-
-        public new Graph3dItem _owner => (Graph3dItem)base._owner;
 
         public override void InternalRender(IRenderer g, SolusEnvironment env)
         {

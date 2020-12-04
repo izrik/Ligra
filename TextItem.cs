@@ -71,8 +71,6 @@ namespace MetaphysicsIndustries.Ligra
         {
         }
 
-        public new TextItem _owner => (TextItem)base._owner;
-
         public override void InternalRender(IRenderer g, SolusEnvironment env)
         {
             _owner.InternalRender2(g, env);
@@ -90,8 +88,6 @@ namespace MetaphysicsIndustries.Ligra
             : base(owner)
         {
         }
-
-        public new TextItem _owner => (TextItem)base._owner;
 
         public override void InternalRender(IRenderer g, SolusEnvironment env)
         {

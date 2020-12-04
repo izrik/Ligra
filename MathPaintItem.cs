@@ -223,8 +223,6 @@ namespace MetaphysicsIndustries.Ligra
         {
         }
 
-        public new MathPaintItem _owner => (MathPaintItem)base._owner;
-
         public override void InternalRender(IRenderer g, SolusEnvironment env)
         {
             _owner.InternalRender2(g, env);
@@ -242,8 +240,6 @@ namespace MetaphysicsIndustries.Ligra
             : base(owner)
         {
         }
-
-        public new MathPaintItem _owner => (MathPaintItem)base._owner;
 
         public override void InternalRender(IRenderer g, SolusEnvironment env)
         {

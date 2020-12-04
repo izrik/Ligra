@@ -84,8 +84,6 @@ namespace MetaphysicsIndustries.Ligra
         {
         }
 
-        public new ErrorItem _owner => (ErrorItem)base._owner;
-
         public override void InternalRender(IRenderer g, SolusEnvironment env)
         {
             _owner.InternalRender2(g, env);
@@ -103,8 +101,6 @@ namespace MetaphysicsIndustries.Ligra
             : base(owner)
         {
         }
-
-        public new ErrorItem _owner => (ErrorItem)base._owner;
 
         public override void InternalRender(IRenderer g, SolusEnvironment env)
         {

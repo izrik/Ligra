@@ -335,8 +335,6 @@ namespace MetaphysicsIndustries.Ligra
         {
         }
 
-        public new GraphItem _owner => (GraphItem)base._owner;
-
         protected override Size DefaultSize
         {
             get { return new Size(400, 400); }
@@ -360,8 +358,6 @@ namespace MetaphysicsIndustries.Ligra
         {
             this.SetSizeRequest(400, 400);
         }
-
-        public new GraphItem _owner => (GraphItem)base._owner;
 
         public override void InternalRender(IRenderer g, SolusEnvironment env)
         {

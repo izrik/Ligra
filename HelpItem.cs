@@ -192,8 +192,6 @@ Type ""help list"" to see the current environment";
         {
         }
 
-        public new HelpItem _owner => (HelpItem)base._owner;
-
         public override void InternalRender(IRenderer g, SolusEnvironment env)
         {
             _owner.InternalRender2(g, env);
@@ -211,8 +209,6 @@ Type ""help list"" to see the current environment";
             : base(owner)
         {
         }
-
-        public new HelpItem _owner => (HelpItem)base._owner;
 
         public override void InternalRender(IRenderer g, SolusEnvironment env)
         {
