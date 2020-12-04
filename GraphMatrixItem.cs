@@ -198,34 +198,15 @@ namespace MetaphysicsIndustries.Ligra
 
         protected override Widget GetAdapterInternal()
         {
-            throw new NotImplementedException();
+            return new GraphMatrixItemWidget(this);
         }
 
         protected override RenderItemControl GetControlInternal()
         {
             return new GraphMatrixItemControl(this);
         }
-    }
 
-    public class GraphMatrixItemControl : RenderItemControl
-    {
-        public GraphMatrixItemControl(GraphMatrixItem owner)
-            : base(owner)
-        {
-        }
-
-        public new GraphMatrixItem _owner => (GraphMatrixItem)base._owner;
-
-        //private Matrix _matrix;
-        Matrix Matrix => _owner.Matrix;
-        string _caption => _owner._caption;
-        MemoryImage _image => _owner._image;
-
-        int GetImageHeight() => _owner.GetImageHeight();
-        int GetImageWidth() => _owner.GetImageWidth();
-        bool HasChanged(SolusEnvironment env) => _owner.HasChanged(env);
-
-        public override void InternalRender(IRenderer g,
+        public void InternalRender2(IRenderer g,
             SolusEnvironment env)
         {
             RectangleF boundsInClient = new RectangleF(0, 0,
@@ -239,10 +220,10 @@ namespace MetaphysicsIndustries.Ligra
                 if (_image != null)
                 {
                     _image.Dispose();
-                    _owner._image = null;
+                    _image = null;
                 }
 
-                _owner._image = image;
+                _image = image;
             }
 
             RectangleF rect = boundsInClient;
@@ -250,19 +231,19 @@ namespace MetaphysicsIndustries.Ligra
                 GetImageHeight());
             g.DrawImage(_image, rect);
 
-            SizeF textSize = g.MeasureString(_caption, LFont.FromSwf(this.Font),
+            SizeF textSize = g.MeasureString(_caption, _env.Font,
                 GetImageWidth());
             float textWidth = textSize.Width;
             float textHeight = textSize.Height;
             rect = new RectangleF(0, GetImageHeight() + 2, textWidth,
                 textHeight);
-            g.DrawString(_caption, LFont.FromSwf(this.Font), LBrush.Black, rect);
+            g.DrawString(_caption, _env.Font, LBrush.Black, rect);
         }
 
-        public override Vector2 InternalCalcSize(IRenderer g)
+        public Vector2 InternalCalcSize2(IRenderer g)
         {
             var width = GetImageWidth();
-            var captionSize = g.MeasureString(_caption, LFont.FromSwf(this.Font),
+            var captionSize = g.MeasureString(_caption, _env.Font,
                 GetImageWidth());
 
             return new Vector2(
@@ -301,6 +282,46 @@ namespace MetaphysicsIndustries.Ligra
             var image =
                 GraphMatrixItem.RenderMatrixToMemoryImageColorS(r, g, b);
             return image.Bitmap;
+        }
+    }
+
+    public class GraphMatrixItemControl : RenderItemControl
+    {
+        public GraphMatrixItemControl(GraphMatrixItem owner)
+            : base(owner)
+        {
+        }
+
+        public new GraphMatrixItem _owner => (GraphMatrixItem)base._owner;
+
+        public override void InternalRender(IRenderer g, SolusEnvironment env)
+        {
+            _owner.InternalRender2(g, env);
+        }
+
+        public override Vector2 InternalCalcSize(IRenderer g)
+        {
+            return _owner.InternalCalcSize2(g);
+        }
+    }
+
+    public class GraphMatrixItemWidget : RenderItemWidget
+    {
+        public GraphMatrixItemWidget(GraphMatrixItem owner)
+            : base(owner)
+        {
+        }
+
+        public new GraphMatrixItem _owner => (GraphMatrixItem)base._owner;
+
+        public override void InternalRender(IRenderer g, SolusEnvironment env)
+        {
+            _owner.InternalRender2(g, env);
+        }
+
+        public override Vector2 InternalCalcSize(IRenderer g)
+        {
+            return _owner.InternalCalcSize2(g);
         }
     }
 }

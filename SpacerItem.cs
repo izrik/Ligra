@@ -31,6 +31,15 @@ namespace MetaphysicsIndustries.Ligra
         {
             return new SpacerItemControl(this);
         }
+
+        public void InternalRender2(IRenderer g, SolusEnvironment env)
+        {
+        }
+
+        public Vector2 InternalCalcSize2(IRenderer g)
+        {
+            return _size;
+        }
     }
 
     public class SpacerItemControl : RenderItemControl
@@ -42,16 +51,34 @@ namespace MetaphysicsIndustries.Ligra
 
         public new SpacerItem _owner => (SpacerItem)base._owner;
 
-        public Vector2 _size => _owner._size;
-
-        public override void InternalRender(IRenderer g,
-            SolusEnvironment env)
+        public override void InternalRender(IRenderer g, SolusEnvironment env)
         {
+            _owner.InternalRender2(g, env);
         }
 
         public override Vector2 InternalCalcSize(IRenderer g)
         {
-            return _size;
+            return _owner.InternalCalcSize2(g);
+        }
+    }
+
+    public class SpacerItemWidget : RenderItemWidget
+    {
+        public SpacerItemWidget(SpacerItem owner)
+            : base(owner)
+        {
+        }
+
+        public new SpacerItem _owner => (SpacerItem)base._owner;
+
+        public override void InternalRender(IRenderer g, SolusEnvironment env)
+        {
+            _owner.InternalRender2(g, env);
+        }
+
+        public override Vector2 InternalCalcSize(IRenderer g)
+        {
+            return _owner.InternalCalcSize2(g);
         }
     }
 }

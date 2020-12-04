@@ -107,7 +107,6 @@ namespace MetaphysicsIndustries.Ligra
         }
         protected abstract Widget GetAdapterInternal();
 
-
         protected void InternalRender(IRenderer g, SolusEnvironment env)
         {
             if (_control != null)

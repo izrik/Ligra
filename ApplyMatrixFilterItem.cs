@@ -25,16 +25,6 @@ namespace MetaphysicsIndustries.Ligra
 
         public string _caption;
 
-        protected override Widget GetAdapterInternal()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override RenderItemControl GetControlInternal()
-        {
-            return new ApplyMatrixFilterItemControl(this);
-        }
-
         protected override void AddVariablesForValueCollection(HashSet<string> vars)
         {
             //foreach (Expression expr in _matrix)
@@ -47,23 +37,18 @@ namespace MetaphysicsIndustries.Ligra
         {
             return false;
         }
-    }
 
-    public class ApplyMatrixFilterItemControl : RenderItemControl
-    {
-        public ApplyMatrixFilterItemControl(ApplyMatrixFilterItem owner)
-            : base(owner)
+        protected override Widget GetAdapterInternal()
         {
+            return new ApplyMatrixFilterItemWidget(this);
         }
 
-        public new ApplyMatrixFilterItem _owner => (ApplyMatrixFilterItem)base._owner;
+        protected override RenderItemControl GetControlInternal()
+        {
+            return new ApplyMatrixFilterItemControl(this);
+        }
 
-        private Vector2 _lastSize => _owner._lastSize;
-        private Matrix _matrix => _owner._matrix;
-        private MatrixFilter _filter => _owner._filter;
-        string _caption => _owner._caption;
-
-        public override void InternalRender(IRenderer g, SolusEnvironment env)
+        public void InternalRender2(IRenderer g, SolusEnvironment env)
         {
             Matrix mat = _filter.Apply(_matrix);
             mat.ApplyToAll(AcuityEngine.ConvertFloatTo24g);
@@ -78,13 +63,13 @@ namespace MetaphysicsIndustries.Ligra
             rect.Size = new SizeF(GetImageWidth(mat), GetImageHeight(mat));
             g.DrawImage(image, rect);
 
-            SizeF textSize = g.MeasureString(_caption, LFont.FromSwf(this.Font), GetImageWidth(mat));
+            SizeF textSize = g.MeasureString(_caption, _env.Font, GetImageWidth(mat));
             float textWidth = textSize.Width;
             float textHeight = textSize.Height;
             rect = new RectangleF(0, GetImageHeight(mat) + 2, textWidth, textHeight);
-            g.DrawString(_caption, LFont.FromSwf(this.Font), LBrush.Black, rect);
+            g.DrawString(_caption, _env.Font, LBrush.Black, rect);
 
-            _owner._lastSize = new Vector2(GetImageWidth(mat), GetImageHeight(mat));
+            _lastSize = new Vector2(GetImageWidth(mat), GetImageHeight(mat));
 
             if (image != null)
             {
@@ -93,9 +78,9 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        public override Vector2 InternalCalcSize(IRenderer g)
+        public Vector2 InternalCalcSize2(IRenderer g)
         {
-            return _lastSize + new Vector2(0, g.MeasureString(_caption, LFont.FromSwf(this.Font), (int)_lastSize.X).Y + 2);
+            return _lastSize + new Vector2(0, g.MeasureString(_caption, _env.Font, (int)_lastSize.X).Y + 2);
         }
 
         private int GetImageHeight(Matrix mat)
@@ -120,6 +105,46 @@ namespace MetaphysicsIndustries.Ligra
             {
                 return mat.ColumnCount;
             }
+        }
+    }
+
+    public class ApplyMatrixFilterItemControl : RenderItemControl
+    {
+        public ApplyMatrixFilterItemControl(ApplyMatrixFilterItem owner)
+            : base(owner)
+        {
+        }
+
+        public new ApplyMatrixFilterItem _owner => (ApplyMatrixFilterItem)base._owner;
+
+        public override void InternalRender(IRenderer g, SolusEnvironment env)
+        {
+            _owner.InternalRender2(g, env);
+        }
+
+        public override Vector2 InternalCalcSize(IRenderer g)
+        {
+            return _owner.InternalCalcSize2(g);
+        }
+    }
+
+    public class ApplyMatrixFilterItemWidget : RenderItemWidget
+    {
+        public ApplyMatrixFilterItemWidget(ApplyMatrixFilterItem owner)
+            : base(owner)
+        {
+        }
+
+        public new ApplyMatrixFilterItem _owner => (ApplyMatrixFilterItem)base._owner;
+
+        public override void InternalRender(IRenderer g, SolusEnvironment env)
+        {
+            _owner.InternalRender2(g, env);
+        }
+
+        public override Vector2 InternalCalcSize(IRenderer g)
+        {
+            return _owner.InternalCalcSize2(g);
         }
     }
 }

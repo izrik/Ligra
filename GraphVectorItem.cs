@@ -39,48 +39,35 @@ namespace MetaphysicsIndustries.Ligra
 
         protected override Widget GetAdapterInternal()
         {
-            throw new NotImplementedException();
+            return new GraphVectorItemWidget(this);
         }
 
         protected override RenderItemControl GetControlInternal()
         {
             return new GraphVectorItemControl(this);
         }
-    }
 
-    public class GraphVectorItemControl : RenderItemControl
-    {
-        public GraphVectorItemControl(GraphVectorItem owner)
-            : base(owner)
-        {
-        }
-
-        public new GraphVectorItem _owner => (GraphVectorItem)base._owner;
-
-        Vector _vector => _owner.Vector;
-        string _caption => _owner._caption;
-
-        public override void InternalRender(IRenderer g, SolusEnvironment env)
+        public void InternalRender2(IRenderer g, SolusEnvironment env)
         {
             RectangleF boundsInClient = new RectangleF(new PointF(0, 0), InternalCalcSize(g));
             boundsInClient.Height = 276;
 
             RenderVector(g, boundsInClient, LPen.Blue, LBrush.Blue, _vector, true);
 
-            RectangleF rect = new RectangleF(10, 276, _vector.Length, g.MeasureString(_caption, LFont.FromSwf(this.Font)).Y);
-            g.DrawString(_caption, LFont.FromSwf(this.Font), LBrush.Black, rect);
+            RectangleF rect = new RectangleF(10, 276, _vector.Length, g.MeasureString(_caption, _env.Font).Y);
+            g.DrawString(_caption, _env.Font, LBrush.Black, rect);
 
             //g.DrawImage(_image.Bitmap, boundsInClient);
         }
 
-        public override Vector2 InternalCalcSize(IRenderer g)
+        public Vector2 InternalCalcSize2(IRenderer g)
         {
             double x = Math.Log(_vector.Length, 2);
             if (x < 8)
             {
                 return new Vector2(276, 276);
             }
-            return new Vector2(_vector.Length + 20, 296 + g.MeasureString(_caption, LFont.FromSwf(this.Font), _vector.Length).Y);
+            return new Vector2(_vector.Length + 20, 296 + g.MeasureString(_caption, _env.Font, _vector.Length).Y);
         }
 
         public void RenderVector(IRenderer g, RectangleF boundsInClient,
@@ -249,6 +236,46 @@ namespace MetaphysicsIndustries.Ligra
 
                 lastPoint = pt + new Vector2(deltaX - 1, 0);
             }
+        }
+    }
+
+    public class GraphVectorItemControl : RenderItemControl
+    {
+        public GraphVectorItemControl(GraphVectorItem owner)
+            : base(owner)
+        {
+        }
+
+        public new GraphVectorItem _owner => (GraphVectorItem)base._owner;
+
+        public override void InternalRender(IRenderer g, SolusEnvironment env)
+        {
+            _owner.InternalRender2(g, env);
+        }
+
+        public override Vector2 InternalCalcSize(IRenderer g)
+        {
+            return _owner.InternalCalcSize2(g);
+        }
+    }
+
+    public class GraphVectorItemWidget : RenderItemWidget
+    {
+        public GraphVectorItemWidget(GraphVectorItem owner)
+            : base(owner)
+        {
+        }
+
+        public new GraphVectorItem _owner => (GraphVectorItem)base._owner;
+
+        public override void InternalRender(IRenderer g, SolusEnvironment env)
+        {
+            _owner.InternalRender2(g, env);
+        }
+
+        public override Vector2 InternalCalcSize(IRenderer g)
+        {
+            return _owner.InternalCalcSize2(g);
         }
     }
 }
