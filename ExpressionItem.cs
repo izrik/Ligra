@@ -1144,16 +1144,6 @@ namespace MetaphysicsIndustries.Ligra
             : base(owner)
         {
         }
-
-        public override void InternalRender(IRenderer g, SolusEnvironment env)
-        {
-            _owner.InternalRender2(g, env);
-        }
-
-        public override Vector2 InternalCalcSize(IRenderer g)
-        {
-            return _owner.InternalCalcSize2(g);
-        }
     }
 
     public class ExpressionItemControl : RenderItemControl
@@ -1161,18 +1151,6 @@ namespace MetaphysicsIndustries.Ligra
         public ExpressionItemControl(ExpressionItem owner)
             : base(owner)
         {
-
-        }
-
-        public override void InternalRender(IRenderer g,
-            SolusEnvironment env)
-        {
-            _owner.InternalRender2(g, env);
-        }
-
-        public override Vector2 InternalCalcSize(IRenderer g)
-        {
-            return _owner.InternalCalcSize2(g);
         }
     }
 }

@@ -191,16 +191,6 @@ Type ""help list"" to see the current environment";
             : base(owner)
         {
         }
-
-        public override void InternalRender(IRenderer g, SolusEnvironment env)
-        {
-            _owner.InternalRender2(g, env);
-        }
-
-        public override Vector2 InternalCalcSize(IRenderer g)
-        {
-            return _owner.InternalCalcSize2(g);
-        }
     }
 
     public class HelpItemWidget : RenderItemWidget
@@ -208,16 +198,6 @@ Type ""help list"" to see the current environment";
         public HelpItemWidget(HelpItem owner)
             : base(owner)
         {
-        }
-
-        public override void InternalRender(IRenderer g, SolusEnvironment env)
-        {
-            _owner.InternalRender2(g, env);
-        }
-
-        public override Vector2 InternalCalcSize(IRenderer g)
-        {
-            return _owner.InternalCalcSize2(g);
         }
     }
 }

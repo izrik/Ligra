@@ -291,16 +291,6 @@ namespace MetaphysicsIndustries.Ligra
             : base(owner)
         {
         }
-
-        public override void InternalRender(IRenderer g, SolusEnvironment env)
-        {
-            _owner.InternalRender2(g, env);
-        }
-
-        public override Vector2 InternalCalcSize(IRenderer g)
-        {
-            return _owner.InternalCalcSize2(g);
-        }
     }
 
     public class GraphMatrixItemWidget : RenderItemWidget
@@ -308,16 +298,6 @@ namespace MetaphysicsIndustries.Ligra
         public GraphMatrixItemWidget(GraphMatrixItem owner)
             : base(owner)
         {
-        }
-
-        public override void InternalRender(IRenderer g, SolusEnvironment env)
-        {
-            _owner.InternalRender2(g, env);
-        }
-
-        public override Vector2 InternalCalcSize(IRenderer g)
-        {
-            return _owner.InternalCalcSize2(g);
         }
     }
 }

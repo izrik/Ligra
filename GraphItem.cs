@@ -339,16 +339,6 @@ namespace MetaphysicsIndustries.Ligra
         {
             get { return new Size(400, 400); }
         }
-
-        public override void InternalRender(IRenderer g, SolusEnvironment env)
-        {
-            _owner.InternalRender2(g, env);
-        }
-
-        public override Vector2 InternalCalcSize(IRenderer g)
-        {
-            return _owner.InternalCalcSize2(g);
-        }
     }
 
     public class GraphItemWidget : RenderItemWidget
@@ -357,16 +347,6 @@ namespace MetaphysicsIndustries.Ligra
             : base(owner)
         {
             this.SetSizeRequest(400, 400);
-        }
-
-        public override void InternalRender(IRenderer g, SolusEnvironment env)
-        {
-            _owner.InternalRender2(g, env);
-        }
-
-        public override Vector2 InternalCalcSize(IRenderer g)
-        {
-            return _owner.InternalCalcSize2(g);
         }
     }
 }
