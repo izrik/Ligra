@@ -64,27 +64,31 @@ namespace MetaphysicsIndustries.Ligra
 
         static readonly SolusEngine _engine = new SolusEngine();
 
-        public MemoryImage RenderMathPaintToMemoryImage(SolusEnvironment env)
+        public void RenderMathPaintToMemoryImage(SolusEnvironment env)
         {
-            var image = RenderMathPaintToMemoryImage(
-                            _expression,
-                            _horizontalCoordinate,
-                            _verticalCoordinate,
-                            _hStart,
-                            _width,
-                            _vStart,
-                            _height,
-                            env);
-
-            if (_image != null)
-            {
-                _image.Dispose();
-                _image = null;
-            }
-
-            _image = image;
-            return image;
+            if (_image == null)
+                _image = RenderMathPaintToMemoryImage(
+                    _expression,
+                    _horizontalCoordinate,
+                    _verticalCoordinate,
+                    _hStart,
+                    _width,
+                    _vStart,
+                    _height,
+                    env);
+            else
+                RenderMathPaintToMemoryImage(
+                    _image,
+                    _expression,
+                    _horizontalCoordinate,
+                    _verticalCoordinate,
+                    _hStart,
+                    _width,
+                    _vStart,
+                    _height,
+                    env);
         }
+
         public static MemoryImage RenderMathPaintToMemoryImage(
             Expression expression, 
             string independentVariableX, 
@@ -95,8 +99,33 @@ namespace MetaphysicsIndustries.Ligra
         {
             int xValues = xEnd - xStart + 1;
             int yValues = yEnd - yStart + 1;
+            var image = new MemoryImage(xValues, yValues);
+            RenderMathPaintToMemoryImage(
+                image,
+                expression,
+                independentVariableX,
+                independentVariableY,
+                xStart, xEnd,
+                yStart, yEnd,
+                env);
+            return image;
+        }
 
-            double[,] values = new double[xValues, yValues];
+        public static void RenderMathPaintToMemoryImage(
+            MemoryImage image,
+            Expression expression,
+            string independentVariableX,
+            string independentVariableY,
+            int xStart, int xEnd,
+            int yStart, int yEnd,
+            SolusEnvironment env)
+        {
+            int xValues = xEnd - xStart + 1;
+            int yValues = yEnd - yStart + 1;
+
+            if (image.Width < xValues || image.Height < yValues)
+                throw new InvalidOperationException(
+                    "MemoryImage not large enough.");
 
             Expression prelimEval1;
             Expression prelimEval2;
@@ -116,7 +145,6 @@ namespace MetaphysicsIndustries.Ligra
             int j;
             double z;
 
-            MemoryImage image = new MemoryImage(xValues, yValues);
             //image.Size = new Size(xValues, yValues);
 
             for (i = 0; i < xValues; i++)
@@ -144,9 +172,6 @@ namespace MetaphysicsIndustries.Ligra
                     //values[i, j] = z;
                 }
             }
-
-            image.CopyPixelsToBitmap();
-            return image;
         }
 
         protected override Widget GetAdapterInternal()
