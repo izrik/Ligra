@@ -152,13 +152,27 @@ namespace MetaphysicsIndustries.Ligra
 
         public void DrawPolygon(LPen pen, Vector2[] points)
         {
-            throw new System.NotImplementedException();
+            context.SetSourceRGB(pen.Color.R, pen.Color.G, pen.Color.B);
+            bool first = true;
+            foreach (var pt in points)
+            {
+                if (first)
+                {
+                    context.MoveTo(pt.X, pt.Y);
+                    first = false;
+                }
+                else
+                {
+                    context.LineTo(pt.X, pt.Y);
+                }
+            }
+            context.Stroke();
         }
 
         public void DrawRectangle(LPen pen, float x, float y, float width,
             float height)
         {
-            context.SetSourceRGB(0.5, 0.5, 0.5);
+            context.SetSourceRGB(pen.Color.R, pen.Color.G, pen.Color.B);
             context.Rectangle(x, y, width, height);
             context.Stroke();
         }
@@ -200,12 +214,28 @@ namespace MetaphysicsIndustries.Ligra
 
         public void FillPolygon(LBrush brush, Vector2[] points)
         {
-            throw new System.NotImplementedException();
+            context.SetSourceRGB(brush.Color.R, brush.Color.G, brush.Color.B);
+            bool first = true;
+            foreach (var pt in points)
+            {
+                if (first)
+                {
+                    context.MoveTo(pt.X, pt.Y);
+                    first = false;
+                }
+                else
+                {
+                    context.LineTo(pt.X, pt.Y);
+                }
+            }
+            context.Fill();
         }
 
         public void FillRectangle(LBrush brush, RectangleF rect)
         {
-            throw new System.NotImplementedException();
+            context.SetSourceRGB(brush.Color.R, brush.Color.G, brush.Color.B);
+            context.Rectangle(rect.X, rect.Y, rect.Width, rect.Height);
+            context.Fill();
         }
 
         public Vector2 MeasureString(string s, LFont font)

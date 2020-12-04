@@ -45,6 +45,11 @@ namespace MetaphysicsIndustries.Ligra
         public float _zMin;
         public float _zMax;
 
+        int lastTime = Environment.TickCount;
+        int numRenders = 0;
+        int numTicks = 0;
+        string fps = "";
+
         //public override bool HasChanged(VariableTable env)
         //{
         //    throw new NotImplementedException();
@@ -63,54 +68,15 @@ namespace MetaphysicsIndustries.Ligra
 
         protected override Widget GetAdapterInternal()
         {
-            throw new NotImplementedException();
+            return new Graph3dItemWidget(this);
         }
 
         protected override RenderItemControl GetControlInternal()
         {
             return new Graph3dItemControl(this);
         }
-    }
 
-    public class Graph3dItemControl : RenderItemControl
-    {
-        public Graph3dItemControl(Graph3dItem owner)
-            : base(owner)
-        {
-            _timer = new System.Windows.Forms.Timer();
-            _timer.Tick += _timer_Tick;
-            _timer.Interval = 250;
-            _timer.Enabled = true;
-        }
-
-        public new Graph3dItem _owner => (Graph3dItem)base._owner;
-
-        void _timer_Tick(object sender, EventArgs e)
-        {
-            this.Invalidate();
-        }
-
-        System.Windows.Forms.Timer _timer;
-
-        static SolusEngine _engine => Graph3dItem._engine;
-        private Expression _expression => _owner._expression;
-        private LPen _pen => _owner._pen;
-        private LBrush _brush => _owner._brush;
-        private string _independentVariableX => _owner._independentVariableX;
-        private string _independentVariableY => _owner._independentVariableY;
-        private float _xMin => _owner._xMin;
-        private float _xMax => _owner._xMax;
-        private float _yMin => _owner._yMin;
-        private float _yMax => _owner._yMax;
-        private float _zMin => _owner._zMin;
-        private float _zMax => _owner._zMax;
-
-        int lastTime = Environment.TickCount;
-        int numRenders = 0;
-        int numTicks = 0;
-        string fps = "";
-
-        public override void InternalRender(IRenderer g, SolusEnvironment env)
+        public void InternalRender2(IRenderer g, SolusEnvironment env)
         {
             var stime = Environment.TickCount;
 
@@ -123,7 +89,7 @@ namespace MetaphysicsIndustries.Ligra
                 _expression,
                 _independentVariableX,
                 _independentVariableY,
-                env, true, LFont.FromSwf(this.Font));
+                env, true, _env.Font);
 
             var dtime = Environment.TickCount - stime;
             numTicks += dtime;
@@ -138,10 +104,10 @@ namespace MetaphysicsIndustries.Ligra
                 numRenders = 0;
             }
 
-            g.DrawString(fps, LFont.FromSwf(this.Font), LBrush.Blue, new Vector2(0, 0));
+            g.DrawString(fps, _env.Font, LBrush.Blue, new Vector2(0, 0));
         }
 
-        public override Vector2 InternalCalcSize(IRenderer g)
+        public Vector2 InternalCalcSize2(IRenderer g)
         {
             return new Vector2(400, 400);
         }
@@ -314,6 +280,68 @@ namespace MetaphysicsIndustries.Ligra
                     g.DrawPolygon(pen, poly);
                 }
             }
+        }
+    }
+
+    public class Graph3dItemControl : RenderItemControl
+    {
+        public Graph3dItemControl(Graph3dItem owner)
+            : base(owner)
+        {
+            _timer = new System.Windows.Forms.Timer();
+            _timer.Tick += _timer_Tick;
+            _timer.Interval = 250;
+            _timer.Enabled = true;
+        }
+
+        public new Graph3dItem _owner => (Graph3dItem)base._owner;
+
+        void _timer_Tick(object sender, EventArgs e)
+        {
+            this.Invalidate();
+        }
+
+        System.Windows.Forms.Timer _timer;
+
+        public override void InternalRender(IRenderer g, SolusEnvironment env)
+        {
+            _owner.InternalRender2(g, env);
+        }
+
+        public override Vector2 InternalCalcSize(IRenderer g)
+        {
+            return _owner.InternalCalcSize2(g);
+        }
+    }
+
+    public class Graph3dItemWidget : RenderItemWidget
+    {
+        public Graph3dItemWidget(Graph3dItem owner)
+            : base(owner)
+        {
+            this.SetSizeRequest(400, 400);
+            _timer = new System.Timers.Timer(250);
+            _timer.Elapsed += _timer_Elapsed;
+            _timer.Enabled = true;
+        }
+
+        public new Graph3dItem _owner => (Graph3dItem)base._owner;
+
+        System.Timers.Timer _timer;
+
+        public override void InternalRender(IRenderer g, SolusEnvironment env)
+        {
+            _owner.InternalRender2(g, env);
+        }
+
+        public override Vector2 InternalCalcSize(IRenderer g)
+        {
+            return _owner.InternalCalcSize2(g);
+        }
+
+        private void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            QueueDraw();
         }
     }
 }
