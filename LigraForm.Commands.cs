@@ -230,7 +230,8 @@ namespace MetaphysicsIndustries.Ligra
             {
                 //print the current directory
                 string dir = System.IO.Directory.GetCurrentDirectory();
-                _env.AddRenderItem(new InfoItem(dir, ligraControl1.Font, env));
+                _env.AddRenderItem(
+                    new InfoItem(dir, LFont.FromSwf(ligraControl1.Font), env));
             }
             else if (!System.IO.Directory.Exists(args[1]))
             {
@@ -244,7 +245,10 @@ namespace MetaphysicsIndustries.Ligra
                 try
                 {
                     System.IO.Directory.SetCurrentDirectory(dir);
-                    _env.AddRenderItem(new InfoItem("Directory changed to \"" + dir + "\"", ligraControl1.Font, env));
+                    _env.AddRenderItem(
+                        new InfoItem(
+                            "Directory changed to \"" + dir + "\"",
+                            LFont.FromSwf(ligraControl1.Font), env));
                 }
                 catch (Exception e)
                 {

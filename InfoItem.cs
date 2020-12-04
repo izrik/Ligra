@@ -9,7 +9,7 @@ namespace MetaphysicsIndustries.Ligra
 {
     public class InfoItem : RenderItem
     {
-        public InfoItem(string text, object font, LigraEnvironment env)
+        public InfoItem(string text, LFont font, LigraEnvironment env)
             : base(env)
         {
             _text = text;
@@ -17,16 +17,26 @@ namespace MetaphysicsIndustries.Ligra
         }
 
         public string _text;
-        public object _font;
+        public LFont _font;
 
         protected override Widget GetAdapterInternal()
         {
-            throw new NotImplementedException();
+            return new InfoItemWidget(this);
         }
 
         protected override RenderItemControl GetControlInternal()
         {
             return new InfoItemControl(this);
+        }
+
+        public void InternalRender2(IRenderer g, SolusEnvironment env)
+        {
+            g.DrawString(_text, _font, LBrush.Black, new Vector2(0, 0));
+        }
+
+        public Vector2 InternalCalcSize2(IRenderer g)
+        {
+            return g.MeasureString(_text, _font);
         }
     }
 
@@ -39,17 +49,34 @@ namespace MetaphysicsIndustries.Ligra
 
         public new InfoItem _owner => (InfoItem)base._owner;
 
-        string _text => _owner._text;
-        Font _font => (Font)_owner._font;
-
         public override void InternalRender(IRenderer g, SolusEnvironment env)
         {
-            g.DrawString(_text, LFont.FromSwf(_font), new LBrush(LColor.FromSwf(Color.Black)), new Vector2(0, 0));
+            _owner.InternalRender2(g, env);
         }
 
         public override Vector2 InternalCalcSize(IRenderer g)
         {
-            return g.MeasureString(_text, LFont.FromSwf(_font));
+            return _owner.InternalCalcSize2(g);
+        }
+    }
+
+    public class InfoItemWidget : RenderItemWidget
+    {
+        public InfoItemWidget(InfoItem owner)
+            : base(owner)
+        {
+        }
+
+        public new InfoItem _owner => (InfoItem)base._owner;
+
+        public override void InternalRender(IRenderer g, SolusEnvironment env)
+        {
+            _owner.InternalRender2(g, env);
+        }
+
+        public override Vector2 InternalCalcSize(IRenderer g)
+        {
+            return _owner.InternalCalcSize2(g);
         }
     }
 }
