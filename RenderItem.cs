@@ -230,15 +230,6 @@ namespace MetaphysicsIndustries.Ligra
 
         protected readonly RenderItem _owner;
 
-        public void InternalRender(IRenderer g, SolusEnvironment env)
-        {
-            _owner.InternalRender2(g, env);
-        }
-        public Vector2 InternalCalcSize(IRenderer g)
-        {
-            return _owner.InternalCalcSize2(g);
-        }
-
         private void RenderItemWidget_Drawn(object o, DrawnArgs args)
         {
             var g = new GtkRenderer(args.Cr, this);
@@ -256,15 +247,6 @@ namespace MetaphysicsIndustries.Ligra
         }
 
         protected readonly RenderItem _owner;
-
-        public void InternalRender(IRenderer g, SolusEnvironment env)
-        {
-            _owner.InternalRender2(g, env);
-        }
-        public Vector2 InternalCalcSize(IRenderer g)
-        {
-            return _owner.InternalCalcSize2(g);
-        }
 
         protected override void OnPaint(PaintEventArgs e)
         {
