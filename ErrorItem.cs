@@ -36,7 +36,7 @@ namespace MetaphysicsIndustries.Ligra
             return new ErrorItemControl(this);
         }
 
-        public void InternalRender2(IRenderer g, SolusEnvironment env)
+        public override void InternalRender2(IRenderer g, SolusEnvironment env)
         {
             var font = _font;
 
@@ -63,7 +63,7 @@ namespace MetaphysicsIndustries.Ligra
             g.DrawString(_errorText, font, _brush, new Vector2(0, y));
         }
 
-        public Vector2 InternalCalcSize2(IRenderer g)
+        public override Vector2 InternalCalcSize2(IRenderer g)
         {
             float y = 0;
             var font = _font;

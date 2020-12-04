@@ -193,7 +193,7 @@ namespace MetaphysicsIndustries.Ligra
             return new MathPaintItemControl(this);
         }
 
-        public void InternalRender2(IRenderer g, SolusEnvironment env)
+        public override void InternalRender2(IRenderer g, SolusEnvironment env)
         {
             RectangleF boundsInClient = new RectangleF(0, 0, _width, _height);
 
@@ -205,7 +205,7 @@ namespace MetaphysicsIndustries.Ligra
             g.DrawImage(_image, boundsInClient);
         }
 
-        public Vector2 InternalCalcSize2(IRenderer g)
+        public override Vector2 InternalCalcSize2(IRenderer g)
         {
             return new Vector2(_width, _height);
         }

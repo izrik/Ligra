@@ -32,11 +32,11 @@ namespace MetaphysicsIndustries.Ligra
             return new SpacerItemControl(this);
         }
 
-        public void InternalRender2(IRenderer g, SolusEnvironment env)
+        public override void InternalRender2(IRenderer g, SolusEnvironment env)
         {
         }
 
-        public Vector2 InternalCalcSize2(IRenderer g)
+        public override Vector2 InternalCalcSize2(IRenderer g)
         {
             return _size;
         }

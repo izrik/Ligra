@@ -82,7 +82,7 @@ namespace MetaphysicsIndustries.Ligra
             return new Graph3dItemControl(this);
         }
 
-        public void InternalRender2(IRenderer g, SolusEnvironment env)
+        public override void InternalRender2(IRenderer g, SolusEnvironment env)
         {
             var stime = Environment.TickCount;
 
@@ -113,7 +113,7 @@ namespace MetaphysicsIndustries.Ligra
             g.DrawString(fps, _env.Font, LBrush.Blue, new Vector2(0, 0));
         }
 
-        public Vector2 InternalCalcSize2(IRenderer g)
+        public override Vector2 InternalCalcSize2(IRenderer g)
         {
             return new Vector2(400, 400);
         }

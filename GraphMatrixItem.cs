@@ -206,7 +206,7 @@ namespace MetaphysicsIndustries.Ligra
             return new GraphMatrixItemControl(this);
         }
 
-        public void InternalRender2(IRenderer g,
+        public override void InternalRender2(IRenderer g,
             SolusEnvironment env)
         {
             RectangleF boundsInClient = new RectangleF(0, 0,
@@ -240,7 +240,7 @@ namespace MetaphysicsIndustries.Ligra
             g.DrawString(_caption, _env.Font, LBrush.Black, rect);
         }
 
-        public Vector2 InternalCalcSize2(IRenderer g)
+        public override Vector2 InternalCalcSize2(IRenderer g)
         {
             var width = GetImageWidth();
             var captionSize = g.MeasureString(_caption, _env.Font,

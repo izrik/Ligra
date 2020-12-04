@@ -33,7 +33,7 @@ namespace MetaphysicsIndustries.Ligra
             return new RenderItemContainerControl(this);
         }
 
-        public void InternalRender2(IRenderer g, SolusEnvironment env)
+        public override void InternalRender2(IRenderer g, SolusEnvironment env)
         {
             var font2 = new LFont(_env.Font.Family, _env.Font.Size * 2,
                 LFont.Styles.Bold);
@@ -68,7 +68,7 @@ namespace MetaphysicsIndustries.Ligra
             //return new SizeF(width, height);
         }
 
-        public Vector2 InternalCalcSize2(IRenderer g)
+        public override Vector2 InternalCalcSize2(IRenderer g)
         {
             var font2 = new LFont(_env.Font.Family, _env.Font.Size * 2,
                 LFont.Styles.Bold);

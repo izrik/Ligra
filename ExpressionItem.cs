@@ -116,7 +116,7 @@ namespace MetaphysicsIndustries.Ligra
             return new ExpressionItemControl(this);
         }
 
-        public void InternalRender2(IRenderer g, SolusEnvironment env)
+        public override void InternalRender2(IRenderer g, SolusEnvironment env)
         {
             var exprSize = CalcExpressionSize(Expression, g, Font);
             float xx = 0;
@@ -131,7 +131,7 @@ namespace MetaphysicsIndustries.Ligra
             RenderExpression(g, _expression, new Vector2(xx, 0), _pen, _pen.Brush, Font, false);
         }
 
-        public Vector2 InternalCalcSize2(IRenderer g)
+        public override Vector2 InternalCalcSize2(IRenderer g)
         {
             var exprSize = CalcExpressionSize(Expression, g, Font);
 

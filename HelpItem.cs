@@ -174,12 +174,12 @@ Type ""help list"" to see the current environment";
             return new HelpItemControl(this);
         }
 
-        public void InternalRender2(IRenderer g, SolusEnvironment env)
+        public override void InternalRender2(IRenderer g, SolusEnvironment env)
         {
             g.DrawString(_topic, _font, LBrush.Magenta, new Vector2(0, 0));
         }
 
-        public Vector2 InternalCalcSize2(IRenderer g)
+        public override Vector2 InternalCalcSize2(IRenderer g)
         {
             return g.MeasureString(_topic, _font);//, 500);
         }

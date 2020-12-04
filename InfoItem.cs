@@ -29,12 +29,12 @@ namespace MetaphysicsIndustries.Ligra
             return new InfoItemControl(this);
         }
 
-        public void InternalRender2(IRenderer g, SolusEnvironment env)
+        public override void InternalRender2(IRenderer g, SolusEnvironment env)
         {
             g.DrawString(_text, _font, LBrush.Black, new Vector2(0, 0));
         }
 
-        public Vector2 InternalCalcSize2(IRenderer g)
+        public override Vector2 InternalCalcSize2(IRenderer g)
         {
             return g.MeasureString(_text, _font);
         }

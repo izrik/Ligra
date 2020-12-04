@@ -115,6 +115,7 @@ namespace MetaphysicsIndustries.Ligra
             else if (_adapter is RenderItemWidget)
                 ((RenderItemWidget)_adapter).InternalRender(g, env);
         }
+        public abstract void InternalRender2(IRenderer g, SolusEnvironment env);
         protected Vector2 InternalCalcSize(IRenderer g)
         {
             if (_control != null)
@@ -124,6 +125,7 @@ namespace MetaphysicsIndustries.Ligra
 
             throw new NotImplementedException();
         }
+        public abstract Vector2 InternalCalcSize2(IRenderer g);
         public Vector2 CalculateSize(IRenderer g)
         {
             return InternalCalcSize(g);

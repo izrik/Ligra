@@ -48,7 +48,7 @@ namespace MetaphysicsIndustries.Ligra
             return new ApplyMatrixFilterItemControl(this);
         }
 
-        public void InternalRender2(IRenderer g, SolusEnvironment env)
+        public override void InternalRender2(IRenderer g, SolusEnvironment env)
         {
             Matrix mat = _filter.Apply(_matrix);
             mat.ApplyToAll(AcuityEngine.ConvertFloatTo24g);
@@ -78,7 +78,7 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        public Vector2 InternalCalcSize2(IRenderer g)
+        public override Vector2 InternalCalcSize2(IRenderer g)
         {
             return _lastSize + new Vector2(0, g.MeasureString(_caption, _env.Font, (int)_lastSize.X).Y + 2);
         }
