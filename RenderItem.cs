@@ -214,7 +214,7 @@ namespace MetaphysicsIndustries.Ligra
         }
     }
 
-    public abstract class RenderItemWidget : DrawingArea
+    public class RenderItemWidget : DrawingArea
     {
         protected RenderItemWidget(RenderItem owner)
         {
@@ -241,7 +241,7 @@ namespace MetaphysicsIndustries.Ligra
         }
     }
 
-    public abstract class RenderItemControl : Panel
+    public class RenderItemControl : Panel
     {
         protected RenderItemControl(RenderItem owner)
         {
