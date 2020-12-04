@@ -151,12 +151,29 @@ namespace MetaphysicsIndustries.Ligra
 
         protected override Widget GetAdapterInternal()
         {
-            throw new NotImplementedException();
+            return new MathPaintItemWidget(this);
         }
 
         protected override RenderItemControl GetControlInternal()
         {
             return new MathPaintItemControl(this);
+        }
+
+        public void InternalRender2(IRenderer g, SolusEnvironment env)
+        {
+            RectangleF boundsInClient = new RectangleF(0, 0, _width, _height);
+
+            if (_image == null || HasChanged(env))
+            {
+                RenderMathPaintToMemoryImage(env);
+            }
+
+            g.DrawImage(_image, boundsInClient);
+        }
+
+        public Vector2 InternalCalcSize2(IRenderer g)
+        {
+            return new Vector2(_width, _height);
         }
     }
 
@@ -169,34 +186,34 @@ namespace MetaphysicsIndustries.Ligra
 
         public new MathPaintItem _owner => (MathPaintItem)base._owner;
 
-        public Expression _expression => _owner._expression;
-        public string _horizontalCoordinate => _owner._horizontalCoordinate;
-        public string _verticalCoordinate => _owner._verticalCoordinate;
-        public int _hStart => _owner._hStart;
-        public int _width => _owner._width;
-        public int _vStart => _owner._vStart;
-        public int _height => _owner._height;
-        public MemoryImage _image => _owner._image;
-
-        bool HasChanged(SolusEnvironment env) => _owner.HasChanged(env);
-        MemoryImage RenderMathPaintToMemoryImage(SolusEnvironment env) =>
-            _owner.RenderMathPaintToMemoryImage(env);
-
         public override void InternalRender(IRenderer g, SolusEnvironment env)
         {
-            RectangleF boundsInClient = new RectangleF(0, 0, _width, _height);
-
-            if (_image == null || HasChanged(env))
-            {
-                RenderMathPaintToMemoryImage(env);
-            }
-
-            g.DrawImage(_image, boundsInClient);
+            _owner.InternalRender2(g, env);
         }
 
         public override Vector2 InternalCalcSize(IRenderer g)
         {
-            return new Vector2(_width, _height);
+            return _owner.InternalCalcSize2(g);
+        }
+    }
+
+    public class MathPaintItemWidget : RenderItemWidget
+    {
+        public MathPaintItemWidget(MathPaintItem owner)
+            : base(owner)
+        {
+        }
+
+        public new MathPaintItem _owner => (MathPaintItem)base._owner;
+
+        public override void InternalRender(IRenderer g, SolusEnvironment env)
+        {
+            _owner.InternalRender2(g, env);
+        }
+
+        public override Vector2 InternalCalcSize(IRenderer g)
+        {
+            return _owner.InternalCalcSize2(g);
         }
     }
 }

@@ -132,9 +132,23 @@ namespace MetaphysicsIndustries.Ligra
             context.Stroke();
         }
 
+        public static Gdk.Pixbuf PixBufFromMemoryImage(MemoryImage mi)
+        {
+            var pixelBytes = mi.AllocateByteArrayForPixels();
+            mi.CopyPixelsToArray(pixelBytes);
+            var pixbuf = new Gdk.Pixbuf(pixelBytes, Gdk.Colorspace.Rgb, true,
+                8, mi.Width, mi.Height, mi.Width * 4);
+            return pixbuf;
+        }
+
         public void DrawImage(MemoryImage image, RectangleF rect)
         {
-            throw new System.NotImplementedException();
+            using (var pixbuf = PixBufFromMemoryImage(image))
+            {
+                Gdk.CairoHelper.SetSourcePixbuf(context, pixbuf, 0, 0);
+                context.Rectangle(rect.X, rect.Y, rect.Width, rect.Height);
+                context.Fill();
+            }
         }
 
         public void DrawLine(LPen pen, float x1, float y1, float x2, float y2)
