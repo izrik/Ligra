@@ -22,6 +22,11 @@ namespace MetaphysicsIndustries.Ligra
             return new Vector2(size.Width, size.Height);
         }
 
+        public static Size ToSize(this Vector2 v)
+        {
+            return new Size(v.X.RoundToInt(), v.Y.RoundToInt());
+        }
+
         public static Vector2[] ToVector2(this PointF[] points)
         {
             if (points == null) return null;

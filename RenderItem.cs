@@ -184,6 +184,8 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
+        public virtual Vector2? DefaultSize => null;
+
         public Size Size
         {
             get
@@ -219,6 +221,11 @@ namespace MetaphysicsIndustries.Ligra
         protected RenderItemWidget(RenderItem owner)
         {
             _owner = owner;
+            if (_owner.DefaultSize.HasValue)
+            {
+                var size = _owner.DefaultSize.Value;
+                this.SetSizeRequest(size.X.RoundToInt(), size.Y.RoundToInt());
+            }
 
             this.Drawn += RenderItemWidget_Drawn;
         }
@@ -246,6 +253,8 @@ namespace MetaphysicsIndustries.Ligra
         protected RenderItemControl(RenderItem owner)
         {
             _owner = owner;
+            if (_owner.DefaultSize.HasValue)
+                this.Size = _owner.DefaultSize.Value.ToSize();
         }
 
         protected readonly RenderItem _owner;

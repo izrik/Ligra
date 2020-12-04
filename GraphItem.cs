@@ -216,6 +216,8 @@ namespace MetaphysicsIndustries.Ligra
             return Rect.Size.ToVector2();
         }
 
+        public override Vector2? DefaultSize => new Vector2(400, 400);
+
         public static void RenderGraph(IRenderer g, RectangleF boundsInClient,
             LPen pen, LBrush brush,
             float xMin, float xMax, float yMin, float yMax,
