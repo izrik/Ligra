@@ -72,16 +72,6 @@ namespace MetaphysicsIndustries.Ligra
             UngatherVariableForValueCollection(vars, _independentVariableY);
         }
 
-        protected override Widget GetAdapterInternal()
-        {
-            return new RenderItemWidget(this);
-        }
-
-        protected override RenderItemControl GetControlInternal()
-        {
-            return new RenderItemControl(this);
-        }
-
         public override void InternalRender2(IRenderer g, SolusEnvironment env)
         {
             var stime = Environment.TickCount;

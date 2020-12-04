@@ -196,16 +196,6 @@ namespace MetaphysicsIndustries.Ligra
             return image;
         }
 
-        protected override Widget GetAdapterInternal()
-        {
-            return new RenderItemWidget(this);
-        }
-
-        protected override RenderItemControl GetControlInternal()
-        {
-            return new RenderItemControl(this);
-        }
-
         public override void InternalRender2(IRenderer g,
             SolusEnvironment env)
         {

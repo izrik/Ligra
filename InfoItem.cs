@@ -19,16 +19,6 @@ namespace MetaphysicsIndustries.Ligra
         public string _text;
         public LFont _font;
 
-        protected override Widget GetAdapterInternal()
-        {
-            return new RenderItemWidget(this);
-        }
-
-        protected override RenderItemControl GetControlInternal()
-        {
-            return new RenderItemControl(this);
-        }
-
         public override void InternalRender2(IRenderer g, SolusEnvironment env)
         {
             g.DrawString(_text, _font, LBrush.Black, new Vector2(0, 0));

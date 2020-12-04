@@ -23,16 +23,6 @@ namespace MetaphysicsIndustries.Ligra
             get { return _items; }
         }
 
-        protected override Widget GetAdapterInternal()
-        {
-            return new RenderItemWidget(this);
-        }
-
-        protected override RenderItemControl GetControlInternal()
-        {
-            return new RenderItemControl(this);
-        }
-
         public override void InternalRender2(IRenderer g, SolusEnvironment env)
         {
             var font2 = new LFont(_env.Font.Family, _env.Font.Size * 2,

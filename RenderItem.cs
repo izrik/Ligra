@@ -97,7 +97,10 @@ namespace MetaphysicsIndustries.Ligra
                 _control = GetControlInternal();
             return _control;
         }
-        protected abstract RenderItemControl GetControlInternal();
+        protected RenderItemControl GetControlInternal()
+        {
+            return new RenderItemControl(this);
+        }
 
         protected Widget _adapter;
         public Widget GetAdapter()
@@ -106,7 +109,10 @@ namespace MetaphysicsIndustries.Ligra
                 _adapter = GetAdapterInternal();
             return _adapter;
         }
-        protected abstract Widget GetAdapterInternal();
+        protected Widget GetAdapterInternal()
+        {
+            return new RenderItemWidget(this);
+        }
 
         protected void InternalRender(IRenderer g, SolusEnvironment env)
         {

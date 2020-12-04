@@ -164,16 +164,6 @@ Type ""help list"" to see the current environment";
         public readonly string _topic;
         public readonly LFont _font;
 
-        protected override Widget GetAdapterInternal()
-        {
-            return new RenderItemWidget(this);
-        }
-
-        protected override RenderItemControl GetControlInternal()
-        {
-            return new RenderItemControl(this);
-        }
-
         public override void InternalRender2(IRenderer g, SolusEnvironment env)
         {
             g.DrawString(_topic, _font, LBrush.Magenta, new Vector2(0, 0));

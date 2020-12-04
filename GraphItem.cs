@@ -154,16 +154,6 @@ namespace MetaphysicsIndustries.Ligra
             get { return true; }
         }
 
-        protected override Widget GetAdapterInternal()
-        {
-            return new RenderItemWidget(this);
-        }
-
-        protected override RenderItemControl GetControlInternal()
-        {
-            return new RenderItemControl(this);
-        }
-
         public RectangleF Rect
         {
             get

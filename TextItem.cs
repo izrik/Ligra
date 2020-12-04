@@ -24,16 +24,6 @@ namespace MetaphysicsIndustries.Ligra
             return false;
         }
 
-        protected override Widget GetAdapterInternal()
-        {
-            return new RenderItemWidget(this);
-        }
-
-        protected override RenderItemControl GetControlInternal()
-        {
-            return new RenderItemControl(this);
-        }
-
         public override void InternalRender2(IRenderer g, SolusEnvironment env)
         {
             RectangleF rect = new RectangleF(new PointF(0, 0),
