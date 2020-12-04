@@ -21,12 +21,12 @@ namespace MetaphysicsIndustries.Ligra
 
         protected override Widget GetAdapterInternal()
         {
-            return new InfoItemWidget(this);
+            return new RenderItemWidget(this);
         }
 
         protected override RenderItemControl GetControlInternal()
         {
-            return new InfoItemControl(this);
+            return new RenderItemControl(this);
         }
 
         public override void InternalRender2(IRenderer g, SolusEnvironment env)
@@ -37,22 +37,6 @@ namespace MetaphysicsIndustries.Ligra
         public override Vector2 InternalCalcSize2(IRenderer g)
         {
             return g.MeasureString(_text, _font);
-        }
-    }
-
-    public class InfoItemControl : RenderItemControl
-    {
-        public InfoItemControl(InfoItem owner)
-            : base(owner)
-        {
-        }
-    }
-
-    public class InfoItemWidget : RenderItemWidget
-    {
-        public InfoItemWidget(InfoItem owner)
-            : base(owner)
-        {
         }
     }
 }

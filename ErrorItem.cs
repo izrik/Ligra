@@ -28,12 +28,12 @@ namespace MetaphysicsIndustries.Ligra
 
         protected override Widget GetAdapterInternal()
         {
-            return new ErrorItemWidget(this);
+            return new RenderItemWidget(this);
         }
 
         protected override RenderItemControl GetControlInternal()
         {
-            return new ErrorItemControl(this);
+            return new RenderItemControl(this);
         }
 
         public override void InternalRender2(IRenderer g, SolusEnvironment env)
@@ -74,22 +74,6 @@ namespace MetaphysicsIndustries.Ligra
             }
 
             return g.MeasureString(_errorText, font) + new Vector2(0, y);
-        }
-    }
-
-    public class ErrorItemControl : RenderItemControl
-    {
-        public ErrorItemControl(ErrorItem owner)
-            : base(owner)
-        {
-        }
-    }
-
-    public class ErrorItemWidget : RenderItemWidget
-    {
-        public ErrorItemWidget(ErrorItem owner)
-            : base(owner)
-        {
         }
     }
 }

@@ -108,12 +108,12 @@ namespace MetaphysicsIndustries.Ligra
 
         protected override Widget GetAdapterInternal()
         {
-            return new ExpressionItemWidget(this);
+            return new RenderItemWidget(this);
         }
 
         protected override RenderItemControl GetControlInternal()
         {
-            return new ExpressionItemControl(this);
+            return new RenderItemControl(this);
         }
 
         public override void InternalRender2(IRenderer g, SolusEnvironment env)
@@ -1135,22 +1135,6 @@ namespace MetaphysicsIndustries.Ligra
                 size = new Vector2(width, height);
             }
             return size;
-        }
-    }
-
-    public class ExpressionItemWidget : RenderItemWidget
-    {
-        public ExpressionItemWidget(ExpressionItem owner)
-            : base(owner)
-        {
-        }
-    }
-
-    public class ExpressionItemControl : RenderItemControl
-    {
-        public ExpressionItemControl(ExpressionItem owner)
-            : base(owner)
-        {
         }
     }
 }

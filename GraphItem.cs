@@ -81,6 +81,7 @@ namespace MetaphysicsIndustries.Ligra
             _timer.Elapsed += _timer_Elapsed;
             _timer.Enabled = true;
         }
+
         public float _maxX;
         public float _minX;
         public float _maxY;
@@ -155,12 +156,12 @@ namespace MetaphysicsIndustries.Ligra
 
         protected override Widget GetAdapterInternal()
         {
-            return new GraphItemWidget(this);
+            return new RenderItemWidget(this);
         }
 
         protected override RenderItemControl GetControlInternal()
         {
-            return new GraphItemControl(this);
+            return new RenderItemControl(this);
         }
 
         public RectangleF Rect
@@ -327,28 +328,6 @@ namespace MetaphysicsIndustries.Ligra
         private void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             Invalidate();
-        }
-    }
-
-    public class GraphItemControl : RenderItemControl
-    {
-        public GraphItemControl(GraphItem owner)
-            : base(owner)
-        {
-        }
-
-        protected override Size DefaultSize
-        {
-            get { return new Size(400, 400); }
-        }
-    }
-
-    public class GraphItemWidget : RenderItemWidget
-    {
-        public GraphItemWidget(GraphItem owner)
-            : base(owner)
-        {
-            this.SetSizeRequest(400, 400);
         }
     }
 }

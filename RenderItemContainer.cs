@@ -25,12 +25,12 @@ namespace MetaphysicsIndustries.Ligra
 
         protected override Widget GetAdapterInternal()
         {
-            throw new NotImplementedException();
+            return new RenderItemWidget(this);
         }
 
         protected override RenderItemControl GetControlInternal()
         {
-            return new RenderItemContainerControl(this);
+            return new RenderItemControl(this);
         }
 
         public override void InternalRender2(IRenderer g, SolusEnvironment env)
@@ -97,22 +97,6 @@ namespace MetaphysicsIndustries.Ligra
             height += 260;
 
             return new Vector2(width, height);
-        }
-    }
-
-    public class RenderItemContainerControl : RenderItemControl
-    {
-        public RenderItemContainerControl(RenderItemContainer owner)
-            : base(owner)
-        {
-        }
-    }
-
-    public class RenderItemContainerWidget : RenderItemWidget
-    {
-        public RenderItemContainerWidget(RenderItemContainer owner)
-            : base(owner)
-        {
         }
     }
 }

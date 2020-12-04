@@ -24,12 +24,12 @@ namespace MetaphysicsIndustries.Ligra
 
         protected override Widget GetAdapterInternal()
         {
-            throw new NotImplementedException();
+            return new RenderItemWidget(this);
         }
 
         protected override RenderItemControl GetControlInternal()
         {
-            return new SpacerItemControl(this);
+            return new RenderItemControl(this);
         }
 
         public override void InternalRender2(IRenderer g, SolusEnvironment env)
@@ -39,22 +39,6 @@ namespace MetaphysicsIndustries.Ligra
         public override Vector2 InternalCalcSize2(IRenderer g)
         {
             return _size;
-        }
-    }
-
-    public class SpacerItemControl : RenderItemControl
-    {
-        public SpacerItemControl(SpacerItem owner)
-            : base(owner)
-        {
-        }
-    }
-
-    public class SpacerItemWidget : RenderItemWidget
-    {
-        public SpacerItemWidget(SpacerItem owner)
-            : base(owner)
-        {
         }
     }
 }

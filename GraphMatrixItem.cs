@@ -198,12 +198,12 @@ namespace MetaphysicsIndustries.Ligra
 
         protected override Widget GetAdapterInternal()
         {
-            return new GraphMatrixItemWidget(this);
+            return new RenderItemWidget(this);
         }
 
         protected override RenderItemControl GetControlInternal()
         {
-            return new GraphMatrixItemControl(this);
+            return new RenderItemControl(this);
         }
 
         public override void InternalRender2(IRenderer g,
@@ -282,22 +282,6 @@ namespace MetaphysicsIndustries.Ligra
             var image =
                 GraphMatrixItem.RenderMatrixToMemoryImageColorS(r, g, b);
             return image.Bitmap;
-        }
-    }
-
-    public class GraphMatrixItemControl : RenderItemControl
-    {
-        public GraphMatrixItemControl(GraphMatrixItem owner)
-            : base(owner)
-        {
-        }
-    }
-
-    public class GraphMatrixItemWidget : RenderItemWidget
-    {
-        public GraphMatrixItemWidget(GraphMatrixItem owner)
-            : base(owner)
-        {
         }
     }
 }

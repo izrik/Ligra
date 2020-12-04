@@ -218,7 +218,7 @@ namespace MetaphysicsIndustries.Ligra
 
     public class RenderItemWidget : DrawingArea
     {
-        protected RenderItemWidget(RenderItem owner)
+        public RenderItemWidget(RenderItem owner)
         {
             _owner = owner;
             if (_owner.DefaultSize.HasValue)
@@ -250,7 +250,7 @@ namespace MetaphysicsIndustries.Ligra
 
     public class RenderItemControl : Panel
     {
-        protected RenderItemControl(RenderItem owner)
+        public RenderItemControl(RenderItem owner)
         {
             _owner = owner;
             if (_owner.DefaultSize.HasValue)

@@ -40,12 +40,12 @@ namespace MetaphysicsIndustries.Ligra
 
         protected override Widget GetAdapterInternal()
         {
-            return new ApplyMatrixFilterItemWidget(this);
+            return new RenderItemWidget(this);
         }
 
         protected override RenderItemControl GetControlInternal()
         {
-            return new ApplyMatrixFilterItemControl(this);
+            return new RenderItemControl(this);
         }
 
         public override void InternalRender2(IRenderer g, SolusEnvironment env)
@@ -105,22 +105,6 @@ namespace MetaphysicsIndustries.Ligra
             {
                 return mat.ColumnCount;
             }
-        }
-    }
-
-    public class ApplyMatrixFilterItemControl : RenderItemControl
-    {
-        public ApplyMatrixFilterItemControl(ApplyMatrixFilterItem owner)
-            : base(owner)
-        {
-        }
-    }
-
-    public class ApplyMatrixFilterItemWidget : RenderItemWidget
-    {
-        public ApplyMatrixFilterItemWidget(ApplyMatrixFilterItem owner)
-            : base(owner)
-        {
         }
     }
 }

@@ -39,12 +39,12 @@ namespace MetaphysicsIndustries.Ligra
 
         protected override Widget GetAdapterInternal()
         {
-            return new GraphVectorItemWidget(this);
+            return new RenderItemWidget(this);
         }
 
         protected override RenderItemControl GetControlInternal()
         {
-            return new GraphVectorItemControl(this);
+            return new RenderItemControl(this);
         }
 
         public override void InternalRender2(IRenderer g, SolusEnvironment env)
@@ -236,22 +236,6 @@ namespace MetaphysicsIndustries.Ligra
 
                 lastPoint = pt + new Vector2(deltaX - 1, 0);
             }
-        }
-    }
-
-    public class GraphVectorItemControl : RenderItemControl
-    {
-        public GraphVectorItemControl(GraphVectorItem owner)
-            : base(owner)
-        {
-        }
-    }
-
-    public class GraphVectorItemWidget : RenderItemWidget
-    {
-        public GraphVectorItemWidget(GraphVectorItem owner)
-            : base(owner)
-        {
         }
     }
 }

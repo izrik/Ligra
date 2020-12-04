@@ -166,12 +166,12 @@ Type ""help list"" to see the current environment";
 
         protected override Widget GetAdapterInternal()
         {
-            return new HelpItemWidget(this);
+            return new RenderItemWidget(this);
         }
 
         protected override RenderItemControl GetControlInternal()
         {
-            return new HelpItemControl(this);
+            return new RenderItemControl(this);
         }
 
         public override void InternalRender2(IRenderer g, SolusEnvironment env)
@@ -182,22 +182,6 @@ Type ""help list"" to see the current environment";
         public override Vector2 InternalCalcSize2(IRenderer g)
         {
             return g.MeasureString(_topic, _font);//, 500);
-        }
-    }
-
-    public class HelpItemControl : RenderItemControl
-    {
-        public HelpItemControl(HelpItem owner)
-            : base(owner)
-        {
-        }
-    }
-
-    public class HelpItemWidget : RenderItemWidget
-    {
-        public HelpItemWidget(HelpItem owner)
-            : base(owner)
-        {
         }
     }
 }

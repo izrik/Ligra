@@ -74,12 +74,12 @@ namespace MetaphysicsIndustries.Ligra
 
         protected override Widget GetAdapterInternal()
         {
-            return new Graph3dItemWidget(this);
+            return new RenderItemWidget(this);
         }
 
         protected override RenderItemControl GetControlInternal()
         {
-            return new Graph3dItemControl(this);
+            return new RenderItemControl(this);
         }
 
         public override void InternalRender2(IRenderer g, SolusEnvironment env)
@@ -291,23 +291,6 @@ namespace MetaphysicsIndustries.Ligra
         private void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             Invalidate();
-        }
-    }
-
-    public class Graph3dItemControl : RenderItemControl
-    {
-        public Graph3dItemControl(Graph3dItem owner)
-            : base(owner)
-        {
-        }
-    }
-
-    public class Graph3dItemWidget : RenderItemWidget
-    {
-        public Graph3dItemWidget(Graph3dItem owner)
-            : base(owner)
-        {
-            this.SetSizeRequest(400, 400);
         }
     }
 }
