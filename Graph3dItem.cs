@@ -72,7 +72,7 @@ namespace MetaphysicsIndustries.Ligra
             UngatherVariableForValueCollection(vars, _independentVariableY);
         }
 
-        public override void InternalRender2(IRenderer g, SolusEnvironment env)
+        protected override void InternalRender(IRenderer g, SolusEnvironment env)
         {
             var stime = Environment.TickCount;
 
@@ -103,7 +103,7 @@ namespace MetaphysicsIndustries.Ligra
             g.DrawString(fps, _env.Font, LBrush.Blue, new Vector2(0, 0));
         }
 
-        public override Vector2 InternalCalcSize2(IRenderer g)
+        protected override Vector2 InternalCalcSize(IRenderer g)
         {
             return new Vector2(400, 400);
         }

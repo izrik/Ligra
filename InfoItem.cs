@@ -19,12 +19,12 @@ namespace MetaphysicsIndustries.Ligra
         public string _text;
         public LFont _font;
 
-        public override void InternalRender2(IRenderer g, SolusEnvironment env)
+        protected override void InternalRender(IRenderer g, SolusEnvironment env)
         {
             g.DrawString(_text, _font, LBrush.Black, new Vector2(0, 0));
         }
 
-        public override Vector2 InternalCalcSize2(IRenderer g)
+        protected override Vector2 InternalCalcSize(IRenderer g)
         {
             return g.MeasureString(_text, _font);
         }

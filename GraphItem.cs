@@ -172,7 +172,7 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        public override void InternalRender2(IRenderer g, SolusEnvironment env)
+        protected override void InternalRender(IRenderer g, SolusEnvironment env)
         {
             g.DrawRectangle(LPen.Red, Rect.X, Rect.Y, Rect.Width, Rect.Height);
             bool first = true;
@@ -202,7 +202,7 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        public override Vector2 InternalCalcSize2(IRenderer g)
+        protected override Vector2 InternalCalcSize(IRenderer g)
         {
             return Rect.Size.ToVector2();
         }

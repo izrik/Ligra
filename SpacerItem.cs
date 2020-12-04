@@ -22,11 +22,11 @@ namespace MetaphysicsIndustries.Ligra
 
         public readonly Vector2 _size;
 
-        public override void InternalRender2(IRenderer g, SolusEnvironment env)
+        protected override void InternalRender(IRenderer g, SolusEnvironment env)
         {
         }
 
-        public override Vector2 InternalCalcSize2(IRenderer g)
+        protected override Vector2 InternalCalcSize(IRenderer g)
         {
             return _size;
         }

@@ -37,7 +37,7 @@ namespace MetaphysicsIndustries.Ligra
             //}
         }
 
-        public override void InternalRender2(IRenderer g, SolusEnvironment env)
+        protected override void InternalRender(IRenderer g, SolusEnvironment env)
         {
             RectangleF boundsInClient = new RectangleF(new PointF(0, 0), InternalCalcSize(g));
             boundsInClient.Height = 276;
@@ -50,7 +50,7 @@ namespace MetaphysicsIndustries.Ligra
             //g.DrawImage(_image.Bitmap, boundsInClient);
         }
 
-        public override Vector2 InternalCalcSize2(IRenderer g)
+        protected override Vector2 InternalCalcSize(IRenderer g)
         {
             double x = Math.Log(_vector.Length, 2);
             if (x < 8)

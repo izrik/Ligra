@@ -24,7 +24,7 @@ namespace MetaphysicsIndustries.Ligra
             return false;
         }
 
-        public override void InternalRender2(IRenderer g, SolusEnvironment env)
+        protected override void InternalRender(IRenderer g, SolusEnvironment env)
         {
             RectangleF rect = new RectangleF(new PointF(0, 0),
                 InternalCalcSize(g));
@@ -40,7 +40,7 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        public override Vector2 InternalCalcSize2(IRenderer g)
+        protected override Vector2 InternalCalcSize(IRenderer g)
         {
             return g.MeasureString(_text, _font, Container.ClientSize.X - 25);
         }

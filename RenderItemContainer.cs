@@ -23,7 +23,7 @@ namespace MetaphysicsIndustries.Ligra
             get { return _items; }
         }
 
-        public override void InternalRender2(IRenderer g, SolusEnvironment env)
+        protected override void InternalRender(IRenderer g, SolusEnvironment env)
         {
             var font2 = new LFont(_env.Font.Family, _env.Font.Size * 2,
                 LFont.Styles.Bold);
@@ -32,7 +32,7 @@ namespace MetaphysicsIndustries.Ligra
             float height = g.MeasureString(_caption, font2, (int)width).Y;
 
             g.DrawString(_caption, font2, LBrush.Black, new Vector2(2, 2));
-            var size1 = InternalCalcSize2(g);
+            var size1 = InternalCalcSize(g);
             g.DrawRectangle(LPen.Black, 0, 0, size1.X, size1.Y - 250);
 
             float x = 20;
@@ -58,7 +58,7 @@ namespace MetaphysicsIndustries.Ligra
             //return new SizeF(width, height);
         }
 
-        public override Vector2 InternalCalcSize2(IRenderer g)
+        protected override Vector2 InternalCalcSize(IRenderer g)
         {
             var font2 = new LFont(_env.Font.Family, _env.Font.Size * 2,
                 LFont.Styles.Bold);
