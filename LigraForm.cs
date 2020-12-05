@@ -90,7 +90,26 @@ namespace MetaphysicsIndustries.Ligra
             {
                 _renderItemItem.DropDownItems.Clear();
 
-                ToolStripItem[] menuItems = ri.GetMenuItems();
+                var menuItems0 = ri.GetMenuItems();
+                var menuItems = new ToolStripMenuItem[menuItems0.Length];
+                int i;
+
+                ToolStripMenuItem ToSwf(LMenuItem mi)
+                {
+                    var item = new ToolStripMenuItem(mi.Text);
+                    if (mi.Clicked != null)
+                        item.Click += (o, _e) => mi.Clicked();
+                    foreach (var child in mi.Children)
+                        item.DropDownItems.Add(ToSwf(child));
+                    item.Enabled = mi.Enabled;
+                    return item;
+                }
+
+                for (i = 0; i < menuItems0.Length; i++)
+                {
+                    var mi = menuItems0[i];
+                    menuItems[i] = ToSwf(mi);
+                }
 
                 if (menuItems.Length > 0)
                 {

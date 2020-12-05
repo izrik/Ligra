@@ -132,9 +132,9 @@ namespace MetaphysicsIndustries.Ligra
         {
         }
 
-        public ToolStripItem[] GetMenuItems() // per-control context menus
+        public LMenuItem[] GetMenuItems() // per-control context menus
         {
-            return new ToolStripItem[0];
+            return new LMenuItem[0];
         }
 
         public virtual bool HasPropertyWindow // per-control context menus
