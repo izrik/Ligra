@@ -29,6 +29,51 @@ namespace MetaphysicsIndustries.Ligra
 
         public MemoryImage _image = null;
 
+        protected override void InternalRender(IRenderer g,
+            SolusEnvironment env)
+        {
+            RectangleF boundsInClient = new RectangleF(0, 0,
+                Matrix.ColumnCount, Matrix.RowCount);
+
+            if (_image == null || HasChanged(env))
+            {
+                MemoryImage image =
+                    GraphMatrixItem.RenderMatrixToMemoryImage(Matrix);
+
+                if (_image != null)
+                {
+                    _image.Dispose();
+                    _image = null;
+                }
+
+                _image = image;
+            }
+
+            RectangleF rect = boundsInClient;
+            rect.Size = new SizeF(GetImageWidth(),
+                GetImageHeight());
+            g.DrawImage(_image, rect);
+
+            SizeF textSize = g.MeasureString(_caption, _env.Font,
+                GetImageWidth());
+            float textWidth = textSize.Width;
+            float textHeight = textSize.Height;
+            rect = new RectangleF(0, GetImageHeight() + 2, textWidth,
+                textHeight);
+            g.DrawString(_caption, _env.Font, LBrush.Black, rect);
+        }
+
+        protected override Vector2 InternalCalcSize(IRenderer g)
+        {
+            var width = GetImageWidth();
+            var captionSize = g.MeasureString(_caption, _env.Font,
+                GetImageWidth());
+
+            return new Vector2(
+                width,
+                GetImageHeight() + captionSize.Y + 2);
+        }
+
         public int GetImageHeight()
         {
             if (_matrix.RowCount < 256)
@@ -65,6 +110,18 @@ namespace MetaphysicsIndustries.Ligra
         public override bool HasChanged(SolusEnvironment env)
         {
             return false;
+        }
+
+        public static void RenderMatrix(Graphics g, RectangleF boundsInClient,
+            SolusMatrix matrix,
+            SolusEnvironment env)
+        {
+            MemoryImage image =
+                GraphMatrixItem.RenderMatrixToMemoryImage(
+                    matrix,
+                    env);
+
+            g.DrawImage(image.Bitmap, Rectangle.Truncate(boundsInClient));
         }
 
         public static MemoryImage RenderMatrixToMemoryImage(
@@ -105,9 +162,29 @@ namespace MetaphysicsIndustries.Ligra
             return image;
         }
 
+        public static void RenderMatrix(Graphics g, RectangleF boundsInClient,
+            Matrix matrix)
+        {
+            MemoryImage image =
+                GraphMatrixItem.RenderMatrixToMemoryImage(matrix);
+
+            g.DrawImage(image.Bitmap, Rectangle.Truncate(boundsInClient));
+        }
+
         public static MemoryImage RenderMatrixToMemoryImage(Matrix matrix)
         {
             return RenderMatrixToMemoryImageS(matrix);
+        }
+
+        public static Bitmap RenderMatrixToBitmapS(Matrix matrix)
+        {
+            return RenderMatrixToMemoryImageS(matrix).Bitmap;
+        }
+        public static Bitmap RenderMatrixToColorBitmapS(Matrix r, Matrix g,
+            Matrix b)
+        {
+            var image = RenderMatrixToMemoryImageColorS(r, g, b);
+            return image.Bitmap;
         }
 
         public static MemoryImage RenderMatrixToMemoryImageColorS(Matrix rr,
@@ -194,84 +271,6 @@ namespace MetaphysicsIndustries.Ligra
 
             image.CopyPixelsToBitmap();
             return image;
-        }
-
-        protected override void InternalRender(IRenderer g,
-            SolusEnvironment env)
-        {
-            RectangleF boundsInClient = new RectangleF(0, 0,
-                Matrix.ColumnCount, Matrix.RowCount);
-
-            if (_image == null || HasChanged(env))
-            {
-                MemoryImage image =
-                    GraphMatrixItem.RenderMatrixToMemoryImage(Matrix);
-
-                if (_image != null)
-                {
-                    _image.Dispose();
-                    _image = null;
-                }
-
-                _image = image;
-            }
-
-            RectangleF rect = boundsInClient;
-            rect.Size = new SizeF(GetImageWidth(),
-                GetImageHeight());
-            g.DrawImage(_image, rect);
-
-            SizeF textSize = g.MeasureString(_caption, _env.Font,
-                GetImageWidth());
-            float textWidth = textSize.Width;
-            float textHeight = textSize.Height;
-            rect = new RectangleF(0, GetImageHeight() + 2, textWidth,
-                textHeight);
-            g.DrawString(_caption, _env.Font, LBrush.Black, rect);
-        }
-
-        protected override Vector2 InternalCalcSize(IRenderer g)
-        {
-            var width = GetImageWidth();
-            var captionSize = g.MeasureString(_caption, _env.Font,
-                GetImageWidth());
-
-            return new Vector2(
-                width,
-                GetImageHeight() + captionSize.Y + 2);
-        }
-
-        public static void RenderMatrix(Graphics g, RectangleF boundsInClient,
-            SolusMatrix matrix,
-            SolusEnvironment env)
-        {
-            MemoryImage image =
-                GraphMatrixItem.RenderMatrixToMemoryImage(
-                    matrix,
-                    env);
-
-            g.DrawImage(image.Bitmap, Rectangle.Truncate(boundsInClient));
-        }
-
-        public static void RenderMatrix(Graphics g, RectangleF boundsInClient,
-            Matrix matrix)
-        {
-            MemoryImage image =
-                GraphMatrixItem.RenderMatrixToMemoryImage(matrix);
-
-            g.DrawImage(image.Bitmap, Rectangle.Truncate(boundsInClient));
-        }
-
-        public static Bitmap RenderMatrixToBitmapS(Matrix matrix)
-        {
-            return GraphMatrixItem.RenderMatrixToMemoryImageS(matrix).Bitmap;
-        }
-        public static Bitmap RenderMatrixToColorBitmapS(Matrix r, Matrix g,
-            Matrix b)
-        {
-            var image =
-                GraphMatrixItem.RenderMatrixToMemoryImageColorS(r, g, b);
-            return image.Bitmap;
         }
     }
 }

@@ -18,12 +18,68 @@ namespace MetaphysicsIndustries.Ligra
             _env = env;
         }
 
+        protected abstract void InternalRender(IRenderer g, SolusEnvironment env);
+        protected abstract Vector2 InternalCalcSize(IRenderer g);
+
         public string _error = string.Empty;
         public SizeF _errorSize = new SizeF(0, 0);
         public bool _changeSize = true;
 
         public readonly LigraEnvironment _env;
         public ILigraUI Container { get; set; }
+
+        public void Render(IRenderer g, LFont font)
+        {
+            var red = LBrush.Red;
+
+            try
+            {
+                if (string.IsNullOrEmpty(_error))
+                {
+                    InternalRender(g, _env);
+
+                    CollectVariableValues(_env);
+                }
+                else
+                {
+                    g.DrawString(_error, font, red,
+                        new Vector2(0, 0));
+                }
+            }
+            catch (Exception ex)
+            {
+                _error = "There was an error while trying to render " +
+                         "the item: \r\n" + ex.ToString();
+                _changeSize = true;
+
+                g.DrawString(_error, font, red,
+                    new Vector2(0, 0));
+                _errorSize = g.MeasureString(_error, font);
+
+                g.DrawRectangle(LPen.Red, 0, 0, _errorSize.Width,
+                    _errorSize.Height);
+            }
+
+            if (_changeSize)
+            {
+                _changeSize = false;
+
+                try
+                {
+                    if (string.IsNullOrEmpty(_error))
+                    {
+                        Size = Size.Truncate(InternalCalcSize(g));
+                    }
+                    else
+                    {
+                        Size = Size.Truncate(_errorSize);
+                    }
+                }
+                catch (Exception)
+                {
+                }
+            }
+        }
 
         public void CollectVariableValues(SolusEnvironment env)
         {
@@ -113,65 +169,10 @@ namespace MetaphysicsIndustries.Ligra
         {
             return new RenderItemWidget(this);
         }
-
-        protected abstract void InternalRender(IRenderer g, SolusEnvironment env);
-        protected abstract Vector2 InternalCalcSize(IRenderer g);
+        
         public Vector2 CalculateSize(IRenderer g)
         {
             return InternalCalcSize(g);
-        }
-
-        public void Render(IRenderer g, LFont font)
-        {
-            var red = LBrush.Red;
-
-            try
-            {
-                if (string.IsNullOrEmpty(_error))
-                {
-                    InternalRender(g, _env);
-
-                    CollectVariableValues(_env);
-                }
-                else
-                {
-                    g.DrawString(_error, font, red,
-                        new Vector2(0, 0));
-                }
-            }
-            catch (Exception ex)
-            {
-                _error = "There was an error while trying to render " +
-                    "the item: \r\n" + ex.ToString();
-                _changeSize = true;
-
-                g.DrawString(_error, font, red,
-                    new Vector2(0, 0));
-                _errorSize = g.MeasureString(_error, font);
-
-                g.DrawRectangle(LPen.Red, 0, 0, _errorSize.Width,
-                    _errorSize.Height);
-            }
-
-            if (_changeSize)
-            {
-                _changeSize = false;
-
-                try
-                {
-                    if (string.IsNullOrEmpty(_error))
-                    {
-                        Size = Size.Truncate(InternalCalcSize(g));
-                    }
-                    else
-                    {
-                        Size = Size.Truncate(_errorSize);
-                    }
-                }
-                catch (Exception)
-                {
-                }
-            }
         }
 
         public virtual Vector2? DefaultSize => null;

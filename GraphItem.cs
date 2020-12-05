@@ -68,6 +68,9 @@ namespace MetaphysicsIndustries.Ligra
         public GraphItem(SolusParser parser, LigraEnvironment env, IEnumerable<GraphEntry> entries)
             : base(env)
         {
+            _timer = new System.Timers.Timer(250);
+            _timer.Elapsed += _timer_Elapsed;
+            _timer.Enabled = true;
 
             _entries.AddRange(entries);
 
@@ -76,11 +79,16 @@ namespace MetaphysicsIndustries.Ligra
             _maxY = 2;
             _minY = -2;
             _parser = parser;
-
-            _timer = new System.Timers.Timer(250);
-            _timer.Elapsed += _timer_Elapsed;
-            _timer.Enabled = true;
         }
+
+        public override Vector2? DefaultSize => new Vector2(400, 400);
+
+        private void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            Invalidate();
+        }
+
+        System.Timers.Timer _timer;
 
         public float _maxX;
         public float _minX;
@@ -91,12 +99,44 @@ namespace MetaphysicsIndustries.Ligra
         public List<GraphEntry> _entries = new List<GraphEntry>();
         //private SizeF _size = new SizeF(400, 400);
 
+        protected override void InternalRender(IRenderer g, SolusEnvironment env)
+        {
+            g.DrawRectangle(LPen.Red, Rect.X, Rect.Y, Rect.Width, Rect.Height);
+            bool first = true;
+            foreach (GraphEntry entry in _entries)
+            {
+                var ve = entry as GraphVectorEntry;
+                var location = new Vector2(0, 0);
+                if (ve != null)
+                {
+                    RenderVectors(g,
+                        new RectangleF(location, Rect.Size),
+                        entry.Pen, entry.Pen.Brush,
+                        _minX, _maxX, _minY, _maxY,
+                        ve.X, ve.Y,
+                        env, first);
+                }
+                else
+                {
+                    RenderGraph(g,
+                        new RectangleF(location, Rect.Size),
+                        entry.Pen, entry.Pen.Brush,
+                        _minX, _maxX, _minY, _maxY,
+                        entry.Expression, entry.IndependentVariable, env, first);
+                }
+                first = false;
+            }
+        }
+
+        protected override Vector2 InternalCalcSize(IRenderer g)
+        {
+            return Rect.Size.ToVector2();
+        }
+
         //public override bool HasChanged(VariableTable env)
         //{
         //    throw new NotImplementedException();
         //}
-
-        System.Timers.Timer _timer;
 
         protected override void AddVariablesForValueCollection(HashSet<string> vars)
         {
@@ -153,61 +193,6 @@ namespace MetaphysicsIndustries.Ligra
         {
             get { return true; }
         }
-
-        public RectangleF Rect
-        {
-            get
-            {
-                if (_control != null)
-                    return _control.Rect;
-                if (_adapter != null)
-                    return new RectangleF(
-                        _adapter.Allocation.Left,
-                        _adapter.Allocation.Top,
-                        _adapter.Allocation.Width,
-                        _adapter.Allocation.Height);
-
-                throw new InvalidOperationException(
-                    "No UI element available.");
-            }
-        }
-
-        protected override void InternalRender(IRenderer g, SolusEnvironment env)
-        {
-            g.DrawRectangle(LPen.Red, Rect.X, Rect.Y, Rect.Width, Rect.Height);
-            bool first = true;
-            foreach (GraphEntry entry in _entries)
-            {
-                var ve = entry as GraphVectorEntry;
-                var location = new Vector2(0, 0);
-                var brush = entry.Pen.Brush;
-                if (ve != null)
-                {
-                    RenderVectors(g,
-                        new RectangleF(location, Rect.Size),
-                        entry.Pen, brush,
-                        _minX, _maxX, _minY, _maxY,
-                        ve.X, ve.Y,
-                        env, first);
-                }
-                else
-                {
-                    RenderGraph(g,
-                        new RectangleF(location, Rect.Size),
-                        entry.Pen, brush,
-                        _minX, _maxX, _minY, _maxY,
-                        entry.Expression, entry.IndependentVariable, env, first);
-                }
-                first = false;
-            }
-        }
-
-        protected override Vector2 InternalCalcSize(IRenderer g)
-        {
-            return Rect.Size.ToVector2();
-        }
-
-        public override Vector2? DefaultSize => new Vector2(400, 400);
 
         public static void RenderGraph(IRenderer g, RectangleF boundsInClient,
             LPen pen, LBrush brush,
@@ -289,18 +274,17 @@ namespace MetaphysicsIndustries.Ligra
 
             if (drawboundaries)
             {
-                var black = LPen.Black;
-                g.DrawRectangle(black, boundsInClient.X, boundsInClient.Y, boundsInClient.Width, boundsInClient.Height);
+                g.DrawRectangle(LPen.Black, boundsInClient.X, boundsInClient.Y, boundsInClient.Width, boundsInClient.Height);
 
                 var zz = clientFromGraph(new Vector2(0, 0));
                 if (xMax > 0 && xMin < 0)
                 {
-                    g.DrawLine(black, zz.X, boundsInClient.Top, zz.X, boundsInClient.Bottom);
+                    g.DrawLine(LPen.Black, zz.X, boundsInClient.Top, zz.X, boundsInClient.Bottom);
                 }
 
                 if (yMax > 0 && yMin < 0)
                 {
-                    g.DrawLine(black, boundsInClient.Left, zz.Y, boundsInClient.Right, zz.Y);
+                    g.DrawLine(LPen.Black, boundsInClient.Left, zz.Y, boundsInClient.Right, zz.Y);
                 }
             }
 
@@ -315,9 +299,22 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        private void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        public RectangleF Rect
         {
-            Invalidate();
+            get
+            {
+                if (_control != null)
+                    return _control.Rect;
+                if (_adapter != null)
+                    return new RectangleF(
+                        _adapter.Allocation.Left,
+                        _adapter.Allocation.Top,
+                        _adapter.Allocation.Width,
+                        _adapter.Allocation.Height);
+
+                throw new InvalidOperationException(
+                    "No UI element available.");
+            }
         }
     }
 }

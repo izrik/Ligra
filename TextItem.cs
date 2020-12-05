@@ -9,7 +9,7 @@ namespace MetaphysicsIndustries.Ligra
 {
     public class TextItem : RenderItem
     {
-        public TextItem(LigraEnvironment env, string text = "", LFont font = null)
+        public TextItem(LigraEnvironment env, string text="", LFont font=null)
             : base(env)
         {
             _text = text;
@@ -19,9 +19,12 @@ namespace MetaphysicsIndustries.Ligra
         public readonly string _text;
         public readonly LFont _font;
 
-        public override bool HasChanged(SolusEnvironment env)
+        public virtual StringFormat Format
         {
-            return false;
+            get
+            {
+                return null;
+            }
         }
 
         protected override void InternalRender(IRenderer g, SolusEnvironment env)
@@ -45,12 +48,9 @@ namespace MetaphysicsIndustries.Ligra
             return g.MeasureString(_text, _font, Container.ClientSize.X - 25);
         }
 
-        public virtual StringFormat Format
+        public override bool HasChanged(SolusEnvironment env)
         {
-            get
-            {
-                return null;
-            }
+            return false;
         }
     }
 }

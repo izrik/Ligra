@@ -25,19 +25,6 @@ namespace MetaphysicsIndustries.Ligra
 
         public string _caption;
 
-        protected override void AddVariablesForValueCollection(HashSet<string> vars)
-        {
-            //foreach (Expression expr in _matrix)
-            //{
-            //    GatherVariablesForValueCollection(vars, expr);
-            //}
-        }
-
-        public override bool HasChanged(SolusEnvironment env)
-        {
-            return false;
-        }
-
         protected override void InternalRender(IRenderer g, SolusEnvironment env)
         {
             Matrix mat = _filter.Apply(_matrix);
@@ -95,6 +82,19 @@ namespace MetaphysicsIndustries.Ligra
             {
                 return mat.ColumnCount;
             }
+        }
+
+        protected override void AddVariablesForValueCollection(HashSet<string> vars)
+        {
+            //foreach (Expression expr in _matrix)
+            //{
+            //    GatherVariablesForValueCollection(vars, expr);
+            //}
+        }
+
+        public override bool HasChanged(SolusEnvironment env)
+        {
+            return false;
         }
     }
 }

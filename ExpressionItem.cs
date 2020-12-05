@@ -76,36 +76,6 @@ namespace MetaphysicsIndustries.Ligra
             get { return _font; }
         }
 
-        public static bool IsRootOperation(FunctionCall functionCall)
-        {
-            if (!(functionCall.Function is ExponentOperation)) { return false; }
-
-            if (functionCall.Arguments[1] is Literal)
-            {
-                Literal literal = (Literal)functionCall.Arguments[1];
-
-                if (literal.Value < 0) { return false; }
-
-                double value = 1 / literal.Value;
-
-                if (value == Math.Floor(value))
-                {
-                    return true;
-                }
-            }
-            //else if (functionCall.Arguments[1] is FunctionCall &&
-            //         (functionCall.Arguments[1] as FunctionCall).Function == DivisionOperation.Value &&
-            //         (functionCall.Arguments[1] as FunctionCall).Arguments[0] is Literal &&
-            //         ((functionCall.Arguments[1] as FunctionCall).Arguments[0] as Literal).Value == 1 &&
-            //          ((functionCall.Arguments[1] as FunctionCall).Arguments[1] is VariableAccess ||
-            //           (functionCall.Arguments[1] as FunctionCall).Arguments[1] is Literal))
-            //{
-            //    return true;
-            //}
-
-            return false;
-        }
-
         protected override void InternalRender(IRenderer g, SolusEnvironment env)
         {
             var exprSize = CalcExpressionSize(Expression, g, Font);
@@ -576,6 +546,36 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
+        public static bool IsRootOperation(FunctionCall functionCall)
+        {
+            if (!(functionCall.Function is ExponentOperation)) { return false; }
+
+            if (functionCall.Arguments[1] is Literal)
+            {
+                Literal literal = (Literal)functionCall.Arguments[1];
+
+                if (literal.Value < 0) { return false; }
+
+                double value = 1 / literal.Value;
+
+                if (value == Math.Floor(value))
+                {
+                    return true;
+                }
+            }
+            //else if (functionCall.Arguments[1] is FunctionCall &&
+            //         (functionCall.Arguments[1] as FunctionCall).Function == DivisionOperation.Value &&
+            //         (functionCall.Arguments[1] as FunctionCall).Arguments[0] is Literal &&
+            //         ((functionCall.Arguments[1] as FunctionCall).Arguments[0] as Literal).Value == 1 &&
+            //          ((functionCall.Arguments[1] as FunctionCall).Arguments[1] is VariableAccess ||
+            //           (functionCall.Arguments[1] as FunctionCall).Arguments[1] is Literal))
+            //{
+            //    return true;
+            //}
+
+            return false;
+        }
+
         protected static void RenderRootOperation(IRenderer g, FunctionCall functionCall, Vector2 pt, LPen pen, LBrush brush, Dictionary<Expression, Vector2> expressionSizeCache, LFont font, bool drawBoxes)
         {
 
@@ -997,9 +997,7 @@ namespace MetaphysicsIndustries.Ligra
                         //    ((functionCall.Arguments[0] as FunctionCall).Function as Operation).Precedence < (functionCall.Function as Operation).Precedence)
                         if (NeedsLeftParen(functionCall))
                         {
-                            leftOperandSize = new Vector2(
-                                leftOperandSize.X + parenWidth * 2,
-                                leftOperandSize.Y);
+                            leftOperandSize = leftOperandSize.AddX(parenWidth * 2);
                         }
 
                         //if (functionCall.Arguments[1] is FunctionCall &&
@@ -1007,9 +1005,7 @@ namespace MetaphysicsIndustries.Ligra
                         //    ((functionCall.Arguments[1] as FunctionCall).Function as Operation).Precedence < (functionCall.Function as Operation).Precedence)
                         if (NeedsRightParen(functionCall))
                         {
-                            rightOperandSize = new Vector2(
-                                rightOperandSize.X + parenWidth * 2,
-                                rightOperandSize.Y);
+                            rightOperandSize = rightOperandSize.AddX(parenWidth * 2);
                         }
 
                         float width = leftOperandSize.X + rightOperandSize.X + operatorSymbolSize.X;

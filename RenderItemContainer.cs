@@ -17,12 +17,6 @@ namespace MetaphysicsIndustries.Ligra
 
         public readonly string _caption;
 
-        private List<RenderItem> _items = new List<RenderItem>();
-        public List<RenderItem> Items
-        {
-            get { return _items; }
-        }
-
         protected override void InternalRender(IRenderer g, SolusEnvironment env)
         {
             var font2 = new LFont(_env.Font.Family, _env.Font.Size * 2,
@@ -56,6 +50,12 @@ namespace MetaphysicsIndustries.Ligra
             height += maxCurrentHeight;
 
             //return new SizeF(width, height);
+        }
+
+        private List<RenderItem> _items = new List<RenderItem>();
+        public List<RenderItem> Items
+        {
+            get { return _items; }
         }
 
         protected override Vector2 InternalCalcSize(IRenderer g)

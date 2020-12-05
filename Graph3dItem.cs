@@ -18,6 +18,10 @@ namespace MetaphysicsIndustries.Ligra
             LigraEnvironment env)
             : base(env)
         {
+            _timer = new System.Timers.Timer(250);
+            _timer.Elapsed += _timer_Elapsed;
+            _timer.Enabled = true;
+
             _expression = expression;
             _pen = pen;
             _brush = brush;
@@ -29,13 +33,16 @@ namespace MetaphysicsIndustries.Ligra
             _yMax = yMax;
             _zMin = zMin;
             _zMax = zMax;
-
-            _timer = new System.Timers.Timer(250);
-            _timer.Elapsed += _timer_Elapsed;
-            _timer.Enabled = true;
         }
 
         public static readonly SolusEngine _engine = new SolusEngine();
+
+        private void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            Invalidate();
+        }
+
+        System.Timers.Timer _timer;
 
         public Expression _expression;
         public LPen _pen;
@@ -53,24 +60,6 @@ namespace MetaphysicsIndustries.Ligra
         int numRenders = 0;
         int numTicks = 0;
         string fps = "";
-
-        System.Timers.Timer _timer;
-
-        //public override bool HasChanged(VariableTable env)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        protected override void AddVariablesForValueCollection(HashSet<string> vars)
-        {
-            GatherVariablesForValueCollection(vars, _expression);
-        }
-
-        protected override void RemoveVariablesForValueCollection(HashSet<string> vars)
-        {
-            UngatherVariableForValueCollection(vars, _independentVariableX);
-            UngatherVariableForValueCollection(vars, _independentVariableY);
-        }
 
         protected override void InternalRender(IRenderer g, SolusEnvironment env)
         {
@@ -106,6 +95,22 @@ namespace MetaphysicsIndustries.Ligra
         protected override Vector2 InternalCalcSize(IRenderer g)
         {
             return new Vector2(400, 400);
+        }
+
+        //public override bool HasChanged(VariableTable env)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        protected override void AddVariablesForValueCollection(HashSet<string> vars)
+        {
+            GatherVariablesForValueCollection(vars, _expression);
+        }
+
+        protected override void RemoveVariablesForValueCollection(HashSet<string> vars)
+        {
+            UngatherVariableForValueCollection(vars, _independentVariableX);
+            UngatherVariableForValueCollection(vars, _independentVariableY);
         }
 
         public static void Render3DGraph(IRenderer g, RectangleF boundsInClient,
@@ -276,11 +281,6 @@ namespace MetaphysicsIndustries.Ligra
                     g.DrawPolygon(pen, poly);
                 }
             }
-        }
-
-        private void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            Invalidate();
         }
     }
 }

@@ -60,18 +60,17 @@ namespace MetaphysicsIndustries.Ligra
 
         System.Timers.Timer _timer;
 
-        protected override void RemoveVariablesForValueCollection(HashSet<string> vars)
+        protected override void InternalRender(IRenderer g, SolusEnvironment env)
         {
-            UngatherVariableForValueCollection(vars, _horizontalCoordinate);
-            UngatherVariableForValueCollection(vars, _verticalCoordinate);
-        }
+            RectangleF boundsInClient = new RectangleF(0, 0, _width, _height);
 
-        protected override void AddVariablesForValueCollection(HashSet<string> vars)
-        {
-            GatherVariablesForValueCollection(vars, _expression);
-        }
+            if (_image == null || HasChanged(env))
+            {
+                RenderMathPaintToMemoryImage(env);
+            }
 
-        static readonly SolusEngine _engine = new SolusEngine();
+            g.DrawImage(_image, boundsInClient);
+        }
 
         public void RenderMathPaintToMemoryImage(SolusEnvironment env)
         {
@@ -97,6 +96,24 @@ namespace MetaphysicsIndustries.Ligra
                     _height,
                     env);
         }
+
+        protected override void RemoveVariablesForValueCollection(HashSet<string> vars)
+        {
+            UngatherVariableForValueCollection(vars, _horizontalCoordinate);
+            UngatherVariableForValueCollection(vars, _verticalCoordinate);
+        }
+
+        protected override void AddVariablesForValueCollection(HashSet<string> vars)
+        {
+            GatherVariablesForValueCollection(vars, _expression);
+        }
+
+        protected override Vector2 InternalCalcSize(IRenderer g)
+        {
+            return new Vector2(_width, _height);
+        }
+
+        static readonly SolusEngine _engine = new SolusEngine();
 
         public static MemoryImage RenderMathPaintToMemoryImage(
             Expression expression, 
@@ -181,23 +198,6 @@ namespace MetaphysicsIndustries.Ligra
                     //values[i, j] = z;
                 }
             }
-        }
-
-        protected override void InternalRender(IRenderer g, SolusEnvironment env)
-        {
-            RectangleF boundsInClient = new RectangleF(0, 0, _width, _height);
-
-            if (_image == null || HasChanged(env))
-            {
-                RenderMathPaintToMemoryImage(env);
-            }
-
-            g.DrawImage(_image, boundsInClient);
-        }
-
-        protected override Vector2 InternalCalcSize(IRenderer g)
-        {
-            return new Vector2(_width, _height);
         }
 
         private void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)

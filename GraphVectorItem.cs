@@ -29,14 +29,6 @@ namespace MetaphysicsIndustries.Ligra
 
         //MemoryImage _image = null;
 
-        protected override void AddVariablesForValueCollection(HashSet<string> vars)
-        {
-            //foreach (Expression expr in _vector)
-            //{
-            //    GatherVariablesForValueCollection(vars, expr);
-            //}
-        }
-
         protected override void InternalRender(IRenderer g, SolusEnvironment env)
         {
             RectangleF boundsInClient = new RectangleF(new PointF(0, 0), InternalCalcSize(g));
@@ -58,6 +50,14 @@ namespace MetaphysicsIndustries.Ligra
                 return new Vector2(276, 276);
             }
             return new Vector2(_vector.Length + 20, 296 + g.MeasureString(_caption, _env.Font, _vector.Length).Y);
+        }
+
+        protected override void AddVariablesForValueCollection(HashSet<string> vars)
+        {
+            //foreach (Expression expr in _vector)
+            //{
+            //    GatherVariablesForValueCollection(vars, expr);
+            //}
         }
 
         public void RenderVector(IRenderer g, RectangleF boundsInClient,
