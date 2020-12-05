@@ -99,6 +99,7 @@
     <Compile Include="LigraFormsControl.Designer.cs">
       <DependentUpon>LigraFormsControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="LMenuItem.cs" />
     <Compile Include="MathPaintItem.cs" />
     <Compile Include="PlotPropertiesForm.cs">
       <SubType>Form</SubType>
