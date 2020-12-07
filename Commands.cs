@@ -419,7 +419,11 @@ namespace MetaphysicsIndustries.Ligra
 
         public static void ClearOutput(LigraEnvironment env)
         {
-            env.RenderItems.Clear();
+            var items = env.RenderItems.ToArray();
+            foreach (var item in items)
+            {
+                env.Control.RemoveRenderItem(item);
+            }
             env.ClearCanvas();
         }
     }

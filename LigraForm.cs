@@ -297,6 +297,8 @@ namespace MetaphysicsIndustries.Ligra
             env.Font = new LFont(LFont.Families.CourierNew, 12,
                 LFont.Styles.Regular);
 
+            env.ClearCanvas = output.QueueDraw;
+
             timer = new System.Timers.Timer(16);
             timer.Elapsed += timer_Elapsed;
             timer.Enabled = true;

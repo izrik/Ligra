@@ -98,12 +98,19 @@ namespace MetaphysicsIndustries.Ligra
             this.flowLayoutPanel1.Controls.Add(item.GetControl());
         }
 
+        public void RemoveRenderItem(RenderItem item)
+        {
+            _items.Remove(item);
+            this.flowLayoutPanel1.Controls.Remove(item.GetControl());
+        }
+
         Vector2 ILigraUI.ClientSize => this.ClientSize.ToVector2();
     }
 
     public interface ILigraUI
     {
         void AddRenderItem(RenderItem item);
+        void RemoveRenderItem(RenderItem item);
         IList<RenderItem> RenderItems { get; }
         Vector2 ClientSize { get; }
     }
@@ -160,6 +167,12 @@ namespace MetaphysicsIndustries.Ligra
             _vbox.ShowAll();
 
             scrollToBottom = true;
+        }
+
+        public void RemoveRenderItem(RenderItem item)
+        {
+            _items.Remove(item);
+            _vbox.Remove(item.GetAdapter());
         }
 
         public Vector2 ClientSize => _vbox.Allocation.Size.ToVector2();
