@@ -314,6 +314,13 @@ namespace MetaphysicsIndustries.Ligra
         Gtk.Entry input;
         LigraWidget output;
 
+        readonly List<LMenuItem> popupMenu = new List<LMenuItem>();
+
+        LMenuItem clearMenuItem = new LMenuItem("Clear");
+        LMenuItem renderItemMenuItem = new LMenuItem("Render Item");
+        LMenuItem propertiesMenuItem = new LMenuItem("Properties");
+        RenderItem selectedRenderItem;
+
         void InitializeComponent()
         {
             Title = "Ligra";
@@ -336,6 +343,8 @@ namespace MetaphysicsIndustries.Ligra
             evalButton.SetSizeRequest(75, 23);
             evalButton.Clicked += (o, e) => EvaluateInput();
             hbox.PackEnd(evalButton, false, false, 0);
+
+            SetupContextMenu();
         }
 
         private void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
@@ -366,6 +375,121 @@ namespace MetaphysicsIndustries.Ligra
             }
 
             // Invalidate(); ??
+        }
+
+        private void SetupContextMenu()
+        {
+            clearMenuItem.Clicked = ClearItems;
+            popupMenu.Add(clearMenuItem);
+
+            popupMenu.Add(renderItemMenuItem);
+
+            propertiesMenuItem.Clicked = DoRenderItemProperties;
+            popupMenu.Add(propertiesMenuItem);
+
+            this.output.Events |= Gdk.EventMask.ButtonPressMask;
+            this.output.PopupMenu += ReceivePopupMenuSignal;
+            this.output.ButtonPressEvent += ReceiveButtonPressSignal;
+        }
+
+        void ClearItems()
+        {
+            Commands.ClearOutput(env);
+        }
+
+        void DoRenderItemProperties()
+        {
+            if (selectedRenderItem != null)
+            {
+                selectedRenderItem.OpenPropertiesWindow(this.output);
+            }
+        }
+
+        void ReceivePopupMenuSignal(object sender, PopupMenuArgs args)
+        {
+            PreparePopupMenuToShow(Vector2.Zero);
+        }
+
+        void ReceiveButtonPressSignal(object sender, ButtonPressEventArgs args)
+        {
+            if (args.Event.Button == 3)
+            {
+                PreparePopupMenuToShow(
+                    new Vector2((float)args.Event.X, (float)args.Event.Y));
+            }
+        }
+
+        void PreparePopupMenuToShow(Vector2 location)
+        {
+            var ri = GetRenderItemFromPoint(location);
+            selectedRenderItem = ri;
+
+            if (ri != null)
+            {
+                renderItemMenuItem.Children.Clear();
+                var menuItems = ri.GetMenuItems();
+                if (menuItems.Length > 0)
+                {
+                    renderItemMenuItem.Children.AddRange(menuItems);
+                    renderItemMenuItem.Enabled = true;
+                }
+                else
+                    renderItemMenuItem.Enabled = false;
+
+                propertiesMenuItem.Enabled = ri.HasPropertyWindow;
+            }
+            else
+            {
+                renderItemMenuItem.Enabled = false;
+                propertiesMenuItem.Enabled = false;
+            }
+
+            var menu = new Gtk.Menu();
+            foreach (var item in popupMenu)
+            {
+                menu.Append(ConvertMenu(item));
+            }
+
+            menu.ShowAll();
+            menu.PopupAtPointer(null);
+        }
+
+        Gtk.MenuItem ConvertMenu(LMenuItem item)
+        {
+            var item2 = new Gtk.MenuItem(item.Text);
+            item2.Sensitive = item.Enabled;
+            item2.Activated += (sender, args) => item.Clicked();
+            if (item.Children.Count > 0)
+            {
+                var sub = new Gtk.Menu();
+                foreach (var child in item.Children)
+                {
+                    sub.Append(ConvertMenu(child));
+                }
+                item2.Submenu = sub;
+                item2.ShowAll();
+            }
+            return item2;
+        }
+
+        private RenderItem GetRenderItemFromPoint(Vector2 pt)
+        {
+            return GetRenderItemInCollectionFromPoint(env.RenderItems, pt);
+        }
+
+        private RenderItem GetRenderItemInCollectionFromPoint(
+            IEnumerable<RenderItem> items, Vector2 pt)
+        {
+            foreach (RenderItem ri in items)
+            {
+                if (ri is RenderItemContainer)
+                    return GetRenderItemInCollectionFromPoint(
+                        ((RenderItemContainer)ri).Items, pt);
+                if (ri.GetAdapter().Allocation.Contains(pt.ToGdkPoint()))
+                    return ri;
+            }
+
+            return null;
         }
     }
 }

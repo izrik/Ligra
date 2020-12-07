@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Drawing;
+using Gdk;
+using Size = System.Drawing.Size;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -25,6 +27,11 @@ namespace MetaphysicsIndustries.Ligra
         public static Size ToSize(this Vector2 v)
         {
             return new Size(v.X.RoundToInt(), v.Y.RoundToInt());
+        }
+
+        public static Gdk.Point ToGdkPoint(this Vector2 v)
+        {
+            return new Gdk.Point(v.X.RoundToInt(), v.Y.RoundToInt());
         }
 
         public static Vector2[] ToVector2(this PointF[] points)

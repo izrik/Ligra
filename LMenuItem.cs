@@ -20,6 +20,6 @@ namespace MetaphysicsIndustries.Ligra
         public string Text { get; set; }
         public bool Enabled { get; set; }
         public Action Clicked { get; set; }
-        public List<LMenuItem> Children => new List<LMenuItem>();
+        public readonly List<LMenuItem> Children = new List<LMenuItem>();
     }
 }
