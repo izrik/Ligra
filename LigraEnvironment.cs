@@ -27,6 +27,8 @@ namespace MetaphysicsIndustries.Ligra
 
         public LFont Font;
         public Action ClearCanvas;
+
+        public readonly LigraParser Parser = new LigraParser();
     }
 }
 

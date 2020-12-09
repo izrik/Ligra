@@ -288,7 +288,7 @@ namespace MetaphysicsIndustries.Ligra
                 }
                 else
                 {
-                    commands = _parser.GetCommands(input, env);
+                    commands = env.Parser.GetCommands(input, env);
                 }
 
                 foreach (var command in commands)
