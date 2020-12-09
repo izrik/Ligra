@@ -185,7 +185,7 @@ namespace MetaphysicsIndustries.Ligra
 
         private void LoadImageCommand(string input, string[] args, LigraEnvironment env)
         {
-            var font = LFont.FromSwf(ligraControl1.Font);
+            var font = env.Font;
             var brush = LBrush.Red;
 
             if (args.Length < 3)
