@@ -208,6 +208,11 @@ namespace MetaphysicsIndustries.Ligra
 
         public void OpenPlotProperties(GraphItem item)
         {
+            var window = new PlotPropertiesWindow(item._parser, item);
+
+            window.ShowAll();
+            window.TransientFor = (Gtk.Window)this.Toplevel;
+            window.Modal = true;
         }
     }
 }
