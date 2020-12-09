@@ -365,11 +365,15 @@ namespace MetaphysicsIndustries.Ligra
                 }
                 catch (SolusParseException e)
                 {
-                    env.AddRenderItem(new ErrorItem(s, e.Error, null, LBrush.Red, env, e.Location));
+                    env.AddRenderItem(
+                        new ErrorItem(s, e.Error, env.Font, LBrush.Red, env,
+                        e.Location));
                 }
                 catch (Exception e)
                 {
-                    env.AddRenderItem(new ErrorItem(s, "There was an error: " + e.ToString(), null, LBrush.Red, env));
+                    env.AddRenderItem(
+                        new ErrorItem(s, "There was an error: " + e.ToString(),
+                        env.Font, LBrush.Red, env));
                 }
             }
 
