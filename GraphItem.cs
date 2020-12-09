@@ -159,34 +159,14 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        private Expression ExpressionFromGraphEntry(GraphEntry entry)
+        public Expression ExpressionFromGraphEntry(GraphEntry entry)
         {
             return entry.Expression;
         }
 
         public override void OpenPropertiesWindow(ILigraUI control)
         {
-            PlotPropertiesForm form = new PlotPropertiesForm(_parser);
-            var graphUI = GetControl();
-
-            form.PlotSize = graphUI.Rect.Size;
-            form.PlotMaxX = _maxX;
-            form.PlotMinX = _minX;
-            form.PlotMaxY = _maxY;
-            form.PlotMinY = _minY;
-
-            form.SetExpressions(Array.ConvertAll<GraphEntry, Expression>(_entries.ToArray(), ExpressionFromGraphEntry));
-
-            LigraControl _control = (LigraControl)control;
-            if (form.ShowDialog(_control) == System.Windows.Forms.DialogResult.OK)
-            {
-                graphUI.Rect = new RectangleF(graphUI.Rect.Location, form.PlotSize);
-
-                _maxX = form.PlotMaxX;
-                _minX = form.PlotMinX;
-                _maxY = form.PlotMaxY;
-                _minY = form.PlotMinY;
-            }
+            control.OpenPlotProperties(this);
         }
 
         public override bool HasPropertyWindow

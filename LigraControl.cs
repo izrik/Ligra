@@ -105,6 +105,33 @@ namespace MetaphysicsIndustries.Ligra
         }
 
         Vector2 ILigraUI.ClientSize => this.ClientSize.ToVector2();
+
+        public void OpenPlotProperties(GraphItem item)
+        {
+            PlotPropertiesForm form = new PlotPropertiesForm(item._parser);
+            var graphUI = item.GetControl();
+
+            form.PlotSize = graphUI.Rect.Size;
+            form.PlotMaxX = item._maxX;
+            form.PlotMinX = item._minX;
+            form.PlotMaxY = item._maxY;
+            form.PlotMinY = item._minY;
+
+            form.SetExpressions(
+                Array.ConvertAll(item._entries.ToArray(),
+                    item.ExpressionFromGraphEntry));
+
+            if (form.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
+            {
+                graphUI.Rect = new RectangleF(graphUI.Rect.Location,
+                    form.PlotSize);
+
+                item._maxX = form.PlotMaxX;
+                item._minX = form.PlotMinX;
+                item._maxY = form.PlotMaxY;
+                item._minY = form.PlotMinY;
+            }
+        }
     }
 
     public interface ILigraUI
@@ -113,6 +140,8 @@ namespace MetaphysicsIndustries.Ligra
         void RemoveRenderItem(RenderItem item);
         IList<RenderItem> RenderItems { get; }
         Vector2 ClientSize { get; }
+
+        void OpenPlotProperties(GraphItem item);
     }
 
     public class LigraWidget : Gtk.ScrolledWindow, ILigraUI
@@ -176,5 +205,9 @@ namespace MetaphysicsIndustries.Ligra
         }
 
         public Vector2 ClientSize => _vbox.Allocation.Size.ToVector2();
+
+        public void OpenPlotProperties(GraphItem item)
+        {
+        }
     }
 }
