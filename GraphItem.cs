@@ -4,7 +4,6 @@ using System.Text;
 using System.Drawing;
 using MetaphysicsIndustries.Solus;
 using System.Linq;
-using Gtk;
 
 namespace MetaphysicsIndustries.Ligra
 {

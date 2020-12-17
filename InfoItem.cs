@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using MetaphysicsIndustries.Solus;
-using Gtk;
 
 namespace MetaphysicsIndustries.Ligra
 {

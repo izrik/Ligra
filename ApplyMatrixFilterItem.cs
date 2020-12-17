@@ -5,7 +5,6 @@ using System.Drawing;
 using MetaphysicsIndustries.Solus;
 
 using MetaphysicsIndustries.Acuity;
-using Gtk;
 
 namespace MetaphysicsIndustries.Ligra
 {
