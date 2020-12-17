@@ -107,6 +107,7 @@
     <Compile Include="PlotPropertiesForm.Designer.cs">
       <DependentUpon>PlotPropertiesForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="PlotPropertiesWindow.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="LigraControl.resx">
@@ -166,6 +167,9 @@
     <Compile Include="LBrush.cs" />
     <Compile Include="LFont.cs" />
     <Compile Include="WidgetHelper.cs" />
+    <Compile Include="ILigraUI.cs" />
+    <Compile Include="LigraWidget.cs" />
+    <Compile Include="LigraWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />

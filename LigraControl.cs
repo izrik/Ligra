@@ -17,7 +17,6 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 using MetaphysicsIndustries.Solus;
-using Gtk;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -131,88 +130,6 @@ namespace MetaphysicsIndustries.Ligra
                 item._maxY = form.PlotMaxY;
                 item._minY = form.PlotMinY;
             }
-        }
-    }
-
-    public interface ILigraUI
-    {
-        void AddRenderItem(RenderItem item);
-        void RemoveRenderItem(RenderItem item);
-        IList<RenderItem> RenderItems { get; }
-        Vector2 ClientSize { get; }
-
-        void OpenPlotProperties(GraphItem item);
-    }
-
-    public class LigraWidget : Gtk.ScrolledWindow, ILigraUI
-    {
-        public LigraWidget()
-        {
-            InitializeComponent();
-        }
-
-        void InitializeComponent()
-        {
-            _scrolledWindow = this;
-            _viewport = new Viewport();
-            _alignment = new Alignment(0, 0, 0, 0);
-            _vbox = new VBox(false, 1);
-
-            _alignment.Add(_vbox);
-            _viewport.Add(_alignment);
-            _scrolledWindow.Add(_viewport);
-
-            _vbox.SizeAllocated += _vbox_SizeAllocated;
-        }
-
-        bool scrollToBottom = false;
-
-        private void _vbox_SizeAllocated(object o, SizeAllocatedArgs args)
-        {
-            if (scrollToBottom)
-            {
-                _scrolledWindow.Hadjustment.Value =
-                    _scrolledWindow.Hadjustment.Lower;
-
-                _scrolledWindow.Vadjustment.Value =
-                    _scrolledWindow.Vadjustment.Upper;
-                scrollToBottom = false;
-            }
-        }
-
-        Gtk.ScrolledWindow _scrolledWindow;
-        Gtk.Viewport _viewport;
-        Gtk.Alignment _alignment;
-        VBox _vbox;
-        readonly List<RenderItem> _items = new List<RenderItem>();
-        public IList<RenderItem> RenderItems => _items;
-        public void AddRenderItem(RenderItem item)
-        {
-            _items.Add(item);
-            item.Container = this;
-            var widget = item.GetAdapter();
-            widget.ShowAll();
-            _vbox.PackStart(widget, false, false, 3);
-            _vbox.ShowAll();
-
-            scrollToBottom = true;
-        }
-
-        public void RemoveRenderItem(RenderItem item)
-        {
-            _items.Remove(item);
-            _vbox.Remove(item.GetAdapter());
-        }
-
-        public Vector2 ClientSize => _vbox.Allocation.Size.ToVector2();
-
-        public void OpenPlotProperties(GraphItem item)
-        {
-            var window = new PlotPropertiesWindow(item._parser, item);
-
-            window.ShowAll();
-            window.TransientFor = (Gtk.Window)this.Toplevel;
-            window.Modal = true;
         }
     }
 }
