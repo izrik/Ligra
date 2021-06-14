@@ -17,4 +17,19 @@ namespace MetaphysicsIndustries.Ligra
             Application.Run(new LigraForm());
         }
     }
+
+    public static class ProgramGtk
+    {
+        public static void Main()
+        {
+            Gtk.Application.Init();
+            var win = new LigraWindow();
+
+            win.DeleteEvent += (o, e) => Gtk.Application.Quit();
+
+            win.ShowAll();
+
+            Gtk.Application.Run();
+        }
+    }
 }

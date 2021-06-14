@@ -19,16 +19,20 @@ namespace MetaphysicsIndustries.Ligra
 
         private void InitializeCommands()
         {
-//            _commands["help"] = new Command(Commands.HelpCommand);
-            _commands["clear"] = new Command(Commands.ClearCommand);
-            _commands["vars"] = new Command(Commands.VarsCommand);
-            _commands["delete"] = new Command(Commands.DeleteCommand);
-            _commands["history"] = new Command(Commands.HistoryCommand);
-            _commands["example"] = new Command(Commands.ExampleCommand);
-            _commands["example2"] = new Command(Commands.Example2Command);
-//            _commands["tsolve"] = new Command(LigraCommands.TSolveCommand);
-//            _commands["loadimage"] = new Command(LoadImageCommand);
-//            _commands["cd"] = new Command(CdCommand);
+            InitializeCommands(_commands);
+        }
+        public static void InitializeCommands(Dictionary<string, Command> commands)
+        {
+            //commands["help"] = new Command(Commands.HelpCommand);
+            commands["clear"] = new Command(Commands.ClearCommand);
+            commands["vars"] = new Command(Commands.VarsCommand);
+            commands["delete"] = new Command(Commands.DeleteCommand);
+            commands["history"] = new Command(Commands.HistoryCommand);
+            commands["example"] = new Command(Commands.ExampleCommand);
+            commands["example2"] = new Command(Commands.Example2Command);
+            //commands["tsolve"] = new Command(LigraCommands.TSolveCommand);
+            //commands["loadimage"] = new Command(LoadImageCommand);
+            commands["cd"] = new Command(CdCommand);
         }
 
         static void TSolveCommand(string input, string[] args, LigraEnvironment env)
@@ -132,7 +136,7 @@ namespace MetaphysicsIndustries.Ligra
             m[4, 2] = one;
             m[4, 3] = negOne;
 
-            env.AddRenderItem(new ExpressionItem(m, Pens.Blue, env.Font, env));
+            env.AddRenderItem(new ExpressionItem(m, LPen.Blue, env.Font, env));
             env.ClearCanvas();
         }
 
@@ -173,15 +177,16 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        private bool IsCommand(string cmd)
+        public static bool IsCommand(string cmd,
+            Dictionary<string, Command> availableCommands)
         {
-            return _commands.ContainsKey(cmd);
+            return availableCommands.ContainsKey(cmd);
         }
 
         private void LoadImageCommand(string input, string[] args, LigraEnvironment env)
         {
-            Font font = ligraControl1.Font;
-            Brush brush = Brushes.Red;
+            var font = env.Font;
+            var brush = LBrush.Red;
 
             if (args.Length < 3)
             {
@@ -219,17 +224,24 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        private void CdCommand(string input, string[] args, LigraEnvironment env)
+        private void CdCommand(string input, string[] args)
+        {
+            CdCommand(input, args, _env);
+        }
+        public static void CdCommand(string input, string[] args,
+            LigraEnvironment env)
         {
             if (args.Length <= 1)
             {
                 //print the current directory
                 string dir = System.IO.Directory.GetCurrentDirectory();
-                _env.AddRenderItem(new InfoItem(dir, ligraControl1.Font, env));
+                env.AddRenderItem(new InfoItem(dir, env.Font, env));
             }
             else if (!System.IO.Directory.Exists(args[1]))
             {
-                _env.AddRenderItem(new ErrorItem(input, "Parameter must be a folder name", ligraControl1.Font, Brushes.Red, env, input.IndexOf(args[1])));
+                env.AddRenderItem(
+                    new ErrorItem(input, "Parameter must be a folder name",
+                    env.Font, LBrush.Red, env, input.IndexOf(args[1])));
             }
             else
             {
@@ -239,16 +251,28 @@ namespace MetaphysicsIndustries.Ligra
                 try
                 {
                     System.IO.Directory.SetCurrentDirectory(dir);
-                    _env.AddRenderItem(new InfoItem("Directory changed to \"" + dir + "\"", ligraControl1.Font, env));
+                    env.AddRenderItem(
+                        new InfoItem(
+                            "Directory changed to \"" + dir + "\"",
+                            env.Font, env));
                 }
                 catch (Exception e)
                 {
-                    _env.AddRenderItem(new ErrorItem(input, "There was an error: \r\n" + e.ToString(), ligraControl1.Font, Brushes.Red, env));
+                    env.AddRenderItem(
+                        new ErrorItem(
+                            input, "There was an error: \r\n" + e.ToString(),
+                            env.Font, LBrush.Red, env));
                 }
             }
         }
 
         private void ProcessInput(string input)
+        {
+            ProcessInput(input, _env, _commands, evalTextBox.SelectAll);
+        }
+        public static void ProcessInput(string input, LigraEnvironment env,
+            Dictionary<string, Command> availableCommands,
+            Action selectAllInputText)
         {
             var args = input.Split(new char[] { ' ', '\t', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -258,27 +282,27 @@ namespace MetaphysicsIndustries.Ligra
 
                 Command[] commands;
 
-                if (IsCommand(cmd))
+                if (IsCommand(cmd, availableCommands))
                 {
-                    commands = new Command[] { _commands[cmd] };
+                    commands = new Command[] { availableCommands[cmd] };
                 }
                 else
                 {
-                    commands = _parser.GetCommands(input, _env);
+                    commands = env.Parser.GetCommands(input, env);
                 }
 
                 foreach (var command in commands)
                 {
-                    command(input, args, _env);
+                    command(input, args, env);
                 }
             }
 
-            if (_env.History.Count <= 0 || input != _env.History[_env.History.Count - 1])
+            if (env.History.Count <= 0 || input != env.History[env.History.Count - 1])
             {
-                _env.History.Add(input);
+                env.History.Add(input);
             }
-            evalTextBox.SelectAll();
-            _env.CurrentHistoryIndex = -1;
+            selectAllInputText();
+            env.CurrentHistoryIndex = -1;
         }
     }
 }

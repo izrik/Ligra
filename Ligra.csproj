@@ -16,6 +16,8 @@
     </FileUpgradeFlags>
     <OldToolsVersion>2.0</OldToolsVersion>
     <UpgradeBackupLocation />
+    <StartupObject>MetaphysicsIndustries.Ligra.ProgramGtk</StartupObject>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -41,6 +43,27 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="GtkSharp">
+      <HintPath>packages\GtkSharp.3.22.25.128\lib\netstandard2.0\GtkSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="GLibSharp">
+      <HintPath>packages\GLibSharp.3.22.25.128\lib\netstandard2.0\GLibSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="AtkSharp">
+      <HintPath>packages\AtkSharp.3.22.25.128\lib\netstandard2.0\AtkSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="GioSharp">
+      <HintPath>packages\GioSharp.3.22.25.128\lib\netstandard2.0\GioSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="CairoSharp">
+      <HintPath>packages\CairoSharp.3.22.25.128\lib\netstandard2.0\CairoSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="PangoSharp">
+      <HintPath>packages\PangoSharp.3.22.25.128\lib\netstandard2.0\PangoSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="GdkSharp">
+      <HintPath>packages\GdkSharp.3.22.25.128\lib\netstandard2.0\GdkSharp.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplyMatrixFilterItem.cs" />
@@ -76,6 +99,7 @@
     <Compile Include="LigraFormsControl.Designer.cs">
       <DependentUpon>LigraFormsControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="LMenuItem.cs" />
     <Compile Include="MathPaintItem.cs" />
     <Compile Include="PlotPropertiesForm.cs">
       <SubType>Form</SubType>
@@ -83,6 +107,7 @@
     <Compile Include="PlotPropertiesForm.Designer.cs">
       <DependentUpon>PlotPropertiesForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="PlotPropertiesWindow.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="LigraControl.resx">
@@ -132,6 +157,19 @@
     <None Include="make-ready.sh" />
     <None Include="todo.txt" />
     <Compile Include="StringHelper.cs" />
+    <None Include="packages.config" />
+    <Compile Include="Vector2.cs" />
+    <Compile Include="FloatHelper.cs" />
+    <Compile Include="Vector2Helper.cs" />
+    <Compile Include="IRenderer.cs" />
+    <Compile Include="LPen.cs" />
+    <Compile Include="LColor.cs" />
+    <Compile Include="LBrush.cs" />
+    <Compile Include="LFont.cs" />
+    <Compile Include="WidgetHelper.cs" />
+    <Compile Include="ILigraUI.cs" />
+    <Compile Include="LigraWidget.cs" />
+    <Compile Include="LigraWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
@@ -165,4 +203,5 @@
       <Name>MetaphysicsIndustries.Acuity</Name>
     </ProjectReference>
   </ItemGroup>
+  <Import Project="packages\GtkSharp.3.22.25.128\build\GtkSharp.targets" Condition="Exists('packages\GtkSharp.3.22.25.128\build\GtkSharp.targets')" />
 </Project>

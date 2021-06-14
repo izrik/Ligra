@@ -5,10 +5,11 @@ using System.Drawing;
 using MetaphysicsIndustries.Solus;
 
 using System.Windows.Forms;
+using Gtk;
 
 namespace MetaphysicsIndustries.Ligra
 {
-    public abstract class RenderItem : Panel
+    public abstract class RenderItem
     {
         private static SolusEngine _engine = new SolusEngine();
 
@@ -17,20 +18,19 @@ namespace MetaphysicsIndustries.Ligra
             _env = env;
         }
 
-        protected abstract void InternalRender(Graphics g, SolusEnvironment env);
-        protected abstract SizeF InternalCalcSize(Graphics g);
+        protected abstract void InternalRender(IRenderer g, SolusEnvironment env);
+        protected abstract Vector2 InternalCalcSize(IRenderer g);
 
-        private string _error = string.Empty;
-        private SizeF _errorSize = new SizeF(0, 0);
-        bool _changeSize = true;
+        public string _error = string.Empty;
+        public SizeF _errorSize = new SizeF(0, 0);
+        public bool _changeSize = true;
 
-        readonly LigraEnvironment _env;
+        public readonly LigraEnvironment _env;
+        public ILigraUI Container { get; set; }
 
-        protected override void OnPaint(PaintEventArgs e)
+        public void Render(IRenderer g, LFont font)
         {
-            base.OnPaint(e);
-
-            var g = e.Graphics;
+            var red = LBrush.Red;
 
             try
             {
@@ -42,18 +42,22 @@ namespace MetaphysicsIndustries.Ligra
                 }
                 else
                 {
-                    g.DrawString(_error, this.Font, Brushes.Red, new PointF(0, 0));
+                    g.DrawString(_error, font, red,
+                        new Vector2(0, 0));
                 }
             }
             catch (Exception ex)
             {
-                _error = "There was an error while trying to render the item: \r\n" + ex.ToString();
+                _error = "There was an error while trying to render " +
+                         "the item: \r\n" + ex.ToString();
                 _changeSize = true;
 
-                g.DrawString(_error, this.Font, Brushes.Red, new PointF(0, 0));
-                _errorSize = g.MeasureString(_error, this.Font);
+                g.DrawString(_error, font, red,
+                    new Vector2(0, 0));
+                _errorSize = g.MeasureString(_error, font);
 
-                g.DrawRectangle(Pens.Red, 0, 0, _errorSize.Width, _errorSize.Height);
+                g.DrawRectangle(LPen.Red, 0, 0, _errorSize.Width,
+                    _errorSize.Height);
             }
 
             if (_changeSize)
@@ -77,14 +81,7 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        public RectangleF Rect // Size, Height, Width, Bounds, ClientRectangle, etc.
-        {
-            get { return Bounds; }
-            set { Bounds = Rectangle.Truncate(value); }
-        }
-
-
-        protected void CollectVariableValues(SolusEnvironment env)
+        public void CollectVariableValues(SolusEnvironment env)
         {
             HashSet<string> vars = new HashSet<string>();
 
@@ -135,9 +132,9 @@ namespace MetaphysicsIndustries.Ligra
         {
         }
 
-        public ToolStripItem[] GetMenuItems() // per-control context menus
+        public virtual LMenuItem[] GetMenuItems() // per-control context menus
         {
-            return new ToolStripItem[0];
+            return new LMenuItem[0];
         }
 
         public virtual bool HasPropertyWindow // per-control context menus
@@ -145,8 +142,118 @@ namespace MetaphysicsIndustries.Ligra
             get { return false; }
         }
 
-        public virtual void OpenPropertiesWindow(LigraControl control) // per-control context menus
+        public virtual void OpenPropertiesWindow(ILigraUI control) // per-control context menus
         {
+        }
+
+        protected RenderItemControl _control;
+        public RenderItemControl GetControl()
+        {
+            if (_control == null)
+                _control = GetControlInternal();
+            return _control;
+        }
+        protected RenderItemControl GetControlInternal()
+        {
+            return new RenderItemControl(this);
+        }
+
+        protected Widget _adapter;
+        public Widget GetAdapter()
+        {
+            if (_adapter == null)
+                _adapter = GetAdapterInternal();
+            return _adapter;
+        }
+        protected Widget GetAdapterInternal()
+        {
+            return new RenderItemWidget(this);
+        }
+        
+        public Vector2 CalculateSize(IRenderer g)
+        {
+            return InternalCalcSize(g);
+        }
+
+        public virtual Vector2? DefaultSize => null;
+
+        public Size Size
+        {
+            get
+            {
+                if (_control != null)
+                    return _control.Size;
+                else
+                {
+                    _adapter.GetSizeRequest(out int width, out int height);
+                    return new Size(width, height);
+                }
+            }
+            set
+            {
+                if (_control != null)
+                    _control.Size = value;
+                else
+                    _adapter.SetSizeRequest(value.Width, value.Height);
+            }
+        }
+
+        public void Invalidate()
+        {
+            if (_control != null)
+                _control.Invalidate();
+            else
+                _adapter.QueueDraw();
+        }
+    }
+
+    public class RenderItemWidget : DrawingArea
+    {
+        public RenderItemWidget(RenderItem owner)
+        {
+            _owner = owner;
+            if (_owner.DefaultSize.HasValue)
+            {
+                var size = _owner.DefaultSize.Value;
+                this.SetSizeRequest(size.X.RoundToInt(), size.Y.RoundToInt());
+            }
+
+            this.Drawn += RenderItemWidget_Drawn;
+        }
+
+        protected readonly RenderItem _owner;
+
+        private void RenderItemWidget_Drawn(object o, DrawnArgs args)
+        {
+            var g = new GtkRenderer(args.Cr, this);
+            _owner.Render(g, _owner._env.Font);
+        }
+    }
+
+    public class RenderItemControl : Panel
+    {
+        public RenderItemControl(RenderItem owner)
+        {
+            _owner = owner;
+            if (_owner.DefaultSize.HasValue)
+                this.Size = _owner.DefaultSize.Value.ToSize();
+        }
+
+        protected readonly RenderItem _owner;
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+
+            var g = new SwfRenderer(e.Graphics);
+            var font = LFont.FromSwf(this.Font);
+            _owner.Render(g, font);
+        }
+
+        public RectangleF Rect // Size, Height, Width, Bounds, ClientRectangle, etc.
+        {
+            get { return Bounds; }
+            set { Bounds = Rectangle.Truncate(value); }
         }
     }
 }

@@ -5,18 +5,17 @@ using System.Drawing;
 using MetaphysicsIndustries.Solus;
 using System.Linq;
 
-
 namespace MetaphysicsIndustries.Ligra
 {
     public class GraphEntry
     {
-        public GraphEntry(Expression expression, Pen pen, string independentVariable)
+        public GraphEntry(Expression expression, LPen pen, string independentVariable)
         {
             _expression = expression;
             _pen = pen;
             _independentVariable = independentVariable;
         }
-        protected GraphEntry(Pen pen)
+        protected GraphEntry(LPen pen)
         {
             _pen = pen;
         }
@@ -33,8 +32,8 @@ namespace MetaphysicsIndustries.Ligra
             get { return _independentVariable; }
         }
 
-        private Pen _pen;
-        public Pen Pen
+        private LPen _pen;
+        public LPen Pen
         {
             get { return _pen; }
         }
@@ -42,7 +41,7 @@ namespace MetaphysicsIndustries.Ligra
 
     public class GraphVectorEntry : GraphEntry
     {
-        public GraphVectorEntry(SolusVector x, SolusVector y, Pen pen)
+        public GraphVectorEntry(SolusVector x, SolusVector y, LPen pen)
             : base(pen)
         {
             X = x;
@@ -55,7 +54,7 @@ namespace MetaphysicsIndustries.Ligra
 
     public class GraphItem : RenderItem
     {
-        public GraphItem(Expression expression, Pen pen, string independentVariable, SolusParser parser, LigraEnvironment env)
+        public GraphItem(Expression expression, LPen pen, string independentVariable, SolusParser parser, LigraEnvironment env)
             : this(parser, env, new GraphEntry(expression, pen, independentVariable))
         {
         }
@@ -68,9 +67,8 @@ namespace MetaphysicsIndustries.Ligra
         public GraphItem(SolusParser parser, LigraEnvironment env, IEnumerable<GraphEntry> entries)
             : base(env)
         {
-            _timer = new System.Windows.Forms.Timer();
-            _timer.Tick += _timer_Tick;
-            _timer.Interval = 250;
+            _timer = new System.Timers.Timer(250);
+            _timer.Elapsed += _timer_Elapsed;
             _timer.Enabled = true;
 
             _entries.AddRange(entries);
@@ -82,34 +80,32 @@ namespace MetaphysicsIndustries.Ligra
             _parser = parser;
         }
 
-        protected override Size DefaultSize
+        public override Vector2? DefaultSize => new Vector2(400, 400);
+
+        private void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            get { return new Size(400, 400); }
+            Invalidate();
         }
 
-        void _timer_Tick (object sender, EventArgs e)
-        {
-            this.Invalidate();
-        }
-
-        System.Windows.Forms.Timer _timer;
+        System.Timers.Timer _timer;
 
         public float _maxX;
         public float _minX;
         public float _maxY;
         public float _minY;
-        SolusParser _parser;
+        public SolusParser _parser;
 
-        private List<GraphEntry> _entries = new List<GraphEntry>();
+        public List<GraphEntry> _entries = new List<GraphEntry>();
         //private SizeF _size = new SizeF(400, 400);
 
-        protected override void InternalRender(Graphics g, SolusEnvironment env)
+        protected override void InternalRender(IRenderer g, SolusEnvironment env)
         {
+            g.DrawRectangle(LPen.Red, Rect.X, Rect.Y, Rect.Width, Rect.Height);
             bool first = true;
             foreach (GraphEntry entry in _entries)
             {
                 var ve = entry as GraphVectorEntry;
-                var location = new PointF(0, 0);
+                var location = new Vector2(0, 0);
                 if (ve != null)
                 {
                     RenderVectors(g,
@@ -131,9 +127,9 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        protected override SizeF InternalCalcSize(Graphics g)
+        protected override Vector2 InternalCalcSize(IRenderer g)
         {
-            return Rect.Size;
+            return Rect.Size.ToVector2();
         }
 
         //public override bool HasChanged(VariableTable env)
@@ -162,34 +158,14 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        private Expression ExpressionFromGraphEntry(GraphEntry entry)
+        public Expression ExpressionFromGraphEntry(GraphEntry entry)
         {
             return entry.Expression;
         }
 
-        public override void OpenPropertiesWindow(LigraControl control)
+        public override void OpenPropertiesWindow(ILigraUI control)
         {
-            PlotPropertiesForm form = new PlotPropertiesForm(_parser);
-
-            form.PlotSize = Rect.Size;
-            form.PlotMaxX = _maxX;
-            form.PlotMinX = _minX;
-            form.PlotMaxY = _maxY;
-            form.PlotMinY = _minY;
-
-            form.SetExpressions(Array.ConvertAll<GraphEntry, Expression>(_entries.ToArray(), ExpressionFromGraphEntry));
-
-            if (form.ShowDialog(control) == System.Windows.Forms.DialogResult.OK)
-            {
-                Rect = new RectangleF(Rect.Location, form.PlotSize);
-
-                _maxX = form.PlotMaxX;
-                _minX = form.PlotMinX;
-                _maxY = form.PlotMaxY;
-                _minY = form.PlotMinY;
-
-
-            }
+            control.OpenPlotProperties(this);
         }
 
         public override bool HasPropertyWindow
@@ -197,9 +173,8 @@ namespace MetaphysicsIndustries.Ligra
             get { return true; }
         }
 
-
-        public static void RenderGraph(Graphics g, RectangleF boundsInClient,
-            Pen pen, Brush brush,
+        public static void RenderGraph(IRenderer g, RectangleF boundsInClient,
+            LPen pen, LBrush brush,
             float xMin, float xMax, float yMin, float yMax,
             Expression expr, string independentVariable,
             SolusEnvironment env,
@@ -210,7 +185,7 @@ namespace MetaphysicsIndustries.Ligra
 
             if (drawboundaries)
             {
-                g.DrawRectangle(Pens.Black, boundsInClient.X, boundsInClient.Y, boundsInClient.Width, boundsInClient.Height);
+                g.DrawRectangle(LPen.Black, boundsInClient.X, boundsInClient.Y, boundsInClient.Width, boundsInClient.Height);
 
                 //if (xMax > 0 && xMin < 0)
                 //{
@@ -236,7 +211,7 @@ namespace MetaphysicsIndustries.Ligra
             vvalue = Math.Min(vvalue, yMax);
             vvalue = Math.Max(vvalue, yMin);
             double yy = boundsInClient.Bottom - (vvalue - yMin) * deltaY;
-            PointF lastPoint = new PointF(boundsInClient.Left, (float)yy);
+            var lastPoint = new Vector2(boundsInClient.Left, (float)yy);
 
             int i;
             for (i = 0; i < boundsInClient.Width; i++)
@@ -252,15 +227,15 @@ namespace MetaphysicsIndustries.Ligra
                 value = Math.Max(value, yMin);
                 double y = boundsInClient.Bottom - (value - yMin) * deltaY;
 
-                PointF pt = new PointF(i + boundsInClient.X, (float)y);
+                var pt = new Vector2(i + boundsInClient.X, (float)y);
 
                 g.DrawLine(pen, lastPoint, pt);
                 lastPoint = pt;
             }
         }
 
-        public static void RenderVectors(Graphics g, RectangleF boundsInClient,
-            Pen pen, Brush brush,
+        public static void RenderVectors(IRenderer g, RectangleF boundsInClient,
+            LPen pen, LBrush brush,
             float xMin, float xMax, float yMin, float yMax,
             SolusVector x, SolusVector y,
             SolusEnvironment env,
@@ -272,34 +247,52 @@ namespace MetaphysicsIndustries.Ligra
             float deltaX = (xMax - xMin) / boundsInClient.Width;
             float deltaY = (yMax - yMin) / boundsInClient.Height;
 
-            Func<PointF,PointF> clientFromGraph = (PointF pt) => 
-                new PointF(boundsInClient.X +      (pt.X - xMin) / deltaX,
-                    boundsInClient.Bottom - (pt.Y - yMin) / deltaY);
+            Func<Vector2, Vector2> clientFromGraph = (pt) =>
+                 new Vector2(boundsInClient.X + (pt.X - xMin) / deltaX,
+                     boundsInClient.Bottom - (pt.Y - yMin) / deltaY);
 
             if (drawboundaries)
             {
-                g.DrawRectangle(Pens.Black, boundsInClient.X, boundsInClient.Y, boundsInClient.Width, boundsInClient.Height);
+                g.DrawRectangle(LPen.Black, boundsInClient.X, boundsInClient.Y, boundsInClient.Width, boundsInClient.Height);
 
-                var zz = clientFromGraph(new PointF(0, 0));
+                var zz = clientFromGraph(new Vector2(0, 0));
                 if (xMax > 0 && xMin < 0)
                 {
-                    g.DrawLine(Pens.Black, zz.X, boundsInClient.Top, zz.X, boundsInClient.Bottom);
+                    g.DrawLine(LPen.Black, zz.X, boundsInClient.Top, zz.X, boundsInClient.Bottom);
                 }
 
                 if (yMax > 0 && yMin < 0)
                 {
-                    g.DrawLine(Pens.Black, boundsInClient.Left, zz.Y, boundsInClient.Right, zz.Y);
+                    g.DrawLine(LPen.Black, boundsInClient.Left, zz.Y, boundsInClient.Right, zz.Y);
                 }
             }
 
             int i;
-            int N = Math.Min(xs.Length,ys.Length);
-            PointF lastPoint = clientFromGraph(new PointF(xs[0],ys[0]));
+            int N = Math.Min(xs.Length, ys.Length);
+            var lastPoint = clientFromGraph(new Vector2(xs[0], ys[0]));
             for (i = 1; i < N; i++)
             {
-                var next = clientFromGraph(new PointF(xs[i],ys[i]));
+                var next = clientFromGraph(new Vector2(xs[i], ys[i]));
                 g.DrawLine(pen, lastPoint, next);
                 lastPoint = next;
+            }
+        }
+
+        public RectangleF Rect
+        {
+            get
+            {
+                if (_control != null)
+                    return _control.Rect;
+                if (_adapter != null)
+                    return new RectangleF(
+                        _adapter.Allocation.Left,
+                        _adapter.Allocation.Top,
+                        _adapter.Allocation.Width,
+                        _adapter.Allocation.Height);
+
+                throw new InvalidOperationException(
+                    "No UI element available.");
             }
         }
     }

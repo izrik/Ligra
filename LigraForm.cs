@@ -9,7 +9,6 @@ using MetaphysicsIndustries.Solus;
 //using MetaphysicsIndustries.Sandbox;
 using System.Drawing.Printing;
 
-
 namespace MetaphysicsIndustries.Ligra
 {
     public partial class LigraForm : Form
@@ -29,7 +28,6 @@ namespace MetaphysicsIndustries.Ligra
         }
 
         private static SolusEngine _engine = new SolusEngine();
-        private static LigraParser _parser = new LigraParser();
 
         LigraEnvironment _env;
 
@@ -48,7 +46,7 @@ namespace MetaphysicsIndustries.Ligra
                 _env.Variables.Add("t", new Literal(0));
             }
 
-            _env.Font = ligraControl1.Font;
+            _env.Font = LFont.FromSwf(ligraControl1.Font);
             _env.ClearCanvas = ligraControl1.Invalidate;
         }
 
@@ -90,7 +88,26 @@ namespace MetaphysicsIndustries.Ligra
             {
                 _renderItemItem.DropDownItems.Clear();
 
-                ToolStripItem[] menuItems = ri.GetMenuItems();
+                var menuItems0 = ri.GetMenuItems();
+                var menuItems = new ToolStripMenuItem[menuItems0.Length];
+                int i;
+
+                ToolStripMenuItem ToSwf(LMenuItem mi)
+                {
+                    var item = new ToolStripMenuItem(mi.Text);
+                    if (mi.Clicked != null)
+                        item.Click += (o, _e) => mi.Clicked();
+                    foreach (var child in mi.Children)
+                        item.DropDownItems.Add(ToSwf(child));
+                    item.Enabled = mi.Enabled;
+                    return item;
+                }
+
+                for (i = 0; i < menuItems0.Length; i++)
+                {
+                    var mi = menuItems0[i];
+                    menuItems[i] = ToSwf(mi);
+                }
 
                 if (menuItems.Length > 0)
                 {
@@ -123,7 +140,7 @@ namespace MetaphysicsIndustries.Ligra
                 {
                     return GetRenderItemInCollectionFromPoint(((RenderItemContainer)ri).Items, pt);
                 }
-                else if (ri.Rect.Contains(pt))
+                else if (ri.GetControl().Rect.Contains(pt))
                 {
                     return ri;
                 }
@@ -175,14 +192,20 @@ namespace MetaphysicsIndustries.Ligra
                 }
                 catch (Exception ee)
                 {
+                    var font = LFont.FromSwf(ligraControl1.Font);
                     if (ee is SolusParseException)
                     {
                         SolusParseException ee2 = (SolusParseException)ee;
-                        _env.AddRenderItem(new ErrorItem(input, ee2.Error, ligraControl1.Font, Brushes.Red, _env, ee2.Location));
+                        _env.AddRenderItem(
+                            new ErrorItem(input, ee2.Error, font, LBrush.Red,
+                                _env, ee2.Location));
                     }
                     else
                     {
-                        _env.AddRenderItem(new ErrorItem(input, "There was an error: " + ee.ToString(), Font, Brushes.Red, _env));
+                        _env.AddRenderItem(
+                            new ErrorItem(input,
+                                "There was an error: " + ee.ToString(), font,
+                                LBrush.Red, _env));
                     }
                 }
             }

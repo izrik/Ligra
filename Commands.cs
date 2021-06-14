@@ -31,7 +31,7 @@ namespace MetaphysicsIndustries.Ligra
                     {
                         error += s + "\r\n";
                     }
-                    env.AddRenderItem(new ErrorItem(input, error, env.Font, Brushes.Red, env, input.IndexOf(args[0])));
+                    env.AddRenderItem(new ErrorItem(input, error, env.Font, LBrush.Red, env, input.IndexOf(args[0])));
                 }
                 else
                 {
@@ -45,7 +45,7 @@ namespace MetaphysicsIndustries.Ligra
             }
             else
             {
-                env.AddRenderItem(new ErrorItem(input, "Must specify variables to delete", env.Font, Brushes.Red, env, input.IndexOf(args[0])));
+                env.AddRenderItem(new ErrorItem(input, "Must specify variables to delete", env.Font, LBrush.Red, env, input.IndexOf(args[0])));
             }
         }
 
@@ -128,8 +128,8 @@ namespace MetaphysicsIndustries.Ligra
 
         public static void ExampleCommand(string input, string[] args, LigraEnvironment env)
         {
-            Font f = env.Font;
-            Pen p = Pens.Blue;
+            var f = env.Font;
+            var p = LPen.Blue;
 
             if (!env.Variables.ContainsKey("x")) env.Variables.Add("x", new Literal(0));
             if (!env.Variables.ContainsKey("y")) env.Variables.Add("y", new Literal(0));
@@ -240,9 +240,9 @@ namespace MetaphysicsIndustries.Ligra
             env.AddRenderItem(new InfoItem("Multiple plots on the same axes, \"x^3\", \"3 * x^2\", \"6 * x\":", f, env));
             env.AddRenderItem(new GraphItem(
                 parser, env,
-                new GraphEntry(parser.GetExpression("x^3", env), Pens.Blue, "x"),
-                new GraphEntry(parser.GetExpression("3*x^2", env), Pens.Green, "x"),
-                new GraphEntry(parser.GetExpression("6*x", env), Pens.Red, "x")));
+                new GraphEntry(parser.GetExpression("x^3", env), LPen.Blue, "x"),
+                new GraphEntry(parser.GetExpression("3*x^2", env), LPen.Green, "x"),
+                new GraphEntry(parser.GetExpression("6*x", env), LPen.Red, "x")));
 
             env.AddRenderItem(new InfoItem("A plot that changes with time, \"sin(x+t)\":", f, env));
             env.AddRenderItem(new GraphItem(parser.GetExpression("sin(x+t)", env), p, "x", parser, env));
@@ -252,7 +252,7 @@ namespace MetaphysicsIndustries.Ligra
             env.AddRenderItem(new ExpressionItem(expr, p, f, env));
 
             env.AddRenderItem(new InfoItem("A 3d plot: ", f, env));
-            env.AddRenderItem(new Graph3dItem(expr, Pens.Black, Brushes.Green, -4, 4, -4, 4, -2, 6, "x", "y", env));
+            env.AddRenderItem(new Graph3dItem(expr, LPen.Black, LBrush.Green, -4, 4, -4, 4, -2, 6, "x", "y", env));
         }
 
         public static void Example2Command(string input, string[] args, LigraEnvironment env)
@@ -308,13 +308,13 @@ namespace MetaphysicsIndustries.Ligra
             {
                 List<GraphEntry> entries = new List<GraphEntry>();
 
-                List<Pen> pens = new List<Pen>();
-                pens.Add(ColorExpression.Blue.Pen);
-                pens.Add(ColorExpression.Red.Pen);
-                pens.Add(ColorExpression.Green.Pen);
-                pens.Add(ColorExpression.Yellow.Pen);
-                pens.Add(ColorExpression.Cyan.Pen);
-                pens.Add(ColorExpression.Magenta.Pen);
+                var pens = new List<LPen>();
+                pens.Add(LPen.Blue);
+                pens.Add(LPen.Red);
+                pens.Add(LPen.Green);
+                pens.Add(LPen.Yellow);
+                pens.Add(LPen.Cyan);
+                pens.Add(LPen.Magenta);
 
                 int i = 0;
                 VarInterval interval = intervals.First();
@@ -355,7 +355,7 @@ namespace MetaphysicsIndustries.Ligra
                 float zmin = zs.Min();
                 float zmax = zs.Max();
 
-                env.AddRenderItem(new Graph3dItem(expr, Pens.Black, Brushes.Green,
+                env.AddRenderItem(new Graph3dItem(expr, LPen.Black, LBrush.Green,
                                                     intervals[0].Interval.LowerBound,
                                                     intervals[0].Interval.UpperBound,
                                                     intervals[1].Interval.LowerBound,
@@ -384,7 +384,7 @@ namespace MetaphysicsIndustries.Ligra
                             new VariableAccess(varname),
                             expr);
 
-            env.AddRenderItem(new ExpressionItem(expr2, Pens.Blue, env.Font, env));
+            env.AddRenderItem(new ExpressionItem(expr2, LPen.Blue, env.Font, env));
         }
 
         public static void FuncAssignCommand(string input, string[] args, LigraEnvironment env, UserDefinedFunction func)
@@ -400,14 +400,14 @@ namespace MetaphysicsIndustries.Ligra
             var fcall = new FunctionCall(func, varrefs);
             var expr2 = new FunctionCall(AssignOperation.Value, fcall, func.Expression);
 
-            env.AddRenderItem(new ExpressionItem(expr2, Pens.Blue, env.Font, env));
+            env.AddRenderItem(new ExpressionItem(expr2, LPen.Blue, env.Font, env));
         }
 
         public static void ExprCommand(string input, string[] args, LigraEnvironment env, Expression expr)
         {
             expr = expr.PreliminaryEval(env);
 
-            env.AddRenderItem(new ExpressionItem(expr, Pens.Blue, env.Font, env));
+            env.AddRenderItem(new ExpressionItem(expr, LPen.Blue, env.Font, env));
         }
 
         public static void ClearHistory(LigraEnvironment env)
@@ -419,7 +419,11 @@ namespace MetaphysicsIndustries.Ligra
 
         public static void ClearOutput(LigraEnvironment env)
         {
-            env.RenderItems.Clear();
+            var items = env.RenderItems.ToArray();
+            foreach (var item in items)
+            {
+                env.Control.RemoveRenderItem(item);
+            }
             env.ClearCanvas();
         }
     }

@@ -14,39 +14,41 @@ namespace MetaphysicsIndustries.Ligra
             _caption = caption;
         }
 
-        string _caption;
+        public readonly string _caption;
 
-        protected override void InternalRender(Graphics g, SolusEnvironment env)
+        protected override void InternalRender(IRenderer g, SolusEnvironment env)
         {
-            Font font2 = new Font(this.Font.FontFamily, this.Font.Size * 2, FontStyle.Bold);
+            var font2 = new LFont(_env.Font.Family, _env.Font.Size * 2,
+                LFont.Styles.Bold);
 
-            float width = this.Parent.ClientSize.Width - 20;
-            float height = g.MeasureString(_caption, font2, (int)width).Height;
+            float width = this.Container.ClientSize.X - 20;
+            float height = g.MeasureString(_caption, font2, (int)width).Y;
 
-            g.DrawString(_caption, font2, Brushes.Black, new PointF(2, 2));
-            g.DrawRectangle(Pens.Black, 0, 0, this.Width, this.Height- 250);
+            g.DrawString(_caption, font2, LBrush.Black, new Vector2(2, 2));
+            var size1 = InternalCalcSize(g);
+            g.DrawRectangle(LPen.Black, 0, 0, size1.X, size1.Y - 250);
 
             float x = 20;
             List<float> currentHeights = new List<float>();
             float maxCurrentHeight = 0;
             foreach (RenderItem ri in Items)
             {
-                var size = ri.Size;
-                if (x + size.Width > width)
+                var size = ri.CalculateSize(g);
+                if (x + size.X > width)
                 {
                     height += maxCurrentHeight;
                     x = 20;
                     maxCurrentHeight = 0;
                 }
 
-                ri.Refresh();
+                ri.Invalidate();
 
-                x += size.Width + 10;
-                maxCurrentHeight = Math.Max(maxCurrentHeight, size.Height);
+                x += size.X + 10;
+                maxCurrentHeight = Math.Max(maxCurrentHeight, size.Y);
             }
             height += maxCurrentHeight;
 
-//            return new SizeF(width, height);
+            //return new SizeF(width, height);
         }
 
         private List<RenderItem> _items = new List<RenderItem>();
@@ -55,20 +57,21 @@ namespace MetaphysicsIndustries.Ligra
             get { return _items; }
         }
 
-
-        protected override SizeF InternalCalcSize(Graphics g)
+        protected override Vector2 InternalCalcSize(IRenderer g)
         {
-            Font font2 = new Font(this.Font.FontFamily, this.Font.Size * 2);
+            var font2 = new LFont(_env.Font.Family, _env.Font.Size * 2,
+                LFont.Styles.Bold);
 
-            float width = this.Parent.ClientSize.Width - 20;
-            float height = g.MeasureString(_caption, font2, (int)width).Height;
+            float width = this.Container.ClientSize.X - 20;
+            float height = g.MeasureString(_caption, font2, (int)width).Y;
 
             float x = 20;
             List<float> currentHeights = new List<float>();
             float maxCurrentHeight = 0;
             foreach (RenderItem ri in Items)
             {
-                SizeF size = ri.Size;
+                var ric = ri.GetControl();
+                SizeF size = ric.Size;
                 if (x + size.Width > width)
                 {
                     height += maxCurrentHeight;
@@ -82,7 +85,7 @@ namespace MetaphysicsIndustries.Ligra
 
             height += 260;
 
-            return new SizeF(width, height);
+            return new Vector2(width, height);
         }
     }
 }

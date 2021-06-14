@@ -8,23 +8,22 @@ namespace MetaphysicsIndustries.Ligra
 {
     public class InfoItem : RenderItem
     {
-        public InfoItem(string text, Font font, LigraEnvironment env)
+        public InfoItem(string text, LFont font, LigraEnvironment env)
             : base(env)
         {
             _text = text;
             _font = font;
         }
 
-        string _text;
-        Font _font;
+        public string _text;
+        public LFont _font;
 
-
-            protected override void InternalRender(Graphics g, SolusEnvironment env)
+        protected override void InternalRender(IRenderer g, SolusEnvironment env)
         {
-            g.DrawString(_text, _font, Brushes.Black, new PointF(0, 0));
+            g.DrawString(_text, _font, LBrush.Black, new Vector2(0, 0));
         }
 
-        protected override SizeF InternalCalcSize(Graphics g)
+        protected override Vector2 InternalCalcSize(IRenderer g)
         {
             return g.MeasureString(_text, _font);
         }

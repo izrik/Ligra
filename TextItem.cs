@@ -8,15 +8,15 @@ namespace MetaphysicsIndustries.Ligra
 {
     public class TextItem : RenderItem
     {
-        public TextItem(LigraEnvironment env, string text="", Font font=null)
+        public TextItem(LigraEnvironment env, string text="", LFont font=null)
             : base(env)
         {
-            Text = text;
-            if (font != null)
-            {
-                Font = font;
-            }
+            _text = text;
+            _font = font;
         }
+
+        public readonly string _text;
+        public readonly LFont _font;
 
         public virtual StringFormat Format
         {
@@ -26,24 +26,25 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-            protected override void InternalRender(Graphics g, SolusEnvironment env)
+        protected override void InternalRender(IRenderer g, SolusEnvironment env)
         {
-            RectangleF rect = new RectangleF(new PointF(0, 0), InternalCalcSize(g));
+            RectangleF rect = new RectangleF(new PointF(0, 0),
+                InternalCalcSize(g));
 
             StringFormat fmt = Format;
             if (fmt == null)
             {
-                g.DrawString(Text, this.Font, Brushes.Black, rect);
+                g.DrawString(_text, _font, LBrush.Black, rect);
             }
             else
             {
-                g.DrawString(Text, this.Font, Brushes.Black, rect, fmt);
+                g.DrawString(_text, _font, LBrush.Black, rect, fmt);
             }
         }
 
-        protected override SizeF InternalCalcSize(Graphics g)
+        protected override Vector2 InternalCalcSize(IRenderer g)
         {
-            return g.MeasureString(Text, Font, this.Parent.ClientSize.Width - 25);
+            return g.MeasureString(_text, _font, Container.ClientSize.X - 25);
         }
 
         public override bool HasChanged(SolusEnvironment env)

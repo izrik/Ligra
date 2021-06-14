@@ -18,10 +18,9 @@ using System.Text;
 using System.Windows.Forms;
 using MetaphysicsIndustries.Solus;
 
-
 namespace MetaphysicsIndustries.Ligra
 {
-    public partial class LigraControl : UserControl
+    public partial class LigraControl : UserControl, ILigraUI
     {
         public LigraControl()
         {
@@ -89,9 +88,48 @@ namespace MetaphysicsIndustries.Ligra
             base.OnKeyDown(e);
         }
 
+        public readonly List<RenderItem> _items = new List<RenderItem>();
+        public IList<RenderItem> RenderItems => _items;
+
         public void AddRenderItem(RenderItem item)
         {
-            this.flowLayoutPanel1.Controls.Add(item);
+            _items.Add(item);
+            this.flowLayoutPanel1.Controls.Add(item.GetControl());
+        }
+
+        public void RemoveRenderItem(RenderItem item)
+        {
+            _items.Remove(item);
+            this.flowLayoutPanel1.Controls.Remove(item.GetControl());
+        }
+
+        Vector2 ILigraUI.ClientSize => this.ClientSize.ToVector2();
+
+        public void OpenPlotProperties(GraphItem item)
+        {
+            PlotPropertiesForm form = new PlotPropertiesForm(item._parser);
+            var graphUI = item.GetControl();
+
+            form.PlotSize = graphUI.Rect.Size;
+            form.PlotMaxX = item._maxX;
+            form.PlotMinX = item._minX;
+            form.PlotMaxY = item._maxY;
+            form.PlotMinY = item._minY;
+
+            form.SetExpressions(
+                Array.ConvertAll(item._entries.ToArray(),
+                    item.ExpressionFromGraphEntry));
+
+            if (form.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
+            {
+                graphUI.Rect = new RectangleF(graphUI.Rect.Location,
+                    form.PlotSize);
+
+                item._maxX = form.PlotMaxX;
+                item._minX = form.PlotMinX;
+                item._maxY = form.PlotMaxY;
+                item._minY = form.PlotMinY;
+            }
         }
     }
 }

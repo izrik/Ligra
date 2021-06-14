@@ -10,7 +10,8 @@ namespace MetaphysicsIndustries.Ligra
 {
     public class GraphMatrixItem : RenderItem
     {
-        public GraphMatrixItem(Matrix matrix, string caption, LigraEnvironment env)
+        public GraphMatrixItem(Matrix matrix, string caption,
+            LigraEnvironment env)
             : base(env)
         {
             _matrix = matrix.Clone();
@@ -23,17 +24,20 @@ namespace MetaphysicsIndustries.Ligra
             get { return _matrix; }
         }
 
-        string _caption;
+        public string _caption;
 
-        MemoryImage _image = null;
+        public MemoryImage _image = null;
 
-        protected override void InternalRender(Graphics g, SolusEnvironment env)
+        protected override void InternalRender(IRenderer g,
+            SolusEnvironment env)
         {
-            RectangleF boundsInClient = new RectangleF(0, 0, _matrix.ColumnCount, _matrix.RowCount);
+            RectangleF boundsInClient = new RectangleF(0, 0,
+                Matrix.ColumnCount, Matrix.RowCount);
 
             if (_image == null || HasChanged(env))
             {
-                MemoryImage image = RenderMatrixToMemoryImage(_matrix);
+                MemoryImage image =
+                    GraphMatrixItem.RenderMatrixToMemoryImage(Matrix);
 
                 if (_image != null)
                 {
@@ -45,22 +49,31 @@ namespace MetaphysicsIndustries.Ligra
             }
 
             RectangleF rect = boundsInClient;
-            rect.Size = new SizeF(GetImageWidth(), GetImageHeight());
-            g.DrawImage(_image.Bitmap, rect);
+            rect.Size = new SizeF(GetImageWidth(),
+                GetImageHeight());
+            g.DrawImage(_image, rect);
 
-            SizeF textSize = g.MeasureString(_caption, this.Font, GetImageWidth());
+            SizeF textSize = g.MeasureString(_caption, _env.Font,
+                GetImageWidth());
             float textWidth = textSize.Width;
             float textHeight = textSize.Height;
-            rect = new RectangleF(0, GetImageHeight() + 2, textWidth, textHeight);
-            g.DrawString(_caption, this.Font, Brushes.Black, rect);
+            rect = new RectangleF(0, GetImageHeight() + 2, textWidth,
+                textHeight);
+            g.DrawString(_caption, _env.Font, LBrush.Black, rect);
         }
 
-        protected override SizeF InternalCalcSize(Graphics g)
+        protected override Vector2 InternalCalcSize(IRenderer g)
         {
-            return new SizeF(GetImageWidth(), GetImageHeight() + g.MeasureString(_caption, this.Font, GetImageWidth()).Height + 2);
+            var width = GetImageWidth();
+            var captionSize = g.MeasureString(_caption, _env.Font,
+                GetImageWidth());
+
+            return new Vector2(
+                width,
+                GetImageHeight() + captionSize.Y + 2);
         }
 
-        private int GetImageHeight()
+        public int GetImageHeight()
         {
             if (_matrix.RowCount < 256)
             {
@@ -72,7 +85,7 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        private int GetImageWidth()
+        public int GetImageWidth()
         {
             if (_matrix.ColumnCount < 256)
             {
@@ -84,7 +97,8 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        protected override void AddVariablesForValueCollection(HashSet<string> vars)
+        protected override void AddVariablesForValueCollection(
+            HashSet<string> vars)
         {
             //foreach (Expression expr in _matrix)
             //{
@@ -102,11 +116,11 @@ namespace MetaphysicsIndustries.Ligra
             SolusEnvironment env)
         {
             MemoryImage image =
-                RenderMatrixToMemoryImage(
+                GraphMatrixItem.RenderMatrixToMemoryImage(
                     matrix,
                     env);
 
-            g.DrawImage(image.Bitmap, Rectangle.Truncate( boundsInClient));
+            g.DrawImage(image.Bitmap, Rectangle.Truncate(boundsInClient));
         }
 
         public static MemoryImage RenderMatrixToMemoryImage(
@@ -120,7 +134,8 @@ namespace MetaphysicsIndustries.Ligra
             int g;
             int b;
 
-            MemoryImage image = new MemoryImage(matrix.ColumnCount, matrix.RowCount);
+            MemoryImage image = new MemoryImage(matrix.ColumnCount,
+                matrix.RowCount);
             //image.Size = new Size(matrix.RowCount, matrix.ColumnCount);
 
             for (i = 0; i < matrix.RowCount; i++)
@@ -146,13 +161,14 @@ namespace MetaphysicsIndustries.Ligra
             return image;
         }
 
-        public static void RenderMatrix(Graphics g, RectangleF boundsInClient, Matrix matrix)
+        public static void RenderMatrix(Graphics g, RectangleF boundsInClient,
+            Matrix matrix)
         {
-            MemoryImage image = RenderMatrixToMemoryImage(matrix);
+            MemoryImage image =
+                GraphMatrixItem.RenderMatrixToMemoryImage(matrix);
 
             g.DrawImage(image.Bitmap, Rectangle.Truncate(boundsInClient));
         }
-
 
         public static MemoryImage RenderMatrixToMemoryImage(Matrix matrix)
         {
@@ -163,12 +179,15 @@ namespace MetaphysicsIndustries.Ligra
         {
             return RenderMatrixToMemoryImageS(matrix).Bitmap;
         }
-        public static Bitmap RenderMatrixToColorBitmapS(Matrix r, Matrix g, Matrix b)
+        public static Bitmap RenderMatrixToColorBitmapS(Matrix r, Matrix g,
+            Matrix b)
         {
-            return RenderMatrixToMemoryImageColorS(r, g, b).Bitmap;
+            var image = RenderMatrixToMemoryImageColorS(r, g, b);
+            return image.Bitmap;
         }
 
-        public static MemoryImage RenderMatrixToMemoryImageColorS(Matrix rr, Matrix gg, Matrix bb)
+        public static MemoryImage RenderMatrixToMemoryImageColorS(Matrix rr,
+            Matrix gg, Matrix bb)
         {
             int i;
             int j;
@@ -186,7 +205,8 @@ namespace MetaphysicsIndustries.Ligra
                 rr.RowCount != bb.RowCount ||
                 gg.RowCount != bb.RowCount)
             {
-                throw new InvalidOperationException("Input channels must be the same size");
+                throw new InvalidOperationException(
+                    "Input channels must be the same size");
             }
 
             MemoryImage image = new MemoryImage(rr.ColumnCount, rr.RowCount);
@@ -225,7 +245,8 @@ namespace MetaphysicsIndustries.Ligra
             int g;
             int b;
 
-            MemoryImage image = new MemoryImage(matrix.ColumnCount,matrix.RowCount);
+            MemoryImage image =
+                new MemoryImage(matrix.ColumnCount,matrix.RowCount);
             //image.Size = new Size(matrix.RowCount, matrix.ColumnCount);
 
             for (i = 0; i < matrix.RowCount; i++)

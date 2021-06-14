@@ -9,30 +9,30 @@ namespace MetaphysicsIndustries.Ligra
     public class IntroItem : TextItem
     {
         public IntroItem(LigraEnvironment env)
-            : base(env)
+            : base(env, IntroText)
         {
         }
 
-        public override string Text
-        {
-            get
-            {
-                return "A Survey of Digital Filters and Related Technologies\r\n" +
+        static string IntroText = "A Survey of Digital Filters and Related Technologies\r\n" +
                     "by Richard Sartor\r\n" +
                     "EE 4623\r\n" +
                     "Dr. S. Agaian\r\n" +
                     "29 February 2008";
-            }
+
+        static StringFormat TextFormat = CreateTextFormat();
+        static StringFormat CreateTextFormat()
+        {
+            StringFormat fmt = StringFormat.GenericDefault;
+            fmt.Alignment = StringAlignment.Center;
+            fmt.LineAlignment = StringAlignment.Center;
+            return fmt;
         }
 
         public override StringFormat Format
         {
             get
             {
-                StringFormat fmt = StringFormat.GenericDefault;
-                fmt.Alignment = StringAlignment.Center;
-                fmt.LineAlignment = StringAlignment.Center;
-                return fmt;
+                return TextFormat;
             }
         }
     }

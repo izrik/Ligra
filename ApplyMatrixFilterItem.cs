@@ -18,13 +18,13 @@ namespace MetaphysicsIndustries.Ligra
             _caption = caption;
         }
 
-        private SizeF _lastSize = new SizeF(0, 0);
-        private Matrix _matrix;
-        private MatrixFilter _filter;
+        public Vector2 _lastSize = new Vector2(0, 0);
+        public Matrix _matrix;
+        public MatrixFilter _filter;
 
-        string _caption;
+        public string _caption;
 
-            protected override void InternalRender(Graphics g, SolusEnvironment env)
+        protected override void InternalRender(IRenderer g, SolusEnvironment env)
         {
             Matrix mat = _filter.Apply(_matrix);
             mat.ApplyToAll(AcuityEngine.ConvertFloatTo24g);
@@ -37,15 +37,15 @@ namespace MetaphysicsIndustries.Ligra
 
             RectangleF rect = boundsInClient;
             rect.Size = new SizeF(GetImageWidth(mat), GetImageHeight(mat));
-            g.DrawImage(image.Bitmap, rect);
+            g.DrawImage(image, rect);
 
-            SizeF textSize = g.MeasureString(_caption, this.Font, GetImageWidth(mat));
+            SizeF textSize = g.MeasureString(_caption, _env.Font, GetImageWidth(mat));
             float textWidth = textSize.Width;
             float textHeight = textSize.Height;
             rect = new RectangleF(0, GetImageHeight(mat) + 2, textWidth, textHeight);
-            g.DrawString(_caption, this.Font, Brushes.Black, rect);
+            g.DrawString(_caption, _env.Font, LBrush.Black, rect);
 
-            _lastSize = new SizeF(GetImageWidth(mat), GetImageHeight(mat));
+            _lastSize = new Vector2(GetImageWidth(mat), GetImageHeight(mat));
 
             if (image != null)
             {
@@ -54,9 +54,9 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        protected override SizeF InternalCalcSize(Graphics g)
+        protected override Vector2 InternalCalcSize(IRenderer g)
         {
-            return _lastSize + new SizeF(0, g.MeasureString(_caption, this.Font, (int)_lastSize.Width).Height + 2);
+            return _lastSize + new Vector2(0, g.MeasureString(_caption, _env.Font, (int)_lastSize.X).Y + 2);
         }
 
         private int GetImageHeight(Matrix mat)
@@ -94,5 +94,6 @@ namespace MetaphysicsIndustries.Ligra
         public override bool HasChanged(SolusEnvironment env)
         {
             return false;
-        }    }
+        }
+    }
 }

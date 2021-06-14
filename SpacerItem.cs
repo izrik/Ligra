@@ -8,24 +8,24 @@ namespace MetaphysicsIndustries.Ligra
 {
     public class SpacerItem : RenderItem
     {
-        public SpacerItem(SizeF size, LigraEnvironment env)
+        public SpacerItem(Vector2 size, LigraEnvironment env)
             : base(env)
         {
             _size = size;
         }
 
         public SpacerItem(float width, float height, LigraEnvironment env)
-            : this(new SizeF(width, height), env)
+            : this(new Vector2(width, height), env)
         {
         }
 
-        readonly SizeF _size;
+        public readonly Vector2 _size;
 
-        protected override void InternalRender(System.Drawing.Graphics g, SolusEnvironment env)
+        protected override void InternalRender(IRenderer g, SolusEnvironment env)
         {
         }
 
-        protected override System.Drawing.SizeF InternalCalcSize(System.Drawing.Graphics g)
+        protected override Vector2 InternalCalcSize(IRenderer g)
         {
             return _size;
         }

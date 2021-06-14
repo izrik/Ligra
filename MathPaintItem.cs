@@ -14,7 +14,7 @@ namespace MetaphysicsIndustries.Ligra
                              int width,
                              int height,
                              LigraEnvironment env)
-            : base(env)
+            : this(env)
         {
             _expression = expression;
             _horizontalCoordinate = horizontalCoordinate;
@@ -28,7 +28,7 @@ namespace MetaphysicsIndustries.Ligra
                              VarInterval horizontalCoordinate,
                              VarInterval verticalCoordinate,
                              LigraEnvironment env)
-            : base(env)
+            : this(env)
         {
             _expression = expression;
             _horizontalCoordinate = horizontalCoordinate.Variable;
@@ -40,43 +40,60 @@ namespace MetaphysicsIndustries.Ligra
             _vStart = (int)vert.LowerBound;
             _height = (int)vert.Length;
         }
+        protected MathPaintItem(LigraEnvironment env)
+            : base(env)
+        {
+            _timer = new System.Timers.Timer(250);
+            _timer.Elapsed += _timer_Elapsed;
+            _timer.Enabled = true;
+        }
 
-        private Expression _expression;
-        private string _horizontalCoordinate;
-        private string _verticalCoordinate;
-        int _hStart;
-        int _width;
-        int _vStart;
-        int _height;
-        MemoryImage _image;
+        public Expression _expression;
+        public string _horizontalCoordinate;
+        public string _verticalCoordinate;
+        public int _hStart;
+        public int _width;
+        public int _vStart;
+        public int _height;
+        public MemoryImage _image;
 
-            protected override void InternalRender(Graphics g, SolusEnvironment env)
+        System.Timers.Timer _timer;
+
+        protected override void InternalRender(IRenderer g, SolusEnvironment env)
         {
             RectangleF boundsInClient = new RectangleF(0, 0, _width, _height);
 
             if (_image == null || HasChanged(env))
             {
-                MemoryImage image =
-                    RenderMathPaintToMemoryImage(
-                            _expression,
-                            _horizontalCoordinate,
-                            _verticalCoordinate,
-                            _hStart,
-                            _width,
-                            _vStart,
-                            _height,
-                            env);
-
-                if (_image != null)
-                {
-                    _image.Dispose();
-                    _image = null;
-                }
-
-                _image = image;
+                RenderMathPaintToMemoryImage(env);
             }
 
-            g.DrawImage(_image.Bitmap, boundsInClient);
+            g.DrawImage(_image, boundsInClient);
+        }
+
+        public void RenderMathPaintToMemoryImage(SolusEnvironment env)
+        {
+            if (_image == null)
+                _image = RenderMathPaintToMemoryImage(
+                    _expression,
+                    _horizontalCoordinate,
+                    _verticalCoordinate,
+                    _hStart,
+                    _width,
+                    _vStart,
+                    _height,
+                    env);
+            else
+                RenderMathPaintToMemoryImage(
+                    _image,
+                    _expression,
+                    _horizontalCoordinate,
+                    _verticalCoordinate,
+                    _hStart,
+                    _width,
+                    _vStart,
+                    _height,
+                    env);
         }
 
         protected override void RemoveVariablesForValueCollection(HashSet<string> vars)
@@ -90,10 +107,9 @@ namespace MetaphysicsIndustries.Ligra
             GatherVariablesForValueCollection(vars, _expression);
         }
 
-
-        protected override SizeF InternalCalcSize(Graphics g)
+        protected override Vector2 InternalCalcSize(IRenderer g)
         {
-            return new SizeF(_width, _height);
+            return new Vector2(_width, _height);
         }
 
         static readonly SolusEngine _engine = new SolusEngine();
@@ -108,8 +124,33 @@ namespace MetaphysicsIndustries.Ligra
         {
             int xValues = xEnd - xStart + 1;
             int yValues = yEnd - yStart + 1;
+            var image = new MemoryImage(xValues, yValues);
+            RenderMathPaintToMemoryImage(
+                image,
+                expression,
+                independentVariableX,
+                independentVariableY,
+                xStart, xEnd,
+                yStart, yEnd,
+                env);
+            return image;
+        }
 
-            double[,] values = new double[xValues, yValues];
+        public static void RenderMathPaintToMemoryImage(
+            MemoryImage image,
+            Expression expression,
+            string independentVariableX,
+            string independentVariableY,
+            int xStart, int xEnd,
+            int yStart, int yEnd,
+            SolusEnvironment env)
+        {
+            int xValues = xEnd - xStart + 1;
+            int yValues = yEnd - yStart + 1;
+
+            if (image.Width < xValues || image.Height < yValues)
+                throw new InvalidOperationException(
+                    "MemoryImage not large enough.");
 
             Expression prelimEval1;
             Expression prelimEval2;
@@ -129,7 +170,6 @@ namespace MetaphysicsIndustries.Ligra
             int j;
             double z;
 
-            MemoryImage image = new MemoryImage(xValues, yValues);
             //image.Size = new Size(xValues, yValues);
 
             for (i = 0; i < xValues; i++)
@@ -157,9 +197,11 @@ namespace MetaphysicsIndustries.Ligra
                     //values[i, j] = z;
                 }
             }
+        }
 
-            image.CopyPixelsToBitmap();
-            return image;
+        private void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            Invalidate();
         }
     }
 }
