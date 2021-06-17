@@ -12,28 +12,6 @@ namespace MetaphysicsIndustries.Ligra
 
         static HelpItem()
         {
-            _helpLookups["help"] = @"Ligra - Advanced Mathematics Visualization and Simulation Program
-
-General Help:
-  help <topic>
-
-Available Topics:
-  Ligra
-
-  Functions: cos, sin, tan, sec, csc, cot, acos,
-             asin, atan, atan2, asec, acsc, acot,
-             ln, log, log2, log10, sqrt,
-             int, abs, rand, ceil, u
-
-  Operators: + - * /
-
-  Special: derive
-
-  Plotting: plot, plot3d;
-
-  Commands: help, clear, vars, delete, history, example
-
-Type ""help list"" to see the current environment";
             _helpLookups["t"] = "default time variable";
         }
 
