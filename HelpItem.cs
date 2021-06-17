@@ -67,30 +67,6 @@ Type ""help list"" to see the current environment";
             //_helpLookups["Special"] = HelpStrings.special;
             //_helpLookups["derive"] = "The derive operator\n  derive(f(x), x)\n\nReturns the derivative of f(x) with respect to x.";
             //_helpLookups["Plotting"] = HelpStrings.plotting;
-            _helpLookups["plot"] = @"Curve Plot
-  plot(x, f1(x), f2(x), ... fn(x))
-
-  x - independent variable that defines the ""x axis""
-  fn(x) - the expressions to plot
-
-  Plots one or more curves.";
-            _helpLookups["plot3d"] = @"3D Surface Plot
-  plot3d(x, y, f(x,y))
-  plot3d(x, y, f(x,y), fillColor)
-  plot3d(x, y, f(x,y), fillColor, wireColor)
-  plot3d(x, y, f(x,y), xMin, xMax, yMin, yMax, zMin, zMax)
-  plot3d(x, y, f(x,y), xMin, xMax, yMin, yMax, zMin, zMax, fillColor, wireColor)
-
-  x - first independent variable
-  y - second independent variable
-  f(x,y) - the expression to plot
-  fillColor - the color of the surface of the plot; default is green
-  wireColor - the color of the wireframe of the plot; default is black
-  xMin, xMax - the minimum and maximum values along the first independent variable for the plot
-  yMin, yMax - the minimum and maximum values along the second independent variable for the plot
-  zMin, zMax - the minimum and maximum values of the function to allow. Values outside this range are clipped
-
-  Plots f(x,y) as a surface in three dimensions.";
             _helpLookups["t"] = "default time variable";
             //_helpLookups["floor"] = "The floor function\n  floor(x)\n\nReturns the highest integer that is less than or equal to x.";
         }
