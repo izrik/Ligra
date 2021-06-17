@@ -74,6 +74,34 @@ namespace MetaphysicsIndustries.Ligra
             return commands.ToArray();
         }
 
+        public Command GetSingleCommand(string input, LigraEnvironment env)
+        {
+            if (env == null) throw new ArgumentNullException(nameof(env));
+            var errors1 = new List<Error>();
+            var spans = _parser.Parse(input.ToCharacterSource(), errors1);
+            if (errors1.ContainsNonWarnings())
+            {
+                Solus.Expression expr;
+                try
+                {
+                    expr = base.GetExpression(input, env);
+                }
+                catch (Exception ignored)
+                {
+                    // return errors1
+                    throw new InvalidOperationException();
+                }
+
+                return new ExprCommand(expr);
+            }
+            if (spans.Length < 1) throw new InvalidOperationException();
+            if (spans.Length > 1) throw new InvalidOperationException();
+
+            var span = spans[0];
+
+            return GetCommandFromCommand(span, env);
+        }
+
         Command GetCommandFromCommand(Span span, SolusEnvironment env)
         {
             var sub = span.Subspans[0];
@@ -212,7 +240,27 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        Command GetPaintCommandFromPaintCommand(Span span, SolusEnvironment env)
+        public PaintCommand GetPaintCommand(string input, LigraEnvironment env)
+        {
+            if (env == null) throw new ArgumentNullException(nameof(env));
+            var errors1 = new List<Error>();
+            var spans = _parser.Parse(input.ToCharacterSource(), errors1);
+            if (errors1.ContainsNonWarnings())
+                throw new InvalidOperationException();
+            Span span;
+            if (spans.Length < 1) throw new InvalidOperationException();
+            if (spans.Length > 1) throw new InvalidOperationException();
+            span = spans[0];
+            if (span.Subspans.Count < 1) throw new InvalidOperationException();
+            if (span.Subspans.Count > 1) throw new InvalidOperationException();
+            span = span.Subspans[0];
+            if (span.Subspans.Count < 1) throw new InvalidOperationException();
+            if (span.Subspans.Count > 1) throw new InvalidOperationException();
+            span = span.Subspans[0];
+            return GetPaintCommandFromPaintCommand(span, env);
+        }
+
+        PaintCommand GetPaintCommandFromPaintCommand(Span span, SolusEnvironment env)
         {
             var expr = GetExpressionFromExpr(span.Subspans[1], env);
             var interval1 = GetVarIntervalFromInterval(span.Subspans[3], env);

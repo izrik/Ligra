@@ -17,7 +17,9 @@ namespace MetaphysicsIndustries.Ligra.Commands
         
         public override void Execute(string input, string[] args, LigraEnvironment env)
         {
-            Execute(input, args, env, _expr, _interval1, _interval2);
+            // holy smokes, this is *hideous*
+            var cmd = env.Parser.GetPaintCommand(input, env);
+            Execute(input, args, env, cmd._expr, cmd._interval1, cmd._interval2);
         }
 
         public void Execute(string input, string[] args, LigraEnvironment env, Expression expr, VarInterval interval1, VarInterval interval2)
