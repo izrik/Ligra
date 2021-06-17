@@ -57,6 +57,16 @@ namespace MetaphysicsIndustries.Ligra
                     line += item;
                 }
 
+                if (env.Commands.Count > 0)
+                {
+                    sb.AppendLine("Commands:");
+                    line = "";
+                    foreach (var c in env.Commands.Keys.ToList())
+                        AddItem(c);
+                    if (line.Length > 0)
+                        sb.AppendLine("  " + line);
+                    sb.AppendLine();
+                }
                 if (env.Functions.Count > 0)
                 {
                     sb.AppendLine("Functions:");
