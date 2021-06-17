@@ -68,6 +68,22 @@
   <ItemGroup>
     <Compile Include="ApplyMatrixFilterItem.cs" />
     <Compile Include="CodeItem.cs" />
+    <Compile Include="Commands\CdCommand.cs" />
+    <Compile Include="Commands\ClearCommand.cs" />
+    <Compile Include="Commands\Command.cs" />
+    <Compile Include="Commands\DeleteCommand.cs" />
+    <Compile Include="Commands\Example2Command.cs" />
+    <Compile Include="Commands\ExampleCommand.cs" />
+    <Compile Include="Commands\ExprCommand.cs" />
+    <Compile Include="Commands\FuncAssignCommand.cs" />
+    <Compile Include="Commands\HelpCommand.cs" />
+    <Compile Include="Commands\HistoryCommand.cs" />
+    <Compile Include="Commands\LoadImageCommand.cs" />
+    <Compile Include="Commands\PaintCommand.cs" />
+    <Compile Include="Commands\PlotCommand.cs" />
+    <Compile Include="Commands\TSolveCommand.cs" />
+    <Compile Include="Commands\VarAssignCommand.cs" />
+    <Compile Include="Commands\VarsCommand.cs" />
     <Compile Include="ControlItem.cs" />
     <Compile Include="ErrorItem.cs" />
     <Compile Include="ExpressionItem.cs" />
@@ -147,8 +163,6 @@
     <Compile Include="LigraGrammar.cs" />
     <Compile Include="LigraParser.cs" />
     <Compile Include="LigraEnvironment.cs" />
-    <Compile Include="Command.cs" />
-    <Compile Include="Commands.cs" />
     <Compile Include="ExpressionHelper.cs" />
     <Compile Include="Interval.cs" />
     <Compile Include="VarInterval.cs" />

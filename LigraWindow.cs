@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Gtk;
+using MetaphysicsIndustries.Ligra.Commands;
 using MetaphysicsIndustries.Solus;
 
 namespace MetaphysicsIndustries.Ligra
@@ -11,7 +12,7 @@ namespace MetaphysicsIndustries.Ligra
             : base(WindowType.Toplevel)
         {
             InitializeComponent();
-            LigraForm.InitializeCommands(availableCommands);
+            Commands.Command.InitializeCommands(availableCommands);
             env = new LigraEnvironment(this.output);
             env.Font = new LFont(LFont.Families.CourierNew, 12,
                 LFont.Styles.Regular);
@@ -80,7 +81,7 @@ namespace MetaphysicsIndustries.Ligra
             {
                 try
                 {
-                    LigraForm.ProcessInput(s, env, availableCommands,
+                    LigraWindow.ProcessInput(s, env, availableCommands,
                         () => input.SelectRegion(0, input.Text.Length));
                 }
                 catch (SolusParseException e)
@@ -117,7 +118,7 @@ namespace MetaphysicsIndustries.Ligra
 
         void ClearItems()
         {
-            Commands.ClearOutput(env);
+            Commands.Command.ClearOutput(env);
         }
 
         void DoRenderItemProperties()
@@ -213,6 +214,54 @@ namespace MetaphysicsIndustries.Ligra
             }
 
             return null;
+        }
+
+        public static bool IsCommand(string cmd,
+            Dictionary<string, Command> availableCommands)
+        {
+            return availableCommands.ContainsKey(cmd);
+        }
+
+        public static void ProcessInput(string input, LigraEnvironment env,
+            Dictionary<string, Command> availableCommands,
+            System.Action selectAllInputText)
+        {
+            var args = input.Split(new char[] { ' ', '\t', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+
+            if (args.Length > 0)
+            {
+                string cmd = args[0].Trim().ToLower();
+
+                Command[] commands;
+
+                if (IsCommand(cmd, availableCommands))
+                {
+                    commands = new Command[] { availableCommands[cmd] };
+                }
+                else
+                {
+                    commands = env.Parser.GetCommands(input, env);
+                }
+
+                var label = string.Format("$ {0}", input);
+                if (commands.Length == 1)
+                {
+                    label = commands[0].GetInputLabel(input);
+                }
+                env.AddRenderItem(new TextItem(env, label, env.Font));
+
+                foreach (var command in commands)
+                {
+                    command.Execute(input, args, env);
+                }
+            }
+
+            if (env.History.Count <= 0 || input != env.History[env.History.Count - 1])
+            {
+                env.History.Add(input);
+            }
+            selectAllInputText();
+            env.CurrentHistoryIndex = -1;
         }
     }
 }
