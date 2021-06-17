@@ -12,6 +12,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
 
         static HelpCommand()
         {
+            _helpLookups["ligra"] = @"Ligra - Advanced Mathematics Visualization and Simulation Program";
             _helpLookups["t"] = "default time variable";
         }
 
@@ -23,28 +24,14 @@ namespace MetaphysicsIndustries.Ligra.Commands
         private readonly string _topic;
 
         public override string DocString =>
-@"Ligra - Advanced Mathematics Visualization and Simulation Program
+@"help - Get help about a topic
 
-General Help:
+Get info about an object or topic:
   help <topic>
 
-Available Topics:
-  Ligra
-
-  Functions: cos, sin, tan, sec, csc, cot, acos,
-             asin, atan, atan2, asec, acsc, acot,
-             ln, log, log2, log10, sqrt,
-             int, abs, rand, ceil, u
-
-  Operators: + - * /
-
-  Special: derive
-
-  Plotting: plot, plot3d;
-
-  Commands: help, clear, vars, delete, history, example
-
-Type ""help list"" to see the current environment";
+List the available topics:
+  help list
+";
 
         public override void Execute(string input, string[] args, LigraEnvironment env)
         {
