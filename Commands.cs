@@ -285,6 +285,11 @@ namespace MetaphysicsIndustries.Ligra
 
             if (intervals.Length > 2) throw new ArgumentOutOfRangeException("Too many intervals.");
 
+            var label = string.Format("$ plot {0} for {1}",
+                string.Join(", ", exprs.Select(Expression.ToString)),
+                string.Join(", ", intervals.Select((VarInterval vi) => vi.ToString())));
+            // TODO: override the value on the TextItem used to show the input
+
             var literals = new List<Literal>();
             foreach (var interval in intervals)
             {
@@ -405,6 +410,8 @@ namespace MetaphysicsIndustries.Ligra
 
         public static void ExprCommand(string input, string[] args, LigraEnvironment env, Expression expr)
         {
+            // TODO: override the value on the TextItem used to show the input
+
             expr = expr.PreliminaryEval(env);
 
             env.AddRenderItem(new ExpressionItem(expr, LPen.Blue, env.Font, env));
