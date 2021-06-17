@@ -244,9 +244,14 @@ namespace MetaphysicsIndustries.Ligra
                 }
 
                 var label = string.Format("$ {0}", input);
+                if (commands.Length == 1)
+                {
+                    label = commands[0].GetInputLabel(input);
+                }
+                env.AddRenderItem(new TextItem(env, label, env.Font));
+
                 foreach (var command in commands)
                 {
-                    env.AddRenderItem(new TextItem(env, label, env.Font));
                     command.Execute(input, args, env);
                 }
             }
