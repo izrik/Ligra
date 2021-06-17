@@ -42,62 +42,7 @@ namespace MetaphysicsIndustries.Ligra
             }
             else if (topic == "list")
             {
-                var sb = new StringBuilder();
-                var line = "";
-
-                void AddItem(string item)
-                {
-                    item = item + " ";
-                    if ((line + item).Length > 76)
-                    {
-                        sb.AppendLine("  " + line);
-                        line = "";
-                    }
-
-                    line += item;
-                }
-
-                if (env.Commands.Count > 0)
-                {
-                    sb.AppendLine("Commands:");
-                    line = "";
-                    foreach (var c in env.Commands.Keys.ToList())
-                        AddItem(c);
-                    if (line.Length > 0)
-                        sb.AppendLine("  " + line);
-                    sb.AppendLine();
-                }
-                if (env.Functions.Count > 0)
-                {
-                    sb.AppendLine("Functions:");
-                    line = "";
-                    foreach (var f in env.Functions.Keys.ToList())
-                        AddItem(f);
-                    if (line.Length > 0)
-                        sb.AppendLine("  " + line);
-                    sb.AppendLine();
-                }
-                if (env.Macros.Count > 0)
-                {
-                    sb.AppendLine("Macros:");
-                    line = "";
-                    foreach (var m in env.Macros.Keys.ToList())
-                        AddItem(m);
-                    if (line.Length > 0)
-                        sb.AppendLine("  " + line);
-                    sb.AppendLine();
-                }
-                if (env.Variables.Count > 0)
-                {
-                    sb.AppendLine("Variables:");
-                    line = "";
-                    foreach (var v in env.Variables.Keys.ToList())
-                        AddItem(v);
-                    if (line.Length > 0)
-                        sb.AppendLine("  " + line);
-                    sb.AppendLine();
-                }
-                _topic = sb.ToString();
+                _topic = ConstructListText(env);
             }
             else
             {
@@ -116,6 +61,70 @@ namespace MetaphysicsIndustries.Ligra
         protected override Vector2 InternalCalcSize(IRenderer g)
         {
             return g.MeasureString(_topic, _font);//, 500);
+        }
+
+        public static string ConstructListText(LigraEnvironment env)
+        {
+            var sb = new StringBuilder();
+            var line = "";
+
+            void AddItem(string item)
+            {
+                item = item + " ";
+                if ((line + item).Length > 76)
+                {
+                    sb.AppendLine("  " + line);
+                    line = "";
+                }
+
+                line += item;
+            }
+
+            if (env.Commands.Count > 0)
+            {
+                sb.AppendLine("Commands:");
+                line = "";
+                foreach (var c in env.Commands.Keys.ToList())
+                    AddItem(c);
+                if (line.Length > 0)
+                    sb.AppendLine("  " + line);
+                sb.AppendLine();
+            }
+
+            if (env.Functions.Count > 0)
+            {
+                sb.AppendLine("Functions:");
+                line = "";
+                foreach (var f in env.Functions.Keys.ToList())
+                    AddItem(f);
+                if (line.Length > 0)
+                    sb.AppendLine("  " + line);
+                sb.AppendLine();
+            }
+
+            if (env.Macros.Count > 0)
+            {
+                sb.AppendLine("Macros:");
+                line = "";
+                foreach (var m in env.Macros.Keys.ToList())
+                    AddItem(m);
+                if (line.Length > 0)
+                    sb.AppendLine("  " + line);
+                sb.AppendLine();
+            }
+
+            if (env.Variables.Count > 0)
+            {
+                sb.AppendLine("Variables:");
+                line = "";
+                foreach (var v in env.Variables.Keys.ToList())
+                    AddItem(v);
+                if (line.Length > 0)
+                    sb.AppendLine("  " + line);
+                sb.AppendLine();
+            }
+
+            return sb.ToString();
         }
     }
 }
