@@ -21,6 +21,14 @@ namespace MetaphysicsIndustries.Ligra.Commands
             Execute(input, args, env, _exprs, _intervals);
         }
 
+        public override string GetInputLabel(string input)
+        {
+            var label = string.Format("$ plot {0} for {1}",
+                string.Join(", ", _exprs.Select(Expression.ToString)),
+                string.Join(", ", _intervals.Select((VarInterval vi) => vi.ToString())));
+            return label;
+        }
+
         public static void Execute(string input, string[] args, LigraEnvironment env, Expression[] exprs, VarInterval[] intervals)
         {
             if (env == null) throw new ArgumentNullException("env");
@@ -28,11 +36,6 @@ namespace MetaphysicsIndustries.Ligra.Commands
             if (intervals == null || intervals.Length < 1) throw new ArgumentNullException("intervals");
 
             if (intervals.Length > 2) throw new ArgumentOutOfRangeException("Too many intervals.");
-
-            var label = string.Format("$ plot {0} for {1}",
-                string.Join(", ", exprs.Select(Expression.ToString)),
-                string.Join(", ", intervals.Select((VarInterval vi) => vi.ToString())));
-            // TODO: override the value on the TextItem used to show the input
 
             var literals = new List<Literal>();
             foreach (var interval in intervals)
