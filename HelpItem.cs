@@ -20,34 +20,7 @@ namespace MetaphysicsIndustries.Ligra
             : base(env)
         {
             _font = font;
-
-            if (env.Commands.ContainsKey(topic) &&
-                !string.IsNullOrEmpty(env.Commands[topic].DocString))
-            {
-                _topic = env.Commands[topic].DocString;
-            }
-            else if (env.Functions.ContainsKey(topic) &&
-                !string.IsNullOrEmpty(env.Functions[topic].DocString))
-            {
-                _topic = env.Functions[topic].DocString;
-            }
-            else if (env.Macros.ContainsKey(topic) &&
-                     !string.IsNullOrEmpty(env.Macros[topic].DocString))
-            {
-                _topic = env.Macros[topic].DocString;
-            }
-            else if (_helpLookups.ContainsKey(topic))
-            {
-                _topic = _helpLookups[topic];
-            }
-            else if (topic == "list")
-            {
-                _topic = ConstructListText(env);
-            }
-            else
-            {
-                _topic = "Unknown topic \"" + topic + "\"";
-            }
+            _topic = ConstructText(env, topic);
         }
 
         public readonly string _topic;
@@ -61,6 +34,29 @@ namespace MetaphysicsIndustries.Ligra
         protected override Vector2 InternalCalcSize(IRenderer g)
         {
             return g.MeasureString(_topic, _font);//, 500);
+        }
+
+        public static string ConstructText(LigraEnvironment env, string topic = "help")
+        {
+            if (env.Commands.ContainsKey(topic) &&
+                !string.IsNullOrEmpty(env.Commands[topic].DocString))
+                return env.Commands[topic].DocString;
+
+            if (env.Functions.ContainsKey(topic) &&
+                !string.IsNullOrEmpty(env.Functions[topic].DocString))
+                return env.Functions[topic].DocString;
+
+            if (env.Macros.ContainsKey(topic) &&
+                !string.IsNullOrEmpty(env.Macros[topic].DocString))
+                return env.Macros[topic].DocString;
+
+            if (_helpLookups.ContainsKey(topic))
+                return _helpLookups[topic];
+
+            if (topic == "list")
+                return ConstructListText(env);
+
+            return "Unknown topic \"" + topic + "\"";
         }
 
         public static string ConstructListText(LigraEnvironment env)
