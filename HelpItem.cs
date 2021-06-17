@@ -100,7 +100,12 @@ Type ""help list"" to see the current environment";
         {
             _font = font;
 
-            if (env.Functions.ContainsKey(topic) &&
+            if (env.Commands.ContainsKey(topic) &&
+                !string.IsNullOrEmpty(env.Commands[topic].DocString))
+            {
+                _topic = env.Commands[topic].DocString;
+            }
+            else if (env.Functions.ContainsKey(topic) &&
                 !string.IsNullOrEmpty(env.Functions[topic].DocString))
             {
                 _topic = env.Functions[topic].DocString;
