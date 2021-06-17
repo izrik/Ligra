@@ -16,10 +16,13 @@ namespace MetaphysicsIndustries.Ligra.Commands
             Execute(input, args, env, _expr);
         }
 
+        public override string GetInputLabel(string input)
+        {
+            return string.Format("$ {0}", _expr);
+        }
+
         public static void Execute(string input, string[] args, LigraEnvironment env, Expression expr)
         {
-            // TODO: override the value on the TextItem used to show the input
-
             expr = expr.PreliminaryEval(env);
 
             env.AddRenderItem(new ExpressionItem(expr, LPen.Blue, env.Font, env));
