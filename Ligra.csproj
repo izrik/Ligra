@@ -68,6 +68,8 @@
   <ItemGroup>
     <Compile Include="ApplyMatrixFilterItem.cs" />
     <Compile Include="CodeItem.cs" />
+    <Compile Include="Commands\Command.cs" />
+    <Compile Include="Commands\Commands.cs" />
     <Compile Include="ControlItem.cs" />
     <Compile Include="ErrorItem.cs" />
     <Compile Include="ExpressionItem.cs" />
@@ -147,8 +149,6 @@
     <Compile Include="LigraGrammar.cs" />
     <Compile Include="LigraParser.cs" />
     <Compile Include="LigraEnvironment.cs" />
-    <Compile Include="Command.cs" />
-    <Compile Include="Commands.cs" />
     <Compile Include="ExpressionHelper.cs" />
     <Compile Include="Interval.cs" />
     <Compile Include="VarInterval.cs" />
@@ -202,9 +202,6 @@
       <Project>{28E66D7B-4A7F-4A0E-A358-5C41E35ACE33}</Project>
       <Name>MetaphysicsIndustries.Acuity</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Commands" />
   </ItemGroup>
   <Import Project="packages\GtkSharp.3.22.25.128\build\GtkSharp.targets" Condition="Exists('packages\GtkSharp.3.22.25.128\build\GtkSharp.targets')" />
 </Project>

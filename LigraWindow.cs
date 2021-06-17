@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Gtk;
+using MetaphysicsIndustries.Ligra.Commands;
 using MetaphysicsIndustries.Solus;
 
 namespace MetaphysicsIndustries.Ligra
@@ -11,7 +12,7 @@ namespace MetaphysicsIndustries.Ligra
             : base(WindowType.Toplevel)
         {
             InitializeComponent();
-            Commands.InitializeCommands(availableCommands);
+            Commands.Commands.InitializeCommands(availableCommands);
             env = new LigraEnvironment(this.output);
             env.Font = new LFont(LFont.Families.CourierNew, 12,
                 LFont.Styles.Regular);
@@ -117,7 +118,7 @@ namespace MetaphysicsIndustries.Ligra
 
         void ClearItems()
         {
-            Commands.ClearOutput(env);
+            Commands.Commands.ClearOutput(env);
         }
 
         void DoRenderItemProperties()

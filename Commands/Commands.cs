@@ -1,11 +1,9 @@
 using System;
-using MetaphysicsIndustries.Solus;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
+using MetaphysicsIndustries.Solus;
 
-
-namespace MetaphysicsIndustries.Ligra
+namespace MetaphysicsIndustries.Ligra.Commands
 {
     public static class Commands
     {

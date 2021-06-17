@@ -8,7 +8,7 @@ using System.Windows.Forms;
 using MetaphysicsIndustries.Solus;
 //using MetaphysicsIndustries.Sandbox;
 using System.Drawing.Printing;
-
+using MetaphysicsIndustries.Ligra.Commands;
 
 
 namespace MetaphysicsIndustries.Ligra
@@ -19,12 +19,12 @@ namespace MetaphysicsIndustries.Ligra
 
         private void InitializeCommands()
         {
-            Commands.InitializeCommands(_commands);
+            Commands.Commands.InitializeCommands(_commands);
         }
 
         private void CdCommand(string input, string[] args)
         {
-            Commands.CdCommand(input, args, _env);
+            Commands.Commands.CdCommand(input, args, _env);
         }
 
         private void ProcessInput(string input)
