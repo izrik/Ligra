@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
+using System.Linq;
 using MetaphysicsIndustries.Solus;
 
 namespace MetaphysicsIndustries.Ligra
@@ -69,7 +70,7 @@ namespace MetaphysicsIndustries.Ligra
                 if (env.Variables.Count > 0)
                 {
                     sb.AppendLine("Variables:");
-                    foreach (var v in env.Variables)
+                    foreach (var v in env.Variables.ToList())
                     {
                         sb.AppendFormat("  {0}: {1}", v.Key, v.Value);
                         sb.AppendLine();
