@@ -183,22 +183,22 @@ namespace MetaphysicsIndustries.Ligra
             return availableCommands.ContainsKey(cmd);
         }
 
-        private void LoadImageCommand(string input, string[] args, LigraEnvironment env)
+        private static void LoadImageCommand(string input, string[] args, LigraEnvironment env)
         {
             var font = env.Font;
             var brush = LBrush.Red;
 
             if (args.Length < 3)
             {
-                _env.AddRenderItem(new ErrorItem(input, "Too few parameters", font, brush, env, input.IndexOf(args[0])));
+                env.AddRenderItem(new ErrorItem(input, "Too few parameters", font, brush, env, input.IndexOf(args[0])));
             }
-            else if (!_env.Variables.ContainsKey(args[1]))
+            else if (!env.Variables.ContainsKey(args[1]))
             {
-                _env.AddRenderItem(new ErrorItem(input, "Parameter must be a variable", font, brush, env, input.IndexOf(args[1])));
+                env.AddRenderItem(new ErrorItem(input, "Parameter must be a variable", font, brush, env, input.IndexOf(args[1])));
             }
             else if (!System.IO.File.Exists(args[2]))
             {
-                _env.AddRenderItem(new ErrorItem(input, "Parameter must be a file name", font, brush, env, input.IndexOf(args[1])));
+                env.AddRenderItem(new ErrorItem(input, "Parameter must be a file name", font, brush, env, input.IndexOf(args[1])));
             }
             else
             {
@@ -208,18 +208,18 @@ namespace MetaphysicsIndustries.Ligra
                 {
                     SolusMatrix mat = SolusEngine.LoadImage(filename);
 
-                    if (!_env.Variables.ContainsKey(varName))
+                    if (!env.Variables.ContainsKey(varName))
                     {
-                        _env.Variables.Add(varName, new Literal(0));
+                        env.Variables.Add(varName, new Literal(0));
                     }
 
-                    _env.Variables[varName] = mat;
+                    env.Variables[varName] = mat;
 
-                    _env.AddRenderItem(new InfoItem("Image loaded successfully", font, env));
+                    env.AddRenderItem(new InfoItem("Image loaded successfully", font, env));
                 }
                 catch (Exception e)
                 {
-                    _env.AddRenderItem(new ErrorItem(input, "There was an error while loading the file: \r\n" + filename + "\r\n" + e.ToString(), font, brush, env));
+                    env.AddRenderItem(new ErrorItem(input, "There was an error while loading the file: \r\n" + filename + "\r\n" + e.ToString(), font, brush, env));
                 }
             }
         }
