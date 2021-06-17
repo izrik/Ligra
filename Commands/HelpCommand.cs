@@ -149,6 +149,17 @@ Type ""help list"" to see the current environment";
                 sb.AppendLine();
             }
 
+            if (_helpLookups.Count > 0)
+            {
+                sb.AppendLine("Additional topics:");
+                line = "";
+                foreach (var t in _helpLookups.Keys.ToList())
+                    AddItem(t);
+                if (line.Length > 0)
+                    sb.AppendLine("  " + line);
+                sb.AppendLine();
+            }
+
             return sb.ToString();
         }
     }
