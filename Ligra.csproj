@@ -203,5 +203,8 @@
       <Name>MetaphysicsIndustries.Acuity</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Commands" />
+  </ItemGroup>
   <Import Project="packages\GtkSharp.3.22.25.128\build\GtkSharp.targets" Condition="Exists('packages\GtkSharp.3.22.25.128\build\GtkSharp.targets')" />
 </Project>
