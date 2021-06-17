@@ -5,23 +5,26 @@ using MetaphysicsIndustries.Solus;
 
 namespace MetaphysicsIndustries.Ligra.Commands
 {
-    public static class Commands
+    public static partial class Commands
     {
         public static void InitializeCommands(Dictionary<string, Command> commands)
         {
-            //commands["help"] = new Command(Commands.HelpCommand);
-            commands["clear"] = new Command(Commands.ClearCommand);
-            commands["vars"] = new Command(Commands.VarsCommand);
-            commands["delete"] = new Command(Commands.DeleteCommand);
-            commands["history"] = new Command(Commands.HistoryCommand);
-            commands["example"] = new Command(Commands.ExampleCommand);
-            commands["example2"] = new Command(Commands.Example2Command);
-            //commands["tsolve"] = new Command(LigraCommands.TSolveCommand);
-            //commands["loadimage"] = new Command(LoadImageCommand);
-            commands["cd"] = new Command(CdCommand);
+            //commands["help"] = new HelpCommand();
+            commands["clear"] = new ClearCommand();
+            commands["vars"] = new VarsCommand();
+            commands["delete"] = new DeleteCommand();
+            commands["history"] = new HistoryCommand();
+            commands["example"] = new ExampleCommand();
+            commands["example2"] = new Example2Command();
+            //commands["tsolve"] = new TSolveCommand();
+            //commands["loadimage"] = new LoadImageCommand();
+            commands["cd"] = new CdCommand();
         }
+    }
 
-        public static void DeleteCommand(string input, string[] args, LigraEnvironment env)
+    public class DeleteCommand : Command
+    {
+        public override void Execute(string input, string[] args, LigraEnvironment env)
         {
             if (args.Length > 1)
             {
@@ -43,6 +46,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
                     {
                         error += s + "\r\n";
                     }
+
                     env.AddRenderItem(new ErrorItem(input, error, env.Font, LBrush.Red, env, input.IndexOf(args[0])));
                 }
                 else
@@ -57,11 +61,15 @@ namespace MetaphysicsIndustries.Ligra.Commands
             }
             else
             {
-                env.AddRenderItem(new ErrorItem(input, "Must specify variables to delete", env.Font, LBrush.Red, env, input.IndexOf(args[0])));
+                env.AddRenderItem(new ErrorItem(input, "Must specify variables to delete", env.Font, LBrush.Red, env,
+                    input.IndexOf(args[0])));
             }
         }
+    }
 
-        public static void VarsCommand(string input, string[] args, LigraEnvironment env)
+    public class VarsCommand : Command
+    {
+        public override void Execute(string input, string[] args, LigraEnvironment env)
         {
             string s = string.Empty;
             foreach (string var in env.Variables.Keys)
@@ -71,11 +79,11 @@ namespace MetaphysicsIndustries.Ligra.Commands
 
                 if (value is SolusVector)
                 {
-                    valueString = "Vector (" + ((SolusVector)value).Length.ToString() + ")";
+                    valueString = "Vector (" + ((SolusVector) value).Length.ToString() + ")";
                 }
                 else if (value is SolusMatrix)
                 {
-                    SolusMatrix mat = (SolusMatrix)value;
+                    SolusMatrix mat = (SolusMatrix) value;
                     valueString = "Matrix (" + mat.RowCount + ", " + mat.ColumnCount + ")";
                 }
 
@@ -84,32 +92,50 @@ namespace MetaphysicsIndustries.Ligra.Commands
 
             env.AddRenderItem(new InfoItem(s, env.Font, env));
         }
+    }
 
-        public static void ClearCommand(string input, string[] args, LigraEnvironment env)
+    public class ClearCommand : Command
+    {
+        public override void Execute(string input, string[] args, LigraEnvironment env)
         {
             if (args.Length > 1)
             {
                 if (args[1].ToLower() == "history")
                 {
-                    ClearHistory(env);
+                    Commands.ClearHistory(env);
                 }
                 else if (args[1].ToLower() == "all")
                 {
-                    ClearHistory(env);
-                    ClearOutput(env);
+                    Commands.ClearHistory(env);
+                    Commands.ClearOutput(env);
                 }
                 else
                 {
-                    ClearOutput(env);
+                    Commands.ClearOutput(env);
                 }
             }
             else
             {
-                ClearOutput(env);
+                Commands.ClearOutput(env);
             }
         }
+    }
+    
+    public class HelpCommand : Command
+    {
+        public HelpCommand(string topic)
+        {
+            _topic = topic;
+        }
 
-        public static void HelpCommand(string input, string[] args, LigraEnvironment env, string topic)
+        private readonly string _topic;
+        
+        public override void Execute(string input, string[] args, LigraEnvironment env)
+        {
+            Execute(input, args, env, _topic);
+        }
+
+        public void Execute(string input, string[] args, LigraEnvironment env, string topic)
         {
             if (!string.IsNullOrEmpty(topic))
             {
@@ -124,12 +150,15 @@ namespace MetaphysicsIndustries.Ligra.Commands
                 env.AddRenderItem(new HelpItem(env.Font, env));
             }
         }
+    }
 
-        public static void HistoryCommand(string input, string[] args, LigraEnvironment env)
+    public class HistoryCommand : Command
+    {
+        public override void Execute(string input, string[] args, LigraEnvironment env)
         {
             if (args.Length > 1 && args[1].ToLower() == "clear")
             {
-                ClearHistory(env);
+                Commands.ClearHistory(env);
             }
             else
             {
@@ -137,8 +166,11 @@ namespace MetaphysicsIndustries.Ligra.Commands
                 env.AddRenderItem(new InfoItem(s + "\r\n", env.Font, env));
             }
         }
+    }
 
-        public static void ExampleCommand(string input, string[] args, LigraEnvironment env)
+    public class ExampleCommand : Command
+    {
+        public override void Execute(string input, string[] args, LigraEnvironment env)
         {
             var f = env.Font;
             var p = LPen.Blue;
@@ -159,18 +191,18 @@ namespace MetaphysicsIndustries.Ligra.Commands
             env.AddRenderItem(new InfoItem("A function call: ", f, env));
             env.AddRenderItem(new ExpressionItem(
                 new FunctionCall(
-                CosineFunction.Value,
+                    CosineFunction.Value,
                     new VariableAccess("x")), p, f, env));
 
             env.AddRenderItem(new InfoItem("A simple expression,  \"x + y/2\" :", f, env));
             env.AddRenderItem(new ExpressionItem(
-                                new FunctionCall(
-                                    AdditionOperation.Value,
-                                    new VariableAccess("x"),
-                                        new FunctionCall(
-                                            DivisionOperation.Value,
-                                                new VariableAccess("y"),
-                                                    new Literal(2))), p, f, env));
+                new FunctionCall(
+                    AdditionOperation.Value,
+                    new VariableAccess("x"),
+                    new FunctionCall(
+                        DivisionOperation.Value,
+                        new VariableAccess("y"),
+                        new Literal(2))), p, f, env));
 
             env.AddRenderItem(new InfoItem("Some derivatives, starting with x^3:", f, env));
             var parser = new SolusParser();
@@ -216,40 +248,42 @@ namespace MetaphysicsIndustries.Ligra.Commands
                                 new FunctionCall(
                                     MultiplicationOperation.Value,
                                     new Literal(2),
-                                    new Literal((float)Math.PI)),
+                                    new Literal((float) Math.PI)),
                                 new Literal(0.5f)),
-                        new VariableAccess("sigma"))),
+                            new VariableAccess("sigma"))),
+                    new FunctionCall(
+                        ExponentOperation.Value,
+                        new Literal((float) Math.E),
                         new FunctionCall(
-                            ExponentOperation.Value,
-                            new Literal((float)Math.E),
+                            DivisionOperation.Value,
                             new FunctionCall(
-                                DivisionOperation.Value,
+                                ExponentOperation.Value,
                                 new FunctionCall(
-                                    ExponentOperation.Value,
-                                    new FunctionCall(
-                                        AdditionOperation.Value,
-                                        new VariableAccess("x"),
-                                        new FunctionCall(
-                                            MultiplicationOperation.Value,
-                                            new Literal(-1),
-                                            new VariableAccess("mu"))),
-                                    new Literal(2)),
+                                    AdditionOperation.Value,
+                                    new VariableAccess("x"),
                                     new FunctionCall(
                                         MultiplicationOperation.Value,
-                                        new Literal(-2),
-                                        new FunctionCall(
-                                            ExponentOperation.Value,
-                                            new VariableAccess("sigma"),
-                                            new Literal(2))))));
+                                        new Literal(-1),
+                                        new VariableAccess("mu"))),
+                                new Literal(2)),
+                            new FunctionCall(
+                                MultiplicationOperation.Value,
+                                new Literal(-2),
+                                new FunctionCall(
+                                    ExponentOperation.Value,
+                                    new VariableAccess("sigma"),
+                                    new Literal(2))))));
 
-            env.AddRenderItem(new InfoItem("A complex expression, \"(1/(sigma*sqrt(2*pi))) * e ^ ( (x - mu)^2 / (-2 * sigma^2))\"", f, env));
+            env.AddRenderItem(new InfoItem(
+                "A complex expression, \"(1/(sigma*sqrt(2*pi))) * e ^ ( (x - mu)^2 / (-2 * sigma^2))\"", f, env));
             env.AddRenderItem(new ExpressionItem(expr, p, f, env));
             //(1/(sigma*sqrt(2*pi))) * e ^ ( (x - mu)^2 / (-2 * sigma^2))
 
             env.AddRenderItem(new InfoItem("A plot of the expression: ", f, env));
             env.AddRenderItem(new GraphItem(expr, p, "x", parser, env));
 
-            env.AddRenderItem(new InfoItem("Multiple plots on the same axes, \"x^3\", \"3 * x^2\", \"6 * x\":", f, env));
+            env.AddRenderItem(new InfoItem("Multiple plots on the same axes, \"x^3\", \"3 * x^2\", \"6 * x\":", f,
+                env));
             env.AddRenderItem(new GraphItem(
                 parser, env,
                 new GraphEntry(parser.GetExpression("x^3", env), LPen.Blue, "x"),
@@ -260,14 +294,19 @@ namespace MetaphysicsIndustries.Ligra.Commands
             env.AddRenderItem(new GraphItem(parser.GetExpression("sin(x+t)", env), p, "x", parser, env));
 
             expr = parser.GetExpression("unitstep((x*x+y*y)^0.5+2*(sin(t)-1))*cos(5*y+2*t)", env);
-            env.AddRenderItem(new InfoItem("Another complex expression, \"unitstep((x*x+y*y)^0.5+2*(sin(t)-1))*cos(5*y+2*t)\",\r\nwhere t is time:", f, env));
+            env.AddRenderItem(new InfoItem(
+                "Another complex expression, \"unitstep((x*x+y*y)^0.5+2*(sin(t)-1))*cos(5*y+2*t)\",\r\nwhere t is time:",
+                f, env));
             env.AddRenderItem(new ExpressionItem(expr, p, f, env));
 
             env.AddRenderItem(new InfoItem("A 3d plot: ", f, env));
             env.AddRenderItem(new Graph3dItem(expr, LPen.Black, LBrush.Green, -4, 4, -4, 4, -2, 6, "x", "y", env));
         }
+    }
 
-        public static void Example2Command(string input, string[] args, LigraEnvironment env)
+    public class Example2Command : Command
+    {
+        public override void Execute(string input, string[] args, LigraEnvironment env)
         {
 
             if (!env.Variables.ContainsKey("x")) env.Variables.Add("x", new Literal(0));
@@ -281,15 +320,32 @@ namespace MetaphysicsIndustries.Ligra.Commands
 //            env.AddRenderItem(new Graph3dItem(expr, Pens.Black, Brushes.Green, -4, 4, -4, 4, -2, 6, "x", "y", env));
 
             var input2 = "factorial(n) := if (n, n * factorial(n-1), 1)";
-            var input3 = "cos_taylor(x, n, sign) := if (n-8, sign * (x ^ n) / factorial(n) + cos_taylor(x, n+2, -sign), 0)";
+            var input3 =
+                "cos_taylor(x, n, sign) := if (n-8, sign * (x ^ n) / factorial(n) + cos_taylor(x, n+2, -sign), 0)";
             var input4 = "cos2(x) := cos_taylor(x, 0, 1)";
-            parser.GetCommands(input2, env)[0](input2, null, env);
-            parser.GetCommands(input3, env)[0](input3, null, env);
-            parser.GetCommands(input4, env)[0](input4, null, env);
+            parser.GetCommands(input2, env)[0].Execute(input2, null, env);
+            parser.GetCommands(input3, env)[0].Execute(input3, null, env);
+            parser.GetCommands(input4, env)[0].Execute(input4, null, env);
+        }
+    }
 
+    public class PlotCommand : Command
+    {
+        public PlotCommand(Expression[] exprs, VarInterval[] intervals)
+        {
+            _exprs = exprs;
+            _intervals = intervals;
         }
 
-        public static void PlotCommand(string input, string[] args, LigraEnvironment env, Expression[] exprs, VarInterval[] intervals)
+        private readonly Expression[] _exprs;
+        private readonly VarInterval[] _intervals;
+        
+        public override void Execute(string input, string[] args, LigraEnvironment env)
+        {
+            Execute(input, args, env, _exprs, _intervals);
+        }
+
+        public static void Execute(string input, string[] args, LigraEnvironment env, Expression[] exprs, VarInterval[] intervals)
         {
             if (env == null) throw new ArgumentNullException("env");
             if (exprs == null || exprs.Length < 1) throw new ArgumentNullException("exprs");
@@ -373,17 +429,36 @@ namespace MetaphysicsIndustries.Ligra.Commands
                 float zmax = zs.Max();
 
                 env.AddRenderItem(new Graph3dItem(expr, LPen.Black, LBrush.Green,
-                                                    intervals[0].Interval.LowerBound,
-                                                    intervals[0].Interval.UpperBound,
-                                                    intervals[1].Interval.LowerBound,
-                                                    intervals[1].Interval.UpperBound,
-                                                    zmin, zmax,
-                                                    intervals[0].Variable,
+                    intervals[0].Interval.LowerBound,
+                    intervals[0].Interval.UpperBound,
+                    intervals[1].Interval.LowerBound,
+                    intervals[1].Interval.UpperBound,
+                    zmin, zmax,
+                    intervals[0].Variable,
                     intervals[1].Variable, env));
             }
         }
+    }
 
-        public static void PaintCommand(string input, string[] args, LigraEnvironment env, Expression expr, VarInterval interval1, VarInterval interval2)
+    public class PaintCommand : Command
+    {
+        public PaintCommand(Expression expr, VarInterval interval1, VarInterval interval2)
+        {
+            _expr = expr;
+            _interval1 = interval1;
+            _interval2 = interval2;
+        }
+
+        private readonly Expression _expr;
+        private readonly VarInterval _interval1;
+        private readonly VarInterval _interval2;
+        
+        public override void Execute(string input, string[] args, LigraEnvironment env)
+        {
+            Execute(input, args, env, _expr, _interval1, _interval2);
+        }
+
+        public void Execute(string input, string[] args, LigraEnvironment env, Expression expr, VarInterval interval1, VarInterval interval2)
         {
             env.AddRenderItem(
                 new MathPaintItem(
@@ -391,26 +466,59 @@ namespace MetaphysicsIndustries.Ligra.Commands
                     interval1,
                     interval2, env));
         }
+    }
 
-        public static void VarAssignCommand(string input, string[] args, LigraEnvironment env, string varname, Expression expr)
+    public class VarAssignCommand : Command
+    {
+        public VarAssignCommand(string varname, Expression expr)
+        {
+            _varname = varname;
+            _expr = expr;
+        }
+
+        private readonly string _varname;
+        private readonly Expression _expr;
+        
+        public override void Execute(string input, string[] args, LigraEnvironment env)
+        {
+            Execute(input, args, env, _varname, _expr);
+        }
+        
+        public void Execute(string input, string[] args, LigraEnvironment env, string varname, Expression expr)
         {
             env.Variables[varname] = expr;
 
             var expr2 = new FunctionCall(
-                            AssignOperation.Value,
-                            new VariableAccess(varname),
-                            expr);
+                AssignOperation.Value,
+                new VariableAccess(varname),
+                expr);
 
             env.AddRenderItem(new ExpressionItem(expr2, LPen.Blue, env.Font, env));
         }
+    }
 
-        public static void FuncAssignCommand(string input, string[] args, LigraEnvironment env, UserDefinedFunction func)
+    public class FuncAssignCommand : Command
+    {
+        public FuncAssignCommand(UserDefinedFunction func)
+        {
+            _func = func;
+        }
+
+        private readonly UserDefinedFunction _func;
+        
+        public override void Execute(string input, string[] args, LigraEnvironment env)
+        {
+            Execute(input, args, env, _func);
+        }
+        
+        public void Execute(string input, string[] args, LigraEnvironment env, UserDefinedFunction func)
         {
 //            var func = new UserDefinedFunction(funcname, argnames, expr);
             if (env.Functions.ContainsKey(func.DisplayName))
             {
                 env.Functions.Remove(func.DisplayName);
             }
+
             env.AddFunction(func);
 
             var varrefs = func.Argnames.Select(x => new VariableAccess(x));
@@ -419,8 +527,23 @@ namespace MetaphysicsIndustries.Ligra.Commands
 
             env.AddRenderItem(new ExpressionItem(expr2, LPen.Blue, env.Font, env));
         }
+    }
 
-        public static void ExprCommand(string input, string[] args, LigraEnvironment env, Expression expr)
+    public class ExprCommand : Command
+    {
+        public ExprCommand(Expression expr)
+        {
+            _expr = expr;
+        }
+
+        private readonly Expression _expr;
+        
+        public override void Execute(string input, string[] args, LigraEnvironment env)
+        {
+            Execute(input, args, env, _expr);
+        }
+
+        public static void Execute(string input, string[] args, LigraEnvironment env, Expression expr)
         {
             // TODO: override the value on the TextItem used to show the input
 
@@ -428,7 +551,10 @@ namespace MetaphysicsIndustries.Ligra.Commands
 
             env.AddRenderItem(new ExpressionItem(expr, LPen.Blue, env.Font, env));
         }
+    }
 
+    public static partial class Commands
+    {
         public static void ClearHistory(LigraEnvironment env)
         {
             env.History.Clear();
@@ -443,10 +569,14 @@ namespace MetaphysicsIndustries.Ligra.Commands
             {
                 env.Control.RemoveRenderItem(item);
             }
+
             env.ClearCanvas();
         }
+    }
 
-        static void TSolveCommand(string input, string[] args, LigraEnvironment env)
+    public class TSolveCommand : Command
+    {
+        public override void Execute(string input, string[] args, LigraEnvironment env)
         {
             SolusEngine _engine = new SolusEngine();
             SolusMatrix m = new SolusMatrix(7, 7);
@@ -455,9 +585,20 @@ namespace MetaphysicsIndustries.Ligra.Commands
             string r;
             string cs;
 
-            if (!env.Variables.ContainsKey("k")) { env.Variables.Add("k", new Literal(0)); }
-            if (!env.Variables.ContainsKey("R")) { env.Variables.Add("R", new Literal(0)); }
-            if (!env.Variables.ContainsKey("Cs")) { env.Variables.Add("Cs", new Literal(0)); }
+            if (!env.Variables.ContainsKey("k"))
+            {
+                env.Variables.Add("k", new Literal(0));
+            }
+
+            if (!env.Variables.ContainsKey("R"))
+            {
+                env.Variables.Add("R", new Literal(0));
+            }
+
+            if (!env.Variables.ContainsKey("Cs"))
+            {
+                env.Variables.Add("Cs", new Literal(0));
+            }
 
             k = "k";
             r = "R";
@@ -587,8 +728,11 @@ namespace MetaphysicsIndustries.Ligra.Commands
                 m[row, i] = expr;
             }
         }
+    }
 
-        private static void LoadImageCommand(string input, string[] args, LigraEnvironment env)
+    public class LoadImageCommand : Command
+    {
+        public override void Execute(string input, string[] args, LigraEnvironment env)
         {
             var font = env.Font;
             var brush = LBrush.Red;
@@ -599,11 +743,13 @@ namespace MetaphysicsIndustries.Ligra.Commands
             }
             else if (!env.Variables.ContainsKey(args[1]))
             {
-                env.AddRenderItem(new ErrorItem(input, "Parameter must be a variable", font, brush, env, input.IndexOf(args[1])));
+                env.AddRenderItem(new ErrorItem(input, "Parameter must be a variable", font, brush, env,
+                    input.IndexOf(args[1])));
             }
             else if (!System.IO.File.Exists(args[2]))
             {
-                env.AddRenderItem(new ErrorItem(input, "Parameter must be a file name", font, brush, env, input.IndexOf(args[1])));
+                env.AddRenderItem(new ErrorItem(input, "Parameter must be a file name", font, brush, env,
+                    input.IndexOf(args[1])));
             }
             else
             {
@@ -624,13 +770,17 @@ namespace MetaphysicsIndustries.Ligra.Commands
                 }
                 catch (Exception e)
                 {
-                    env.AddRenderItem(new ErrorItem(input, "There was an error while loading the file: \r\n" + filename + "\r\n" + e.ToString(), font, brush, env));
+                    env.AddRenderItem(new ErrorItem(input,
+                        "There was an error while loading the file: \r\n" + filename + "\r\n" + e.ToString(), font,
+                        brush, env));
                 }
             }
         }
+    }
 
-        public static void CdCommand(string input, string[] args,
-            LigraEnvironment env)
+    public class CdCommand : Command
+    {
+        public override void Execute(string input, string[] args, LigraEnvironment env)
         {
             if (args.Length <= 1)
             {

@@ -247,7 +247,7 @@ namespace MetaphysicsIndustries.Ligra
                 foreach (var command in commands)
                 {
                     env.AddRenderItem(new TextItem(env, label, env.Font));
-                    command(input, args, env);
+                    command.Execute(input, args, env);
                 }
             }
 

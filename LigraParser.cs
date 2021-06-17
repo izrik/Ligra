@@ -44,7 +44,7 @@ namespace MetaphysicsIndustries.Ligra
                     throw new InvalidOperationException();
                 }
 
-                return new Command[] { (input_, args, env_) => Commands.Commands.ExprCommand(input_, args, env_, expr) };
+                return new Command[] {new ExprCommand(expr)};
             }
             if (spans.Length < 1)
             {
@@ -125,7 +125,7 @@ namespace MetaphysicsIndustries.Ligra
                 topic = span.Subspans[1].Subspans[0].Value;
             }
 
-            return (input, args, env_) => Commands.Commands.HelpCommand(input, args, env_, topic);
+            return new HelpCommand(topic);
         }
 
         Command GetClearCommandFromClearCommand(Span span, SolusEnvironment env)
@@ -155,7 +155,7 @@ namespace MetaphysicsIndustries.Ligra
                 }
             }
 
-            return (input, args, env_) => Commands.Commands.PlotCommand(input, args, env_, exprs.ToArray(), intervals.ToArray());
+            return new PlotCommand(exprs.ToArray(), intervals.ToArray());
         }
 
         public VarInterval GetVarIntervalFromInterval(Span span, SolusEnvironment env)
@@ -218,7 +218,7 @@ namespace MetaphysicsIndustries.Ligra
             var interval1 = GetVarIntervalFromInterval(span.Subspans[3], env);
             var interval2 = GetVarIntervalFromInterval(span.Subspans[5], env);
 
-            return (input, args, env_) => Commands.Commands.PaintCommand(input, args, env_, expr, interval1, interval2);
+            return new PaintCommand(expr, interval1, interval2);
         }
 
         Command GetDelCommandFromDelCommand(Span span, SolusEnvironment env)
@@ -232,7 +232,7 @@ namespace MetaphysicsIndustries.Ligra
             var expr = GetExpressionFromExpr(span.Subspans[2], env);
             expr = expr.PreliminaryEval(env);
 
-            return (input, args, env_) => Commands.Commands.VarAssignCommand(input, args, env_, varname, expr);
+            return new VarAssignCommand(varname, expr);
         }
 
         Command GetFuncAssignCommandFromFuncAssignCommand(Span span, SolusEnvironment env)
@@ -263,7 +263,7 @@ namespace MetaphysicsIndustries.Ligra
             var expr = GetExpressionFromExpr(span.Subspans.Last(), env2);
             func.Expression = expr;
 
-            return (input, args_, env_) => Commands.Commands.FuncAssignCommand(input, args_, env_, func);
+            return new FuncAssignCommand(func);
         }
     }
 }
