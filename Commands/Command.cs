@@ -12,7 +12,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
             return string.Format("$ {0}", input);
         }
 
-        public virtual string DocString => "unknown";
+        public virtual string DocString => null;
 
         public static void InitializeCommands(Dictionary<string, Command> commands)
         {
