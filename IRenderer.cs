@@ -194,7 +194,7 @@ namespace MetaphysicsIndustries.Ligra
         public void DrawString(string s, LFont font, LBrush brush,
             RectangleF layoutRectangle)
         {
-            throw new System.NotImplementedException();
+            DrawString(s, font, brush, layoutRectangle.X, layoutRectangle.Y);
         }
 
         public void DrawString(string s, LFont font, LBrush brush,
