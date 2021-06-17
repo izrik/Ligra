@@ -166,7 +166,27 @@ namespace MetaphysicsIndustries.Ligra
             throw new NotImplementedException();
         }
 
-        Command GetPlotCommandFromPlotCommand(Span span, SolusEnvironment env)
+        public PlotCommand GetPlotCommand(string input, LigraEnvironment env)
+        {
+            if (env == null) throw new ArgumentNullException(nameof(env));
+            var errors1 = new List<Error>();
+            var spans = _parser.Parse(input.ToCharacterSource(), errors1);
+            if (errors1.ContainsNonWarnings())
+                throw new InvalidOperationException();
+            Span span;
+            if (spans.Length < 1) throw new InvalidOperationException();
+            if (spans.Length > 1) throw new InvalidOperationException();
+            span = spans[0];
+            if (span.Subspans.Count < 1) throw new InvalidOperationException();
+            if (span.Subspans.Count > 1) throw new InvalidOperationException();
+            span = span.Subspans[0];
+            if (span.Subspans.Count < 1) throw new InvalidOperationException();
+            if (span.Subspans.Count > 1) throw new InvalidOperationException();
+            span = span.Subspans[0];
+            return GetPlotCommandFromPlotCommand(span, env);
+        }
+
+        PlotCommand GetPlotCommandFromPlotCommand(Span span, SolusEnvironment env)
         {
             var exprs = new List<Solus.Expression>();
             var intervals = new List<VarInterval>();

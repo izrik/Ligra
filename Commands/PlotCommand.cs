@@ -15,17 +15,14 @@ namespace MetaphysicsIndustries.Ligra.Commands
 
         private readonly Expression[] _exprs;
         private readonly VarInterval[] _intervals;
-        
-        public override void Execute(string input, string[] args, LigraEnvironment env)
-        {
-            Execute(input, args, env, _exprs, _intervals);
-        }
 
-        public override string GetInputLabel(string input)
+        public override string GetInputLabel(string input, LigraEnvironment env)
         {
+            // TODO: don't create another instance of the class within the class.
+            var cmd = env.Parser.GetPlotCommand(input, env);
             var label = string.Format("$ plot {0} for {1}",
-                string.Join(", ", _exprs.Select(Expression.ToString)),
-                string.Join(", ", _intervals.Select((VarInterval vi) => vi.ToString())));
+                string.Join(", ", cmd._exprs.Select(Expression.ToString)),
+                string.Join(", ", cmd._intervals.Select((VarInterval vi) => vi.ToString())));
             return label;
         }
 
@@ -55,6 +52,13 @@ namespace MetaphysicsIndustries.Ligra.Commands
   zMin, zMax - the minimum and maximum values of the function to allow. Values outside this range are clipped
 
   Plots f(x,y) as a surface in three dimensions.";
+
+        public override void Execute(string input, string[] args, LigraEnvironment env)
+        {
+            // TODO: don't create another instance of the class within the class.
+            var cmd = env.Parser.GetPlotCommand(input, env);
+            Execute(input, args, env, cmd._exprs, cmd._intervals);
+        }
 
         public static void Execute(string input, string[] args, LigraEnvironment env, Expression[] exprs, VarInterval[] intervals)
         {
