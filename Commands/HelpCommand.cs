@@ -67,17 +67,26 @@ Type ""help list"" to see the current environment";
         
         public static string ConstructText(LigraEnvironment env, string topic = "help")
         {
-            if (env.Commands.ContainsKey(topic) &&
-                !string.IsNullOrEmpty(env.Commands[topic].DocString))
-                return env.Commands[topic].DocString;
+            if (env.Commands.ContainsKey(topic))
+            {
+                if (!string.IsNullOrEmpty(env.Commands[topic].DocString))
+                    return env.Commands[topic].DocString;
+                return "This command does not provide any information.";
+            }
 
-            if (env.Functions.ContainsKey(topic) &&
-                !string.IsNullOrEmpty(env.Functions[topic].DocString))
-                return env.Functions[topic].DocString;
+            if (env.Functions.ContainsKey(topic))
+            {
+                if (!string.IsNullOrEmpty(env.Functions[topic].DocString))
+                    return env.Functions[topic].DocString;
+                return "This function does not provide any information.";
+            }
 
-            if (env.Macros.ContainsKey(topic) &&
-                !string.IsNullOrEmpty(env.Macros[topic].DocString))
-                return env.Macros[topic].DocString;
+            if (env.Macros.ContainsKey(topic))
+            {
+                if (!string.IsNullOrEmpty(env.Macros[topic].DocString))
+                    return env.Macros[topic].DocString;
+                return "This macro does not provide any information.";
+            }
 
             if (_helpLookups.ContainsKey(topic))
                 return _helpLookups[topic];
