@@ -19,7 +19,7 @@ namespace MetaphysicsIndustries.Ligra
 
         private void InitializeCommands()
         {
-            Commands.Commands.InitializeCommands(_commands);
+            Commands.Command.InitializeCommands(_commands);
         }
 
         private void CdCommand(string input, string[] args)

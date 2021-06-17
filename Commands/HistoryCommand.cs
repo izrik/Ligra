@@ -6,7 +6,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
         {
             if (args.Length > 1 && args[1].ToLower() == "clear")
             {
-                Commands.ClearHistory(env);
+                ClearHistory(env);
             }
             else
             {

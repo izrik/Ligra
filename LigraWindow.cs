@@ -12,7 +12,7 @@ namespace MetaphysicsIndustries.Ligra
             : base(WindowType.Toplevel)
         {
             InitializeComponent();
-            Commands.Commands.InitializeCommands(availableCommands);
+            Commands.Command.InitializeCommands(availableCommands);
             env = new LigraEnvironment(this.output);
             env.Font = new LFont(LFont.Families.CourierNew, 12,
                 LFont.Styles.Regular);
@@ -118,7 +118,7 @@ namespace MetaphysicsIndustries.Ligra
 
         void ClearItems()
         {
-            Commands.Commands.ClearOutput(env);
+            Commands.Command.ClearOutput(env);
         }
 
         void DoRenderItemProperties()

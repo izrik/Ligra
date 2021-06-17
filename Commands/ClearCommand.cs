@@ -8,21 +8,21 @@ namespace MetaphysicsIndustries.Ligra.Commands
             {
                 if (args[1].ToLower() == "history")
                 {
-                    Commands.ClearHistory(env);
+                    ClearHistory(env);
                 }
                 else if (args[1].ToLower() == "all")
                 {
-                    Commands.ClearHistory(env);
-                    Commands.ClearOutput(env);
+                    ClearHistory(env);
+                    ClearOutput(env);
                 }
                 else
                 {
-                    Commands.ClearOutput(env);
+                    ClearOutput(env);
                 }
             }
             else
             {
-                Commands.ClearOutput(env);
+                ClearOutput(env);
             }
         }
     }

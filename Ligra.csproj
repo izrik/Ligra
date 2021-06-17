@@ -71,7 +71,6 @@
     <Compile Include="Commands\CdCommand.cs" />
     <Compile Include="Commands\ClearCommand.cs" />
     <Compile Include="Commands\Command.cs" />
-    <Compile Include="Commands\Commands.cs" />
     <Compile Include="Commands\DeleteCommand.cs" />
     <Compile Include="Commands\Example2Command.cs" />
     <Compile Include="Commands\ExampleCommand.cs" />

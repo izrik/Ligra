@@ -152,7 +152,7 @@ namespace MetaphysicsIndustries.Ligra
 
         void ClearItem_Click(object sender, EventArgs e)
         {
-            Commands.Commands.ClearOutput(_env);
+            Commands.Command.ClearOutput(_env);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
