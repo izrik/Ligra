@@ -11,7 +11,7 @@ namespace MetaphysicsIndustries.Ligra
             : base(WindowType.Toplevel)
         {
             InitializeComponent();
-            LigraForm.InitializeCommands(availableCommands);
+            Commands.InitializeCommands(availableCommands);
             env = new LigraEnvironment(this.output);
             env.Font = new LFont(LFont.Families.CourierNew, 12,
                 LFont.Styles.Regular);
