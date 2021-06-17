@@ -43,39 +43,48 @@ namespace MetaphysicsIndustries.Ligra
             else if (topic == "list")
             {
                 var sb = new StringBuilder();
+                var line = "";
+
+                void AddItem(string item)
+                {
+                    item = item + " ";
+                    if ((line + item).Length > 76)
+                    {
+                        sb.AppendLine("  " + line);
+                        line = "";
+                    }
+
+                    line += item;
+                }
+
                 if (env.Functions.Count > 0)
                 {
                     sb.AppendLine("Functions:");
-                    foreach (var f in env.Functions.Values)
-                    {
-                        sb.AppendFormat("  {0}:", f.Name);
-                        sb.AppendLine();
-                        sb.Append(f.DocString.PrefixLines("    "));
-                        sb.AppendLine();
-                    }
+                    line = "";
+                    foreach (var f in env.Functions.Keys.ToList())
+                        AddItem(f);
+                    if (line.Length > 0)
+                        sb.AppendLine("  " + line);
                     sb.AppendLine();
                 }
                 if (env.Macros.Count > 0)
                 {
                     sb.AppendLine("Macros:");
-                    foreach (var m in env.Macros.Values)
-                    {
-                        sb.AppendFormat("  {0}:", m.Name);
-                        sb.AppendLine();
-                        sb.Append(m.DocString.PrefixLines("    "));
-                        sb.AppendLine();
-                    }
+                    line = "";
+                    foreach (var m in env.Macros.Keys.ToList())
+                        AddItem(m);
+                    if (line.Length > 0)
+                        sb.AppendLine("  " + line);
                     sb.AppendLine();
                 }
                 if (env.Variables.Count > 0)
                 {
                     sb.AppendLine("Variables:");
-                    foreach (var v in env.Variables.ToList())
-                    {
-                        sb.AppendFormat("  {0}: {1}", v.Key, v.Value);
-                        sb.AppendLine();
-                        sb.AppendLine();
-                    }
+                    line = "";
+                    foreach (var v in env.Variables.Keys.ToList())
+                        AddItem(v);
+                    if (line.Length > 0)
+                        sb.AppendLine("  " + line);
                     sb.AppendLine();
                 }
                 _topic = sb.ToString();
