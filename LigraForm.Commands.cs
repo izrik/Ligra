@@ -291,8 +291,10 @@ namespace MetaphysicsIndustries.Ligra
                     commands = env.Parser.GetCommands(input, env);
                 }
 
+                var label = string.Format("$ {0}", input);
                 foreach (var command in commands)
                 {
+                    env.AddRenderItem(new TextItem(env, label, env.Font));
                     command(input, args, env);
                 }
             }
