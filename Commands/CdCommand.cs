@@ -4,6 +4,21 @@ namespace MetaphysicsIndustries.Ligra.Commands
 {
     public class CdCommand : Command
     {
+        public override string DocString =>
+@"cd - Show or change the current directory
+
+Show the current directory:
+  cd
+
+Change the current directory:
+  cd <path>
+
+  path
+    A path as a sequence of characters (not enclosed in quotes). It can be an
+    absolute or relative path. The format and semantics of the path string is
+    determined by the underlying operating system.
+";
+
         public override void Execute(string input, string[] args, LigraEnvironment env)
         {
             if (args.Length <= 1)

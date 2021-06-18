@@ -15,18 +15,65 @@ namespace MetaphysicsIndustries.Ligra.Commands
 
         private readonly Expression[] _exprs;
         private readonly VarInterval[] _intervals;
-        
-        public override void Execute(string input, string[] args, LigraEnvironment env)
+
+        public override string GetInputLabel(string input, LigraEnvironment env)
         {
-            Execute(input, args, env, _exprs, _intervals);
+            // TODO: don't create another instance of the class within the class.
+            var cmd = env.Parser.GetPlotCommand(input, env);
+            var label = string.Format("$ plot {0} for {1}",
+                string.Join(", ", cmd._exprs.Select(Expression.ToString)),
+                string.Join(", ", cmd._intervals.Select((VarInterval vi) => vi.ToString())));
+            return label;
         }
 
-        public override string GetInputLabel(string input)
+        public override string DocString =>
+@"plot - Draw graphs of expressions that vary over one or two variables
+
+Plot one or more expressions that vary over one variable as a 2D graph:
+  plot <expr1> [, <exprn> ...] for <interval>
+
+  expr1
+    Any expression
+
+  expr2, expr3, exprn, etc.
+    Any additional expressions
+
+  interval
+    An interval, of the form ""<start> < <var> < <end>"". It defines
+    <var> as a variable within all expressions, to be assigned the successive
+    values of the interval from <start> to <end>.
+
+  example:
+    plot sin(x) for -5 < x < 5
+
+Plot one or more expressions that vary over two variable as a 3D graph:
+  plot <expr1> [, <exprn> ...] for <interval1>, <interval2>
+
+  expr1
+    Any expression
+
+  expr2, expr3, exprn, etc.
+    Any additional expressions
+
+  interval1
+    An interval, of the form ""<start> < <var> < <end>"". It defines
+    <var> as a variable within all expressions, to be assigned the successive
+    values of the interval from <start> to <end>.
+
+  interval2
+    An interval, of the form ""<start> < <var> < <end>"". It defines
+    <var> as a variable within all expressions, to be assigned the successive
+    values of the interval from <start> to <end>.
+
+  example:
+    plot sin(x) + cos(y) for -5 < x < 5, -5 < y < 5
+";
+
+        public override void Execute(string input, string[] args, LigraEnvironment env)
         {
-            var label = string.Format("$ plot {0} for {1}",
-                string.Join(", ", _exprs.Select(Expression.ToString)),
-                string.Join(", ", _intervals.Select((VarInterval vi) => vi.ToString())));
-            return label;
+            // TODO: don't create another instance of the class within the class.
+            var cmd = env.Parser.GetPlotCommand(input, env);
+            Execute(input, args, env, cmd._exprs, cmd._intervals);
         }
 
         public static void Execute(string input, string[] args, LigraEnvironment env, Expression[] exprs, VarInterval[] intervals)

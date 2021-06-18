@@ -13,7 +13,7 @@ namespace MetaphysicsIndustries.Ligra
         {
             InitializeComponent();
             Commands.Command.InitializeCommands(availableCommands);
-            env = new LigraEnvironment(this.output);
+            env = new LigraEnvironment(this.output, availableCommands);
             env.Font = new LFont(LFont.Families.CourierNew, 12,
                 LFont.Styles.Regular);
 
@@ -246,7 +246,7 @@ namespace MetaphysicsIndustries.Ligra
                 var label = string.Format("$ {0}", input);
                 if (commands.Length == 1)
                 {
-                    label = commands[0].GetInputLabel(input);
+                    label = commands[0].GetInputLabel(input, env);
                 }
                 env.AddRenderItem(new TextItem(env, label, env.Font));
 

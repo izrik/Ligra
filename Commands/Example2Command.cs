@@ -4,6 +4,9 @@ namespace MetaphysicsIndustries.Ligra.Commands
 {
     public class Example2Command : Command
     {
+        public override string DocString =>
+            @"example2 - Show some of the things that Ligra can do";
+
         public override void Execute(string input, string[] args, LigraEnvironment env)
         {
 

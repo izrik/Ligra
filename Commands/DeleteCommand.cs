@@ -4,6 +4,15 @@ namespace MetaphysicsIndustries.Ligra.Commands
 {
     public class DeleteCommand : Command
     {
+        public override string DocString =>
+@"delete - Delete a variable
+
+  delete <var>
+
+  var
+    The name of a variable previously defined via ""<var> := <expr>"".
+";
+
         public override void Execute(string input, string[] args, LigraEnvironment env)
         {
             if (args.Length > 1)

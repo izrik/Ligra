@@ -4,6 +4,9 @@ namespace MetaphysicsIndustries.Ligra.Commands
 {
     public class VarsCommand : Command
     {
+        public override string DocString =>
+            @"vars - Print a list of all defined variables";
+
         public override void Execute(string input, string[] args, LigraEnvironment env)
         {
             string s = string.Empty;
