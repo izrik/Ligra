@@ -27,31 +27,47 @@ namespace MetaphysicsIndustries.Ligra.Commands
         }
 
         public override string DocString =>
-@"Curve Plot
-  plot(x, f1(x), f2(x), ... fn(x))
+@"plot - Draw graphs of expressions that vary over one or two variables
 
-  x - independent variable that defines the ""x axis""
-  fn(x) - the expressions to plot
+Plot one or more expressions that vary over one variable as a 2D graph:
+  plot <expr1> [, <exprn> ...] for <interval>
 
-  Plots one or more curves.
+  expr1
+    Any expression
 
-3D Surface Plot
-  plot3d(x, y, f(x,y))
-  plot3d(x, y, f(x,y), fillColor)
-  plot3d(x, y, f(x,y), fillColor, wireColor)
-  plot3d(x, y, f(x,y), xMin, xMax, yMin, yMax, zMin, zMax)
-  plot3d(x, y, f(x,y), xMin, xMax, yMin, yMax, zMin, zMax, fillColor, wireColor)
+  expr2, expr3, exprn, etc.
+    Any additional expressions
 
-  x - first independent variable
-  y - second independent variable
-  f(x,y) - the expression to plot
-  fillColor - the color of the surface of the plot; default is green
-  wireColor - the color of the wireframe of the plot; default is black
-  xMin, xMax - the minimum and maximum values along the first independent variable for the plot
-  yMin, yMax - the minimum and maximum values along the second independent variable for the plot
-  zMin, zMax - the minimum and maximum values of the function to allow. Values outside this range are clipped
+  interval
+    An interval, of the form ""<start> < <var> < <end>"". It defines
+    <var> as a variable within all expressions, to be assigned the successive
+    values of the interval from <start> to <end>.
 
-  Plots f(x,y) as a surface in three dimensions.";
+  example:
+    plot sin(x) for -5 < x < 5
+
+Plot one or more expressions that vary over two variable as a 3D graph:
+  plot <expr1> [, <exprn> ...] for <interval1>, <interval2>
+
+  expr1
+    Any expression
+
+  expr2, expr3, exprn, etc.
+    Any additional expressions
+
+  interval1
+    An interval, of the form ""<start> < <var> < <end>"". It defines
+    <var> as a variable within all expressions, to be assigned the successive
+    values of the interval from <start> to <end>.
+
+  interval2
+    An interval, of the form ""<start> < <var> < <end>"". It defines
+    <var> as a variable within all expressions, to be assigned the successive
+    values of the interval from <start> to <end>.
+
+  example:
+    plot sin(x) + cos(y) for -5 < x < 5, -5 < y < 5
+";
 
         public override void Execute(string input, string[] args, LigraEnvironment env)
         {
