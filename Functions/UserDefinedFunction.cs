@@ -1,7 +1,6 @@
-using System;
 using MetaphysicsIndustries.Solus;
 
-namespace MetaphysicsIndustries.Ligra
+namespace MetaphysicsIndustries.Ligra.Functions
 {
     public class UserDefinedFunction : Function
     {

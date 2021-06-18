@@ -82,6 +82,7 @@
     <Compile Include="Commands\TSolveCommand.cs" />
     <Compile Include="Commands\VarAssignCommand.cs" />
     <Compile Include="Commands\VarsCommand.cs" />
+    <Compile Include="Functions\UserDefinedFunction.cs" />
     <Compile Include="LigraControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -167,7 +168,6 @@
     <Compile Include="Interval.cs" />
     <Compile Include="VarInterval.cs" />
     <Compile Include="AssignOperation.cs" />
-    <Compile Include="UserDefinedFunction.cs" />
     <None Include="make-ready.sh" />
     <None Include="todo.txt" />
     <Compile Include="StringHelper.cs" />

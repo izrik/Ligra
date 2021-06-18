@@ -1,6 +1,7 @@
 using System.Linq;
 using MetaphysicsIndustries.Ligra.RenderItems;
 using MetaphysicsIndustries.Solus;
+using UserDefinedFunction = MetaphysicsIndustries.Ligra.Functions.UserDefinedFunction;
 
 namespace MetaphysicsIndustries.Ligra.Commands
 {

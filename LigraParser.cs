@@ -4,6 +4,7 @@ using MetaphysicsIndustries.Giza;
 using System.Collections.Generic;
 using System.Linq;
 using MetaphysicsIndustries.Ligra.Commands;
+using UserDefinedFunction = MetaphysicsIndustries.Ligra.Functions.UserDefinedFunction;
 
 namespace MetaphysicsIndustries.Ligra
 {
