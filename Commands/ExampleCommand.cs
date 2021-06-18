@@ -5,6 +5,9 @@ namespace MetaphysicsIndustries.Ligra.Commands
 {
     public class ExampleCommand : Command
     {
+        public override string DocString =>
+            @"example - Show some of the things that Ligra can do";
+
         public override void Execute(string input, string[] args, LigraEnvironment env)
         {
             var f = env.Font;

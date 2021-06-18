@@ -2,6 +2,19 @@ namespace MetaphysicsIndustries.Ligra.Commands
 {
     public class ClearCommand : Command
     {
+        public override string DocString =>
+@"clear - Clear the output, history, or both
+
+Clear all output items:
+  clear
+
+Clear command history:
+  clear history
+
+Clear both output and history:
+  clear all
+";
+
         public override void Execute(string input, string[] args, LigraEnvironment env)
         {
             if (args.Length > 1)
