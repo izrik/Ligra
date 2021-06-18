@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using MetaphysicsIndustries.Solus;
 //using MetaphysicsIndustries.Sandbox;
 using System.Drawing.Printing;
+using MetaphysicsIndustries.Ligra.RenderItems;
 
 namespace MetaphysicsIndustries.Ligra
 {

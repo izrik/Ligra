@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
-using MetaphysicsIndustries.Solus;
 using System.Drawing;
+using MetaphysicsIndustries.Solus;
 
-namespace MetaphysicsIndustries.Ligra
+namespace MetaphysicsIndustries.Ligra.RenderItems
 {
     public class MathPaintItem : RenderItem
     {

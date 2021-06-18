@@ -1,12 +1,9 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
+using MetaphysicsIndustries.Acuity;
 using MetaphysicsIndustries.Solus;
 
-using MetaphysicsIndustries.Acuity;
-
-namespace MetaphysicsIndustries.Ligra
+namespace MetaphysicsIndustries.Ligra.RenderItems
 {
     public class ApplyMatrixFilterItem : RenderItem
     {

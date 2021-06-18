@@ -1,10 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using MetaphysicsIndustries.Solus;
-using System.Drawing;
-
-namespace MetaphysicsIndustries.Ligra
+namespace MetaphysicsIndustries.Ligra.RenderItems
 {
     public class CodeItem : TextItem
     {

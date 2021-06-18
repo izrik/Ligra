@@ -66,8 +66,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplyMatrixFilterItem.cs" />
-    <Compile Include="CodeItem.cs" />
     <Compile Include="Commands\CdCommand.cs" />
     <Compile Include="Commands\ClearCommand.cs" />
     <Compile Include="Commands\Command.cs" />
@@ -84,16 +82,6 @@
     <Compile Include="Commands\TSolveCommand.cs" />
     <Compile Include="Commands\VarAssignCommand.cs" />
     <Compile Include="Commands\VarsCommand.cs" />
-    <Compile Include="ControlItem.cs" />
-    <Compile Include="ErrorItem.cs" />
-    <Compile Include="ExpressionItem.cs" />
-    <Compile Include="Graph3dItem.cs" />
-    <Compile Include="GraphItem.cs" />
-    <Compile Include="GraphMatrixItem.cs" />
-    <Compile Include="GraphVectorItem.cs" />
-    <Compile Include="HelpItem.cs" />
-    <Compile Include="InfoItem.cs" />
-    <Compile Include="IntroItem.cs" />
     <Compile Include="LigraControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -116,7 +104,6 @@
       <DependentUpon>LigraFormsControl.cs</DependentUpon>
     </Compile>
     <Compile Include="LMenuItem.cs" />
-    <Compile Include="MathPaintItem.cs" />
     <Compile Include="PlotPropertiesForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -154,11 +141,24 @@
     </Compile>
     <None Include="app.config" />
     <None Include="Ligra.cd" />
-    <Compile Include="RenderItem.cs" />
-    <Compile Include="RenderItemContainer.cs" />
-    <Compile Include="SpacerItem.cs" />
+    <Compile Include="RenderItems\ApplyMatrixFilterItem.cs" />
+    <Compile Include="RenderItems\CodeItem.cs" />
+    <Compile Include="RenderItems\ControlItem.cs" />
+    <Compile Include="RenderItems\ErrorItem.cs" />
+    <Compile Include="RenderItems\ExpressionItem.cs" />
+    <Compile Include="RenderItems\Graph3dItem.cs" />
+    <Compile Include="RenderItems\GraphItem.cs" />
+    <Compile Include="RenderItems\GraphMatrixItem.cs" />
+    <Compile Include="RenderItems\GraphVectorItem.cs" />
+    <Compile Include="RenderItems\HelpItem.cs" />
+    <Compile Include="RenderItems\InfoItem.cs" />
+    <Compile Include="RenderItems\IntroItem.cs" />
+    <Compile Include="RenderItems\MathPaintItem.cs" />
+    <Compile Include="RenderItems\RenderItem.cs" />
+    <Compile Include="RenderItems\RenderItemContainer.cs" />
+    <Compile Include="RenderItems\SpacerItem.cs" />
+    <Compile Include="RenderItems\TextItem.cs" />
     <Compile Include="StaticSolusEngine.cs" />
-    <Compile Include="TextItem.cs" />
     <None Include="LigraGrammar.giza" />
     <Compile Include="LigraGrammar.cs" />
     <Compile Include="LigraParser.cs" />
