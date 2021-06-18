@@ -105,7 +105,9 @@ List the available topics:
             {
                 sb.AppendLine("Commands:");
                 line = "";
-                foreach (var c in env.Commands.Keys.ToList())
+                var commands = env.Commands.Keys.ToList();
+                commands.Sort();
+                foreach (var c in commands)
                     AddItem(c);
                 if (line.Length > 0)
                     sb.AppendLine("  " + line);
@@ -116,7 +118,9 @@ List the available topics:
             {
                 sb.AppendLine("Functions:");
                 line = "";
-                foreach (var f in env.Functions.Keys.ToList())
+                var functions = env.Functions.Keys.ToList();
+                functions.Sort();
+                foreach (var f in functions)
                     AddItem(f);
                 if (line.Length > 0)
                     sb.AppendLine("  " + line);
@@ -127,7 +131,9 @@ List the available topics:
             {
                 sb.AppendLine("Macros:");
                 line = "";
-                foreach (var m in env.Macros.Keys.ToList())
+                var macros = env.Macros.Keys.ToList();
+                macros.Sort();
+                foreach (var m in macros)
                     AddItem(m);
                 if (line.Length > 0)
                     sb.AppendLine("  " + line);
@@ -138,7 +144,9 @@ List the available topics:
             {
                 sb.AppendLine("Variables:");
                 line = "";
-                foreach (var v in env.Variables.Keys.ToList())
+                var variables = env.Variables.Keys.ToList();
+                variables.Sort();
+                foreach (var v in variables)
                     AddItem(v);
                 if (line.Length > 0)
                     sb.AppendLine("  " + line);
@@ -149,7 +157,9 @@ List the available topics:
             {
                 sb.AppendLine("Additional topics:");
                 line = "";
-                foreach (var t in _helpLookups.Keys.ToList())
+                var topics = _helpLookups.Keys.ToList();
+                topics.Sort();
+                foreach (var t in topics)
                     AddItem(t);
                 if (line.Length > 0)
                     sb.AppendLine("  " + line);
