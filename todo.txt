@@ -16,3 +16,7 @@ audio simulation
 fem
 
 strange materials
+
+export to stl
+    per-renderitem context menus
+cad
