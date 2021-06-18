@@ -36,6 +36,9 @@ namespace MetaphysicsIndustries.Ligra.Commands
     <var> as a variable within <expr>, to be assigned the successive values of
     the interval from <start> to <end>, inclusive. This interval determines the
     vertical dimension of the image.
+
+  example:
+    paint i | j for i=[0..255], j=[0..255]
 ";
         public override void Execute(string input, string[] args, LigraEnvironment env)
         {
