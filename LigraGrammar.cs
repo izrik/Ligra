@@ -6,6 +6,9 @@ namespace MetaphysicsIndustries.Ligra
 {
     public class LigraGrammar : SolusGrammar
     {
+        public NDefinition def__0024_implicit_0020_literal_0020__0028_ = new NDefinition("$implicit literal (");
+        public NDefinition def__0024_implicit_0020_literal_0020__0029_ = new NDefinition("$implicit literal )");
+        public NDefinition def__0024_implicit_0020_literal_0020__002C_ = new NDefinition("$implicit literal ,");
         public NDefinition def__0024_implicit_0020_literal_0020__002E__002E_ = new NDefinition("$implicit literal ..");
         public NDefinition def__0024_implicit_0020_literal_0020__003A__003D_ = new NDefinition("$implicit literal :=");
         public NDefinition def__0024_implicit_0020_literal_0020__003B_ = new NDefinition("$implicit literal ;");
@@ -40,14 +43,17 @@ namespace MetaphysicsIndustries.Ligra
         public NDefinition def_show_002D_command = new NDefinition("show-command");
         public NDefinition def_var_002D_assign_002D_command = new NDefinition("var-assign-command");
 
+        public CharNode node__0024_implicit_0020_literal_0020__0028__0_;
+        public CharNode node__0024_implicit_0020_literal_0020__0029__0_;
+        public CharNode node__0024_implicit_0020_literal_0020__002C__0_;
         public CharNode node__0024_implicit_0020_literal_0020__002E__002E__0_;
         public CharNode node__0024_implicit_0020_literal_0020__002E__002E__1_;
         public CharNode node__0024_implicit_0020_literal_0020__003A__003D__0_;
         public CharNode node__0024_implicit_0020_literal_0020__003A__003D__1_;
         public CharNode node__0024_implicit_0020_literal_0020__003B__0_;
+        public CharNode node__0024_implicit_0020_literal_0020__003C__0_;
         public CharNode node__0024_implicit_0020_literal_0020__003C__003D__0_;
         public CharNode node__0024_implicit_0020_literal_0020__003C__003D__1_;
-        public CharNode node__0024_implicit_0020_literal_0020__003C__0_;
         public CharNode node__0024_implicit_0020_literal_0020__003D__0_;
         public CharNode node__0024_implicit_0020_literal_0020__005B__0_;
         public CharNode node__0024_implicit_0020_literal_0020__005D__0_;
@@ -111,7 +117,6 @@ namespace MetaphysicsIndustries.Ligra
         public CharNode node__0024_implicit_0020_literal_0020_vars_1_;
         public CharNode node__0024_implicit_0020_literal_0020_vars_2_;
         public CharNode node__0024_implicit_0020_literal_0020_vars_3_;
-
         public DefRefNode node_clear_002D_command_0_clear;
         public DefRefNode node_clear_002D_command_1_all;
         public DefRefNode node_command_0_help_002D_command;
@@ -189,6 +194,9 @@ namespace MetaphysicsIndustries.Ligra
 
         public LigraGrammar()
         {
+            Definitions.Add(def__0024_implicit_0020_literal_0020__0028_);
+            Definitions.Add(def__0024_implicit_0020_literal_0020__0029_);
+            Definitions.Add(def__0024_implicit_0020_literal_0020__002C_);
             Definitions.Add(def__0024_implicit_0020_literal_0020__002E__002E_);
             Definitions.Add(def__0024_implicit_0020_literal_0020__003A__003D_);
             Definitions.Add(def__0024_implicit_0020_literal_0020__003B_);
@@ -222,6 +230,30 @@ namespace MetaphysicsIndustries.Ligra
             Definitions.Add(def_plot_002D_command);
             Definitions.Add(def_show_002D_command);
             Definitions.Add(def_var_002D_assign_002D_command);
+
+            def__0024_implicit_0020_literal_0020__0028_.Directives.Add(DefinitionDirective.Token);
+            def__0024_implicit_0020_literal_0020__0028_.Directives.Add(DefinitionDirective.Atomic);
+            def__0024_implicit_0020_literal_0020__0028_.Directives.Add(DefinitionDirective.MindWhitespace);
+            node__0024_implicit_0020_literal_0020__0028__0_ = new CharNode(CharClass.FromUndelimitedCharClassText("("), "");
+            def__0024_implicit_0020_literal_0020__0028_.Nodes.Add(node__0024_implicit_0020_literal_0020__0028__0_);
+            def__0024_implicit_0020_literal_0020__0028_.StartNodes.Add(node__0024_implicit_0020_literal_0020__0028__0_);
+            def__0024_implicit_0020_literal_0020__0028_.EndNodes.Add(node__0024_implicit_0020_literal_0020__0028__0_);
+
+            def__0024_implicit_0020_literal_0020__0029_.Directives.Add(DefinitionDirective.Token);
+            def__0024_implicit_0020_literal_0020__0029_.Directives.Add(DefinitionDirective.Atomic);
+            def__0024_implicit_0020_literal_0020__0029_.Directives.Add(DefinitionDirective.MindWhitespace);
+            node__0024_implicit_0020_literal_0020__0029__0_ = new CharNode(CharClass.FromUndelimitedCharClassText(")"), "");
+            def__0024_implicit_0020_literal_0020__0029_.Nodes.Add(node__0024_implicit_0020_literal_0020__0029__0_);
+            def__0024_implicit_0020_literal_0020__0029_.StartNodes.Add(node__0024_implicit_0020_literal_0020__0029__0_);
+            def__0024_implicit_0020_literal_0020__0029_.EndNodes.Add(node__0024_implicit_0020_literal_0020__0029__0_);
+
+            def__0024_implicit_0020_literal_0020__002C_.Directives.Add(DefinitionDirective.Token);
+            def__0024_implicit_0020_literal_0020__002C_.Directives.Add(DefinitionDirective.Atomic);
+            def__0024_implicit_0020_literal_0020__002C_.Directives.Add(DefinitionDirective.MindWhitespace);
+            node__0024_implicit_0020_literal_0020__002C__0_ = new CharNode(CharClass.FromUndelimitedCharClassText(","), "");
+            def__0024_implicit_0020_literal_0020__002C_.Nodes.Add(node__0024_implicit_0020_literal_0020__002C__0_);
+            def__0024_implicit_0020_literal_0020__002C_.StartNodes.Add(node__0024_implicit_0020_literal_0020__002C__0_);
+            def__0024_implicit_0020_literal_0020__002C_.EndNodes.Add(node__0024_implicit_0020_literal_0020__002C__0_);
 
             def__0024_implicit_0020_literal_0020__002E__002E_.Directives.Add(DefinitionDirective.Token);
             def__0024_implicit_0020_literal_0020__002E__002E_.Directives.Add(DefinitionDirective.Atomic);
