@@ -38,6 +38,18 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MetaphysicsIndustries.Acuity, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>packages\MetaphysicsIndustries.Acuity.0.1.0\lib\net40\MetaphysicsIndustries.Acuity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MetaphysicsIndustries.Giza, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>packages\MetaphysicsIndustries.Giza.0.2.0\lib\net40\MetaphysicsIndustries.Giza.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MetaphysicsIndustries.Solus, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>packages\MetaphysicsIndustries.Solus.0.1.0\lib\net40\MetaphysicsIndustries.Solus.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -203,20 +215,6 @@
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MetaphysicsIndustries.Giza\MetaphysicsIndustries.Giza.csproj">
-      <Project>{98B42ACF-8370-4428-9D41-73FF1CEFB2E4}</Project>
-      <Name>MetaphysicsIndustries.Giza</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MetaphysicsIndustries.Solus\MetaphysicsIndustries.Solus.csproj">
-      <Project>{A630057C-40CF-4DF3-BE44-FC660B3E6BA3}</Project>
-      <Name>MetaphysicsIndustries.Solus</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MetaphysicsIndustries.Acuity\MetaphysicsIndustries.Acuity.csproj">
-      <Project>{28E66D7B-4A7F-4A0E-A358-5C41E35ACE33}</Project>
-      <Name>MetaphysicsIndustries.Acuity</Name>
-    </ProjectReference>
-  </ItemGroup>
   <ItemGroup>
     <Folder Include="Macros" />
   </ItemGroup>
