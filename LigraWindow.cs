@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Gtk;
 using MetaphysicsIndustries.Ligra.Commands;
+using MetaphysicsIndustries.Ligra.RenderItems;
 using MetaphysicsIndustries.Solus;
 
 namespace MetaphysicsIndustries.Ligra

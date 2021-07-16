@@ -1,3 +1,5 @@
+using MetaphysicsIndustries.Ligra.RenderItems;
+
 namespace MetaphysicsIndustries.Ligra.Commands
 {
     public class HistoryCommand : Command

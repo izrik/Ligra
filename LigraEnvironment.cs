@@ -3,6 +3,7 @@ using MetaphysicsIndustries.Solus;
 using System.Collections.Generic;
 using System.Drawing;
 using MetaphysicsIndustries.Ligra.Commands;
+using MetaphysicsIndustries.Ligra.RenderItems;
 
 namespace MetaphysicsIndustries.Ligra
 {

@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
-using MetaphysicsIndustries.Solus;
-
 using System.Windows.Forms;
 using Gtk;
+using MetaphysicsIndustries.Solus;
 
-namespace MetaphysicsIndustries.Ligra
+namespace MetaphysicsIndustries.Ligra.RenderItems
 {
     public abstract class RenderItem
     {

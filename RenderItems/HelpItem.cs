@@ -1,12 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Drawing;
-using System.Linq;
-using Gtk;
 using MetaphysicsIndustries.Solus;
 
-namespace MetaphysicsIndustries.Ligra
+namespace MetaphysicsIndustries.Ligra.RenderItems
 {
     public class HelpItem : RenderItem
     {
