@@ -33,7 +33,7 @@ namespace MetaphysicsIndustries.Ligra
 
             if (errors1.ContainsNonWarnings())
             {
-                Solus.Expression expr;
+                Solus.Expressions.Expression expr;
 
                 try
                 {
@@ -82,7 +82,7 @@ namespace MetaphysicsIndustries.Ligra
             var spans = _parser.Parse(input.ToCharacterSource(), errors1);
             if (errors1.ContainsNonWarnings())
             {
-                Solus.Expression expr;
+                Solus.Expressions.Expression expr;
                 try
                 {
                     expr = base.GetExpression(input, env);
@@ -189,7 +189,7 @@ namespace MetaphysicsIndustries.Ligra
 
         PlotCommand GetPlotCommandFromPlotCommand(Span span, SolusEnvironment env)
         {
-            var exprs = new List<Solus.Expression>();
+            var exprs = new List<Solus.Expressions.Expression>();
             var intervals = new List<VarInterval>();
 
             foreach (var sub in span.Subspans)

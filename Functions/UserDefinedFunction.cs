@@ -1,4 +1,6 @@
 using MetaphysicsIndustries.Solus;
+using MetaphysicsIndustries.Solus.Expressions;
+using MetaphysicsIndustries.Solus.Functions;
 
 namespace MetaphysicsIndustries.Ligra.Functions
 {

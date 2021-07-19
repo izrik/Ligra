@@ -9,6 +9,7 @@ using MetaphysicsIndustries.Solus;
 //using MetaphysicsIndustries.Sandbox;
 using System.Drawing.Printing;
 using MetaphysicsIndustries.Ligra.RenderItems;
+using MetaphysicsIndustries.Solus.Expressions;
 
 namespace MetaphysicsIndustries.Ligra
 {

@@ -1,6 +1,9 @@
 using System;
 using MetaphysicsIndustries.Ligra.RenderItems;
 using MetaphysicsIndustries.Solus;
+using MetaphysicsIndustries.Solus.Expressions;
+using MetaphysicsIndustries.Solus.Functions;
+using MetaphysicsIndustries.Solus.Transformers;
 
 namespace MetaphysicsIndustries.Ligra.Commands
 {
