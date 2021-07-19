@@ -128,7 +128,7 @@ namespace MetaphysicsIndustries.Ligra
             {
                 return GetPaintCommandFromPaintCommand(sub, env);
             }
-            else if (def == _grammar.def_del_002D_command)
+            else if (def == _grammar.def_delete_002D_command)
             {
                 return GetDelCommandFromDelCommand(sub, env);
             }
