@@ -39,7 +39,7 @@ namespace MetaphysicsIndustries.Ligra
                 {
                     expr = base.GetExpression(input, env);
                 }
-                catch (Exception ignored)
+                catch (Exception)
                 {
                     // return errors1
                     throw new InvalidOperationException();
@@ -87,7 +87,7 @@ namespace MetaphysicsIndustries.Ligra
                 {
                     expr = base.GetExpression(input, env);
                 }
-                catch (Exception ignored)
+                catch (Exception)
                 {
                     // return errors1
                     throw new InvalidOperationException();
