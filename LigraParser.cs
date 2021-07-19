@@ -20,7 +20,7 @@ namespace MetaphysicsIndustries.Ligra
             _parser = new Parser(_grammar.def_commands);
         }
 
-        public Command[] GetCommands(string input, SolusEnvironment env=null)
+        public new Command[] GetCommands(string input, SolusEnvironment env=null)
         {
             if (env == null)
             {
