@@ -2,6 +2,8 @@ namespace MetaphysicsIndustries.Ligra.Commands
 {
     public class ClearCommand : Command
     {
+        public static readonly ClearCommand Value = new ClearCommand();
+
         public override string DocString =>
 @"clear - Clear the output, history, or both
 

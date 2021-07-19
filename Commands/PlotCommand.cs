@@ -9,6 +9,9 @@ namespace MetaphysicsIndustries.Ligra.Commands
 {
     public class PlotCommand : Command
     {
+        public static readonly PlotCommand Value =
+            new PlotCommand(null, null);
+
         public PlotCommand(Expression[] exprs, VarInterval[] intervals)
         {
             _exprs = exprs;

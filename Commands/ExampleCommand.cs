@@ -9,6 +9,8 @@ namespace MetaphysicsIndustries.Ligra.Commands
 {
     public class ExampleCommand : Command
     {
+        public static readonly ExampleCommand Value = new ExampleCommand();
+
         public override string DocString =>
             @"example - Show some of the things that Ligra can do";
 

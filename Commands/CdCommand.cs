@@ -5,6 +5,8 @@ namespace MetaphysicsIndustries.Ligra.Commands
 {
     public class CdCommand : Command
     {
+        public static readonly CdCommand Value = new CdCommand();
+
         public override string DocString =>
 @"cd - Show or change the current directory
 

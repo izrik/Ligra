@@ -6,6 +6,8 @@ namespace MetaphysicsIndustries.Ligra.Commands
 {
     public class VarsCommand : Command
     {
+        public static readonly VarsCommand Value = new VarsCommand();
+
         public override string DocString =>
             @"vars - Print a list of all defined variables";
 

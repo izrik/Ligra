@@ -7,6 +7,8 @@ namespace MetaphysicsIndustries.Ligra.Commands
 {
     public class LoadImageCommand : Command
     {
+        public static readonly LoadImageCommand Value = new LoadImageCommand();
+
         public override void Execute(string input, string[] args, LigraEnvironment env)
         {
             var font = env.Font;

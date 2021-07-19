@@ -6,6 +6,9 @@ namespace MetaphysicsIndustries.Ligra.Commands
 {
     public class PaintCommand : Command
     {
+        public static readonly PaintCommand Value =
+            new PaintCommand(null, new VarInterval(), new VarInterval());
+
         public PaintCommand(Expression expr, VarInterval interval1, VarInterval interval2)
         {
             _expr = expr;

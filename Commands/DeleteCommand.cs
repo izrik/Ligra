@@ -5,6 +5,8 @@ namespace MetaphysicsIndustries.Ligra.Commands
 {
     public class DeleteCommand : Command
     {
+        public static readonly DeleteCommand Value = new DeleteCommand();
+
         public override string DocString =>
 @"delete - Delete a variable
 

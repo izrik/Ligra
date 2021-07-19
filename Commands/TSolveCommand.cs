@@ -8,6 +8,8 @@ namespace MetaphysicsIndustries.Ligra.Commands
 {
     public class TSolveCommand : Command
     {
+        public static readonly TSolveCommand Value = new TSolveCommand();
+
         public override void Execute(string input, string[] args, LigraEnvironment env)
         {
             SolusEngine _engine = new SolusEngine();

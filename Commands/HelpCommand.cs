@@ -8,6 +8,8 @@ namespace MetaphysicsIndustries.Ligra.Commands
 {
     public class HelpCommand : Command
     {
+        public static readonly HelpCommand Value = new HelpCommand(null);
+
         private static Dictionary<string, string> _helpLookups = 
             new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
 

@@ -6,6 +6,8 @@ namespace MetaphysicsIndustries.Ligra.Commands
 {
     public class ExprCommand : Command
     {
+        public static readonly ExprCommand Value = new ExprCommand(null);
+
         public ExprCommand(Expression expr)
         {
             _expr = expr;

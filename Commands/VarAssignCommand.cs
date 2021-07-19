@@ -6,6 +6,9 @@ namespace MetaphysicsIndustries.Ligra.Commands
 {
     public class VarAssignCommand : Command
     {
+        public static readonly VarAssignCommand Value =
+            new VarAssignCommand(null, null);
+
         public VarAssignCommand(string varname, Expression expr)
         {
             _varname = varname;

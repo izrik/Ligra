@@ -4,6 +4,8 @@ namespace MetaphysicsIndustries.Ligra.Commands
 {
     public class HistoryCommand : Command
     {
+        public static readonly HistoryCommand Value = new HistoryCommand();
+
         public override string DocString =>
 @"history - Show or clear the command history
 
