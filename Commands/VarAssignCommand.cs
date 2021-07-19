@@ -17,7 +17,14 @@ namespace MetaphysicsIndustries.Ligra.Commands
 
         private readonly string _varname;
         private readonly Expression _expr;
+
+        public override string Name => "var_assign";
         
+        public override void Execute(string input, SolusEnvironment env)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public override void Execute(string input, string[] args, LigraEnvironment env)
         {
             Execute(input, args, env, _varname, _expr);

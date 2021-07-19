@@ -9,6 +9,13 @@ namespace MetaphysicsIndustries.Ligra.Commands
     {
         public static readonly LoadImageCommand Value = new LoadImageCommand();
 
+        public override string Name => "example";
+
+        public override void Execute(string input, SolusEnvironment env)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public override void Execute(string input, string[] args, LigraEnvironment env)
         {
             var font = env.Font;

@@ -7,8 +7,14 @@ namespace MetaphysicsIndustries.Ligra.Commands
     {
         public static readonly Example2Command Value = new Example2Command();
 
+        public override string Name => "example2";
         public override string DocString =>
             @"example2 - Show some of the things that Ligra can do";
+
+        public override void Execute(string input, SolusEnvironment env)
+        {
+            throw new System.NotImplementedException();
+        }
 
         public override void Execute(string input, string[] args, LigraEnvironment env)
         {

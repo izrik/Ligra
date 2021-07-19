@@ -8,8 +8,14 @@ namespace MetaphysicsIndustries.Ligra.Commands
     {
         public static readonly VarsCommand Value = new VarsCommand();
 
+        public override string Name => "vars";
         public override string DocString =>
             @"vars - Print a list of all defined variables";
+
+        public override void Execute(string input, SolusEnvironment env)
+        {
+            throw new System.NotImplementedException();
+        }
 
         public override void Execute(string input, string[] args, LigraEnvironment env)
         {

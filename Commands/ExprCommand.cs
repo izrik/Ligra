@@ -8,6 +8,8 @@ namespace MetaphysicsIndustries.Ligra.Commands
     {
         public static readonly ExprCommand Value = new ExprCommand(null);
 
+        public override string Name => "expr";
+
         public ExprCommand(Expression expr)
         {
             _expr = expr;
@@ -15,6 +17,11 @@ namespace MetaphysicsIndustries.Ligra.Commands
 
         private readonly Expression _expr;
         
+        public override void Execute(string input, SolusEnvironment env)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public override void Execute(string input, string[] args, LigraEnvironment env)
         {
             Execute(input, args, env, _expr);

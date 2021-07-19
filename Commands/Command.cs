@@ -4,7 +4,7 @@ using MetaphysicsIndustries.Ligra.RenderItems;
 
 namespace MetaphysicsIndustries.Ligra.Commands
 {
-    public abstract class Command
+    public abstract class Command : Solus.Commands.Command
     {
         public abstract void Execute(string input, string[] args, LigraEnvironment env);
 
@@ -12,8 +12,6 @@ namespace MetaphysicsIndustries.Ligra.Commands
         {
             return string.Format("$ {0}", input);
         }
-
-        public virtual string DocString => null;
 
         public static void InitializeCommands(Dictionary<string, Command> commands)
         {
@@ -36,8 +34,8 @@ namespace MetaphysicsIndustries.Ligra.Commands
             commands["paint"] = PaintCommand.Value;
 
             //commands["expr"] = ExprCommand.Value;
-            commands["varassign"] = VarAssignCommand.Value;
-            commands["funcassign"] = FuncAssignCommand.Value;
+            commands["var_assign"] = VarAssignCommand.Value;
+            commands["func_assign"] = FuncAssignCommand.Value;
         }
 
         public static void ClearHistory(LigraEnvironment env)

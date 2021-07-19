@@ -11,8 +11,14 @@ namespace MetaphysicsIndustries.Ligra.Commands
     {
         public static readonly ExampleCommand Value = new ExampleCommand();
 
+        public override string Name => "example";
         public override string DocString =>
             @"example - Show some of the things that Ligra can do";
+
+        public override void Execute(string input, SolusEnvironment env)
+        {
+            throw new System.NotImplementedException();
+        }
 
         public override void Execute(string input, string[] args, LigraEnvironment env)
         {

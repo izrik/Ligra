@@ -10,6 +10,13 @@ namespace MetaphysicsIndustries.Ligra.Commands
     {
         public static readonly TSolveCommand Value = new TSolveCommand();
 
+        public override string Name => "tsolve";
+
+        public override void Execute(string input, SolusEnvironment env)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public override void Execute(string input, string[] args, LigraEnvironment env)
         {
             SolusEngine _engine = new SolusEngine();

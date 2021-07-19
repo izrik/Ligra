@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using MetaphysicsIndustries.Ligra.RenderItems;
+using MetaphysicsIndustries.Solus;
 
 namespace MetaphysicsIndustries.Ligra.Commands
 {
@@ -7,6 +8,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
     {
         public static readonly DeleteCommand Value = new DeleteCommand();
 
+        public override string Name => "delete";
         public override string DocString =>
 @"delete - Delete a variable
 
@@ -15,6 +17,11 @@ namespace MetaphysicsIndustries.Ligra.Commands
   var
     The name of a variable previously defined via ""<var> := <expr>"".
 ";
+
+        public override void Execute(string input, SolusEnvironment env)
+        {
+            throw new System.NotImplementedException();
+        }
 
         public override void Execute(string input, string[] args, LigraEnvironment env)
         {

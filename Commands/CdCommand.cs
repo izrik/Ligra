@@ -1,5 +1,6 @@
 using System;
 using MetaphysicsIndustries.Ligra.RenderItems;
+using MetaphysicsIndustries.Solus;
 
 namespace MetaphysicsIndustries.Ligra.Commands
 {
@@ -7,6 +8,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
     {
         public static readonly CdCommand Value = new CdCommand();
 
+        public override string Name => "cd";
         public override string DocString =>
 @"cd - Show or change the current directory
 
@@ -21,6 +23,11 @@ Change the current directory:
     absolute or relative path. The format and semantics of the path string is
     determined by the underlying operating system.
 ";
+
+        public override void Execute(string input, SolusEnvironment env)
+        {
+            throw new System.NotImplementedException();
+        }
 
         public override void Execute(string input, string[] args, LigraEnvironment env)
         {

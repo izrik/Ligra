@@ -21,6 +21,8 @@ namespace MetaphysicsIndustries.Ligra.Commands
         private readonly Expression[] _exprs;
         private readonly VarInterval[] _intervals;
 
+        public override string Name => "plot";
+
         public override string GetInputLabel(string input, LigraEnvironment env)
         {
             // TODO: don't create another instance of the class within the class.
@@ -73,6 +75,11 @@ Plot one or more expressions that vary over two variable as a 3D graph:
   example:
     plot sin(x) + cos(y) for -5 < x < 5, -5 < y < 5
 ";
+
+        public override void Execute(string input, SolusEnvironment env)
+        {
+            throw new System.NotImplementedException();
+        }
 
         public override void Execute(string input, string[] args, LigraEnvironment env)
         {
