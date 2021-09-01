@@ -3,7 +3,7 @@ from '../MetaphysicsIndustries.Solus/SolusGrammar.giza' import
     expr, function-call, number, string, binop, unary-op, paren, varref,
     identifier, subexpr, float-number, unicodechar,
     delete-command, func-assign-command, help-command, var-assign-command,
-    vars-command ;
+    vars-command, component-access, array-literal, comp-subexpr, array-index;
 
 commands = ( command ';' )* command ';'? ;
 
