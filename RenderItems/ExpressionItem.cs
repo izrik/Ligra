@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using MetaphysicsIndustries.Acuity;
 using MetaphysicsIndustries.Solus;
 using MetaphysicsIndustries.Solus.Expressions;
 using MetaphysicsIndustries.Solus.Functions;
@@ -67,12 +66,6 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             get { return _pen; }
         }
 
-        //private string _name;
-        //public string Name
-        //{
-        //    get { return _name; }
-        //}
-
         private LFont _font;
         public LFont Font
         {
@@ -83,40 +76,22 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         {
             var exprSize = CalcExpressionSize(Expression, g, Font);
             float xx = 0;
-
-            //if (!string.IsNullOrEmpty(Name))
-            //{
-            //    var textSize = g.MeasureString(Name + " = ", Font);
-            //    xx += textSize.X + 10;
-            //    g.DrawString(Name + " = ", Font, Pen.Brush, new Vector2(location.X, location.Y + (exprSize.Y - textSize.Y) / 2));
-            //}
-
             RenderExpression(g, _expression, new Vector2(xx, 0), _pen, _pen.Brush, Font, false);
         }
 
         protected override Vector2 InternalCalcSize(IRenderer g)
         {
             var exprSize = CalcExpressionSize(Expression, g, Font);
-
-            //if (!string.IsNullOrEmpty(Name))
-            //{
-            //    var textSize = g.MeasureString(Name + " = ", Font);
-            //    exprSize.X += textSize.X + 10;
-            //    exprSize.Y = Math.Max(exprSize.Y, textSize.Y);
-            //}
-
             return exprSize;
         }
 
         public static void RenderExpression(IRenderer g, Expression expr, Vector2 pt, LPen pen, LBrush brush, LFont font, bool drawBoxes)
         {
-
             InternalRenderExpression(g, expr, pt, pen, brush, new Dictionary<Expression, Vector2>(), font, drawBoxes);
         }
 
         protected static void InternalRenderExpression(IRenderer g, Expression expr, Vector2 pt, LPen pen, LBrush brush, Dictionary<Expression, Vector2> expressionSizeCache, LFont font, bool drawBoxes)
         {
-
             var size = CalcExpressionSize(expr, g, font, expressionSizeCache);
 
             if (drawBoxes)
@@ -173,7 +148,6 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             Dictionary<Expression, Vector2> expressionSizeCache, LFont font,
             bool drawBoxes)
         {
-
             var size = CalcExpressionSize(vector, g, font, expressionSizeCache);
             Vector2 size2;
             float x = pt.X + 2;
@@ -196,8 +170,6 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             Dictionary<Expression, Vector2> expressionSizeCache, LFont font,
             bool drawBoxes)
         {
-
-
             List<float> maxWidthPerColumn = new List<float>();
             List<float> maxHeightPerRow = new List<float>();
 
@@ -209,7 +181,6 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
             float x = pt.X;
             float y = pt.Y;
-            //float d = 100;
 
             y = pt.Y;
             for (i = 0; i < matrix.RowCount; i++)
@@ -282,7 +253,6 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
         protected static void RenderLiteralExpression(IRenderer g, Literal literal, Vector2 pt, LPen pen, LBrush brush, Dictionary<Expression, Vector2> expressionSizeCache, LFont font)
         {
-
             string str;
             var value = literal.Value.ToNumber().Value;
             if (Math.Abs(value - (float)Math.PI) < 1e-6)
@@ -304,8 +274,6 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
         protected static void RenderFunctionCallExpression(IRenderer g, FunctionCall functionCall, Vector2 pt, LPen pen, LBrush brush, Dictionary<Expression, Vector2> expressionSizeCache, LFont font, bool drawBoxes)
         {
-
-
             if (functionCall.Function is Operation)
             {
                 RenderOperation(g, functionCall, pt, pen, brush, expressionSizeCache, font, drawBoxes);
@@ -313,7 +281,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             else
             {
                 var displayNameSize = g.MeasureString(functionCall.Function.DisplayName, font) + new Vector2(2, 0);
-                float parenWidth = g.MeasureString("(", font).X;// 10;
+                float parenWidth = g.MeasureString("(", font).X;
                 var commaSize = g.MeasureString(", ", font);
 
                 bool first;
@@ -371,7 +339,6 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
         protected static void RenderOperation(IRenderer g, FunctionCall functionCall, Vector2 pt, LPen pen, LBrush brush, Dictionary<Expression, Vector2> expressionSizeCache, LFont font, bool drawBoxes)
         {
-
             if (functionCall.Function is BinaryOperation)
             {
                 RenderBinaryOperation(g, functionCall, pt, pen, brush, expressionSizeCache, drawBoxes, font);
@@ -392,8 +359,6 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
         protected static void RenderAssociativeCommutativOperation(IRenderer g, FunctionCall functionCall, Vector2 pt, LPen pen, LBrush brush, Dictionary<Expression, Vector2> expressionSizeCache, LFont font, bool drawBoxes)
         {
-
-
             AssociativeCommutativeOperation operation = functionCall.Function as AssociativeCommutativeOperation;
 
             string symbol = operation.DisplayName;
@@ -471,14 +436,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             }
         }
 
-        //private void RenderAdditionOperation(IRenderer g, FunctionCall functionCall, Vector2 pt, LPen pen, LBrush brush, Dictionary<Expression, Vector2> expressionSizeCache)
-        //{
-
-        //}
-
         protected static void RenderBinaryOperation(IRenderer g, FunctionCall functionCall, Vector2 pt, LPen pen, LBrush brush, Dictionary<Expression, Vector2> expressionSizeCache, bool drawBoxes, LFont font)
         {
-
             if (functionCall.Function is DivisionOperation)
             {
                 RenderDivisionOperation(g, functionCall, pt, pen, brush, expressionSizeCache, drawBoxes, font);
@@ -550,7 +509,6 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
         protected static void RenderExponentOperation(IRenderer g, FunctionCall functionCall, Vector2 pt, LPen pen, LBrush brush, Dictionary<Expression, Vector2> expressionSizeCache, bool drawBoxes, LFont font)
         {
-
             if (ExpressionItem.IsRootOperation(functionCall))
             {
                 RenderRootOperation(g, functionCall, pt, pen, brush, expressionSizeCache, font, drawBoxes);
@@ -579,22 +537,12 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                     return true;
                 }
             }
-            //else if (functionCall.Arguments[1] is FunctionCall &&
-            //         (functionCall.Arguments[1] as FunctionCall).Function == DivisionOperation.Value &&
-            //         (functionCall.Arguments[1] as FunctionCall).Arguments[0] is Literal &&
-            //         ((functionCall.Arguments[1] as FunctionCall).Arguments[0] as Literal).Value == 1 &&
-            //          ((functionCall.Arguments[1] as FunctionCall).Arguments[1] is VariableAccess ||
-            //           (functionCall.Arguments[1] as FunctionCall).Arguments[1] is Literal))
-            //{
-            //    return true;
-            //}
 
             return false;
         }
 
         protected static void RenderRootOperation(IRenderer g, FunctionCall functionCall, Vector2 pt, LPen pen, LBrush brush, Dictionary<Expression, Vector2> expressionSizeCache, LFont font, bool drawBoxes)
         {
-
             Literal root = (Literal)functionCall.Arguments[1];
             var invRoot = (float)Math.Round(1 / root.Value.ToNumber().Value);
             Expression arg = functionCall.Arguments[0];
@@ -640,12 +588,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
         protected static void RenderPartBinaryOperation(IRenderer g, FunctionCall functionCall, Vector2 pt, LPen pen, LBrush brush, Dictionary<Expression, Vector2> expressionSizeCache, bool drawBoxes, LFont font)
         {
-
-
-            string symbol = //" " + 
-                functionCall.Function.DisplayName
-                //+ " "
-                ;
+            string symbol = functionCall.Function.DisplayName;
 
             var leftOperandSize = CalcExpressionSize(functionCall.Arguments[0], g, font, expressionSizeCache);
             var rightOperandSize = CalcExpressionSize(functionCall.Arguments[1], g, font, expressionSizeCache);
@@ -659,13 +602,11 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
             if (NeedsLeftParen(functionCall))
             {
-                //leftOperandSize.X += parenWidth * 2;
                 leftParens = true;
             }
 
             if (NeedsRightParen(functionCall))
             {
-                //rightOperandSize.X += parenWidth * 2;
                 rightParens = true;
             }
 
@@ -752,8 +693,6 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
         protected static void RenderDivisionOperation(IRenderer g, FunctionCall functionCall, Vector2 pt, LPen pen, LBrush brush, Dictionary<Expression, Vector2> expressionSizeCache, bool drawBoxes, LFont font)
         {
-
-
             var size1 = CalcExpressionSize(functionCall.Arguments[0], g, font, expressionSizeCache);
             var size2 = CalcExpressionSize(functionCall.Arguments[1], g, font, expressionSizeCache);
             var size = new Vector2(Math.Max(size1.X, size2.X), size1.Y + size2.Y);
@@ -775,21 +714,9 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         {
             rect.Width -= 2;
 
-            //g.DrawLine(pen, rect.Left, rect.Top, rect.Right, rect.Top);
-            //g.DrawLine(pen, rect.Right, rect.Top, rect.Right, rect.Bottom);
-            //g.DrawLine(pen, rect.Left, rect.Bottom, rect.Right, rect.Bottom);
-
             g.DrawArc(pen, rect.Left, rect.Top, rect.Width, 2 * rect.Width, 270, 90);
             g.DrawLine(pen, rect.Right, rect.Top + rect.Width, rect.Right, rect.Bottom - rect.Width);
             g.DrawArc(pen, rect.Left, rect.Bottom - 2 * rect.Width, rect.Width, 2 * rect.Width, 0, 90);
-
-            //float x = rect.Width;
-            //float y = rect.Height;
-            //float r = y * y / (8 * x) + x / 2;
-            //float theta = (float)(Math.Asin(r / (2 * y)) * 180 / Math.PI);
-
-            //RectangleF r2 = new RectangleF(rect.X - 2 * r + x, rect.Y + y / 2 - r, 2 * r, 2 * r);
-            //g.DrawArc(pen, r2, -theta, 2 * theta);
         }
 
         protected static void RenderOpenParenthesis(IRenderer g, RectangleF rect, LPen pen, LBrush brush)
@@ -797,21 +724,9 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             rect.X += 2;
             rect.Width -= 2;
 
-            //g.DrawLine(pen, rect.Left, rect.Top, rect.Right, rect.Top);
-            //g.DrawLine(pen, rect.Left, rect.Top, rect.Left, rect.Bottom);
-            //g.DrawLine(pen, rect.Left, rect.Bottom, rect.Right, rect.Bottom);
-
             g.DrawArc(pen, rect.Left, rect.Top, rect.Width, 2 * rect.Width, 180, 90);
             g.DrawLine(pen, rect.Left, rect.Top + rect.Width, rect.Left, rect.Bottom - rect.Width);
             g.DrawArc(pen, rect.Left, rect.Bottom - 2 * rect.Width, rect.Width, 2 * rect.Width, 90, 90);
-
-            //float x = rect.Width;
-            //float y = rect.Height;
-            //float r = y * y / (8 * x) + x / 2;
-            //float theta = (float)(Math.Asin(r / (2 * y)) * 180 / Math.PI);
-
-            //RectangleF r2 = new RectangleF(rect.X, rect.Y + y / 2 - r, 2 * r, 2 * r);
-            //g.DrawArc(pen, r2, 180 - theta, 2 * theta);
         }
 
         public static Vector2 CalcExpressionSize(Expression expr, IRenderer g, LFont font)
@@ -821,7 +736,6 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
         protected static Vector2 CalcExpressionSize(Expression expr, IRenderer g, LFont font, Dictionary<Expression, Vector2> expressionSizeCache)
         {
-
             if (expressionSizeCache.ContainsKey(expr))
             {
                 return expressionSizeCache[expr];
@@ -957,16 +871,11 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
         private static Vector2 CalcFunctionCallSize(IRenderer g, Expression expr, Dictionary<Expression, Vector2> expressionSizeCache, LFont font)
         {
-
             Vector2 size;
             FunctionCall functionCall = expr as FunctionCall;
 
             if (functionCall.Function is Operation)
             {
-                //if (call.Function is UnaryOperation)
-                //{
-                //}
-                //else
                 if (functionCall.Function is BinaryOperation)
                 {
                     if (functionCall.Function is DivisionOperation)
@@ -997,36 +906,23 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                                 font);
                         }
 
-                        //float shortRadicalLineWidth = 5;
-                        //float shortRadicalLineHeight = 5;
                         float longRadicalLineWidth = 10;
 
                         size = new Vector2(rootSize.X + longRadicalLineWidth + argSize.X + 2, argSize.Y + 4);
                     }
                     else
                     {
-                        string operatorSymbol = //" " + 
-                            functionCall.Function.DisplayName
-                            //+ " "
-                            ;
+                        var operatorSymbol = functionCall.Function.DisplayName;
 
                         var leftOperandSize = CalcExpressionSize(functionCall.Arguments[0], g, font, expressionSizeCache);
                         var rightOperandSize = CalcExpressionSize(functionCall.Arguments[1], g, font, expressionSizeCache);
                         var operatorSymbolSize = g.MeasureString(operatorSymbol, font);
 
                         float parenWidth = 10;
-
-                        //if (functionCall.Arguments[0] is FunctionCall &&
-                        //    (functionCall.Arguments[0] as FunctionCall).Function is Operation &&
-                        //    ((functionCall.Arguments[0] as FunctionCall).Function as Operation).Precedence < (functionCall.Function as Operation).Precedence)
                         if (NeedsLeftParen(functionCall))
                         {
                             leftOperandSize = leftOperandSize.AddX(parenWidth * 2);
                         }
-
-                        //if (functionCall.Arguments[1] is FunctionCall &&
-                        //    (functionCall.Arguments[1] as FunctionCall).Function is Operation &&
-                        //    ((functionCall.Arguments[1] as FunctionCall).Function as Operation).Precedence < (functionCall.Function as Operation).Precedence)
                         if (NeedsRightParen(functionCall))
                         {
                             rightOperandSize = rightOperandSize.AddX(parenWidth * 2);
