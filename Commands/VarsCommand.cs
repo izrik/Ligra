@@ -25,13 +25,12 @@ namespace MetaphysicsIndustries.Ligra.Commands
                 Expression value = env.Variables[var];
                 string valueString = value.ToString();
 
-                if (value is SolusVector)
+                if (value is VectorExpression ve)
                 {
-                    valueString = "Vector (" + ((SolusVector) value).Length.ToString() + ")";
+                    valueString = "Vector (" + ve.Length.ToString() + ")";
                 }
-                else if (value is SolusMatrix)
+                else if (value is MatrixExpression mat)
                 {
-                    SolusMatrix mat = (SolusMatrix) value;
                     valueString = "Matrix (" + mat.RowCount + ", " + mat.ColumnCount + ")";
                 }
 

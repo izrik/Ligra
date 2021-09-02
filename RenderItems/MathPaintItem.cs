@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using MetaphysicsIndustries.Solus;
 using MetaphysicsIndustries.Solus.Expressions;
+using MetaphysicsIndustries.Solus.Values;
 
 namespace MetaphysicsIndustries.Ligra.RenderItems
 {
@@ -186,7 +187,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 {
                     env.Variables[independentVariableY] = new Literal(j);
 
-                    z = prelimEval2.Eval(env).Value;
+                    z = prelimEval2.Eval(env).ToNumber().Value;
 
                     if (double.IsNaN(z))
                     {

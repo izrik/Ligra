@@ -4,6 +4,7 @@ using System.Linq;
 using MetaphysicsIndustries.Ligra.RenderItems;
 using MetaphysicsIndustries.Solus;
 using MetaphysicsIndustries.Solus.Expressions;
+using MetaphysicsIndustries.Solus.Values;
 
 namespace MetaphysicsIndustries.Ligra.Commands
 {
@@ -147,21 +148,21 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                 var expr = exprs[0];
                 var zs = new List<float>();
 
-                literals[0].Value = intervals[0].Interval.LowerBound;
-                literals[1].Value = intervals[1].Interval.LowerBound;
-                zs.Add(expr.Eval(env).Value);
+                literals[0].Value = intervals[0].Interval.LowerBound.ToNumber();
+                literals[1].Value = intervals[1].Interval.LowerBound.ToNumber();
+                zs.Add(expr.Eval(env).ToNumber().Value);
 
-                literals[0].Value = intervals[0].Interval.LowerBound;
-                literals[1].Value = intervals[1].Interval.UpperBound;
-                zs.Add(expr.Eval(env).Value);
+                literals[0].Value = intervals[0].Interval.LowerBound.ToNumber();
+                literals[1].Value = intervals[1].Interval.UpperBound.ToNumber();
+                zs.Add(expr.Eval(env).ToNumber().Value);
 
-                literals[0].Value = intervals[0].Interval.UpperBound;
-                literals[1].Value = intervals[1].Interval.LowerBound;
-                zs.Add(expr.Eval(env).Value);
+                literals[0].Value = intervals[0].Interval.UpperBound.ToNumber();
+                literals[1].Value = intervals[1].Interval.LowerBound.ToNumber();
+                zs.Add(expr.Eval(env).ToNumber().Value);
 
-                literals[0].Value = intervals[0].Interval.UpperBound;
-                literals[1].Value = intervals[1].Interval.UpperBound;
-                zs.Add(expr.Eval(env).Value);
+                literals[0].Value = intervals[0].Interval.UpperBound.ToNumber();
+                literals[1].Value = intervals[1].Interval.UpperBound.ToNumber();
+                zs.Add(expr.Eval(env).ToNumber().Value);
 
                 float zmin = zs.Min();
                 float zmax = zs.Max();

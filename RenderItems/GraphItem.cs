@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using MetaphysicsIndustries.Solus;
 using MetaphysicsIndustries.Solus.Expressions;
+using MetaphysicsIndustries.Solus.Values;
 
 namespace MetaphysicsIndustries.Ligra.RenderItems
 {
@@ -41,15 +42,16 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
     public class GraphVectorEntry : GraphEntry
     {
-        public GraphVectorEntry(SolusVector x, SolusVector y, LPen pen)
+        public GraphVectorEntry(VectorExpression x, VectorExpression y,
+            LPen pen)
             : base(pen)
         {
             X = x;
             Y = y;
         }
 
-        public readonly SolusVector X;
-        public readonly SolusVector Y;
+        public readonly VectorExpression X;
+        public readonly VectorExpression Y;
     }
 
     public class GraphItem : RenderItem
@@ -203,7 +205,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             env.Variables[independentVariable] = new Literal(xMin);//+deltaX*50);
             //PointF lastPoint = new PointF(boundsInClient.Left, boundsInClient.Bottom - (Math.Max(Math.Min(_engine.Eval(expr, env).Value, yMax), yMin) - yMin) * deltaY);
 
-            double vvalue = expr.Eval(env).Value;
+            double vvalue = expr.Eval(env).ToNumber().Value;
             if (double.IsNaN(vvalue))
             {
                 vvalue = 0;
@@ -218,7 +220,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             {
                 float x = xMin + deltaX * i;
                 env.Variables[independentVariable] = new Literal(x);
-                double value = expr.Eval(env).Value;
+                double value = expr.Eval(env).ToNumber().Value;
                 if (double.IsNaN(value))
                 {
                     value = 0;
@@ -237,12 +239,14 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         public static void RenderVectors(IRenderer g, RectangleF boundsInClient,
             LPen pen, LBrush brush,
             float xMin, float xMax, float yMin, float yMax,
-            SolusVector x, SolusVector y,
+            VectorExpression x, VectorExpression y,
             SolusEnvironment env,
             bool drawboundaries)
         {
-            var xs = x.Select(e => e.FastEval(env).Value).ToArray();
-            var ys = y.Select(e => e.FastEval(env).Value).ToArray();
+            var xs = x.Select(
+                e => e.FastEval(env).ToNumber().Value).ToArray();
+            var ys = y.Select(
+                e => e.FastEval(env).ToNumber().Value).ToArray();
 
             float deltaX = (xMax - xMin) / boundsInClient.Width;
             float deltaY = (yMax - yMin) / boundsInClient.Height;

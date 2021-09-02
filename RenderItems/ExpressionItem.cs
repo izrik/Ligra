@@ -5,6 +5,7 @@ using MetaphysicsIndustries.Acuity;
 using MetaphysicsIndustries.Solus;
 using MetaphysicsIndustries.Solus.Expressions;
 using MetaphysicsIndustries.Solus.Functions;
+using MetaphysicsIndustries.Solus.Values;
 
 namespace MetaphysicsIndustries.Ligra.RenderItems
 {
@@ -17,18 +18,20 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             _pen = pen;
             _font = font;
         }
-        public ExpressionItem(Vector vector, LPen pen, LFont font, LigraEnvironment env)
+        public ExpressionItem(Acuity.Vector vector, LPen pen, LFont font,
+            LigraEnvironment env)
             : this(GenerateVector(vector), pen, font, env)
         {
         }
-        public ExpressionItem(Matrix matrix, LPen pen, LFont font, LigraEnvironment env)
+        public ExpressionItem(Acuity.Matrix matrix, LPen pen, LFont font,
+            LigraEnvironment env)
             : this(GenerateMatrix(matrix), pen, font, env)
         {
         }
 
-        private static Expression GenerateVector(Vector vector)
+        private static Expression GenerateVector(Acuity.Vector vector)
         {
-            SolusVector v = new SolusVector(vector.Length);
+            var v = new VectorExpression(vector.Length);
             int i;
             for (i = 0; i < vector.Length; i++)
             {
@@ -37,9 +40,9 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             return v;
         }
 
-        private static Expression GenerateMatrix(Matrix matrix)
+        private static Expression GenerateMatrix(Acuity.Matrix matrix)
         {
-            SolusMatrix m = new SolusMatrix(matrix.RowCount, matrix.ColumnCount);
+            var m = new MatrixExpression(matrix.RowCount, matrix.ColumnCount);
             int i;
             int j;
             for (i = 0; i < matrix.RowCount; i++)
@@ -141,19 +144,23 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             }
             else if (expr is ColorExpression)
             {
-                InternalRenderExpression(g, expr.Eval(null), pt, pen, brush, expressionSizeCache, font, drawBoxes);
+                InternalRenderExpression(g,
+                    new Literal(expr.Eval(null)), pt, pen, brush,
+                    expressionSizeCache, font, drawBoxes);
             }
             else if (expr is RandomExpression)
             {
                 RenderRandomExpression(g, expr as RandomExpression, pt, pen, brush, expressionSizeCache, font);
             }
-            else if (expr is SolusMatrix)
+            else if (expr is MatrixExpression)
             {
-                RenderMatrix(g, (SolusMatrix)expr, pt, pen, brush, expressionSizeCache, font, drawBoxes);
+                RenderMatrix(g, (MatrixExpression)expr, pt, pen, brush,
+                    expressionSizeCache, font, drawBoxes);
             }
-            else if (expr is SolusVector)
+            else if (expr is VectorExpression)
             {
-                RenderVector(g, (SolusVector)expr, pt, pen, brush, expressionSizeCache, font, drawBoxes);
+                RenderVector(g, (VectorExpression)expr, pt, pen, brush,
+                    expressionSizeCache, font, drawBoxes);
             }
             else
             {
@@ -161,7 +168,10 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             }
         }
 
-        protected static void RenderVector(IRenderer g, SolusVector vector, Vector2 pt, LPen pen, LBrush brush, Dictionary<Expression, Vector2> expressionSizeCache, LFont font, bool drawBoxes)
+        protected static void RenderVector(IRenderer g,
+            VectorExpression vector, Vector2 pt, LPen pen, LBrush brush,
+            Dictionary<Expression, Vector2> expressionSizeCache, LFont font,
+            bool drawBoxes)
         {
 
             var size = CalcExpressionSize(vector, g, font, expressionSizeCache);
@@ -181,7 +191,10 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             }
         }
 
-        protected static void RenderMatrix(IRenderer g, SolusMatrix matrix, Vector2 pt, LPen pen, LBrush brush, Dictionary<Expression, Vector2> expressionSizeCache, LFont font, bool drawBoxes)
+        protected static void RenderMatrix(IRenderer g,
+            MatrixExpression matrix, Vector2 pt, LPen pen, LBrush brush,
+            Dictionary<Expression, Vector2> expressionSizeCache, LFont font,
+            bool drawBoxes)
         {
 
 
@@ -271,17 +284,19 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         {
 
             string str;
-            if (Math.Abs(literal.Value - (float)Math.PI) < 1e-6)
+            var value = literal.Value.ToNumber().Value;
+            if (Math.Abs(value - (float)Math.PI) < 1e-6)
             {
                 str = "π";
             }
-            else if (Math.Abs(literal.Value - (float)Math.E) < 1e-6)
+            else if (Math.Abs(value - (float)Math.E) <
+                     1e-6)
             {
                 str = "e";
             }
             else
             {
-                str = literal.Value.ToString("G");
+                str = value.ToString("G");
             }
 
             g.DrawString(str, font, brush, pt);
@@ -553,10 +568,11 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             if (functionCall.Arguments[1] is Literal)
             {
                 Literal literal = (Literal)functionCall.Arguments[1];
+                var value1 = literal.Value.ToNumber().Value;
 
-                if (literal.Value < 0) { return false; }
+                if (value1 < 0) { return false; }
 
-                double value = 1 / literal.Value;
+                double value = 1 / value1;
 
                 if (value == Math.Floor(value))
                 {
@@ -580,14 +596,16 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         {
 
             Literal root = (Literal)functionCall.Arguments[1];
-            Literal invRoot = new Literal((float)Math.Round(1 / root.Value));
+            var invRoot = (float)Math.Round(1 / root.Value.ToNumber().Value);
             Expression arg = functionCall.Arguments[0];
             var argSize = CalcExpressionSize(arg, g, font, expressionSizeCache);
             var rootSize = new Vector2(0, 0);
+            var invRootLiteral = new Literal(invRoot.ToNumber());
 
-            if (invRoot.Value > 2)
+            if (invRoot > 2)
             {
-                rootSize = CalcExpressionSize(invRoot, g, font);
+                rootSize = CalcExpressionSize(
+                    invRootLiteral, g, font);
             }
 
             var size = CalcExpressionSize(functionCall, g, font);
@@ -612,9 +630,10 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 pt.X + size.X,
                 pt.Y);
 
-            if (invRoot.Value > 2)
+            if (invRoot > 2)
             {
-                InternalRenderExpression(g, invRoot, pt, pen, brush, expressionSizeCache, font, drawBoxes);
+                InternalRenderExpression(g, invRootLiteral, pt, pen, brush,
+                    expressionSizeCache, font, drawBoxes);
             }
             InternalRenderExpression(g, arg, pt + new Vector2(size.X - argSize.X - 2, 2), pen, brush, expressionSizeCache, font, drawBoxes);
         }
@@ -840,24 +859,23 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             }
             else if (expr is ColorExpression)
             {
-                size = CalcExpressionSize(expr.Eval(null), g, font, expressionSizeCache);
+                var literal = new Literal(expr.Eval(null));
+                size = CalcExpressionSize(literal, g, font, expressionSizeCache);
             }
             else if (expr is RandomExpression)
             {
                 size = g.MeasureString("rand()", font);
             }
-            else if (expr is SolusMatrix)
+            else if (expr is MatrixExpression expr2)
             {
-                SolusMatrix expr2 = (SolusMatrix)expr;
                 List<float> maxWidthPerColumn = new List<float>();
                 List<float> maxHeightPerRow = new List<float>();
 
                 CalcMatrixWidthsAndHeights(g, expr2, maxWidthPerColumn, maxHeightPerRow, expressionSizeCache, font);
                 size = CalcMatrixSizeFromMaxWidthsAndHeights(maxWidthPerColumn, maxHeightPerRow);
             }
-            else if (expr is SolusVector)
+            else if (expr is VectorExpression vector)
             {
-                SolusVector vector = (SolusVector)expr;
                 int i;
 
                 float width = 0;
@@ -906,7 +924,10 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             return size;
         }
 
-        private static void CalcMatrixWidthsAndHeights(IRenderer g, SolusMatrix matrix, List<float> maxWidthPerColumn, List<float> maxHeightPerRow, Dictionary<Expression, Vector2> expressionSizeCache, LFont font)
+        private static void CalcMatrixWidthsAndHeights(IRenderer g,
+            MatrixExpression matrix, List<float> maxWidthPerColumn,
+            List<float> maxHeightPerRow,
+            Dictionary<Expression, Vector2> expressionSizeCache, LFont font)
         {
             int i;
             int j;
@@ -963,14 +984,17 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                     else if (ExpressionItem.IsRootOperation(functionCall))
                     {
                         Literal root = (Literal)functionCall.Arguments[1];
-                        Literal invRoot = new Literal((float)Math.Round(1 / root.Value));
+                        var invRoot = (float) Math.Round(
+                            1 / root.Value.ToNumber().Value);
+                        var invRootLiteral = new Literal(invRoot.ToNumber());
                         Expression arg = functionCall.Arguments[0];
                         var argSize = CalcExpressionSize(arg, g, font, expressionSizeCache);
                         var rootSize = new Vector2(0, 0);
 
-                        if (invRoot.Value > 2)
+                        if (invRoot > 2)
                         {
-                            rootSize = CalcExpressionSize(invRoot, g, font);
+                            rootSize = CalcExpressionSize(invRootLiteral, g,
+                                font);
                         }
 
                         //float shortRadicalLineWidth = 5;

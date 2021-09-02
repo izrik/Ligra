@@ -195,9 +195,8 @@ namespace MetaphysicsIndustries.Ligra
                 catch (Exception ee)
                 {
                     var font = LFont.FromSwf(ligraControl1.Font);
-                    if (ee is SolusParseException)
+                    if (ee is Solus.Exceptions.ParseException ee2)
                     {
-                        SolusParseException ee2 = (SolusParseException)ee;
                         _env.AddRenderItem(
                             new ErrorItem(input, ee2.Error, font, LBrush.Red,
                                 _env, ee2.Location));

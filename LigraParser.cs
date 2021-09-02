@@ -4,7 +4,8 @@ using MetaphysicsIndustries.Giza;
 using System.Collections.Generic;
 using System.Linq;
 using MetaphysicsIndustries.Ligra.Commands;
-using UserDefinedFunction = MetaphysicsIndustries.Ligra.Functions.UserDefinedFunction;
+using MetaphysicsIndustries.Solus.Functions;
+using MetaphysicsIndustries.Solus.Values;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -216,8 +217,10 @@ namespace MetaphysicsIndustries.Ligra
 
                 var lower = GetExpressionFromExpr(span.Subspans[3], env);
                 var upper = GetExpressionFromExpr(span.Subspans[5], env);
-                var lowerf = (float)Math.Round(lower.Eval(env).Value);
-                var upperf = (float)Math.Round(upper.Eval(env).Value);
+                var lowerf = (float)Math.Round(
+                    lower.Eval(env).ToNumber().Value);
+                var upperf = (float)Math.Round(
+                    upper.Eval(env).ToNumber().Value);
 
                 return new VarInterval {
                     Variable = varname,
@@ -236,7 +239,8 @@ namespace MetaphysicsIndustries.Ligra
                 // lower <= var <= upper
 
                 var lower = GetExpressionFromExpr(span.Subspans[0], env);
-                var lowerf = (float)Math.Round(lower.Eval(env).Value);
+                var lowerf = (float)Math.Round(
+                    lower.Eval(env).ToNumber().Value);
 
                 var openLower = (span.Subspans[1].Value == "<");
 
@@ -245,7 +249,8 @@ namespace MetaphysicsIndustries.Ligra
                 var openUpper = (span.Subspans[3].Value == "<");
 
                 var upper = GetExpressionFromExpr(span.Subspans[4], env);
-                var upperf = (float)Math.Round(upper.Eval(env).Value);
+                var upperf = (float)Math.Round(
+                    upper.Eval(env).ToNumber().Value);
 
                 return new VarInterval {
                     Variable = varname,

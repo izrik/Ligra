@@ -4,20 +4,22 @@ using System.Drawing;
 using MetaphysicsIndustries.Acuity;
 using MetaphysicsIndustries.Solus;
 using MetaphysicsIndustries.Solus.Expressions;
+using MetaphysicsIndustries.Solus.Values;
 
 namespace MetaphysicsIndustries.Ligra.RenderItems
 {
     public class GraphVectorItem : RenderItem
     {
-        public GraphVectorItem(Vector vector, string caption, LigraEnvironment env)
+        public GraphVectorItem(Acuity.Vector vector, string caption,
+            LigraEnvironment env)
             : base(env)
         {
             _vector = vector.Clone();
             _caption = caption;
         }
 
-        private readonly Vector _vector;
-        public Vector Vector
+        private readonly Acuity.Vector _vector;
+        public Acuity.Vector Vector
         {
             get { return _vector; }
         }
@@ -59,7 +61,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
         public void RenderVector(IRenderer g, RectangleF boundsInClient,
             LPen pen, LBrush brush,
-            SolusVector vector,
+            VectorExpression vector,
             SolusEnvironment env,
             bool drawboundaries)
         {
@@ -77,7 +79,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
             for (i = 0; i < vector.Length; i++)
             {
-                values[i] = vector[i].Eval(env).Value;
+                values[i] = vector[i].Eval(env).ToNumber().Value;
             }
 
             if (vector.Length > 0)
@@ -147,7 +149,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
         public static void RenderVector(IRenderer g, RectangleF boundsInClient,
             LPen pen, LBrush brush,
-            Vector vector,
+            Acuity.Vector vector,
             bool drawboundaries)
         {
             double yMax = 0;

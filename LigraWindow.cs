@@ -86,7 +86,7 @@ namespace MetaphysicsIndustries.Ligra
                     LigraWindow.ProcessInput(s, env, availableCommands,
                         () => input.SelectRegion(0, input.Text.Length));
                 }
-                catch (SolusParseException e)
+                catch (Solus.Exceptions.ParseException e)
                 {
                     env.AddRenderItem(
                         new ErrorItem(s, e.Error, env.Font, LBrush.Red, env,
