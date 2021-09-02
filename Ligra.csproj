@@ -94,7 +94,6 @@
     <Compile Include="Commands\TSolveCommand.cs" />
     <Compile Include="Commands\VarAssignCommand.cs" />
     <Compile Include="Commands\VarsCommand.cs" />
-    <Compile Include="Functions\UserDefinedFunction.cs" />
     <Compile Include="LigraControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -217,6 +216,7 @@
     </PostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
+    <Folder Include="Functions" />
     <Folder Include="Macros" />
   </ItemGroup>
   <Import Project="packages\GtkSharp.3.22.25.128\build\GtkSharp.targets" Condition="Exists('packages\GtkSharp.3.22.25.128\build\GtkSharp.targets')" />
