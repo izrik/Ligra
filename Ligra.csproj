@@ -94,6 +94,7 @@
     <Compile Include="Commands\TSolveCommand.cs" />
     <Compile Include="Commands\VarAssignCommand.cs" />
     <Compile Include="Commands\VarsCommand.cs" />
+    <Compile Include="GtkRenderer.cs" />
     <Compile Include="LigraControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -177,6 +178,7 @@
     <Compile Include="LigraEnvironment.cs" />
     <Compile Include="ExpressionHelper.cs" />
     <Compile Include="Interval.cs" />
+    <Compile Include="SwfRenderer.cs" />
     <Compile Include="VarInterval.cs" />
     <Compile Include="AssignOperation.cs" />
     <None Include="make-ready.sh" />
