@@ -251,25 +251,110 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             g.DrawString(lowerString, font, brush, pt.X + 2, pt.Y + size.Y + 2);
         }
 
-        protected static void RenderLiteralExpression(IRenderer g, Literal literal, Vector2 pt, LPen pen, LBrush brush, Dictionary<Expression, Vector2> expressionSizeCache, LFont font)
+        private static void RenderLiteralExpression(IRenderer g,
+            Literal literal, Vector2 pt, LPen pen, LBrush brush,
+            Dictionary<Expression, Vector2> expressionSizeCache, LFont font)
         {
-            string str;
-            var value = literal.Value.ToNumber().Value;
-            if (Math.Abs(value - (float)Math.PI) < 1e-6)
-            {
-                str = "π";
-            }
-            else if (Math.Abs(value - (float)Math.E) <
-                     1e-6)
-            {
-                str = "e";
-            }
-            else
-            {
-                str = value.ToString("G");
-            }
+            RenderValue(literal.Value, g, pt, pen, brush, font);
+        }
 
-            g.DrawString(str, font, brush, pt);
+        private static void RenderValue(IMathObject value, IRenderer renderer,
+            Vector2 pt, LPen pen, LBrush brush, LFont font)
+        {
+            if (value.IsScalar || value.IsString)
+            {
+                var str = value.ToString();
+                if (value.IsScalar)
+                {
+                    var value2 = value.ToNumber().Value;
+                    str = value2.ToString("G");
+                    if (Math.Abs(value2 - (float) Math.PI) < 1e-6)
+                        str = "π";
+                    else if (Math.Abs(value2 - (float) Math.E) < 1e-6)
+                        str = "e";
+                }
+
+                renderer.DrawString(str, font, brush, pt);
+            }
+            else if (value.IsVector)
+                RenderVector(renderer, value.ToVector(), pt, pen, brush, font);
+            else if (value.IsMatrix)
+                RenderMatrix(renderer, value.ToMatrix(), pt, pen, brush, font);
+            else
+                throw new ArgumentException(
+                    $"Unknown value: {value} ({value.GetMathType()}");
+        }
+
+        private static void RenderVector(IRenderer renderer,
+            Vector vector, Vector2 pt, LPen pen, LBrush brush, LFont font)
+        {
+            var size = CalcVectorSize(vector, renderer, font);
+            float x = pt.X + 2;
+
+            renderer.DrawLine(pen, pt.X, pt.Y, pt.X, pt.Y + size.Y);
+            renderer.DrawLine(pen, pt.X, pt.Y, pt.X + size.X, pt.Y);
+            renderer.DrawLine(pen, pt.X, pt.Y + size.Y,
+                pt.X + size.X, pt.Y + size.Y);
+            int i;
+            for (i = 0; i < vector.Length; i++)
+            {
+                var value = vector[i];
+                var size2 = CalcValueSize(value, renderer, font);
+                var valuePos = new Vector2(x, pt.Y + (size.Y - size2.Y) / 2);
+                RenderValue(value, renderer, valuePos, pen, brush, font);
+                x += size2.X + 2;
+                renderer.DrawLine(pen, x, pt.Y, x, pt.Y + size.Y);
+                x += 2;
+            }
+        }
+
+        private static void RenderMatrix(IRenderer renderer,
+            Matrix matrix, Vector2 pt, LPen pen, LBrush brush, LFont font)
+        {
+            var maxWidthPerColumn = new List<float>();
+            var maxHeightPerRow = new List<float>();
+            CalcMatrixWidthsAndHeights(renderer, matrix, maxWidthPerColumn,
+                maxHeightPerRow, font);
+            var size = CalcMatrixSizeFromMaxWidthsAndHeights(
+                maxWidthPerColumn, maxHeightPerRow);
+
+            int i;
+            int j;
+
+            var y = pt.Y;
+            for (i = 0; i < matrix.RowCount; i++)
+            {
+                renderer.DrawLine(pen, pt.X, y, pt.X + size.X, y);
+                y += maxHeightPerRow[i];
+            }
+            renderer.DrawLine(pen, pt.X, y, pt.X + size.X, y);
+            var x = pt.X;
+            for (j = 0; j < matrix.ColumnCount; j++)
+            {
+                renderer.DrawLine(pen, x, pt.Y, x, pt.Y + size.Y);
+                x += maxWidthPerColumn[j];
+            }
+            renderer.DrawLine(pen, x, pt.Y, x, pt.Y + size.Y);
+
+            y = pt.Y;
+            for (i = 0; i < matrix.RowCount; i++)
+            {
+                var height = maxHeightPerRow[i];
+                x = pt.X;
+                for (j = 0; j < matrix.ColumnCount; j++)
+                {
+                    var value = matrix[i, j];
+                    var valueSize = CalcValueSize(value, renderer, font);
+                    var width = maxWidthPerColumn[j];
+                    var pt2 = new Vector2(
+                        x + (width - valueSize.X) / 2,
+                        y + (height - valueSize.Y) / 2);
+                    RenderValue(value, renderer, pt2, pen, brush, font);
+                    x += width;
+                }
+
+                y += height;
+            }
         }
 
         protected static void RenderFunctionCallExpression(IRenderer g, FunctionCall functionCall, Vector2 pt, LPen pen, LBrush brush, Dictionary<Expression, Vector2> expressionSizeCache, LFont font, bool drawBoxes)
@@ -747,9 +832,9 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             {
                 size = CalcFunctionCallSize(g, expr, expressionSizeCache, font);
             }
-            else if (expr is Literal)
+            else if (expr is Literal lit)
             {
-                size = g.MeasureString((expr as Literal).ToString(), font);
+                size = CalcValueSize(lit.Value, g, font);
             }
             else if (expr is VariableAccess)
             {
@@ -807,7 +892,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             }
             else
             {
-                throw new InvalidOperationException();
+                throw new ArgumentException(
+                    $"Unknown expression type: {expr.GetType().Name}");
             }
 
             //margin
@@ -816,6 +902,41 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             expressionSizeCache[expr] = size;
 
             return size;
+        }
+
+        private static Vector2 CalcValueSize(IMathObject value, IRenderer renderer, LFont font)
+        {
+            if (value.IsScalar || value.IsString)
+                return renderer.MeasureString(value.ToString(), font);
+            if (value.IsVector)
+                return CalcVectorSize(value.ToVector(), renderer, font);
+            if (value.IsMatrix)
+            {
+                var maxWidths = new List<float>();
+                var maxHeights = new List<float>();
+                CalcMatrixWidthsAndHeights(renderer, value.ToMatrix(),
+                    maxWidths, maxHeights, font);
+                return CalcMatrixSizeFromMaxWidthsAndHeights(
+                    maxWidths, maxHeights);
+            }
+
+            throw new ArgumentException(
+                $"Unknown value: {value} ({value.GetMathType()}");
+        }
+
+        private static Vector2 CalcVectorSize(Vector value, IRenderer renderer, LFont font)
+        {
+            int i;
+            float height = 0;
+            float width = 0;
+            for (i = 0; i < value.Length; i++)
+            {
+                var s = CalcValueSize(value[i], renderer, font);
+                width += s.X;
+                height = Math.Max(height, s.Y);
+            }
+
+            return new Vector2(width, height);
         }
 
         private static Vector2 CalcMatrixSizeFromMaxWidthsAndHeights(List<float> maxWidthPerColumn, List<float> maxHeightPerRow)
@@ -864,6 +985,34 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                     size += new Vector2(4, 4);
 
                     maxWidthPerColumn[j] = Math.Max(maxWidthPerColumn[j], size.X);
+                    maxHeightPerRow[i] = Math.Max(maxHeightPerRow[i], size.Y);
+                }
+            }
+        }
+
+        private static void CalcMatrixWidthsAndHeights(IRenderer renderer,
+            Matrix matrix,
+            IList<float> maxWidthPerColumn,
+            IList<float> maxHeightPerRow,
+            LFont font)
+        {
+            int i;
+            int j;
+
+            maxWidthPerColumn.Clear();
+            maxHeightPerRow.Clear();
+
+            for (j = 0; j < matrix.ColumnCount; j++)
+                maxWidthPerColumn.Add(0);
+            for (i = 0; i < matrix.RowCount; i++)
+            {
+                maxHeightPerRow.Add(0);
+                for (j = 0; j < matrix.ColumnCount; j++)
+                {
+                    var size = CalcValueSize(matrix[i, j], renderer, font);
+                    size += new Vector2(4, 4);
+                    maxWidthPerColumn[j] =
+                        Math.Max(maxWidthPerColumn[j], size.X);
                     maxHeightPerRow[i] = Math.Max(maxHeightPerRow[i], size.Y);
                 }
             }
