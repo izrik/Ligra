@@ -25,18 +25,27 @@ namespace MetaphysicsIndustries.Ligra
                 Styles.FromSwf(font.Style));
         }
 
+        private SD.Font _swfFont;
         public System.Drawing.Font ToSwf()
         {
-            return new SD.Font(Family.ToSwf(), Size, Style.ToSwf());
+            if (_swfFont == null)
+                _swfFont = new SD.Font(Family.ToSwf(), Size, Style.ToSwf());
+            return _swfFont;
         }
 
+        private Pango.FontDescription _gtkFont;
         public Pango.FontDescription ToGtk()
         {
-            var fd = new Pango.FontDescription();
-            fd.Family = this.Family.ToString();
-            fd.Size = (int)(this.Size * Pango.Scale.PangoScale);
-            fd.Style = this.Style.ToGtk();
-            return fd;
+            if (_gtkFont == null)
+            {
+                var fd = new Pango.FontDescription();
+                fd.Family = this.Family.ToString();
+                fd.Size = (int) (this.Size * Pango.Scale.PangoScale);
+                fd.Style = this.Style.ToGtk();
+                _gtkFont = fd;
+            }
+
+            return _gtkFont;
         }
 
         public class Families
