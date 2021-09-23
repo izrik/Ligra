@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using MetaphysicsIndustries.Solus;
+using Pango;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -10,6 +11,7 @@ namespace MetaphysicsIndustries.Ligra
         {
             this.context = context;
             this.widget = widget;
+            _defaultLayout = widget.CreatePangoLayout("");
         }
 
         public readonly Cairo.Context context;
@@ -110,7 +112,13 @@ namespace MetaphysicsIndustries.Ligra
         public void DrawString(string s, LFont font, LBrush brush, float x,
             float y)
         {
-            var layout = widget.CreatePangoLayout(s);
+            DrawString(s, font, brush, x, y, null);
+        }
+        public void DrawString(string s, LFont font, LBrush brush, float x,
+            float y, Layout layout)
+        {
+            if (layout == null) layout = _defaultLayout;
+            layout.SetText(s);
             var width = widget.Allocation.Width;
             var height = widget.Allocation.Height;
 
@@ -150,10 +158,17 @@ namespace MetaphysicsIndustries.Ligra
             context.Fill();
         }
 
+        private Layout _defaultLayout;
+
         public Vector2 MeasureString(string s, LFont font)
         {
-            var layout = widget.CreatePangoLayout(s);
+            return MeasureString(s, font, null);
+        }
+        public Vector2 MeasureString(string s, LFont font, Layout layout)
+        {
+            if (layout == null) layout = _defaultLayout;
 
+            layout.SetText(s);
             layout.FontDescription = font.ToGtk();
             layout.GetPixelSize(out int width, out int height);
 
@@ -162,8 +177,14 @@ namespace MetaphysicsIndustries.Ligra
 
         public Vector2 MeasureString(string s, LFont font, float width)
         {
-            var layout = widget.CreatePangoLayout(s);
+            return MeasureString(s, font, width, null);
+        }
+        public Vector2 MeasureString(string s, LFont font, float width,
+            Layout layout)
+        {
+            if (layout == null) layout = _defaultLayout;
 
+            layout.SetText(s);
             layout.FontDescription = font.ToGtk();
             layout.Width = width.RoundToInt();
             layout.GetPixelSize(out int width2, out int height);
