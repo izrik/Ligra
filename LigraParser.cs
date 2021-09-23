@@ -40,10 +40,10 @@ namespace MetaphysicsIndustries.Ligra
                 {
                     expr = base.GetExpression(input, env);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     // return errors1
-                    throw new InvalidOperationException();
+                    throw new InvalidOperationException("Error getting the expression", ex);
                 }
 
                 return new Command[] {new ExprCommand(expr)};
