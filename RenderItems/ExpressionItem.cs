@@ -155,10 +155,25 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             g.DrawLine(pen, pt.X, pt.Y, pt.X, pt.Y + size.Y);
             g.DrawLine(pen, pt.X, pt.Y, pt.X + size.X, pt.Y);
             g.DrawLine(pen, pt.X, pt.Y + size.Y, pt.X + size.X, pt.Y + size.Y);
-            foreach (Expression expr in vector)
+            int i;
+            var n = vector.Length;
+            if (n > MaxTensorDimension)
+                n = MaxTensorDimension;
+            for (i = 0; i < n; i++)
             {
+                var expr = vector[i];
                 size2 = CalcExpressionSize(expr, g, font, expressionSizeCache);
                 InternalRenderExpression(g, expr, new Vector2(x, pt.Y + (size.Y - size2.Y) / 2), pen, brush, expressionSizeCache, font, drawBoxes);
+                x += size2.X + 2;
+                g.DrawLine(pen, x, pt.Y, x, pt.Y + size.Y);
+                x += 2;
+            }
+
+            if (vector.Length > MaxTensorDimension)
+            {
+                size2 = g.MeasureString("...", font);
+                g.DrawString("...", font, brush,
+                    new Vector2(x, pt.Y + (size.Y - size2.Y) / 2));
                 x += size2.X + 2;
                 g.DrawLine(pen, x, pt.Y, x, pt.Y + size.Y);
                 x += 2;
@@ -296,12 +311,25 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             renderer.DrawLine(pen, pt.X, pt.Y + size.Y,
                 pt.X + size.X, pt.Y + size.Y);
             int i;
-            for (i = 0; i < vector.Length; i++)
+            var n = vector.Length;
+            if (n > MaxTensorDimension)
+                n = MaxTensorDimension;
+            for (i = 0; i < n; i++)
             {
                 var value = vector[i];
                 var size2 = CalcValueSize(value, renderer, font);
                 var valuePos = new Vector2(x, pt.Y + (size.Y - size2.Y) / 2);
                 RenderValue(value, renderer, valuePos, pen, brush, font);
+                x += size2.X + 2;
+                renderer.DrawLine(pen, x, pt.Y, x, pt.Y + size.Y);
+                x += 2;
+            }
+
+            if (vector.Length > MaxTensorDimension)
+            {
+                var size2 = renderer.MeasureString("...", font);
+                var valuePos = new Vector2(x, pt.Y + (size.Y - size2.Y) / 2);
+                renderer.DrawString("...", font, brush, valuePos);
                 x += size2.X + 2;
                 renderer.DrawLine(pen, x, pt.Y, x, pt.Y + size.Y);
                 x += 2;
@@ -924,14 +952,25 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 $"Unknown value: {value} ({value.GetMathType()}");
         }
 
+        private const int MaxTensorDimension = 10;
         private static Vector2 CalcVectorSize(Vector value, IRenderer renderer, LFont font)
         {
             int i;
             float height = 0;
             float width = 0;
+            var n = value.Length;
+            if (n > MaxTensorDimension)
+                n = MaxTensorDimension;
             for (i = 0; i < value.Length; i++)
             {
                 var s = CalcValueSize(value[i], renderer, font);
+                width += s.X;
+                height = Math.Max(height, s.Y);
+            }
+
+            if (value.Length > MaxTensorDimension)
+            {
+                var s = renderer.MeasureString("...", font);
                 width += s.X;
                 height = Math.Max(height, s.Y);
             }
