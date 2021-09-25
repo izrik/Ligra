@@ -187,30 +187,59 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         {
             List<float> maxWidthPerColumn = new List<float>();
             List<float> maxHeightPerRow = new List<float>();
-
-            CalcMatrixWidthsAndHeights(g, matrix, maxWidthPerColumn, maxHeightPerRow, expressionSizeCache, font);
-            var size = CalcMatrixSizeFromMaxWidthsAndHeights(maxWidthPerColumn, maxHeightPerRow);
+            CalcMatrixWidthsAndHeights(g, matrix, maxWidthPerColumn,
+                maxHeightPerRow, expressionSizeCache, font);
+            var size = CalcMatrixSizeFromMaxWidthsAndHeights(
+                maxWidthPerColumn, maxHeightPerRow);
 
             int i;
             int j;
+
+            var nc = matrix.ColumnCount;
+            if (nc > MaxTensorDimension)
+            {
+                nc = MaxTensorDimension;
+                maxWidthPerColumn.Add(0);
+            }
+
+            var nr = matrix.RowCount;
+            if (nr > MaxTensorDimension)
+            {
+                nr = MaxTensorDimension;
+                maxHeightPerRow.Add(0);
+            }
 
             float x = pt.X;
             float y = pt.Y;
 
             y = pt.Y;
-            for (i = 0; i < matrix.RowCount; i++)
+            for (i = 0; i < nr; i++)
             {
                 g.DrawLine(pen, pt.X, y, pt.X + size.X, y);
                 y += maxHeightPerRow[i];
             }
+
+            if (matrix.RowCount > MaxTensorDimension)
+            {
+                g.DrawLine(pen, pt.X, y, pt.X + size.X, y);
+                y += maxHeightPerRow[i];
+            }
+
             g.DrawLine(pen, pt.X, y, pt.X + size.X, y);
 
             x = pt.X;
-            for (j = 0; j < matrix.ColumnCount; j++)
+            for (j = 0; j < nc; j++)
             {
                 g.DrawLine(pen, x, pt.Y, x, pt.Y + size.Y);
                 x += maxWidthPerColumn[j];
             }
+
+            if (matrix.ColumnCount > MaxTensorDimension)
+            {
+                g.DrawLine(pen, x, pt.Y, x, pt.Y + size.Y);
+                x += maxWidthPerColumn[j];
+            }
+
             g.DrawLine(pen, x, pt.Y, x, pt.Y + size.Y);
 
             Vector2 exprSize;
@@ -220,11 +249,11 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             Vector2 pt2;
 
             y = pt.Y;
-            for (i = 0; i < matrix.RowCount; i++)
+            for (i = 0; i < nr; i++)
             {
                 height = maxHeightPerRow[i];
                 x = pt.X;
-                for (j = 0; j < matrix.ColumnCount; j++)
+                for (j = 0; j < nc; j++)
                 {
                     expr = matrix[i, j];
                     exprSize = CalcExpressionSize(expr, g, font, expressionSizeCache);
@@ -236,6 +265,48 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                     InternalRenderExpression(g, expr, pt2, pen, brush, expressionSizeCache, font, drawBoxes);
                     x += width;
                 }
+                if (matrix.ColumnCount > MaxTensorDimension)
+                {
+                    exprSize = g.MeasureString("...", font);
+                    exprSize += new Vector2(4, 4);
+                    width = maxWidthPerColumn[j];
+                    pt2 = new Vector2(
+                        x + (width - exprSize.X) / 2,
+                        y + (height - exprSize.Y) / 2);
+                    pt2 += new Vector2(2, 2);
+                    g.DrawString("...", font, brush, pt2);
+                    x += width;
+                }
+
+                y += height;
+            }
+
+            if (matrix.RowCount > MaxTensorDimension)
+            {
+                var valueSize = g.MeasureString("...", font);
+                height = maxHeightPerRow[i];
+                x = pt.X;
+                for (j = 0; j < nc; j++)
+                {
+                    width = maxWidthPerColumn[j];
+                    pt2 = new Vector2(
+                        x + (width - valueSize.X) / 2,
+                        y + (height - valueSize.Y) / 2);
+                    pt2 += new Vector2(2, 2);
+                    g.DrawString("...", font, brush, pt2);
+                    x += width;
+                }
+                if (matrix.ColumnCount > MaxTensorDimension)
+                {
+                    width = maxWidthPerColumn[j];
+                    pt2 = new Vector2(
+                        x + (width - valueSize.X) / 2,
+                        y + (height - valueSize.Y) / 2);
+                    pt2 += new Vector2(2, 2);
+                    g.DrawString("...", font, brush, pt2);
+                    x += width;
+                }
+
                 y += height;
             }
         }
@@ -349,27 +420,55 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             int i;
             int j;
 
+            var nc = matrix.ColumnCount;
+            if (nc > MaxTensorDimension)
+            {
+                nc = MaxTensorDimension;
+                maxWidthPerColumn.Add(0);
+            }
+
+            var nr = matrix.RowCount;
+            if (nr > MaxTensorDimension)
+            {
+                nr = MaxTensorDimension;
+                maxHeightPerRow.Add(0);
+            }
+
             var y = pt.Y;
-            for (i = 0; i < matrix.RowCount; i++)
+            for (i = 0; i < nr; i++)
             {
                 renderer.DrawLine(pen, pt.X, y, pt.X + size.X, y);
                 y += maxHeightPerRow[i];
             }
+
+            if (matrix.RowCount > MaxTensorDimension)
+            {
+                renderer.DrawLine(pen, pt.X, y, pt.X + size.X, y);
+                y += maxHeightPerRow[i];
+            }
+
             renderer.DrawLine(pen, pt.X, y, pt.X + size.X, y);
             var x = pt.X;
-            for (j = 0; j < matrix.ColumnCount; j++)
+            for (j = 0; j < nc; j++)
             {
                 renderer.DrawLine(pen, x, pt.Y, x, pt.Y + size.Y);
                 x += maxWidthPerColumn[j];
             }
+
+            if (matrix.ColumnCount > MaxTensorDimension)
+            {
+                renderer.DrawLine(pen, x, pt.Y, x, pt.Y + size.Y);
+                x += maxWidthPerColumn[j];
+            }
+
             renderer.DrawLine(pen, x, pt.Y, x, pt.Y + size.Y);
 
             y = pt.Y;
-            for (i = 0; i < matrix.RowCount; i++)
+            for (i = 0; i < nr; i++)
             {
                 var height = maxHeightPerRow[i];
                 x = pt.X;
-                for (j = 0; j < matrix.ColumnCount; j++)
+                for (j = 0; j < nc; j++)
                 {
                     var value = matrix[i, j];
                     var valueSize = CalcValueSize(value, renderer, font);
@@ -378,6 +477,43 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                         x + (width - valueSize.X) / 2,
                         y + (height - valueSize.Y) / 2);
                     RenderValue(value, renderer, pt2, pen, brush, font);
+                    x += width;
+                }
+                if (matrix.ColumnCount > MaxTensorDimension)
+                {
+                    var valueSize = renderer.MeasureString("...", font);
+                    var width = maxWidthPerColumn[j];
+                    var pt2 = new Vector2(
+                        x + (width - valueSize.X) / 2,
+                        y + (height - valueSize.Y) / 2);
+                    renderer.DrawString("...", font, brush, pt2);
+                    x += width;
+                }
+
+                y += height;
+            }
+
+            if (matrix.RowCount > MaxTensorDimension)
+            {
+                var valueSize = renderer.MeasureString("...", font);
+                var height = maxHeightPerRow[i];
+                x = pt.X;
+                for (j = 0; j < nc; j++)
+                {
+                    var width = maxWidthPerColumn[j];
+                    var pt2 = new Vector2(
+                        x + (width - valueSize.X) / 2,
+                        y + (height - valueSize.Y) / 2);
+                    renderer.DrawString("...", font, brush, pt2);
+                    x += width;
+                }
+                if (matrix.ColumnCount > MaxTensorDimension)
+                {
+                    var width = maxWidthPerColumn[j];
+                    var pt2 = new Vector2(
+                        x + (width - valueSize.X) / 2,
+                        y + (height - valueSize.Y) / 2);
+                    renderer.DrawString("...", font, brush, pt2);
                     x += width;
                 }
 
@@ -1009,23 +1145,49 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             maxWidthPerColumn.Clear();
             maxHeightPerRow.Clear();
 
-            for (j = 0; j < matrix.ColumnCount; j++)
+            var nc = matrix.ColumnCount;
+            if (nc > MaxTensorDimension)
             {
+                nc = MaxTensorDimension;
                 maxWidthPerColumn.Add(0);
             }
-            for (i = 0; i < matrix.RowCount; i++)
+
+            var nr = matrix.RowCount;
+            if (nr > MaxTensorDimension)
+            {
+                nr = MaxTensorDimension;
+                maxHeightPerRow.Add(0);
+            }
+
+            for (j = 0; j < nc; j++)
+                maxWidthPerColumn.Add(0);
+            for (i = 0; i < nr; i++)
             {
                 maxHeightPerRow.Add(0);
-
-                for (j = 0; j < matrix.ColumnCount; j++)
+                for (j = 0; j < nc; j++)
                 {
-                    var size = CalcExpressionSize(matrix[i, j], g, font, expressionSizeCache);
-
+                    var size = CalcExpressionSize(matrix[i, j], g, font,
+                        expressionSizeCache);
                     size += new Vector2(4, 4);
-
-                    maxWidthPerColumn[j] = Math.Max(maxWidthPerColumn[j], size.X);
+                    maxWidthPerColumn[j] =
+                        Math.Max(maxWidthPerColumn[j], size.X);
                     maxHeightPerRow[i] = Math.Max(maxHeightPerRow[i], size.Y);
                 }
+
+                if (matrix.ColumnCount > MaxTensorDimension)
+                {
+                    var size = g.MeasureString("...", font);
+                    size += new Vector2(4, 4);
+                    maxWidthPerColumn[j] =
+                        Math.Max(maxWidthPerColumn[j], size.X);
+                }
+            }
+
+            if (matrix.RowCount > MaxTensorDimension)
+            {
+                var size = g.MeasureString("...", font);
+                size += new Vector2(4, 4);
+                maxHeightPerRow[i] = Math.Max(maxHeightPerRow[i], size.Y);
             }
         }
 
@@ -1041,12 +1203,26 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             maxWidthPerColumn.Clear();
             maxHeightPerRow.Clear();
 
-            for (j = 0; j < matrix.ColumnCount; j++)
+            var nc = matrix.ColumnCount;
+            if (nc > MaxTensorDimension)
+            {
+                nc = MaxTensorDimension;
                 maxWidthPerColumn.Add(0);
-            for (i = 0; i < matrix.RowCount; i++)
+            }
+
+            var nr = matrix.RowCount;
+            if (nr > MaxTensorDimension)
+            {
+                nr = MaxTensorDimension;
+                maxHeightPerRow.Add(0);
+            }
+
+            for (j = 0; j < nc; j++)
+                maxWidthPerColumn.Add(0);
+            for (i = 0; i < nr; i++)
             {
                 maxHeightPerRow.Add(0);
-                for (j = 0; j < matrix.ColumnCount; j++)
+                for (j = 0; j < nc; j++)
                 {
                     var size = CalcValueSize(matrix[i, j], renderer, font);
                     size += new Vector2(4, 4);
@@ -1054,6 +1230,21 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                         Math.Max(maxWidthPerColumn[j], size.X);
                     maxHeightPerRow[i] = Math.Max(maxHeightPerRow[i], size.Y);
                 }
+
+                if (matrix.ColumnCount > MaxTensorDimension)
+                {
+                    var size = renderer.MeasureString("...", font);
+                    size += new Vector2(4, 4);
+                    maxWidthPerColumn[j] =
+                        Math.Max(maxWidthPerColumn[j], size.X);
+                }
+            }
+
+            if (matrix.RowCount > MaxTensorDimension)
+            {
+                var size = renderer.MeasureString("...", font);
+                size += new Vector2(4, 4);
+                maxHeightPerRow[i] = Math.Max(maxHeightPerRow[i], size.Y);
             }
         }
 
