@@ -17,6 +17,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                              LigraEnvironment env)
             : this(env)
         {
+            // TODO: push the following dow to the protected constructor
             _expression = expression;
             _horizontalCoordinate = horizontalCoordinate;
             _verticalCoordinate = verticalCoordinate;
@@ -24,6 +25,16 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             _width = width;
             _vStart = 0;
             _height = height;
+            _image = RenderMathPaintToMemoryImage(
+                _expression,
+                _horizontalCoordinate,
+                _verticalCoordinate,
+                _hStart,
+                _width,
+                _vStart,
+                _height,
+                env);
+            _data = new GtkRenderer.GtkDrawImageData(_image);
         }
         public MathPaintItem(Expression expression,
                              VarInterval horizontalCoordinate,
@@ -31,6 +42,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                              LigraEnvironment env)
             : this(env)
         {
+            // TODO: push the following dow to the protected constructor
             _expression = expression;
             _horizontalCoordinate = horizontalCoordinate.Variable;
             _verticalCoordinate = verticalCoordinate.Variable;
@@ -40,6 +52,16 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             var vert = verticalCoordinate.Interval.Round();
             _vStart = (int)vert.LowerBound;
             _height = (int)vert.Length;
+            _image = RenderMathPaintToMemoryImage(
+                _expression,
+                _horizontalCoordinate,
+                _verticalCoordinate,
+                _hStart,
+                _width,
+                _vStart,
+                _height,
+                env);
+            _data = new GtkRenderer.GtkDrawImageData(_image);
         }
         protected MathPaintItem(LigraEnvironment env)
             : base(env)
@@ -57,6 +79,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         public int _vStart;
         public int _height;
         public MemoryImage _image;
+        private GtkRenderer.GtkDrawImageData _data;
 
         System.Timers.Timer _timer;
 
@@ -69,32 +92,21 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 RenderMathPaintToMemoryImage(env);
             }
 
-            g.DrawImage(_image, boundsInClient);
+            ((GtkRenderer) g).DrawImage(_data, boundsInClient);
         }
 
         public void RenderMathPaintToMemoryImage(SolusEnvironment env)
         {
-            if (_image == null)
-                _image = RenderMathPaintToMemoryImage(
-                    _expression,
-                    _horizontalCoordinate,
-                    _verticalCoordinate,
-                    _hStart,
-                    _width,
-                    _vStart,
-                    _height,
-                    env);
-            else
-                RenderMathPaintToMemoryImage(
-                    _image,
-                    _expression,
-                    _horizontalCoordinate,
-                    _verticalCoordinate,
-                    _hStart,
-                    _width,
-                    _vStart,
-                    _height,
-                    env);
+            RenderMathPaintToMemoryImage(
+                _image,
+                _expression,
+                _horizontalCoordinate,
+                _verticalCoordinate,
+                _hStart,
+                _width,
+                _vStart,
+                _height,
+                env);
         }
 
         protected override void RemoveVariablesForValueCollection(HashSet<string> vars)

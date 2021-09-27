@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using Gdk;
 using MetaphysicsIndustries.Solus;
 using Pango;
 
@@ -49,6 +50,30 @@ namespace MetaphysicsIndustries.Ligra
                 context.Rectangle(rect.X, rect.Y, rect.Width, rect.Height);
                 context.Fill();
             }
+        }
+
+        public readonly struct GtkDrawImageData
+        {
+            public GtkDrawImageData(MemoryImage image)
+            {
+                Image = image;
+                PixelBytes = Image.AllocateByteArrayForPixels();
+                PixBuf = new Gdk.Pixbuf(PixelBytes, Gdk.Colorspace.Rgb,
+                    true, 8, Image.Width, Image.Height,
+                    Image.Width * 4);
+            }
+
+            public readonly MemoryImage Image;
+            public readonly byte[] PixelBytes;
+            public readonly Gdk.Pixbuf PixBuf;
+        }
+
+        public void DrawImage(GtkDrawImageData data, RectangleF rect)
+        {
+            data.Image.CopyPixelsToArray(data.PixelBytes);
+            Gdk.CairoHelper.SetSourcePixbuf(context, data.PixBuf, 0, 0);
+            context.Rectangle(rect.X, rect.Y, rect.Width, rect.Height);
+            context.Fill();
         }
 
         public void DrawLine(LPen pen, float x1, float y1, float x2, float y2)
