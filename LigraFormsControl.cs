@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using MetaphysicsIndustries.Solus;
 using MetaphysicsIndustries.Acuity;
+using MetaphysicsIndustries.Solus.Expressions;
 
 namespace MetaphysicsIndustries.Ligra
 {

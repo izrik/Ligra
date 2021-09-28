@@ -4,7 +4,8 @@ using MetaphysicsIndustries.Giza;
 using System.Collections.Generic;
 using System.Linq;
 using MetaphysicsIndustries.Ligra.Commands;
-using UserDefinedFunction = MetaphysicsIndustries.Ligra.Functions.UserDefinedFunction;
+using MetaphysicsIndustries.Solus.Functions;
+using MetaphysicsIndustries.Solus.Values;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -20,7 +21,7 @@ namespace MetaphysicsIndustries.Ligra
             _parser = new Parser(_grammar.def_commands);
         }
 
-        public Command[] GetCommands(string input, SolusEnvironment env=null)
+        public new Command[] GetCommands(string input, SolusEnvironment env=null)
         {
             if (env == null)
             {
@@ -33,16 +34,16 @@ namespace MetaphysicsIndustries.Ligra
 
             if (errors1.ContainsNonWarnings())
             {
-                Solus.Expression expr;
+                Solus.Expressions.Expression expr;
 
                 try
                 {
                     expr = base.GetExpression(input, env);
                 }
-                catch (Exception ignored)
+                catch (Exception ex)
                 {
                     // return errors1
-                    throw new InvalidOperationException();
+                    throw new InvalidOperationException("Error getting the expression", ex);
                 }
 
                 return new Command[] {new ExprCommand(expr)};
@@ -82,12 +83,12 @@ namespace MetaphysicsIndustries.Ligra
             var spans = _parser.Parse(input.ToCharacterSource(), errors1);
             if (errors1.ContainsNonWarnings())
             {
-                Solus.Expression expr;
+                Solus.Expressions.Expression expr;
                 try
                 {
                     expr = base.GetExpression(input, env);
                 }
-                catch (Exception ignored)
+                catch (Exception)
                 {
                     // return errors1
                     throw new InvalidOperationException();
@@ -128,7 +129,7 @@ namespace MetaphysicsIndustries.Ligra
             {
                 return GetPaintCommandFromPaintCommand(sub, env);
             }
-            else if (def == _grammar.def_del_002D_command)
+            else if (def == _grammar.def_delete_002D_command)
             {
                 return GetDelCommandFromDelCommand(sub, env);
             }
@@ -189,7 +190,7 @@ namespace MetaphysicsIndustries.Ligra
 
         PlotCommand GetPlotCommandFromPlotCommand(Span span, SolusEnvironment env)
         {
-            var exprs = new List<Solus.Expression>();
+            var exprs = new List<Solus.Expressions.Expression>();
             var intervals = new List<VarInterval>();
 
             foreach (var sub in span.Subspans)
@@ -216,8 +217,10 @@ namespace MetaphysicsIndustries.Ligra
 
                 var lower = GetExpressionFromExpr(span.Subspans[3], env);
                 var upper = GetExpressionFromExpr(span.Subspans[5], env);
-                var lowerf = (float)Math.Round(lower.Eval(env).Value);
-                var upperf = (float)Math.Round(upper.Eval(env).Value);
+                var lowerf = (float)Math.Round(
+                    lower.Eval(env).ToNumber().Value);
+                var upperf = (float)Math.Round(
+                    upper.Eval(env).ToNumber().Value);
 
                 return new VarInterval {
                     Variable = varname,
@@ -236,7 +239,8 @@ namespace MetaphysicsIndustries.Ligra
                 // lower <= var <= upper
 
                 var lower = GetExpressionFromExpr(span.Subspans[0], env);
-                var lowerf = (float)Math.Round(lower.Eval(env).Value);
+                var lowerf = (float)Math.Round(
+                    lower.Eval(env).ToNumber().Value);
 
                 var openLower = (span.Subspans[1].Value == "<");
 
@@ -245,7 +249,8 @@ namespace MetaphysicsIndustries.Ligra
                 var openUpper = (span.Subspans[3].Value == "<");
 
                 var upper = GetExpressionFromExpr(span.Subspans[4], env);
-                var upperf = (float)Math.Round(upper.Eval(env).Value);
+                var upperf = (float)Math.Round(
+                    upper.Eval(env).ToNumber().Value);
 
                 return new VarInterval {
                     Variable = varname,

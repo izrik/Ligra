@@ -1,7 +1,9 @@
 
 from '../MetaphysicsIndustries.Solus/SolusGrammar.giza' import
     expr, function-call, number, string, binop, unary-op, paren, varref,
-    identifier, subexpr, float-number, unicodechar ;
+    identifier, subexpr, float-number, unicodechar,
+    delete-command, func-assign-command, help-command, var-assign-command,
+    vars-command, component-access, array-literal, comp-subexpr, array-index;
 
 commands = ( command ';' )* command ';'? ;
 
@@ -17,19 +19,16 @@ command = (
 //    user-command |
     plot-command |
     paint-command |
-    del-command |
+    delete-command |
     var-assign-command |
-    func-assign-command
+    func-assign-command |
+    vars-command
 );
 
-help-command = 'help' help-item?;
 clear-command = 'clear' 'all'?;
 show-command = 'show' ( 'history' | 'vars' | 'variables' | 'constants' );
 plot-command = 'plot' expr (',' expr)* 'for' interval ( ',' interval )* ;
 paint-command = 'paint' expr 'for' interval ',' interval ;
-del-command = 'del' varref;
-var-assign-command = varref ':=' expr ;
-func-assign-command = identifier '(' ( identifier ( ',' identifier )* )? ')' ':=' expr ;
 
 help-item = identifier;
 

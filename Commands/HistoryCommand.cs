@@ -1,9 +1,13 @@
 using MetaphysicsIndustries.Ligra.RenderItems;
+using MetaphysicsIndustries.Solus;
 
 namespace MetaphysicsIndustries.Ligra.Commands
 {
     public class HistoryCommand : Command
     {
+        public static readonly HistoryCommand Value = new HistoryCommand();
+
+        public override string Name => "history";
         public override string DocString =>
 @"history - Show or clear the command history
 
@@ -15,6 +19,11 @@ Clear the command history:
 
   (Equivalent to ""clear history"" command)
 ";
+
+        public override void Execute(string input, SolusEnvironment env)
+        {
+            throw new System.NotImplementedException();
+        }
 
         public override void Execute(string input, string[] args, LigraEnvironment env)
         {

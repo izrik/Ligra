@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MetaphysicsIndustries.Ligra.RenderItems;
+using MetaphysicsIndustries.Solus;
 
 namespace MetaphysicsIndustries.Ligra.Commands
 {
     public class HelpCommand : Command
     {
+        public static readonly HelpCommand Value = new HelpCommand(null);
+
         private static Dictionary<string, string> _helpLookups = 
             new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
 
@@ -24,6 +27,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
 
         private readonly string _topic;
 
+        public override string Name => "help";
         public override string DocString =>
 @"help - Get help about a topic
 
@@ -33,6 +37,11 @@ Get info about an object or topic:
 List the available topics:
   help list
 ";
+
+        public override void Execute(string input, SolusEnvironment env)
+        {
+            throw new System.NotImplementedException();
+        }
 
         public override void Execute(string input, string[] args, LigraEnvironment env)
         {

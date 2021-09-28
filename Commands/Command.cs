@@ -4,7 +4,7 @@ using MetaphysicsIndustries.Ligra.RenderItems;
 
 namespace MetaphysicsIndustries.Ligra.Commands
 {
-    public abstract class Command
+    public abstract class Command : Solus.Commands.Command
     {
         public abstract void Execute(string input, string[] args, LigraEnvironment env);
 
@@ -13,42 +13,29 @@ namespace MetaphysicsIndustries.Ligra.Commands
             return string.Format("$ {0}", input);
         }
 
-        public virtual string DocString => null;
-
         public static void InitializeCommands(Dictionary<string, Command> commands)
         {
-            //commands["help"] = new HelpCommand();
-            commands["clear"] = new ClearCommand();
-            commands["vars"] = new VarsCommand();
-            commands["delete"] = new DeleteCommand();
-            commands["history"] = new HistoryCommand();
-            commands["example"] = new ExampleCommand();
-            commands["example2"] = new Example2Command();
-            //commands["tsolve"] = new TSolveCommand();
-            //commands["loadimage"] = new LoadImageCommand();
-            commands["cd"] = new CdCommand();
-
             // dummy commands
             // normally, these are instantiated in the parser, but we add some
             // dummies here so that the help command can do the lookup.
-            commands["plot"] = new PlotCommand(null, null);
-            commands["help"] = new HelpCommand(null);
-            commands["paint"] = new PaintCommand(
-                null,
-                new VarInterval
-                {
-                    Variable = "i",
-                    Interval = Interval.Integer(0, 255)
-                },
-                new VarInterval
-                {
-                    Variable = "j",
-                    Interval = Interval.Integer(0, 255)
-                });
 
-            // expr ?
-            // var assign ?
-            // func assign ?
+            commands["clear"] = ClearCommand.Value;
+            commands["vars"] = VarsCommand.Value;
+            commands["delete"] = DeleteCommand.Value;
+            commands["history"] = HistoryCommand.Value;
+            commands["example"] = ExampleCommand.Value;
+            commands["example2"] = Example2Command.Value;
+            //commands["tsolve"] = TSolveCommand.Value;
+            //commands["loadimage"] = LoadImageCommand.Value;
+            commands["cd"] = CdCommand.Value;
+
+            commands["plot"] = PlotCommand.Value;
+            commands["help"] = HelpCommand.Value;
+            commands["paint"] = PaintCommand.Value;
+
+            //commands["expr"] = ExprCommand.Value;
+            commands["var_assign"] = VarAssignCommand.Value;
+            commands["func_assign"] = FuncAssignCommand.Value;
         }
 
         public static void ClearHistory(LigraEnvironment env)

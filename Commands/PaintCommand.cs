@@ -1,10 +1,14 @@
 using MetaphysicsIndustries.Ligra.RenderItems;
 using MetaphysicsIndustries.Solus;
+using MetaphysicsIndustries.Solus.Expressions;
 
 namespace MetaphysicsIndustries.Ligra.Commands
 {
     public class PaintCommand : Command
     {
+        public static readonly PaintCommand Value =
+            new PaintCommand(null, new VarInterval(), new VarInterval());
+
         public PaintCommand(Expression expr, VarInterval interval1, VarInterval interval2)
         {
             _expr = expr;
@@ -16,6 +20,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
         private readonly VarInterval _interval1;
         private readonly VarInterval _interval2;
 
+        public override string Name => "paint";
         public override string DocString =>
 @"Mathpaint - Color the pixels of an image using an expression.
 
@@ -41,6 +46,11 @@ namespace MetaphysicsIndustries.Ligra.Commands
   example:
     paint i | j for i=[0..255], j=[0..255]
 ";
+        public override void Execute(string input, SolusEnvironment env)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public override void Execute(string input, string[] args, LigraEnvironment env)
         {
             // holy smokes, this is *hideous*

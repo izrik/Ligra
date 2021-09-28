@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Drawing;
 using MetaphysicsIndustries.Acuity;
 using MetaphysicsIndustries.Solus;
+using MetaphysicsIndustries.Solus.Expressions;
+using MetaphysicsIndustries.Solus.Values;
 
 namespace MetaphysicsIndustries.Ligra.RenderItems
 {
     public class GraphMatrixItem : RenderItem
     {
-        public GraphMatrixItem(Matrix matrix, string caption,
+        public GraphMatrixItem(Acuity.Matrix matrix, string caption,
             LigraEnvironment env)
             : base(env)
         {
@@ -16,8 +18,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             _caption = caption;
         }
 
-        private Matrix _matrix;
-        public Matrix Matrix
+        private Acuity.Matrix _matrix;
+        public Acuity.Matrix Matrix
         {
             get { return _matrix; }
         }
@@ -110,7 +112,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         }
 
         public static void RenderMatrix(Graphics g, RectangleF boundsInClient,
-            SolusMatrix matrix,
+            MatrixExpression matrix,
             SolusEnvironment env)
         {
             MemoryImage image =
@@ -122,7 +124,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         }
 
         public static MemoryImage RenderMatrixToMemoryImage(
-            SolusMatrix matrix,
+            MatrixExpression matrix,
             SolusEnvironment env)
         {
             int i;
@@ -140,7 +142,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             {
                 for (j = 0; j < matrix.ColumnCount; j++)
                 {
-                    z = matrix[i, j].Eval(env).Value;
+                    z = matrix[i, j].Eval(env).ToNumber().Value;
 
                     if (double.IsNaN(z))
                     {
@@ -160,7 +162,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         }
 
         public static void RenderMatrix(Graphics g, RectangleF boundsInClient,
-            Matrix matrix)
+            Acuity.Matrix matrix)
         {
             MemoryImage image =
                 GraphMatrixItem.RenderMatrixToMemoryImage(matrix);
@@ -168,24 +170,25 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             g.DrawImage(image.Bitmap, Rectangle.Truncate(boundsInClient));
         }
 
-        public static MemoryImage RenderMatrixToMemoryImage(Matrix matrix)
+        public static MemoryImage RenderMatrixToMemoryImage(Acuity.Matrix matrix)
         {
             return RenderMatrixToMemoryImageS(matrix);
         }
 
-        public static Bitmap RenderMatrixToBitmapS(Matrix matrix)
+        public static Bitmap RenderMatrixToBitmapS(Acuity.Matrix matrix)
         {
             return RenderMatrixToMemoryImageS(matrix).Bitmap;
         }
-        public static Bitmap RenderMatrixToColorBitmapS(Matrix r, Matrix g,
-            Matrix b)
+        public static Bitmap RenderMatrixToColorBitmapS(Acuity.Matrix r, 
+            Acuity.Matrix g,
+            Acuity.Matrix b)
         {
             var image = RenderMatrixToMemoryImageColorS(r, g, b);
             return image.Bitmap;
         }
 
-        public static MemoryImage RenderMatrixToMemoryImageColorS(Matrix rr,
-            Matrix gg, Matrix bb)
+        public static MemoryImage RenderMatrixToMemoryImageColorS(
+            Acuity.Matrix rr, Acuity.Matrix gg, Acuity.Matrix bb)
         {
             int i;
             int j;
@@ -234,7 +237,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             return image;
         }
 
-        public static MemoryImage RenderMatrixToMemoryImageS(Matrix matrix)
+        public static MemoryImage RenderMatrixToMemoryImageS(
+            Acuity.Matrix matrix)
         {
             int i;
             int j;

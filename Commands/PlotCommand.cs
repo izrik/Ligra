@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using MetaphysicsIndustries.Ligra.RenderItems;
 using MetaphysicsIndustries.Solus;
+using MetaphysicsIndustries.Solus.Expressions;
+using MetaphysicsIndustries.Solus.Values;
 
 namespace MetaphysicsIndustries.Ligra.Commands
 {
     public class PlotCommand : Command
     {
+        public static readonly PlotCommand Value =
+            new PlotCommand(null, null);
+
         public PlotCommand(Expression[] exprs, VarInterval[] intervals)
         {
             _exprs = exprs;
@@ -16,6 +21,8 @@ namespace MetaphysicsIndustries.Ligra.Commands
 
         private readonly Expression[] _exprs;
         private readonly VarInterval[] _intervals;
+
+        public override string Name => "plot";
 
         public override string GetInputLabel(string input, LigraEnvironment env)
         {
@@ -69,6 +76,11 @@ Plot one or more expressions that vary over two variable as a 3D graph:
   example:
     plot sin(x) + cos(y) for -5 < x < 5, -5 < y < 5
 ";
+
+        public override void Execute(string input, SolusEnvironment env)
+        {
+            throw new System.NotImplementedException();
+        }
 
         public override void Execute(string input, string[] args, LigraEnvironment env)
         {
@@ -136,21 +148,21 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                 var expr = exprs[0];
                 var zs = new List<float>();
 
-                literals[0].Value = intervals[0].Interval.LowerBound;
-                literals[1].Value = intervals[1].Interval.LowerBound;
-                zs.Add(expr.Eval(env).Value);
+                literals[0].Value = intervals[0].Interval.LowerBound.ToNumber();
+                literals[1].Value = intervals[1].Interval.LowerBound.ToNumber();
+                zs.Add(expr.Eval(env).ToNumber().Value);
 
-                literals[0].Value = intervals[0].Interval.LowerBound;
-                literals[1].Value = intervals[1].Interval.UpperBound;
-                zs.Add(expr.Eval(env).Value);
+                literals[0].Value = intervals[0].Interval.LowerBound.ToNumber();
+                literals[1].Value = intervals[1].Interval.UpperBound.ToNumber();
+                zs.Add(expr.Eval(env).ToNumber().Value);
 
-                literals[0].Value = intervals[0].Interval.UpperBound;
-                literals[1].Value = intervals[1].Interval.LowerBound;
-                zs.Add(expr.Eval(env).Value);
+                literals[0].Value = intervals[0].Interval.UpperBound.ToNumber();
+                literals[1].Value = intervals[1].Interval.LowerBound.ToNumber();
+                zs.Add(expr.Eval(env).ToNumber().Value);
 
-                literals[0].Value = intervals[0].Interval.UpperBound;
-                literals[1].Value = intervals[1].Interval.UpperBound;
-                zs.Add(expr.Eval(env).Value);
+                literals[0].Value = intervals[0].Interval.UpperBound.ToNumber();
+                literals[1].Value = intervals[1].Interval.UpperBound.ToNumber();
+                zs.Add(expr.Eval(env).ToNumber().Value);
 
                 float zmin = zs.Min();
                 float zmax = zs.Max();

@@ -1,11 +1,21 @@
 using System;
 using MetaphysicsIndustries.Ligra.RenderItems;
 using MetaphysicsIndustries.Solus;
+using MetaphysicsIndustries.Solus.Expressions;
 
 namespace MetaphysicsIndustries.Ligra.Commands
 {
     public class LoadImageCommand : Command
     {
+        public static readonly LoadImageCommand Value = new LoadImageCommand();
+
+        public override string Name => "example";
+
+        public override void Execute(string input, SolusEnvironment env)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public override void Execute(string input, string[] args, LigraEnvironment env)
         {
             var font = env.Font;
@@ -31,14 +41,14 @@ namespace MetaphysicsIndustries.Ligra.Commands
                 string varName = args[1];
                 try
                 {
-                    SolusMatrix mat = SolusEngine.LoadImage(filename);
+                    var mat = SolusEngine.LoadImage(filename);
 
                     if (!env.Variables.ContainsKey(varName))
                     {
                         env.Variables.Add(varName, new Literal(0));
                     }
 
-                    env.Variables[varName] = mat;
+                    env.Variables[varName] = new Literal(mat);
 
                     env.AddRenderItem(new InfoItem("Image loaded successfully", font, env));
                 }

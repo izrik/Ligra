@@ -54,7 +54,7 @@ namespace MetaphysicsIndustries.Ligra
             item.Container = this;
             var widget = item.GetAdapter();
             widget.ShowAll();
-            _vbox.PackStart(widget, false, false, 3);
+            _vbox.PackStart(widget, true, false, 3);
             _vbox.ShowAll();
 
             scrollToBottom = true;

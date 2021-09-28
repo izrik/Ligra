@@ -1,6 +1,9 @@
 
 (in no particular order)
 
+replace gtk text measuring and rendering with our own system
+    the marshalling and unmarshalling to and from unmanaged code is causing a metric ton of allocations
+
 fix scrolling
 opentk
 help

@@ -1,12 +1,21 @@
 using MetaphysicsIndustries.Ligra.RenderItems;
 using MetaphysicsIndustries.Solus;
+using MetaphysicsIndustries.Solus.Expressions;
 
 namespace MetaphysicsIndustries.Ligra.Commands
 {
     public class VarsCommand : Command
     {
+        public static readonly VarsCommand Value = new VarsCommand();
+
+        public override string Name => "vars";
         public override string DocString =>
             @"vars - Print a list of all defined variables";
+
+        public override void Execute(string input, SolusEnvironment env)
+        {
+            throw new System.NotImplementedException();
+        }
 
         public override void Execute(string input, string[] args, LigraEnvironment env)
         {
@@ -16,13 +25,12 @@ namespace MetaphysicsIndustries.Ligra.Commands
                 Expression value = env.Variables[var];
                 string valueString = value.ToString();
 
-                if (value is SolusVector)
+                if (value is VectorExpression ve)
                 {
-                    valueString = "Vector (" + ((SolusVector) value).Length.ToString() + ")";
+                    valueString = "Vector (" + ve.Length.ToString() + ")";
                 }
-                else if (value is SolusMatrix)
+                else if (value is MatrixExpression mat)
                 {
-                    SolusMatrix mat = (SolusMatrix) value;
                     valueString = "Matrix (" + mat.RowCount + ", " + mat.ColumnCount + ")";
                 }
 

@@ -1,14 +1,26 @@
 using MetaphysicsIndustries.Ligra.RenderItems;
 using MetaphysicsIndustries.Solus;
+using MetaphysicsIndustries.Solus.Expressions;
+using MetaphysicsIndustries.Solus.Functions;
+using MetaphysicsIndustries.Solus.Transformers;
 
 namespace MetaphysicsIndustries.Ligra.Commands
 {
     public class TSolveCommand : Command
     {
+        public static readonly TSolveCommand Value = new TSolveCommand();
+
+        public override string Name => "tsolve";
+
+        public override void Execute(string input, SolusEnvironment env)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public override void Execute(string input, string[] args, LigraEnvironment env)
         {
             SolusEngine _engine = new SolusEngine();
-            SolusMatrix m = new SolusMatrix(7, 7);
+            var m = new MatrixExpression(7, 7);
 
             string k;
             string r;
@@ -121,7 +133,8 @@ namespace MetaphysicsIndustries.Ligra.Commands
             env.ClearCanvas();
         }
 
-        private static void AddMultRow(SolusEngine engine, SolusMatrix m, int rowFrom, int rowTo, Expression factor)
+        private static void AddMultRow(SolusEngine engine, MatrixExpression m,
+            int rowFrom, int rowTo, Expression factor)
         {
             int i;
             for (i = 0; i < 7; i++)
@@ -134,7 +147,8 @@ namespace MetaphysicsIndustries.Ligra.Commands
             }
         }
 
-        private static void AddRow(SolusEngine engine, SolusMatrix m, int rowFrom, int rowTo)
+        private static void AddRow(SolusEngine engine, MatrixExpression m,
+            int rowFrom, int rowTo)
         {
             int i;
             for (i = 0; i < 7; i++)
@@ -146,7 +160,8 @@ namespace MetaphysicsIndustries.Ligra.Commands
             }
         }
 
-        private static void MultiplyRow(SolusEngine engine, SolusMatrix m, Expression factor, int row)
+        private static void MultiplyRow(SolusEngine engine, MatrixExpression m,
+            Expression factor, int row)
         {
             int i;
             for (i = 0; i < 7; i++)

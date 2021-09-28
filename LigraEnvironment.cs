@@ -14,11 +14,17 @@ namespace MetaphysicsIndustries.Ligra
             if (control == null) throw new ArgumentNullException("control");
 
             Control = control;
-            Commands = commands;
+
+            this.Commands.Clear();
+            if (commands == null) return;
+            foreach (var kvp in commands)
+            {
+                var command = kvp.Value;
+                AddCommand(command);
+            }
         }
 
         public readonly ILigraUI Control;
-        public readonly Dictionary<string, Command> Commands;
 
         public IList<RenderItem> RenderItems => Control.RenderItems;
         public void AddRenderItem(RenderItem item)
