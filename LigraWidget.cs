@@ -83,5 +83,7 @@ namespace MetaphysicsIndustries.Ligra
         public int CurrentHistoryIndex { get; set; } = -1;
 
         public void ClearCanvas() => QueueDraw();
+
+        public LigraParser Parser { get; } = new LigraParser();
     }
 }

@@ -55,7 +55,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
             LigraEnvironment env, ILigraUI control)
         {
             // holy smokes, this is *hideous*
-            var cmd = env.Parser.GetPaintCommand(input, env);
+            var cmd = control.Parser.GetPaintCommand(input, env);
             Execute(input, args, env, control, cmd._expr, cmd._interval1,
                 cmd._interval2);
         }

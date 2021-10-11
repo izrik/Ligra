@@ -28,7 +28,8 @@ namespace MetaphysicsIndustries.Ligra.Commands
             Execute(input, args, env, control, _expr);
         }
 
-        public override string GetInputLabel(string input, LigraEnvironment env)
+        public override string GetInputLabel(string input,
+            LigraEnvironment env, ILigraUI control)
         {
             return string.Format("$ {0}", _expr);
         }

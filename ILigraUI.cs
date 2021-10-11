@@ -19,5 +19,7 @@ namespace MetaphysicsIndustries.Ligra
         DrawSettings DrawSettings { get; }
 
         void ClearCanvas();
+
+        LigraParser Parser { get; }
     }
 }

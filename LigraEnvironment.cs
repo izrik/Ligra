@@ -19,8 +19,6 @@ namespace MetaphysicsIndustries.Ligra
                 AddCommand(command);
             }
         }
-
-        public readonly LigraParser Parser = new LigraParser();
     }
 }
 

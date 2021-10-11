@@ -9,7 +9,8 @@ namespace MetaphysicsIndustries.Ligra.Commands
         public abstract void Execute(string input, string[] args,
             LigraEnvironment env, ILigraUI control);
 
-        public virtual string GetInputLabel(string input, LigraEnvironment env)
+        public virtual string GetInputLabel(string input, LigraEnvironment env,
+            ILigraUI control)
         {
             return string.Format("$ {0}", input);
         }

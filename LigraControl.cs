@@ -139,5 +139,7 @@ namespace MetaphysicsIndustries.Ligra
         public DrawSettings DrawSettings { get; } = new DrawSettings();
 
         public void ClearCanvas() => Invalidate();
+
+        public LigraParser Parser { get; } = new LigraParser();
     }
 }

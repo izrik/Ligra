@@ -240,13 +240,13 @@ namespace MetaphysicsIndustries.Ligra
                 }
                 else
                 {
-                    commands = env.Parser.GetCommands(input, env);
+                    commands = control.Parser.GetCommands(input, env);
                 }
 
                 var label = string.Format("$ {0}", input);
                 if (commands.Length == 1)
                 {
-                    label = commands[0].GetInputLabel(input, env);
+                    label = commands[0].GetInputLabel(input, env, control);
                 }
                 control.AddRenderItem(
                     new TextItem(env, label, control.DrawSettings.Font));

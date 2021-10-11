@@ -24,10 +24,11 @@ namespace MetaphysicsIndustries.Ligra.Commands
 
         public override string Name => "plot";
 
-        public override string GetInputLabel(string input, LigraEnvironment env)
+        public override string GetInputLabel(string input,
+            LigraEnvironment env, ILigraUI control)
         {
             // TODO: don't create another instance of the class within the class.
-            var cmd = env.Parser.GetPlotCommand(input, env);
+            var cmd = control.Parser.GetPlotCommand(input, env);
             var label = string.Format("$ plot {0} for {1}",
                 string.Join(", ", cmd._exprs.Select(Expression.ToString)),
                 string.Join(", ", cmd._intervals.Select((VarInterval vi) => vi.ToString())));
@@ -86,7 +87,7 @@ Plot one or more expressions that vary over two variable as a 3D graph:
             LigraEnvironment env, ILigraUI control)
         {
             // TODO: don't create another instance of the class within the class.
-            var cmd = env.Parser.GetPlotCommand(input, env);
+            var cmd = control.Parser.GetPlotCommand(input, env);
             Execute(input, args, env, control, cmd._exprs, cmd._intervals);
         }
 
