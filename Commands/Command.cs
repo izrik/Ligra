@@ -48,7 +48,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
 
         public static void ClearOutput(LigraEnvironment env, ILigraUI control)
         {
-            var items = env.RenderItems.ToArray();
+            var items = control.RenderItems.ToArray();
             foreach (var item in items)
             {
                 control.RemoveRenderItem(item);

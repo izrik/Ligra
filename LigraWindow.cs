@@ -201,7 +201,7 @@ namespace MetaphysicsIndustries.Ligra
 
         private RenderItem GetRenderItemFromPoint(Vector2 pt)
         {
-            return GetRenderItemInCollectionFromPoint(env.RenderItems, pt);
+            return GetRenderItemInCollectionFromPoint(output.RenderItems, pt);
         }
 
         private RenderItem GetRenderItemInCollectionFromPoint(

@@ -131,7 +131,7 @@ namespace MetaphysicsIndustries.Ligra
 
         private RenderItem GetRenderItemFromPoint(PointF pt)
         {
-            return GetRenderItemInCollectionFromPoint(_env.RenderItems, pt);
+            return GetRenderItemInCollectionFromPoint(ligraControl1.RenderItems, pt);
         }
 
         private RenderItem GetRenderItemInCollectionFromPoint(IEnumerable<RenderItem> items, PointF pt)

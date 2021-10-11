@@ -26,7 +26,6 @@ namespace MetaphysicsIndustries.Ligra
 
         private readonly ILigraUI _control;
 
-        public IList<RenderItem> RenderItems => _control.RenderItems;
         public void AddRenderItem(RenderItem item)
         {
             _control.AddRenderItem(item);
