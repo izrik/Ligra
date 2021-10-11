@@ -22,7 +22,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         public int _location;
 
         protected override void InternalRender(IRenderer g,
-            SolusEnvironment env, DrawSettings drawSettings)
+            DrawSettings drawSettings)
         {
             var font = _font;
 

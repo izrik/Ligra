@@ -22,7 +22,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         public string _caption;
 
         protected override void InternalRender(IRenderer g,
-            SolusEnvironment env, DrawSettings drawSettings)
+            DrawSettings drawSettings)
         {
             Matrix mat = _filter.Apply(_matrix);
             mat.ApplyToAll(AcuityEngine.ConvertFloatTo24g);

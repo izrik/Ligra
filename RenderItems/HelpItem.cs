@@ -15,7 +15,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         public readonly LFont _font;
 
         protected override void InternalRender(IRenderer g,
-            SolusEnvironment env, DrawSettings drawSettings)
+            DrawSettings drawSettings)
         {
             g.DrawString(_text, _font, LBrush.Magenta, new Vector2(0, 0));
         }

@@ -18,7 +18,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         }
 
         protected abstract void InternalRender(IRenderer g,
-            SolusEnvironment env, DrawSettings drawSettings);
+            DrawSettings drawSettings);
         protected abstract Vector2 InternalCalcSize(IRenderer g,
             DrawSettings drawSettings);
 
@@ -37,7 +37,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             {
                 if (string.IsNullOrEmpty(_error))
                 {
-                    InternalRender(g, _env, drawSettings);
+                    InternalRender(g, drawSettings);
 
                     CollectVariableValues(_env);
                 }

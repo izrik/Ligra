@@ -73,7 +73,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         }
 
         protected override void InternalRender(IRenderer g,
-            SolusEnvironment env, DrawSettings drawSettings)
+            DrawSettings drawSettings)
         {
             var exprSize = CalcExpressionSize(Expression, g, Font);
             float xx = 0;

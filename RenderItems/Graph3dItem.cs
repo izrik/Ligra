@@ -62,7 +62,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         string fps = "";
 
         protected override void InternalRender(IRenderer g,
-            SolusEnvironment env, DrawSettings drawSettings)
+            DrawSettings drawSettings)
         {
             var stime = Environment.TickCount;
 
@@ -75,7 +75,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 _expression,
                 _independentVariableX,
                 _independentVariableY,
-                env, true, drawSettings.Font);
+                _env, true, drawSettings.Font);
 
             var dtime = Environment.TickCount - stime;
             numTicks += dtime;

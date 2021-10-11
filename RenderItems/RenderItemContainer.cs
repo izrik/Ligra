@@ -16,7 +16,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         public readonly string _caption;
 
         protected override void InternalRender(IRenderer g,
-            SolusEnvironment env, DrawSettings drawSettings)
+            DrawSettings drawSettings)
         {
             var font2 = new LFont(
                 drawSettings.Font.Family,

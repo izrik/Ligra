@@ -84,13 +84,13 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         System.Timers.Timer _timer;
 
         protected override void InternalRender(IRenderer g,
-            SolusEnvironment env, DrawSettings drawSettings)
+            DrawSettings drawSettings)
         {
             RectangleF boundsInClient = new RectangleF(0, 0, _width, _height);
 
-            if (_image == null || HasChanged(env))
+            if (_image == null || HasChanged(_env))
             {
-                RenderMathPaintToMemoryImage(env);
+                RenderMathPaintToMemoryImage(_env);
             }
 
             ((GtkRenderer) g).DrawImage(_data, boundsInClient);

@@ -101,7 +101,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         //private SizeF _size = new SizeF(400, 400);
 
         protected override void InternalRender(IRenderer g,
-            SolusEnvironment env, DrawSettings drawSettings)
+            DrawSettings drawSettings)
         {
             g.DrawRectangle(LPen.Red, Rect.X, Rect.Y, Rect.Width, Rect.Height);
             bool first = true;
@@ -116,7 +116,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                         entry.Pen, entry.Pen.Brush,
                         _minX, _maxX, _minY, _maxY,
                         ve.X, ve.Y,
-                        env, first);
+                        _env, first);
                 }
                 else
                 {
@@ -124,7 +124,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                         new RectangleF(location, Rect.Size),
                         entry.Pen, entry.Pen.Brush,
                         _minX, _maxX, _minY, _maxY,
-                        entry.Expression, entry.IndependentVariable, env, first);
+                        entry.Expression, entry.IndependentVariable, _env,
+                        first);
                 }
                 first = false;
             }

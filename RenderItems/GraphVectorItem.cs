@@ -29,7 +29,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         //MemoryImage _image = null;
 
         protected override void InternalRender(IRenderer g,
-            SolusEnvironment env, DrawSettings drawSettings)
+            DrawSettings drawSettings)
         {
             RectangleF boundsInClient = new RectangleF(new PointF(0, 0),
                 InternalCalcSize(g, drawSettings));

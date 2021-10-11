@@ -29,12 +29,12 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         public MemoryImage _image = null;
 
         protected override void InternalRender(IRenderer g,
-            SolusEnvironment env, DrawSettings drawSettings)
+            DrawSettings drawSettings)
         {
             RectangleF boundsInClient = new RectangleF(0, 0,
                 Matrix.ColumnCount, Matrix.RowCount);
 
-            if (_image == null || HasChanged(env))
+            if (_image == null || HasChanged(_env))
             {
                 MemoryImage image =
                     GraphMatrixItem.RenderMatrixToMemoryImage(Matrix);

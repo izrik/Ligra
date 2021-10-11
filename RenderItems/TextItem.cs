@@ -24,7 +24,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         }
 
         protected override void InternalRender(IRenderer g,
-            SolusEnvironment env, DrawSettings drawSettings)
+            DrawSettings drawSettings)
         {
             RectangleF rect = new RectangleF(new PointF(0, 0),
                 InternalCalcSize(g, drawSettings));
