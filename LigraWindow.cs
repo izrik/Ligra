@@ -259,12 +259,12 @@ namespace MetaphysicsIndustries.Ligra
                 }
             }
 
-            if (env.History.Count <= 0 || input != env.History[env.History.Count - 1])
+            if (control.History.Count <= 0 || input != control.History[control.History.Count - 1])
             {
-                env.History.Add(input);
+                control.History.Add(input);
             }
             selectAllInputText();
-            env.CurrentHistoryIndex = -1;
+            control.CurrentHistoryIndex = -1;
         }
     }
 }

@@ -132,5 +132,8 @@ namespace MetaphysicsIndustries.Ligra
                 item._minY = form.PlotMinY;
             }
         }
+
+        public IList<string> History { get; } = new List<string>();
+        public int CurrentHistoryIndex { get; set; } = -1;
     }
 }

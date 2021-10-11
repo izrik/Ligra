@@ -12,5 +12,8 @@ namespace MetaphysicsIndustries.Ligra
         Vector2 ClientSize { get; }
 
         void OpenPlotProperties(GraphItem item);
+
+        IList<string> History { get; }
+        int CurrentHistoryIndex { get; set; }
     }
 }

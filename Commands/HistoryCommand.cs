@@ -1,3 +1,4 @@
+using System.Linq;
 using MetaphysicsIndustries.Ligra.RenderItems;
 using MetaphysicsIndustries.Solus;
 
@@ -34,7 +35,7 @@ Clear the command history:
             }
             else
             {
-                var s = string.Join("\r\n", env.History.ToArray());
+                var s = string.Join("\r\n", control.History.ToArray());
                 control.AddRenderItem(
                     new InfoItem(s + "\r\n", env.Font, env));
             }

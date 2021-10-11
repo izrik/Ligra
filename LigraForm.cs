@@ -218,36 +218,46 @@ namespace MetaphysicsIndustries.Ligra
         {
             if (e.KeyCode == Keys.Up)
             {
-                if (_env.History.Count > 0)
+                if (ligraControl1.History.Count > 0)
                 {
-                    if (_env.CurrentHistoryIndex < 0)
+                    if (ligraControl1.CurrentHistoryIndex < 0)
                     {
-                        _env.CurrentHistoryIndex = _env.History.Count - 1;
+                        ligraControl1.CurrentHistoryIndex = 
+                            ligraControl1.History.Count - 1;
                     }
                     else
                     {
-                        _env.CurrentHistoryIndex--;
-                        if (_env.CurrentHistoryIndex < 0) _env.CurrentHistoryIndex = 0;
+                        ligraControl1.CurrentHistoryIndex--;
+                        if (ligraControl1.CurrentHistoryIndex < 0)
+                            ligraControl1.CurrentHistoryIndex = 0;
                     }
 
-                    evalTextBox.Text = _env.History[_env.CurrentHistoryIndex];
+                    evalTextBox.Text =
+                        ligraControl1.History[
+                            ligraControl1.CurrentHistoryIndex];
                 }
             }
             else if (e.KeyCode == Keys.Down)
             {
-                if (_env.History.Count > 0)
+                if (ligraControl1.History.Count > 0)
                 {
-                    if (_env.CurrentHistoryIndex < 0)
+                    if (ligraControl1.CurrentHistoryIndex < 0)
                     {
-                        _env.CurrentHistoryIndex = _env.History.Count - 1;
+                        ligraControl1.CurrentHistoryIndex =
+                            ligraControl1.History.Count - 1;
                     }
                     else
                     {
-                        _env.CurrentHistoryIndex++;
-                        if (_env.CurrentHistoryIndex >= _env.History.Count) _env.CurrentHistoryIndex = _env.History.Count - 1;
+                        ligraControl1.CurrentHistoryIndex++;
+                        if (ligraControl1.CurrentHistoryIndex >=
+                            ligraControl1.History.Count)
+                            ligraControl1.CurrentHistoryIndex =
+                                ligraControl1.History.Count - 1;
                     }
 
-                    evalTextBox.Text = _env.History[_env.CurrentHistoryIndex];
+                    evalTextBox.Text =
+                        ligraControl1.History[
+                            ligraControl1.CurrentHistoryIndex];
                 }
             }
         }

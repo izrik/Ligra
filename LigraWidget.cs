@@ -76,5 +76,8 @@ namespace MetaphysicsIndustries.Ligra
             window.TransientFor = (Gtk.Window)this.Toplevel;
             window.Modal = true;
         }
+
+        public IList<string> History { get; } = new List<string>();
+        public int CurrentHistoryIndex { get; set; } = -1;
     }
 }
