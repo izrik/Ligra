@@ -36,13 +36,14 @@ Change the current directory:
             {
                 //print the current directory
                 string dir = System.IO.Directory.GetCurrentDirectory();
-                control.AddRenderItem(new InfoItem(dir, control.DrawSettings.Font, env));
+                control.AddRenderItem(
+                    new InfoItem(dir, control.DrawSettings.Font));
             }
             else if (!System.IO.Directory.Exists(args[1]))
             {
                 control.AddRenderItem(
                     new ErrorItem(input, "Parameter must be a folder name",
-                        control.DrawSettings.Font, LBrush.Red, env,
+                        control.DrawSettings.Font, LBrush.Red,
                         input.IndexOf(args[1])));
             }
             else
@@ -56,14 +57,14 @@ Change the current directory:
                     control.AddRenderItem(
                         new InfoItem(
                             $"Directory changed to \"{dir}\"",
-                            control.DrawSettings.Font, env));
+                            control.DrawSettings.Font));
                 }
                 catch (Exception e)
                 {
                     control.AddRenderItem(
                         new ErrorItem(
                             input, $"There was an error: \r\n{e}",
-                            control.DrawSettings.Font, LBrush.Red, env));
+                            control.DrawSettings.Font, LBrush.Red));
                 }
             }
         }

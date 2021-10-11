@@ -56,18 +56,20 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
     public class GraphItem : RenderItem
     {
-        public GraphItem(Expression expression, LPen pen, string independentVariable, SolusParser parser, LigraEnvironment env)
-            : this(parser, env, new GraphEntry(expression, pen, independentVariable))
+        public GraphItem(Expression expression, LPen pen,
+            string independentVariable, SolusParser parser,
+            LigraEnvironment env)
+            : this(parser, env,
+                new GraphEntry(expression, pen, independentVariable))
         {
         }
-
-        public GraphItem(SolusParser parser, LigraEnvironment env, params GraphEntry[] entries)
+        public GraphItem(SolusParser parser, LigraEnvironment env,
+            params GraphEntry[] entries)
             : this(parser, env, (IEnumerable<GraphEntry>)entries)
         {
         }
-
-        public GraphItem(SolusParser parser, LigraEnvironment env, IEnumerable<GraphEntry> entries)
-            : base(env)
+        public GraphItem(SolusParser parser, LigraEnvironment env,
+            IEnumerable<GraphEntry> entries)
         {
             _timer = new System.Timers.Timer(250);
             _timer.Elapsed += _timer_Elapsed;
@@ -80,6 +82,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             _maxY = 2;
             _minY = -2;
             _parser = parser;
+
+            _env = env;
         }
 
         public override Vector2? DefaultSize => new Vector2(400, 400);
@@ -96,6 +100,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         public float _maxY;
         public float _minY;
         public SolusParser _parser;
+        private readonly LigraEnvironment _env;
 
         public List<GraphEntry> _entries = new List<GraphEntry>();
         //private SizeF _size = new SizeF(400, 400);

@@ -190,14 +190,14 @@ namespace MetaphysicsIndustries.Ligra
                     {
                         ligraControl1.AddRenderItem(
                             new ErrorItem(input, ee2.Error, font, LBrush.Red,
-                                ligraControl1.Env, ee2.Location));
+                                ee2.Location));
                     }
                     else
                     {
                         ligraControl1.AddRenderItem(
                             new ErrorItem(input,
                                 "There was an error: " + ee.ToString(), font,
-                                LBrush.Red, ligraControl1.Env));
+                                LBrush.Red));
                     }
                 }
             }

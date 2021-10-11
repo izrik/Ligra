@@ -10,9 +10,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 {
     public class GraphVectorItem : RenderItem
     {
-        public GraphVectorItem(Acuity.Vector vector, string caption,
-            LigraEnvironment env)
-            : base(env)
+        public GraphVectorItem(Acuity.Vector vector, string caption)
         {
             _vector = vector.Clone();
             _caption = caption;

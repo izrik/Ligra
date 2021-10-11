@@ -26,18 +26,18 @@ namespace MetaphysicsIndustries.Ligra.Commands
             {
                 control.AddRenderItem(
                     new ErrorItem(input, "Too few parameters", font,
-                        brush, env, input.IndexOf(args[0])));
+                        brush, input.IndexOf(args[0])));
             }
             else if (!env.Variables.ContainsKey(args[1]))
             {
                 control.AddRenderItem(new ErrorItem(input, 
-                    "Parameter must be a variable", font, brush, env,
+                    "Parameter must be a variable", font, brush,
                     input.IndexOf(args[1])));
             }
             else if (!System.IO.File.Exists(args[2]))
             {
                 control.AddRenderItem(new ErrorItem(input, 
-                    "Parameter must be a file name", font, brush, env,
+                    "Parameter must be a file name", font, brush,
                     input.IndexOf(args[1])));
             }
             else
@@ -56,8 +56,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
                     env.Variables[varName] = new Literal(mat);
 
                     control.AddRenderItem(
-                        new InfoItem("Image loaded successfully", font,
-                            env));
+                        new InfoItem("Image loaded successfully", font));
                 }
                 catch (Exception e)
                 {
@@ -67,8 +66,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
                             $"There was an error while loading the " +
                             $"file: \r\n{filename}\r\n{e}",
                             font,
-                            brush,
-                            env));
+                            brush));
                 }
             }
         }

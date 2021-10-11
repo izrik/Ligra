@@ -5,8 +5,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 {
     public class TextItem : RenderItem
     {
-        public TextItem(LigraEnvironment env, string text="", LFont font=null)
-            : base(env)
+        public TextItem(string text="", LFont font=null)
         {
             _text = text;
             _font = font;

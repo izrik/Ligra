@@ -16,7 +16,6 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             string independentVariableX,
             string independentVariableY,
             LigraEnvironment env)
-            : base(env)
         {
             _timer = new System.Timers.Timer(250);
             _timer.Elapsed += _timer_Elapsed;
@@ -33,6 +32,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             _yMax = yMax;
             _zMin = zMin;
             _zMax = zMax;
+
+            _env = env;
         }
 
         public static readonly SolusEngine _engine = new SolusEngine();
@@ -55,6 +56,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         public float _yMax;
         public float _zMin;
         public float _zMax;
+        private readonly LigraEnvironment _env;
 
         int lastTime = Environment.TickCount;
         int numRenders = 0;

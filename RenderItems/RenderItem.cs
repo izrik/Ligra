@@ -12,11 +12,6 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
     {
         private static SolusEngine _engine = new SolusEngine();
 
-        protected RenderItem(LigraEnvironment env)
-        {
-            _env = env;
-        }
-
         protected abstract void InternalRender(IRenderer g,
             DrawSettings drawSettings);
         protected abstract Vector2 InternalCalcSize(IRenderer g,
@@ -26,7 +21,6 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         public SizeF _errorSize = new SizeF(0, 0);
         public bool _changeSize = true;
 
-        public readonly LigraEnvironment _env;
         public ILigraUI Container { get; set; }
 
         public void Render(IRenderer g, DrawSettings drawSettings)
@@ -39,7 +33,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 {
                     InternalRender(g, drawSettings);
 
-                    CollectVariableValues(_env);
+                    CollectVariableValuesFromEnv();
                 }
                 else
                 {
@@ -81,6 +75,11 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 {
                 }
             }
+        }
+
+        protected virtual void CollectVariableValuesFromEnv()
+        {
+            // e.g. CollectVariableValues(_env);
         }
 
         public void CollectVariableValues(SolusEnvironment env)

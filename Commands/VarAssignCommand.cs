@@ -43,7 +43,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
 
             control.AddRenderItem(
                 new ExpressionItem(
-                    expr2, LPen.Blue, control.DrawSettings.Font, env));
+                    expr2, LPen.Blue, control.DrawSettings.Font));
         }
     }
 }

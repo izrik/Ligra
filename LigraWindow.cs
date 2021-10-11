@@ -81,13 +81,13 @@ namespace MetaphysicsIndustries.Ligra
                     output.AddRenderItem(
                         new ErrorItem(s, e.Error,
                             output.DrawSettings.Font,
-                            LBrush.Red, output.Env, e.Location));
+                            LBrush.Red, e.Location));
                 }
                 catch (Exception e)
                 {
                     output.AddRenderItem(
                         new ErrorItem(s, $"There was an error: {e}",
-                            output.DrawSettings.Font, LBrush.Red, output.Env));
+                            output.DrawSettings.Font, LBrush.Red));
                 }
             }
 
@@ -242,7 +242,7 @@ namespace MetaphysicsIndustries.Ligra
                     label = commands[0].GetInputLabel(input, env, control);
                 }
                 control.AddRenderItem(
-                    new TextItem(env, label, control.DrawSettings.Font));
+                    new TextItem(label, control.DrawSettings.Font));
 
                 foreach (var command in commands)
                 {

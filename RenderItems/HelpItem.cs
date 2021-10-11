@@ -4,8 +4,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 {
     public class HelpItem : RenderItem
     {
-        public HelpItem(LFont font, LigraEnvironment env, string text)
-            : base(env)
+        public HelpItem(LFont font, string text)
         {
             _font = font;
             _text = text;

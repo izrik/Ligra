@@ -7,8 +7,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 {
     public class ApplyMatrixFilterItem : RenderItem
     {
-        public ApplyMatrixFilterItem(Matrix matrix, MatrixFilter filter, string caption, LigraEnvironment env)
-            : base(env)
+        public ApplyMatrixFilterItem(Matrix matrix, MatrixFilter filter,
+            string caption)
         {
             _matrix = matrix.Clone();
             _filter = filter;

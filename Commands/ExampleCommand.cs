@@ -33,22 +33,22 @@ namespace MetaphysicsIndustries.Ligra.Commands
 
             Expression expr;
 
-            control.AddRenderItem(new InfoItem("A number:", f, env));
+            control.AddRenderItem(new InfoItem("A number:", f));
             control.AddRenderItem(
-                new ExpressionItem(new Literal(123.45f), p, f, env));
+                new ExpressionItem(new Literal(123.45f), p, f));
 
-            control.AddRenderItem(new InfoItem("A variable:", f, env));
+            control.AddRenderItem(new InfoItem("A variable:", f));
             control.AddRenderItem(
-                new ExpressionItem(new VariableAccess("x"), p, f, env));
+                new ExpressionItem(new VariableAccess("x"), p, f));
 
-            control.AddRenderItem(new InfoItem("A function call: ", f, env));
+            control.AddRenderItem(new InfoItem("A function call: ", f));
             control.AddRenderItem(new ExpressionItem(
                 new FunctionCall(
                     CosineFunction.Value,
-                    new VariableAccess("x")), p, f, env));
+                    new VariableAccess("x")), p, f));
 
             control.AddRenderItem(
-                new InfoItem("A simple expression,  \"x + y/2\" :", f, env));
+                new InfoItem("A simple expression,  \"x + y/2\" :", f));
             control.AddRenderItem(new ExpressionItem(
                 new FunctionCall(
                     AdditionOperation.Value,
@@ -56,37 +56,38 @@ namespace MetaphysicsIndustries.Ligra.Commands
                     new FunctionCall(
                         DivisionOperation.Value,
                         new VariableAccess("y"),
-                        new Literal(2))), p, f, env));
+                        new Literal(2))),
+                p, f));
 
             control.AddRenderItem(
-                new InfoItem("Some derivatives, starting with x^3:", f, env));
+                new InfoItem("Some derivatives, starting with x^3:", f));
             var parser = new SolusParser();
             expr = parser.GetExpression("x^3", env);
-            control.AddRenderItem(new ExpressionItem(expr, p, f, env));
+            control.AddRenderItem(new ExpressionItem(expr, p, f));
             DerivativeTransformer derive = new DerivativeTransformer();
             expr = derive.Transform(expr, new VariableTransformArgs("x"));
-            control.AddRenderItem(new ExpressionItem(expr, p, f, env));
+            control.AddRenderItem(new ExpressionItem(expr, p, f));
             expr = derive.Transform(expr, new VariableTransformArgs("x"));
-            control.AddRenderItem(new ExpressionItem(expr, p, f, env));
+            control.AddRenderItem(new ExpressionItem(expr, p, f));
             expr = derive.Transform(expr, new VariableTransformArgs("x"));
-            control.AddRenderItem(new ExpressionItem(expr, p, f, env));
+            control.AddRenderItem(new ExpressionItem(expr, p, f));
 
             control.AddRenderItem(
-                new InfoItem("Some variable assignments: ", f, env));
+                new InfoItem("Some variable assignments: ", f));
             control.AddRenderItem(new ExpressionItem(
                 new FunctionCall(
                     AssignOperation.Value,
                     new VariableAccess("mu"),
                     new Literal(0.5f)),
                 p,
-                f, env));
+                f));
             control.AddRenderItem(new ExpressionItem(
                 new FunctionCall(
                     AssignOperation.Value,
                     new VariableAccess("sigma"),
                     new Literal(0.2f)),
                 p,
-                f, env));
+                f));
 
             env.Variables["mu"] = new Literal(0.5f);
             env.Variables["sigma"] = new Literal(0.2f);
@@ -133,19 +134,20 @@ namespace MetaphysicsIndustries.Ligra.Commands
             control.AddRenderItem(
                 new InfoItem(
                     "A complex expression, \"(1/(sigma*sqrt(2*pi))) * e ^ " +
-                    "( (x - mu)^2 / (-2 * sigma^2))\"", f, env));
-            control.AddRenderItem(new ExpressionItem(expr, p, f, env));
+                    "( (x - mu)^2 / (-2 * sigma^2))\"",
+                    f));
+            control.AddRenderItem(new ExpressionItem(expr, p, f));
             //(1/(sigma*sqrt(2*pi))) * e ^ ( (x - mu)^2 / (-2 * sigma^2))
 
             control.AddRenderItem(
-                new InfoItem("A plot of the expression: ", f, env));
+                new InfoItem("A plot of the expression: ", f));
             control.AddRenderItem(new GraphItem(expr, p, "x", parser, env));
 
             control.AddRenderItem(
                 new InfoItem(
                     "Multiple plots on the same axes, \"x^3\", " +
                     "\"3 * x^2\", \"6 * x\":",
-                    f, env));
+                    f));
             control.AddRenderItem(new GraphItem(
                 parser, env,
                 new GraphEntry(parser.GetExpression("x^3", env),
@@ -156,7 +158,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
                     LPen.Red, "x")));
 
             control.AddRenderItem(new InfoItem(
-                "A plot that changes with time, \"sin(x+t)\":", f, env));
+                "A plot that changes with time, \"sin(x+t)\":", f));
             control.AddRenderItem(
                 new GraphItem(
                     parser.GetExpression("sin(x+t)", env),
@@ -168,10 +170,10 @@ namespace MetaphysicsIndustries.Ligra.Commands
             control.AddRenderItem(new InfoItem(
                 "Another complex expression, \"unitstep((x*x+y*y)^0.5+" +
                 "2*(sin(t)-1))*cos(5*y+2*t)\",\r\nwhere t is time:",
-                f, env));
-            control.AddRenderItem(new ExpressionItem(expr, p, f, env));
+                f));
+            control.AddRenderItem(new ExpressionItem(expr, p, f));
 
-            control.AddRenderItem(new InfoItem("A 3d plot: ", f, env));
+            control.AddRenderItem(new InfoItem("A 3d plot: ", f));
             control.AddRenderItem(
                 new Graph3dItem(expr, LPen.Black, LBrush.Green, -4, 4, -4, 4,
                     -2, 6, "x", "y", env));

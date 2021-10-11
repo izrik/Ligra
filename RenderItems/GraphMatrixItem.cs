@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using MetaphysicsIndustries.Acuity;
 using MetaphysicsIndustries.Solus;
 using MetaphysicsIndustries.Solus.Expressions;
 using MetaphysicsIndustries.Solus.Values;
@@ -12,10 +11,10 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
     {
         public GraphMatrixItem(Acuity.Matrix matrix, string caption,
             LigraEnvironment env)
-            : base(env)
         {
             _matrix = matrix.Clone();
             _caption = caption;
+            _env = env;
         }
 
         private Acuity.Matrix _matrix;
@@ -25,6 +24,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         }
 
         public string _caption;
+
+        private readonly LigraEnvironment _env;
 
         public MemoryImage _image = null;
 
@@ -61,6 +62,9 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 textHeight);
             g.DrawString(_caption, drawSettings.Font, LBrush.Black, rect);
         }
+
+        protected override void CollectVariableValuesFromEnv() =>
+            CollectVariableValues(_env);
 
         protected override Vector2 InternalCalcSize(IRenderer g,
             DrawSettings drawSettings)

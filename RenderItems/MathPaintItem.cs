@@ -64,11 +64,11 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             _data = new GtkRenderer.GtkDrawImageData(_image);
         }
         protected MathPaintItem(LigraEnvironment env)
-            : base(env)
         {
             _timer = new System.Timers.Timer(250);
             _timer.Elapsed += _timer_Elapsed;
             _timer.Enabled = true;
+            _env = env;
         }
 
         public Expression _expression;
@@ -83,6 +83,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
         System.Timers.Timer _timer;
 
+        private readonly LigraEnvironment _env;
+
         protected override void InternalRender(IRenderer g,
             DrawSettings drawSettings)
         {
@@ -95,6 +97,9 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
             ((GtkRenderer) g).DrawImage(_data, boundsInClient);
         }
+
+        protected override void CollectVariableValuesFromEnv() =>
+            CollectVariableValues(_env);
 
         public void RenderMathPaintToMemoryImage(SolusEnvironment env)
         {

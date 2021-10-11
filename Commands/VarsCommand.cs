@@ -40,7 +40,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
             }
 
             control.AddRenderItem(
-                new InfoItem(s, control.DrawSettings.Font, env));
+                new InfoItem(s, control.DrawSettings.Font));
         }
     }
 }

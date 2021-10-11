@@ -4,14 +4,13 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 {
     public class SpacerItem : RenderItem
     {
-        public SpacerItem(Vector2 size, LigraEnvironment env)
-            : base(env)
+        public SpacerItem(Vector2 size)
         {
             _size = size;
         }
 
-        public SpacerItem(float width, float height, LigraEnvironment env)
-            : this(new Vector2(width, height), env)
+        public SpacerItem(float width, float height)
+            : this(new Vector2(width, height))
         {
         }
 

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using MetaphysicsIndustries.Solus;
 using MetaphysicsIndustries.Solus.Expressions;
 using MetaphysicsIndustries.Solus.Functions;
 using MetaphysicsIndustries.Solus.Values;
@@ -10,8 +9,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 {
     public class ExpressionItem : RenderItem
     {
-        public ExpressionItem(Expression expression, LPen pen, LFont font, LigraEnvironment env)
-            : base(env)
+        public ExpressionItem(Expression expression, LPen pen, LFont font)
         {
             _expression = expression;
             _pen = pen;
@@ -19,12 +17,12 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         }
         public ExpressionItem(Acuity.Vector vector, LPen pen, LFont font,
             LigraEnvironment env)
-            : this(GenerateVector(vector), pen, font, env)
+            : this(GenerateVector(vector), pen, font)
         {
         }
         public ExpressionItem(Acuity.Matrix matrix, LPen pen, LFont font,
             LigraEnvironment env)
-            : this(GenerateMatrix(matrix), pen, font, env)
+            : this(GenerateMatrix(matrix), pen, font)
         {
         }
 

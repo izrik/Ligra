@@ -62,7 +62,7 @@ List the available topics:
                 text = ConstructText(env, control);
             
             control.AddRenderItem(
-                new HelpItem(control.DrawSettings.Font, env, text));
+                new HelpItem(control.DrawSettings.Font, text));
         }
         
         public static string ConstructText(LigraEnvironment env,

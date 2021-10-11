@@ -1,12 +1,10 @@
-using MetaphysicsIndustries.Solus;
 
 namespace MetaphysicsIndustries.Ligra.RenderItems
 {
     public class ErrorItem : RenderItem
     {
         public ErrorItem(string inputText, string errorText, LFont font,
-            LBrush brush, LigraEnvironment env, int location = -1)
-            : base(env)
+            LBrush brush, int location = -1)
         {
             _errorText = errorText;
             _inputText = inputText;

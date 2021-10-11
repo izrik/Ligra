@@ -132,7 +132,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
 
             control.AddRenderItem(
                 new ExpressionItem(
-                    m, LPen.Blue, control.DrawSettings.Font, env));
+                    m, LPen.Blue, control.DrawSettings.Font));
             control.ClearCanvas();
         }
 

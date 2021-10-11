@@ -47,7 +47,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
             var expr2 = new FunctionCall(AssignOperation.Value, fcall, func.Expression);
 
             control.AddRenderItem(new ExpressionItem(expr2, LPen.Blue,
-                control.DrawSettings.Font, env));
+                control.DrawSettings.Font));
         }
     }
 }

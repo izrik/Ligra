@@ -7,8 +7,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 {
     public class RenderItemContainer : RenderItem
     {
-        public RenderItemContainer(string caption, LigraEnvironment env)
-            : base(env)
+        public RenderItemContainer(string caption)
         {
             _caption = caption;
         }

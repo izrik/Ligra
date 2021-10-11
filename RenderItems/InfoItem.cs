@@ -4,8 +4,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 {
     public class InfoItem : RenderItem
     {
-        public InfoItem(string text, LFont font, LigraEnvironment env)
-            : base(env)
+        public InfoItem(string text, LFont font)
         {
             _text = text;
             _font = font;
