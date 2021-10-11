@@ -133,7 +133,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
             control.AddRenderItem(
                 new ExpressionItem(
                     m, LPen.Blue, control.DrawSettings.Font, env));
-            env.ClearCanvas();
+            control.ClearCanvas();
         }
 
         private static void AddMultRow(SolusEngine engine, MatrixExpression m,

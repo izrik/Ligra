@@ -55,7 +55,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
                 control.RemoveRenderItem(item);
             }
 
-            env.ClearCanvas();
+            control.ClearCanvas();
         }
     }
 }

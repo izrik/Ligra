@@ -81,5 +81,7 @@ namespace MetaphysicsIndustries.Ligra
 
         public IList<string> History { get; } = new List<string>();
         public int CurrentHistoryIndex { get; set; } = -1;
+
+        public void ClearCanvas() => QueueDraw();
     }
 }

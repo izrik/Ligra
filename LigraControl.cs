@@ -137,5 +137,7 @@ namespace MetaphysicsIndustries.Ligra
         public int CurrentHistoryIndex { get; set; } = -1;
 
         public DrawSettings DrawSettings { get; } = new DrawSettings();
+
+        public void ClearCanvas() => Invalidate();
     }
 }

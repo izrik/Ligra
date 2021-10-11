@@ -20,8 +20,6 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        public Action ClearCanvas;
-
         public readonly LigraParser Parser = new LigraParser();
     }
 }

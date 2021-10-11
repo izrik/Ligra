@@ -17,5 +17,7 @@ namespace MetaphysicsIndustries.Ligra
         int CurrentHistoryIndex { get; set; }
 
         DrawSettings DrawSettings { get; }
+
+        void ClearCanvas();
     }
 }

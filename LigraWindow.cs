@@ -17,8 +17,6 @@ namespace MetaphysicsIndustries.Ligra
             Commands.Command.InitializeCommands(availableCommands);
             env = new LigraEnvironment(this.output, availableCommands);
 
-            env.ClearCanvas = output.QueueDraw;
-
             timer = new System.Timers.Timer(16);
             timer.Elapsed += timer_Elapsed;
             timer.Enabled = true;
