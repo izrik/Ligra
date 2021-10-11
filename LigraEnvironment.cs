@@ -7,9 +7,6 @@ namespace MetaphysicsIndustries.Ligra
 {
     public class LigraEnvironment : SolusEnvironment
     {
-        public LigraEnvironment(ILigraUI control, Dictionary<string, Command> commands)
-        {
-        }
     }
 }
 

@@ -26,8 +26,7 @@ namespace MetaphysicsIndustries.Ligra
                 this.Controls.Add(this.splitContainer1);
             }
 
-            _env = new LigraEnvironment(this.ligraControl1,
-                ligraControl1.Commands);
+            _env = new LigraEnvironment();
         }
 
         private static SolusEngine _engine = new SolusEngine();

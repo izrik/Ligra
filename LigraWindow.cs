@@ -14,7 +14,7 @@ namespace MetaphysicsIndustries.Ligra
             : base(WindowType.Toplevel)
         {
             InitializeComponent();
-            env = new LigraEnvironment(this.output, output.Commands);
+            env = new LigraEnvironment();
 
             timer = new System.Timers.Timer(16);
             timer.Elapsed += timer_Elapsed;
