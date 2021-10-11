@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Gtk;
+using MetaphysicsIndustries.Ligra.Commands;
 using MetaphysicsIndustries.Ligra.RenderItems;
+using MetaphysicsIndustries.Solus;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -10,6 +13,7 @@ namespace MetaphysicsIndustries.Ligra
         public LigraWidget()
         {
             InitializeComponent();
+            Command.InitializeCommands(Commands);
         }
 
         void InitializeComponent()
@@ -27,6 +31,10 @@ namespace MetaphysicsIndustries.Ligra
         }
 
         public DrawSettings DrawSettings { get; } = new DrawSettings();
+
+        public Dictionary<string, Command> Commands { get; } =
+            new Dictionary<string, Command>(
+                StringComparer.InvariantCultureIgnoreCase);
 
         bool scrollToBottom = false;
 

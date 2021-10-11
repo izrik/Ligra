@@ -26,7 +26,8 @@ namespace MetaphysicsIndustries.Ligra
                 this.Controls.Add(this.splitContainer1);
             }
 
-            _env = new LigraEnvironment(this.ligraControl1, _commands);
+            _env = new LigraEnvironment(this.ligraControl1,
+                ligraControl1.Commands);
         }
 
         private static SolusEngine _engine = new SolusEngine();
@@ -37,8 +38,6 @@ namespace MetaphysicsIndustries.Ligra
         ToolStripMenuItem _propertiesItem = new ToolStripMenuItem("Properties");
         private void LigraForm_Load(object sender, EventArgs e)
         {
-            InitializeCommands();
-
             evalTextBox.Focus();
 
             SetupContextMenu();

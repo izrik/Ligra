@@ -55,22 +55,24 @@ List the available topics:
             string text;
             
             if (!string.IsNullOrEmpty(topic))
-                text = ConstructText(env, topic);
+                text = ConstructText(env, control, topic);
             else if (args.Length > 1)
-                text = ConstructText(env, args[1]);
+                text = ConstructText(env, control, args[1]);
             else
-                text = ConstructText(env);
+                text = ConstructText(env, control);
             
             control.AddRenderItem(
                 new HelpItem(control.DrawSettings.Font, env, text));
         }
         
-        public static string ConstructText(LigraEnvironment env, string topic = "help")
+        public static string ConstructText(LigraEnvironment env,
+            ILigraUI control, string topic = "help")
         {
-            if (env.Commands.ContainsKey(topic))
+            if (control.Commands.ContainsKey(topic))
             {
-                if (!string.IsNullOrEmpty(env.Commands[topic].DocString))
-                    return env.Commands[topic].DocString;
+                if (!string.IsNullOrEmpty(
+                    control.Commands[topic].DocString))
+                    return control.Commands[topic].DocString;
                 return "This command does not provide any information.";
             }
 
@@ -92,12 +94,13 @@ List the available topics:
                 return _helpLookups[topic];
 
             if (topic == "list")
-                return ConstructListText(env);
+                return ConstructListText(env, control);
 
             return "Unknown topic \"" + topic + "\"";
         }
 
-        public static string ConstructListText(LigraEnvironment env)
+        public static string ConstructListText(LigraEnvironment env,
+            ILigraUI control)
         {
             var sb = new StringBuilder();
             var line = "";
@@ -114,11 +117,11 @@ List the available topics:
                 line += item;
             }
 
-            if (env.Commands.Count > 0)
+            if (control.Commands.Count > 0)
             {
                 sb.AppendLine("Commands:");
                 line = "";
-                var commands = env.Commands.Keys.ToList();
+                var commands = control.Commands.Keys.ToList();
                 commands.Sort();
                 foreach (var c in commands)
                     AddItem(c);

@@ -14,8 +14,7 @@ namespace MetaphysicsIndustries.Ligra
             : base(WindowType.Toplevel)
         {
             InitializeComponent();
-            Commands.Command.InitializeCommands(availableCommands);
-            env = new LigraEnvironment(this.output, availableCommands);
+            env = new LigraEnvironment(this.output, output.Commands);
 
             timer = new System.Timers.Timer(16);
             timer.Elapsed += timer_Elapsed;
@@ -23,9 +22,6 @@ namespace MetaphysicsIndustries.Ligra
         }
 
         LigraEnvironment env;
-        Dictionary<string, Command> availableCommands =
-            new Dictionary<string, Command>(
-                StringComparer.InvariantCultureIgnoreCase);
 
         System.Timers.Timer timer;
         Gtk.Button evalButton;
@@ -79,7 +75,7 @@ namespace MetaphysicsIndustries.Ligra
             {
                 try
                 {
-                    LigraWindow.ProcessInput(s, env, availableCommands,
+                    LigraWindow.ProcessInput(s, env, output.Commands,
                         () => input.SelectRegion(0, input.Text.Length),
                         this.output);
                 }

@@ -9,15 +9,6 @@ namespace MetaphysicsIndustries.Ligra
     {
         public LigraEnvironment(ILigraUI control, Dictionary<string, Command> commands)
         {
-            if (control == null) throw new ArgumentNullException("control");
-
-            this.Commands.Clear();
-            if (commands == null) return;
-            foreach (var kvp in commands)
-            {
-                var command = kvp.Value;
-                AddCommand(command);
-            }
         }
     }
 }

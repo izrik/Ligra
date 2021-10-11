@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using MetaphysicsIndustries.Ligra.Commands;
 using MetaphysicsIndustries.Ligra.RenderItems;
 
 namespace MetaphysicsIndustries.Ligra
@@ -21,5 +22,7 @@ namespace MetaphysicsIndustries.Ligra
         void ClearCanvas();
 
         LigraParser Parser { get; }
+
+        Dictionary<string, Command> Commands { get; }
     }
 }

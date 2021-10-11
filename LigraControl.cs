@@ -16,6 +16,7 @@ using System.Drawing;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
+using MetaphysicsIndustries.Ligra.Commands;
 using MetaphysicsIndustries.Ligra.RenderItems;
 using MetaphysicsIndustries.Solus;
 
@@ -26,6 +27,7 @@ namespace MetaphysicsIndustries.Ligra
         public LigraControl()
         {
             InitializeComponent();
+            Ligra.Commands.Command.InitializeCommands(Commands);
         }
 
         static readonly SolusEngine _engine = new SolusEngine();
@@ -141,5 +143,9 @@ namespace MetaphysicsIndustries.Ligra
         public void ClearCanvas() => Invalidate();
 
         public LigraParser Parser { get; } = new LigraParser();
+
+        public Dictionary<string, Command> Commands { get; } =
+            new Dictionary<string, Command>(
+                StringComparer.InvariantCultureIgnoreCase);
     }
 }
