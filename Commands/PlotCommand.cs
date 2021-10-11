@@ -82,7 +82,8 @@ Plot one or more expressions that vary over two variable as a 3D graph:
             throw new System.NotImplementedException();
         }
 
-        public override void Execute(string input, string[] args, LigraEnvironment env)
+        public override void Execute(string input, string[] args,
+            LigraEnvironment env, ILigraUI control)
         {
             // TODO: don't create another instance of the class within the class.
             var cmd = env.Parser.GetPlotCommand(input, env);

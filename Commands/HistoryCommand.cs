@@ -25,11 +25,12 @@ Clear the command history:
             throw new System.NotImplementedException();
         }
 
-        public override void Execute(string input, string[] args, LigraEnvironment env)
+        public override void Execute(string input, string[] args,
+            LigraEnvironment env, ILigraUI control)
         {
             if (args.Length > 1 && args[1].ToLower() == "clear")
             {
-                ClearHistory(env);
+                ClearHistory(env, control);
             }
             else
             {

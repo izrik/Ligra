@@ -154,7 +154,7 @@ namespace MetaphysicsIndustries.Ligra
 
         void ClearItem_Click(object sender, EventArgs e)
         {
-            Commands.Command.ClearOutput(_env);
+            Commands.Command.ClearOutput(_env, ligraControl1);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -190,7 +190,7 @@ namespace MetaphysicsIndustries.Ligra
             {
                 try
                 {
-                    ProcessInput(input);
+                    ProcessInput(input, ligraControl1);
                 }
                 catch (Exception ee)
                 {

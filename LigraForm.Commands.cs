@@ -22,14 +22,15 @@ namespace MetaphysicsIndustries.Ligra
             Commands.Command.InitializeCommands(_commands);
         }
 
-        private void CdCommand(string input, string[] args)
+        private void CdCommand(string input, string[] args, ILigraUI control)
         {
-            new CdCommand().Execute(input, args, _env);
+            new CdCommand().Execute(input, args, _env, control);
         }
 
-        private void ProcessInput(string input)
+        private void ProcessInput(string input, ILigraUI control)
         {
-            LigraWindow.ProcessInput(input, _env, _commands, evalTextBox.SelectAll);
+            LigraWindow.ProcessInput(input, _env, _commands,
+                evalTextBox.SelectAll, control);
         }
     }
 }

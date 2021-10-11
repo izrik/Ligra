@@ -17,7 +17,8 @@ namespace MetaphysicsIndustries.Ligra.Commands
             throw new System.NotImplementedException();
         }
 
-        public override void Execute(string input, string[] args, LigraEnvironment env)
+        public override void Execute(string input, string[] args,
+            LigraEnvironment env, ILigraUI control)
         {
             string s = string.Empty;
             foreach (string var in env.Variables.Keys)

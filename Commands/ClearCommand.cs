@@ -25,27 +25,28 @@ Clear both output and history:
             throw new System.NotImplementedException();
         }
 
-        public override void Execute(string input, string[] args, LigraEnvironment env)
+        public override void Execute(string input, string[] args,
+            LigraEnvironment env, ILigraUI control)
         {
             if (args.Length > 1)
             {
                 if (args[1].ToLower() == "history")
                 {
-                    ClearHistory(env);
+                    ClearHistory(env, control);
                 }
                 else if (args[1].ToLower() == "all")
                 {
-                    ClearHistory(env);
-                    ClearOutput(env);
+                    ClearHistory(env, control);
+                    ClearOutput(env, control);
                 }
                 else
                 {
-                    ClearOutput(env);
+                    ClearOutput(env, control);
                 }
             }
             else
             {
-                ClearOutput(env);
+                ClearOutput(env, control);
             }
         }
     }

@@ -16,7 +16,8 @@ namespace MetaphysicsIndustries.Ligra.Commands
             throw new System.NotImplementedException();
         }
 
-        public override void Execute(string input, string[] args, LigraEnvironment env)
+        public override void Execute(string input, string[] args,
+            LigraEnvironment env, ILigraUI control)
         {
 
             if (!env.Variables.ContainsKey("x")) env.Variables.Add("x", new Literal(0));
@@ -33,9 +34,9 @@ namespace MetaphysicsIndustries.Ligra.Commands
             var input3 =
                 "cos_taylor(x, n, sign) := if (n-8, sign * (x ^ n) / factorial(n) + cos_taylor(x, n+2, -sign), 0)";
             var input4 = "cos2(x) := cos_taylor(x, 0, 1)";
-            parser.GetCommands(input2, env)[0].Execute(input2, null, env);
-            parser.GetCommands(input3, env)[0].Execute(input3, null, env);
-            parser.GetCommands(input4, env)[0].Execute(input4, null, env);
+            parser.GetCommands(input2, env)[0].Execute(input2, null, env, control);
+            parser.GetCommands(input3, env)[0].Execute(input3, null, env, control);
+            parser.GetCommands(input4, env)[0].Execute(input4, null, env, control);
         }
     }
 }

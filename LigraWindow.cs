@@ -84,7 +84,8 @@ namespace MetaphysicsIndustries.Ligra
                 try
                 {
                     LigraWindow.ProcessInput(s, env, availableCommands,
-                        () => input.SelectRegion(0, input.Text.Length));
+                        () => input.SelectRegion(0, input.Text.Length),
+                        this.output);
                 }
                 catch (Solus.Exceptions.ParseException e)
                 {
@@ -120,7 +121,7 @@ namespace MetaphysicsIndustries.Ligra
 
         void ClearItems()
         {
-            Commands.Command.ClearOutput(env);
+            Commands.Command.ClearOutput(env, output);
         }
 
         void DoRenderItemProperties()
@@ -226,7 +227,7 @@ namespace MetaphysicsIndustries.Ligra
 
         public static void ProcessInput(string input, LigraEnvironment env,
             Dictionary<string, Command> availableCommands,
-            System.Action selectAllInputText)
+            System.Action selectAllInputText, ILigraUI control)
         {
             var args = input.Split(new char[] { ' ', '\t', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -254,7 +255,7 @@ namespace MetaphysicsIndustries.Ligra
 
                 foreach (var command in commands)
                 {
-                    command.Execute(input, args, env);
+                    command.Execute(input, args, env, control);
                 }
             }
 

@@ -6,7 +6,8 @@ namespace MetaphysicsIndustries.Ligra.Commands
 {
     public abstract class Command : Solus.Commands.Command
     {
-        public abstract void Execute(string input, string[] args, LigraEnvironment env);
+        public abstract void Execute(string input, string[] args,
+            LigraEnvironment env, ILigraUI control);
 
         public virtual string GetInputLabel(string input, LigraEnvironment env)
         {
@@ -38,14 +39,14 @@ namespace MetaphysicsIndustries.Ligra.Commands
             commands["func_assign"] = FuncAssignCommand.Value;
         }
 
-        public static void ClearHistory(LigraEnvironment env)
+        public static void ClearHistory(LigraEnvironment env, ILigraUI control)
         {
             env.History.Clear();
             env.CurrentHistoryIndex = -1;
             env.AddRenderItem(new InfoItem("History cleared", env.Font, env));
         }
 
-        public static void ClearOutput(LigraEnvironment env)
+        public static void ClearOutput(LigraEnvironment env, ILigraUI control)
         {
             var items = env.RenderItems.ToArray();
             foreach (var item in items)
