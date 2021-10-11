@@ -111,7 +111,7 @@ namespace MetaphysicsIndustries.Ligra
 
         void ClearItems()
         {
-            Commands.Command.ClearOutput(output.Env, output);
+            Commands.Command.ClearOutput(output);
         }
 
         void DoRenderItemProperties()

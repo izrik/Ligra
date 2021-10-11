@@ -37,16 +37,16 @@ Clear both output and history:
                 else if (args[1].ToLower() == "all")
                 {
                     ClearHistory(env, control);
-                    ClearOutput(env, control);
+                    ClearOutput(control);
                 }
                 else
                 {
-                    ClearOutput(env, control);
+                    ClearOutput(control);
                 }
             }
             else
             {
-                ClearOutput(env, control);
+                ClearOutput(control);
             }
         }
     }

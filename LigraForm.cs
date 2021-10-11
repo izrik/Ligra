@@ -145,7 +145,7 @@ namespace MetaphysicsIndustries.Ligra
 
         void ClearItem_Click(object sender, EventArgs e)
         {
-            Commands.Command.ClearOutput(ligraControl1.Env, ligraControl1);
+            Commands.Command.ClearOutput(ligraControl1);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
