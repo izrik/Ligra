@@ -94,6 +94,7 @@
     <Compile Include="Commands\TSolveCommand.cs" />
     <Compile Include="Commands\VarAssignCommand.cs" />
     <Compile Include="Commands\VarsCommand.cs" />
+    <Compile Include="DrawSettings.cs" />
     <Compile Include="GtkRenderer.cs" />
     <Compile Include="LigraControl.cs">
       <SubType>UserControl</SubType>

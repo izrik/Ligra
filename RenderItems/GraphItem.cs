@@ -100,7 +100,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         public List<GraphEntry> _entries = new List<GraphEntry>();
         //private SizeF _size = new SizeF(400, 400);
 
-        protected override void InternalRender(IRenderer g, SolusEnvironment env)
+        protected override void InternalRender(IRenderer g,
+            SolusEnvironment env, DrawSettings drawSettings)
         {
             g.DrawRectangle(LPen.Red, Rect.X, Rect.Y, Rect.Width, Rect.Height);
             bool first = true;
@@ -129,7 +130,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             }
         }
 
-        protected override Vector2 InternalCalcSize(IRenderer g)
+        protected override Vector2 InternalCalcSize(IRenderer g,
+            DrawSettings drawSettings)
         {
             return Rect.Size.ToVector2();
         }

@@ -15,5 +15,7 @@ namespace MetaphysicsIndustries.Ligra
 
         IList<string> History { get; }
         int CurrentHistoryIndex { get; set; }
+
+        DrawSettings DrawSettings { get; }
     }
 }

@@ -83,7 +83,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
         System.Timers.Timer _timer;
 
-        protected override void InternalRender(IRenderer g, SolusEnvironment env)
+        protected override void InternalRender(IRenderer g,
+            SolusEnvironment env, DrawSettings drawSettings)
         {
             RectangleF boundsInClient = new RectangleF(0, 0, _width, _height);
 
@@ -120,7 +121,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             GatherVariablesForValueCollection(vars, _expression);
         }
 
-        protected override Vector2 InternalCalcSize(IRenderer g)
+        protected override Vector2 InternalCalcSize(IRenderer g,
+            DrawSettings drawSettings)
         {
             return new Vector2(_width, _height);
         }

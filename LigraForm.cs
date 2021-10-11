@@ -48,7 +48,6 @@ namespace MetaphysicsIndustries.Ligra
                 _env.Variables.Add("t", new Literal(0));
             }
 
-            _env.Font = LFont.FromSwf(ligraControl1.Font);
             _env.ClearCanvas = ligraControl1.Invalidate;
         }
 

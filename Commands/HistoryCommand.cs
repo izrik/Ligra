@@ -37,7 +37,7 @@ Clear the command history:
             {
                 var s = string.Join("\r\n", control.History.ToArray());
                 control.AddRenderItem(
-                    new InfoItem(s + "\r\n", env.Font, env));
+                    new InfoItem(s + "\r\n", control.DrawSettings.Font, env));
             }
         }
     }

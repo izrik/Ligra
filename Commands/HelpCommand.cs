@@ -61,7 +61,8 @@ List the available topics:
             else
                 text = ConstructText(env);
             
-            control.AddRenderItem(new HelpItem(env.Font, env, text));
+            control.AddRenderItem(
+                new HelpItem(control.DrawSettings.Font, env, text));
         }
         
         public static string ConstructText(LigraEnvironment env, string topic = "help")

@@ -17,11 +17,13 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
         public readonly Vector2 _size;
 
-        protected override void InternalRender(IRenderer g, SolusEnvironment env)
+        protected override void InternalRender(IRenderer g,
+            SolusEnvironment env, DrawSettings drawSettings)
         {
         }
 
-        protected override Vector2 InternalCalcSize(IRenderer g)
+        protected override Vector2 InternalCalcSize(IRenderer g,
+            DrawSettings drawSettings)
         {
             return _size;
         }

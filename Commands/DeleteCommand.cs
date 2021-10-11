@@ -48,8 +48,8 @@ namespace MetaphysicsIndustries.Ligra.Commands
                     }
 
                     control.AddRenderItem(
-                        new ErrorItem(input, error, env.Font, LBrush.Red, env,
-                            input.IndexOf(args[0])));
+                        new ErrorItem(input, error, control.DrawSettings.Font,
+                            LBrush.Red, env, input.IndexOf(args[0])));
                 }
                 else
                 {
@@ -61,14 +61,15 @@ namespace MetaphysicsIndustries.Ligra.Commands
                     control.AddRenderItem(
                         new InfoItem(
                             "The variables were deleted successfully.",
-                            env.Font, env));
+                            control.DrawSettings.Font, env));
                 }
             }
             else
             {
                 control.AddRenderItem(
                     new ErrorItem(input, "Must specify variables to delete",
-                        env.Font, LBrush.Red, env, input.IndexOf(args[0])));
+                        control.DrawSettings.Font, LBrush.Red, env,
+                        input.IndexOf(args[0])));
             }
         }
     }

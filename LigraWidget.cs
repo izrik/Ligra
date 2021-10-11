@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Gtk;
 using MetaphysicsIndustries.Ligra.RenderItems;
 
@@ -27,6 +26,8 @@ namespace MetaphysicsIndustries.Ligra
             _vbox.SizeAllocated += _vbox_SizeAllocated;
         }
 
+        public DrawSettings DrawSettings { get; } = new DrawSettings();
+
         bool scrollToBottom = false;
 
         private void _vbox_SizeAllocated(object o, SizeAllocatedArgs args)
@@ -53,6 +54,7 @@ namespace MetaphysicsIndustries.Ligra
             _items.Add(item);
             item.Container = this;
             var widget = item.GetAdapter();
+            ((RenderItemWidget) widget).Control = this;
             widget.ShowAll();
             _vbox.PackStart(widget, true, false, 3);
             _vbox.ShowAll();

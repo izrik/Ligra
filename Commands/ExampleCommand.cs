@@ -23,7 +23,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
         public override void Execute(string input, string[] args,
             LigraEnvironment env, ILigraUI control)
         {
-            var f = env.Font;
+            var f = control.DrawSettings.Font;
             var p = LPen.Blue;
 
             if (!env.Variables.ContainsKey("x")) env.Variables.Add("x", new Literal(0));

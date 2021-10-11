@@ -23,10 +23,11 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             }
         }
 
-        protected override void InternalRender(IRenderer g, SolusEnvironment env)
+        protected override void InternalRender(IRenderer g,
+            SolusEnvironment env, DrawSettings drawSettings)
         {
             RectangleF rect = new RectangleF(new PointF(0, 0),
-                InternalCalcSize(g));
+                InternalCalcSize(g, drawSettings));
 
             StringFormat fmt = Format;
             if (fmt == null)
@@ -39,7 +40,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             }
         }
 
-        protected override Vector2 InternalCalcSize(IRenderer g)
+        protected override Vector2 InternalCalcSize(IRenderer g,
+            DrawSettings drawSettings)
         {
             return g.MeasureString(_text, _font, Container.ClientSize.X - 25);
         }

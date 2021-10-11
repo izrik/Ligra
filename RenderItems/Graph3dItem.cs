@@ -61,7 +61,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         int numTicks = 0;
         string fps = "";
 
-        protected override void InternalRender(IRenderer g, SolusEnvironment env)
+        protected override void InternalRender(IRenderer g,
+            SolusEnvironment env, DrawSettings drawSettings)
         {
             var stime = Environment.TickCount;
 
@@ -74,7 +75,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 _expression,
                 _independentVariableX,
                 _independentVariableY,
-                env, true, _env.Font);
+                env, true, drawSettings.Font);
 
             var dtime = Environment.TickCount - stime;
             numTicks += dtime;
@@ -89,10 +90,12 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 numRenders = 0;
             }
 
-            g.DrawString(fps, _env.Font, LBrush.Blue, new Vector2(0, 0));
+            g.DrawString(fps, drawSettings.Font, LBrush.Blue,
+                new Vector2(0, 0));
         }
 
-        protected override Vector2 InternalCalcSize(IRenderer g)
+        protected override Vector2 InternalCalcSize(IRenderer g,
+            DrawSettings drawSettings)
         {
             return new Vector2(400, 400);
         }

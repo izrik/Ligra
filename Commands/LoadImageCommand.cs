@@ -19,7 +19,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
         public override void Execute(string input, string[] args,
             LigraEnvironment env, ILigraUI control)
         {
-            var font = env.Font;
+            var font = control.DrawSettings.Font;
             var brush = LBrush.Red;
 
             if (args.Length < 3)

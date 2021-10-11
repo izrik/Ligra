@@ -29,7 +29,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         public MemoryImage _image = null;
 
         protected override void InternalRender(IRenderer g,
-            SolusEnvironment env)
+            SolusEnvironment env, DrawSettings drawSettings)
         {
             RectangleF boundsInClient = new RectangleF(0, 0,
                 Matrix.ColumnCount, Matrix.RowCount);
@@ -53,19 +53,20 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 GetImageHeight());
             g.DrawImage(_image, rect);
 
-            SizeF textSize = g.MeasureString(_caption, _env.Font,
+            SizeF textSize = g.MeasureString(_caption, drawSettings.Font,
                 GetImageWidth());
             float textWidth = textSize.Width;
             float textHeight = textSize.Height;
             rect = new RectangleF(0, GetImageHeight() + 2, textWidth,
                 textHeight);
-            g.DrawString(_caption, _env.Font, LBrush.Black, rect);
+            g.DrawString(_caption, drawSettings.Font, LBrush.Black, rect);
         }
 
-        protected override Vector2 InternalCalcSize(IRenderer g)
+        protected override Vector2 InternalCalcSize(IRenderer g,
+            DrawSettings drawSettings)
         {
             var width = GetImageWidth();
-            var captionSize = g.MeasureString(_caption, _env.Font,
+            var captionSize = g.MeasureString(_caption, drawSettings.Font,
                 GetImageWidth());
 
             return new Vector2(

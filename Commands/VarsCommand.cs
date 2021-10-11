@@ -39,7 +39,8 @@ namespace MetaphysicsIndustries.Ligra.Commands
                 s += var + " = " + valueString + "\r\n";
             }
 
-            control.AddRenderItem(new InfoItem(s, env.Font, env));
+            control.AddRenderItem(
+                new InfoItem(s, control.DrawSettings.Font, env));
         }
     }
 }

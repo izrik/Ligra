@@ -17,8 +17,10 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             _env = env;
         }
 
-        protected abstract void InternalRender(IRenderer g, SolusEnvironment env);
-        protected abstract Vector2 InternalCalcSize(IRenderer g);
+        protected abstract void InternalRender(IRenderer g,
+            SolusEnvironment env, DrawSettings drawSettings);
+        protected abstract Vector2 InternalCalcSize(IRenderer g,
+            DrawSettings drawSettings);
 
         public string _error = string.Empty;
         public SizeF _errorSize = new SizeF(0, 0);
@@ -27,7 +29,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         public readonly LigraEnvironment _env;
         public ILigraUI Container { get; set; }
 
-        public void Render(IRenderer g, LFont font)
+        public void Render(IRenderer g, DrawSettings drawSettings)
         {
             var red = LBrush.Red;
 
@@ -35,13 +37,13 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             {
                 if (string.IsNullOrEmpty(_error))
                 {
-                    InternalRender(g, _env);
+                    InternalRender(g, _env, drawSettings);
 
                     CollectVariableValues(_env);
                 }
                 else
                 {
-                    g.DrawString(_error, font, red,
+                    g.DrawString(_error, drawSettings.Font, red,
                         new Vector2(0, 0));
                 }
             }
@@ -51,9 +53,9 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                          "the item: \r\n" + ex.ToString();
                 _changeSize = true;
 
-                g.DrawString(_error, font, red,
+                g.DrawString(_error, drawSettings.Font, red,
                     new Vector2(0, 0));
-                _errorSize = g.MeasureString(_error, font);
+                _errorSize = g.MeasureString(_error, drawSettings.Font);
 
                 g.DrawRectangle(LPen.Red, 0, 0, _errorSize.Width,
                     _errorSize.Height);
@@ -67,7 +69,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 {
                     if (string.IsNullOrEmpty(_error))
                     {
-                        Size = Size.Truncate(InternalCalcSize(g));
+                        Size = Size.Truncate(
+                            InternalCalcSize(g, drawSettings));
                     }
                     else
                     {
@@ -169,9 +172,9 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             return new RenderItemWidget(this);
         }
         
-        public Vector2 CalculateSize(IRenderer g)
+        public Vector2 CalculateSize(IRenderer g, DrawSettings drawSettings)
         {
-            return InternalCalcSize(g);
+            return InternalCalcSize(g, drawSettings);
         }
 
         public virtual Vector2? DefaultSize => null;
@@ -221,11 +224,12 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         }
 
         protected readonly RenderItem _owner;
+        public ILigraUI Control;
 
         private void RenderItemWidget_Drawn(object o, DrawnArgs args)
         {
             var g = new GtkRenderer(args.Cr, this);
-            _owner.Render(g, _owner._env.Font);
+            _owner.Render(g, Control.DrawSettings);
         }
     }
 
@@ -239,14 +243,14 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         }
 
         protected readonly RenderItem _owner;
+        public ILigraUI Control;
 
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
 
             var g = new SwfRenderer(e.Graphics);
-            var font = LFont.FromSwf(this.Font);
-            _owner.Render(g, font);
+            _owner.Render(g, Control.DrawSettings);
         }
 
         public RectangleF Rect // Size, Height, Width, Bounds, ClientRectangle, etc.

@@ -21,7 +21,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         public LBrush _brush;
         public int _location;
 
-        protected override void InternalRender(IRenderer g, SolusEnvironment env)
+        protected override void InternalRender(IRenderer g,
+            SolusEnvironment env, DrawSettings drawSettings)
         {
             var font = _font;
 
@@ -48,7 +49,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             g.DrawString(_errorText, font, _brush, new Vector2(0, y));
         }
 
-        protected override Vector2 InternalCalcSize(IRenderer g)
+        protected override Vector2 InternalCalcSize(IRenderer g,
+            DrawSettings drawSettings)
         {
             float y = 0;
             var font = _font;

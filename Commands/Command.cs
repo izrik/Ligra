@@ -44,7 +44,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
             control.History.Clear();
             control.CurrentHistoryIndex = -1;
             control.AddRenderItem(
-                new InfoItem("History cleared", env.Font, env));
+                new InfoItem("History cleared", control.DrawSettings.Font, env));
         }
 
         public static void ClearOutput(LigraEnvironment env, ILigraUI control)

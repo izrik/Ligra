@@ -131,7 +131,8 @@ namespace MetaphysicsIndustries.Ligra.Commands
             m[4, 3] = negOne;
 
             control.AddRenderItem(
-                new ExpressionItem(m, LPen.Blue, env.Font, env));
+                new ExpressionItem(
+                    m, LPen.Blue, control.DrawSettings.Font, env));
             env.ClearCanvas();
         }
 

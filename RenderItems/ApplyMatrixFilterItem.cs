@@ -21,7 +21,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
         public string _caption;
 
-        protected override void InternalRender(IRenderer g, SolusEnvironment env)
+        protected override void InternalRender(IRenderer g,
+            SolusEnvironment env, DrawSettings drawSettings)
         {
             Matrix mat = _filter.Apply(_matrix);
             mat.ApplyToAll(AcuityEngine.ConvertFloatTo24g);
@@ -36,11 +37,12 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             rect.Size = new SizeF(GetImageWidth(mat), GetImageHeight(mat));
             g.DrawImage(image, rect);
 
-            SizeF textSize = g.MeasureString(_caption, _env.Font, GetImageWidth(mat));
+            SizeF textSize = g.MeasureString(_caption, drawSettings.Font,
+                GetImageWidth(mat));
             float textWidth = textSize.Width;
             float textHeight = textSize.Height;
             rect = new RectangleF(0, GetImageHeight(mat) + 2, textWidth, textHeight);
-            g.DrawString(_caption, _env.Font, LBrush.Black, rect);
+            g.DrawString(_caption, drawSettings.Font, LBrush.Black, rect);
 
             _lastSize = new Vector2(GetImageWidth(mat), GetImageHeight(mat));
 
@@ -51,9 +53,12 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             }
         }
 
-        protected override Vector2 InternalCalcSize(IRenderer g)
+        protected override Vector2 InternalCalcSize(IRenderer g,
+            DrawSettings drawSettings)
         {
-            return _lastSize + new Vector2(0, g.MeasureString(_caption, _env.Font, (int)_lastSize.X).Y + 2);
+            return _lastSize + new Vector2(0,
+                g.MeasureString(_caption, drawSettings.Font,
+                    (int)_lastSize.X).Y + 2);
         }
 
         private int GetImageHeight(Matrix mat)

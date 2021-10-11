@@ -72,14 +72,16 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             get { return _font; }
         }
 
-        protected override void InternalRender(IRenderer g, SolusEnvironment env)
+        protected override void InternalRender(IRenderer g,
+            SolusEnvironment env, DrawSettings drawSettings)
         {
             var exprSize = CalcExpressionSize(Expression, g, Font);
             float xx = 0;
             RenderExpression(g, _expression, new Vector2(xx, 0), _pen, _pen.Brush, Font, false);
         }
 
-        protected override Vector2 InternalCalcSize(IRenderer g)
+        protected override Vector2 InternalCalcSize(IRenderer g,
+            DrawSettings drawSettings)
         {
             var exprSize = CalcExpressionSize(Expression, g, Font);
             return exprSize;

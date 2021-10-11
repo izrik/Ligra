@@ -16,8 +16,6 @@ namespace MetaphysicsIndustries.Ligra
             InitializeComponent();
             Commands.Command.InitializeCommands(availableCommands);
             env = new LigraEnvironment(this.output, availableCommands);
-            env.Font = new LFont(LFont.Families.CourierNew, 12,
-                LFont.Styles.Regular);
 
             env.ClearCanvas = output.QueueDraw;
 
@@ -90,14 +88,15 @@ namespace MetaphysicsIndustries.Ligra
                 catch (Solus.Exceptions.ParseException e)
                 {
                     output.AddRenderItem(
-                        new ErrorItem(s, e.Error, env.Font, LBrush.Red, env,
-                        e.Location));
+                        new ErrorItem(s, e.Error,
+                            output.DrawSettings.Font,
+                            LBrush.Red, env, e.Location));
                 }
                 catch (Exception e)
                 {
                     output.AddRenderItem(
                         new ErrorItem(s, $"There was an error: {e}",
-                        env.Font, LBrush.Red, env));
+                            output.DrawSettings.Font, LBrush.Red, env));
                 }
             }
 
@@ -251,7 +250,8 @@ namespace MetaphysicsIndustries.Ligra
                 {
                     label = commands[0].GetInputLabel(input, env);
                 }
-                control.AddRenderItem(new TextItem(env, label, env.Font));
+                control.AddRenderItem(
+                    new TextItem(env, label, control.DrawSettings.Font));
 
                 foreach (var command in commands)
                 {
