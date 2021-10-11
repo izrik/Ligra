@@ -25,7 +25,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
         public override void Execute(string input, string[] args,
             LigraEnvironment env, ILigraUI control)
         {
-            Execute(input, args, env, _expr);
+            Execute(input, args, env, control, _expr);
         }
 
         public override string GetInputLabel(string input, LigraEnvironment env)
@@ -33,11 +33,13 @@ namespace MetaphysicsIndustries.Ligra.Commands
             return string.Format("$ {0}", _expr);
         }
 
-        public static void Execute(string input, string[] args, LigraEnvironment env, Expression expr)
+        public static void Execute(string input, string[] args,
+            LigraEnvironment env, ILigraUI control, Expression expr)
         {
             expr = expr.PreliminaryEval(env);
 
-            env.AddRenderItem(new ExpressionItem(expr, LPen.Blue, env.Font, env));
+            control.AddRenderItem(
+                new ExpressionItem(expr, LPen.Blue, env.Font, env));
         }
     }
 }

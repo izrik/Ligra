@@ -33,20 +33,23 @@ namespace MetaphysicsIndustries.Ligra.Commands
 
             Expression expr;
 
-            env.AddRenderItem(new InfoItem("A number:", f, env));
-            env.AddRenderItem(new ExpressionItem(new Literal(123.45f), p, f, env));
+            control.AddRenderItem(new InfoItem("A number:", f, env));
+            control.AddRenderItem(
+                new ExpressionItem(new Literal(123.45f), p, f, env));
 
-            env.AddRenderItem(new InfoItem("A variable:", f, env));
-            env.AddRenderItem(new ExpressionItem(new VariableAccess("x"), p, f, env));
+            control.AddRenderItem(new InfoItem("A variable:", f, env));
+            control.AddRenderItem(
+                new ExpressionItem(new VariableAccess("x"), p, f, env));
 
-            env.AddRenderItem(new InfoItem("A function call: ", f, env));
-            env.AddRenderItem(new ExpressionItem(
+            control.AddRenderItem(new InfoItem("A function call: ", f, env));
+            control.AddRenderItem(new ExpressionItem(
                 new FunctionCall(
                     CosineFunction.Value,
                     new VariableAccess("x")), p, f, env));
 
-            env.AddRenderItem(new InfoItem("A simple expression,  \"x + y/2\" :", f, env));
-            env.AddRenderItem(new ExpressionItem(
+            control.AddRenderItem(
+                new InfoItem("A simple expression,  \"x + y/2\" :", f, env));
+            control.AddRenderItem(new ExpressionItem(
                 new FunctionCall(
                     AdditionOperation.Value,
                     new VariableAccess("x"),
@@ -55,27 +58,29 @@ namespace MetaphysicsIndustries.Ligra.Commands
                         new VariableAccess("y"),
                         new Literal(2))), p, f, env));
 
-            env.AddRenderItem(new InfoItem("Some derivatives, starting with x^3:", f, env));
+            control.AddRenderItem(
+                new InfoItem("Some derivatives, starting with x^3:", f, env));
             var parser = new SolusParser();
             expr = parser.GetExpression("x^3", env);
-            env.AddRenderItem(new ExpressionItem(expr, p, f, env));
+            control.AddRenderItem(new ExpressionItem(expr, p, f, env));
             DerivativeTransformer derive = new DerivativeTransformer();
             expr = derive.Transform(expr, new VariableTransformArgs("x"));
-            env.AddRenderItem(new ExpressionItem(expr, p, f, env));
+            control.AddRenderItem(new ExpressionItem(expr, p, f, env));
             expr = derive.Transform(expr, new VariableTransformArgs("x"));
-            env.AddRenderItem(new ExpressionItem(expr, p, f, env));
+            control.AddRenderItem(new ExpressionItem(expr, p, f, env));
             expr = derive.Transform(expr, new VariableTransformArgs("x"));
-            env.AddRenderItem(new ExpressionItem(expr, p, f, env));
+            control.AddRenderItem(new ExpressionItem(expr, p, f, env));
 
-            env.AddRenderItem(new InfoItem("Some variable assignments: ", f, env));
-            env.AddRenderItem(new ExpressionItem(
+            control.AddRenderItem(
+                new InfoItem("Some variable assignments: ", f, env));
+            control.AddRenderItem(new ExpressionItem(
                 new FunctionCall(
                     AssignOperation.Value,
                     new VariableAccess("mu"),
                     new Literal(0.5f)),
                 p,
                 f, env));
-            env.AddRenderItem(new ExpressionItem(
+            control.AddRenderItem(new ExpressionItem(
                 new FunctionCall(
                     AssignOperation.Value,
                     new VariableAccess("sigma"),
@@ -125,33 +130,51 @@ namespace MetaphysicsIndustries.Ligra.Commands
                                     new VariableAccess("sigma"),
                                     new Literal(2))))));
 
-            env.AddRenderItem(new InfoItem(
-                "A complex expression, \"(1/(sigma*sqrt(2*pi))) * e ^ ( (x - mu)^2 / (-2 * sigma^2))\"", f, env));
-            env.AddRenderItem(new ExpressionItem(expr, p, f, env));
+            control.AddRenderItem(
+                new InfoItem(
+                    "A complex expression, \"(1/(sigma*sqrt(2*pi))) * e ^ " +
+                    "( (x - mu)^2 / (-2 * sigma^2))\"", f, env));
+            control.AddRenderItem(new ExpressionItem(expr, p, f, env));
             //(1/(sigma*sqrt(2*pi))) * e ^ ( (x - mu)^2 / (-2 * sigma^2))
 
-            env.AddRenderItem(new InfoItem("A plot of the expression: ", f, env));
-            env.AddRenderItem(new GraphItem(expr, p, "x", parser, env));
+            control.AddRenderItem(
+                new InfoItem("A plot of the expression: ", f, env));
+            control.AddRenderItem(new GraphItem(expr, p, "x", parser, env));
 
-            env.AddRenderItem(new InfoItem("Multiple plots on the same axes, \"x^3\", \"3 * x^2\", \"6 * x\":", f,
-                env));
-            env.AddRenderItem(new GraphItem(
+            control.AddRenderItem(
+                new InfoItem(
+                    "Multiple plots on the same axes, \"x^3\", " +
+                    "\"3 * x^2\", \"6 * x\":",
+                    f, env));
+            control.AddRenderItem(new GraphItem(
                 parser, env,
-                new GraphEntry(parser.GetExpression("x^3", env), LPen.Blue, "x"),
-                new GraphEntry(parser.GetExpression("3*x^2", env), LPen.Green, "x"),
-                new GraphEntry(parser.GetExpression("6*x", env), LPen.Red, "x")));
+                new GraphEntry(parser.GetExpression("x^3", env),
+                    LPen.Blue, "x"),
+                new GraphEntry(parser.GetExpression("3*x^2", env),
+                    LPen.Green, "x"),
+                new GraphEntry(parser.GetExpression("6*x", env),
+                    LPen.Red, "x")));
 
-            env.AddRenderItem(new InfoItem("A plot that changes with time, \"sin(x+t)\":", f, env));
-            env.AddRenderItem(new GraphItem(parser.GetExpression("sin(x+t)", env), p, "x", parser, env));
+            control.AddRenderItem(new InfoItem(
+                "A plot that changes with time, \"sin(x+t)\":", f, env));
+            control.AddRenderItem(
+                new GraphItem(
+                    parser.GetExpression("sin(x+t)", env),
+                    p,
+                    "x", parser, env));
 
-            expr = parser.GetExpression("unitstep((x*x+y*y)^0.5+2*(sin(t)-1))*cos(5*y+2*t)", env);
-            env.AddRenderItem(new InfoItem(
-                "Another complex expression, \"unitstep((x*x+y*y)^0.5+2*(sin(t)-1))*cos(5*y+2*t)\",\r\nwhere t is time:",
+            expr = parser.GetExpression(
+                "unitstep((x*x+y*y)^0.5+2*(sin(t)-1))*cos(5*y+2*t)", env);
+            control.AddRenderItem(new InfoItem(
+                "Another complex expression, \"unitstep((x*x+y*y)^0.5+" +
+                "2*(sin(t)-1))*cos(5*y+2*t)\",\r\nwhere t is time:",
                 f, env));
-            env.AddRenderItem(new ExpressionItem(expr, p, f, env));
+            control.AddRenderItem(new ExpressionItem(expr, p, f, env));
 
-            env.AddRenderItem(new InfoItem("A 3d plot: ", f, env));
-            env.AddRenderItem(new Graph3dItem(expr, LPen.Black, LBrush.Green, -4, 4, -4, 4, -2, 6, "x", "y", env));
+            control.AddRenderItem(new InfoItem("A 3d plot: ", f, env));
+            control.AddRenderItem(
+                new Graph3dItem(expr, LPen.Black, LBrush.Green, -4, 4, -4, 4,
+                    -2, 6, "x", "y", env));
         }
     }
 }

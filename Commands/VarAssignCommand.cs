@@ -28,10 +28,11 @@ namespace MetaphysicsIndustries.Ligra.Commands
         public override void Execute(string input, string[] args,
             LigraEnvironment env, ILigraUI control)
         {
-            Execute(input, args, env, _varname, _expr);
+            Execute(input, args, env, control, _varname, _expr);
         }
         
-        public void Execute(string input, string[] args, LigraEnvironment env, string varname, Expression expr)
+        public void Execute(string input, string[] args, LigraEnvironment env,
+            ILigraUI control, string varname, Expression expr)
         {
             env.Variables[varname] = expr;
 
@@ -40,7 +41,8 @@ namespace MetaphysicsIndustries.Ligra.Commands
                 new VariableAccess(varname),
                 expr);
 
-            env.AddRenderItem(new ExpressionItem(expr2, LPen.Blue, env.Font, env));
+            control.AddRenderItem(
+                new ExpressionItem(expr2, LPen.Blue, env.Font, env));
         }
     }
 }

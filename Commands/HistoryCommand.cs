@@ -34,8 +34,9 @@ Clear the command history:
             }
             else
             {
-                string s = string.Join("\r\n", env.History.ToArray());
-                env.AddRenderItem(new InfoItem(s + "\r\n", env.Font, env));
+                var s = string.Join("\r\n", env.History.ToArray());
+                control.AddRenderItem(
+                    new InfoItem(s + "\r\n", env.Font, env));
             }
         }
     }

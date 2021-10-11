@@ -56,12 +56,15 @@ namespace MetaphysicsIndustries.Ligra.Commands
         {
             // holy smokes, this is *hideous*
             var cmd = env.Parser.GetPaintCommand(input, env);
-            Execute(input, args, env, cmd._expr, cmd._interval1, cmd._interval2);
+            Execute(input, args, env, control, cmd._expr, cmd._interval1,
+                cmd._interval2);
         }
 
-        public void Execute(string input, string[] args, LigraEnvironment env, Expression expr, VarInterval interval1, VarInterval interval2)
+        public void Execute(string input, string[] args, LigraEnvironment env,
+            ILigraUI control, Expression expr, VarInterval interval1,
+            VarInterval interval2)
         {
-            env.AddRenderItem(
+            control.AddRenderItem(
                 new MathPaintItem(
                     expr,
                     interval1,

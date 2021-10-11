@@ -47,7 +47,9 @@ namespace MetaphysicsIndustries.Ligra.Commands
                         error += s + "\r\n";
                     }
 
-                    env.AddRenderItem(new ErrorItem(input, error, env.Font, LBrush.Red, env, input.IndexOf(args[0])));
+                    control.AddRenderItem(
+                        new ErrorItem(input, error, env.Font, LBrush.Red, env,
+                            input.IndexOf(args[0])));
                 }
                 else
                 {
@@ -56,13 +58,17 @@ namespace MetaphysicsIndustries.Ligra.Commands
                         env.Variables.Remove(args[i]);
                     }
 
-                    env.AddRenderItem(new InfoItem("The variables were deleted successfully.", env.Font, env));
+                    control.AddRenderItem(
+                        new InfoItem(
+                            "The variables were deleted successfully.",
+                            env.Font, env));
                 }
             }
             else
             {
-                env.AddRenderItem(new ErrorItem(input, "Must specify variables to delete", env.Font, LBrush.Red, env,
-                    input.IndexOf(args[0])));
+                control.AddRenderItem(
+                    new ErrorItem(input, "Must specify variables to delete",
+                        env.Font, LBrush.Red, env, input.IndexOf(args[0])));
             }
         }
     }

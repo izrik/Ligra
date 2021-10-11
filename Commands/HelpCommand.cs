@@ -46,10 +46,11 @@ List the available topics:
         public override void Execute(string input, string[] args,
             LigraEnvironment env, ILigraUI control)
         {
-            Execute(input, args, env, _topic);
+            Execute(input, args, env, control, _topic);
         }
 
-        public void Execute(string input, string[] args, LigraEnvironment env, string topic)
+        public void Execute(string input, string[] args, LigraEnvironment env,
+            ILigraUI control, string topic)
         {
             string text;
             
@@ -60,7 +61,7 @@ List the available topics:
             else
                 text = ConstructText(env);
             
-            env.AddRenderItem(new HelpItem(env.Font, env, text));
+            control.AddRenderItem(new HelpItem(env.Font, env, text));
         }
         
         public static string ConstructText(LigraEnvironment env, string topic = "help")

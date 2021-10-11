@@ -89,14 +89,14 @@ namespace MetaphysicsIndustries.Ligra
                 }
                 catch (Solus.Exceptions.ParseException e)
                 {
-                    env.AddRenderItem(
+                    output.AddRenderItem(
                         new ErrorItem(s, e.Error, env.Font, LBrush.Red, env,
                         e.Location));
                 }
                 catch (Exception e)
                 {
-                    env.AddRenderItem(
-                        new ErrorItem(s, "There was an error: " + e.ToString(),
+                    output.AddRenderItem(
+                        new ErrorItem(s, $"There was an error: {e}",
                         env.Font, LBrush.Red, env));
                 }
             }
@@ -251,7 +251,7 @@ namespace MetaphysicsIndustries.Ligra
                 {
                     label = commands[0].GetInputLabel(input, env);
                 }
-                env.AddRenderItem(new TextItem(env, label, env.Font));
+                control.AddRenderItem(new TextItem(env, label, env.Font));
 
                 foreach (var command in commands)
                 {

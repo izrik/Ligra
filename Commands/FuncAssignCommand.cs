@@ -28,10 +28,11 @@ namespace MetaphysicsIndustries.Ligra.Commands
         public override void Execute(string input, string[] args,
             LigraEnvironment env, ILigraUI control)
         {
-            Execute(input, args, env, _func);
+            Execute(input, args, env, control, _func);
         }
         
-        public void Execute(string input, string[] args, LigraEnvironment env, UserDefinedFunction func)
+        public void Execute(string input, string[] args, LigraEnvironment env,
+            ILigraUI control, UserDefinedFunction func)
         {
 //            var func = new UserDefinedFunction(funcname, argnames, expr);
             if (env.Functions.ContainsKey(func.DisplayName))
@@ -45,7 +46,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
             var fcall = new FunctionCall(func, varrefs);
             var expr2 = new FunctionCall(AssignOperation.Value, fcall, func.Expression);
 
-            env.AddRenderItem(new ExpressionItem(expr2, LPen.Blue, env.Font, env));
+            control.AddRenderItem(new ExpressionItem(expr2, LPen.Blue, env.Font, env));
         }
     }
 }

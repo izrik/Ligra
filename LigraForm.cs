@@ -197,13 +197,13 @@ namespace MetaphysicsIndustries.Ligra
                     var font = LFont.FromSwf(ligraControl1.Font);
                     if (ee is Solus.Exceptions.ParseException ee2)
                     {
-                        _env.AddRenderItem(
+                        ligraControl1.AddRenderItem(
                             new ErrorItem(input, ee2.Error, font, LBrush.Red,
                                 _env, ee2.Location));
                     }
                     else
                     {
-                        _env.AddRenderItem(
+                        ligraControl1.AddRenderItem(
                             new ErrorItem(input,
                                 "There was an error: " + ee.ToString(), font,
                                 LBrush.Red, _env));

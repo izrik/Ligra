@@ -1,3 +1,4 @@
+using System.Linq;
 using MetaphysicsIndustries.Ligra.RenderItems;
 using MetaphysicsIndustries.Solus;
 using MetaphysicsIndustries.Solus.Expressions;
@@ -21,7 +22,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
             LigraEnvironment env, ILigraUI control)
         {
             string s = string.Empty;
-            foreach (string var in env.Variables.Keys)
+            foreach (string var in env.Variables.Keys.ToArray())
             {
                 Expression value = env.Variables[var];
                 string valueString = value.ToString();
@@ -38,7 +39,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
                 s += var + " = " + valueString + "\r\n";
             }
 
-            env.AddRenderItem(new InfoItem(s, env.Font, env));
+            control.AddRenderItem(new InfoItem(s, env.Font, env));
         }
     }
 }

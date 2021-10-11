@@ -87,10 +87,12 @@ Plot one or more expressions that vary over two variable as a 3D graph:
         {
             // TODO: don't create another instance of the class within the class.
             var cmd = env.Parser.GetPlotCommand(input, env);
-            Execute(input, args, env, cmd._exprs, cmd._intervals);
+            Execute(input, args, env, control, cmd._exprs, cmd._intervals);
         }
 
-        public static void Execute(string input, string[] args, LigraEnvironment env, Expression[] exprs, VarInterval[] intervals)
+        public static void Execute(string input, string[] args,
+            LigraEnvironment env, ILigraUI control, Expression[] exprs,
+            VarInterval[] intervals)
         {
             if (env == null) throw new ArgumentNullException("env");
             if (exprs == null || exprs.Length < 1) throw new ArgumentNullException("exprs");
@@ -137,7 +139,8 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                     i++;
                 }
 
-                env.AddRenderItem(new GraphItem(new SolusParser(), env, entries.ToArray()));
+                control.AddRenderItem(
+                    new GraphItem(new SolusParser(), env, entries.ToArray()));
             }
             else // intervals.Length == 2
             {
@@ -168,7 +171,7 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                 float zmin = zs.Min();
                 float zmax = zs.Max();
 
-                env.AddRenderItem(new Graph3dItem(expr, LPen.Black, LBrush.Green,
+                control.AddRenderItem(new Graph3dItem(expr, LPen.Black, LBrush.Green,
                     intervals[0].Interval.LowerBound,
                     intervals[0].Interval.UpperBound,
                     intervals[1].Interval.LowerBound,
