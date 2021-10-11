@@ -51,7 +51,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
             var items = env.RenderItems.ToArray();
             foreach (var item in items)
             {
-                env.Control.RemoveRenderItem(item);
+                control.RemoveRenderItem(item);
             }
 
             env.ClearCanvas();

@@ -13,7 +13,7 @@ namespace MetaphysicsIndustries.Ligra
         {
             if (control == null) throw new ArgumentNullException("control");
 
-            Control = control;
+            _control = control;
 
             this.Commands.Clear();
             if (commands == null) return;
@@ -24,12 +24,12 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        public readonly ILigraUI Control;
+        private readonly ILigraUI _control;
 
-        public IList<RenderItem> RenderItems => Control.RenderItems;
+        public IList<RenderItem> RenderItems => _control.RenderItems;
         public void AddRenderItem(RenderItem item)
         {
-            Control.AddRenderItem(item);
+            _control.AddRenderItem(item);
         }
 
         public readonly List<string> History = new List<string>();
