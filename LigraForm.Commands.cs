@@ -17,12 +17,12 @@ namespace MetaphysicsIndustries.Ligra
     {
         private void CdCommand(string input, string[] args, ILigraUI control)
         {
-            new CdCommand().Execute(input, args, _env, control);
+            new CdCommand().Execute(input, args, control.Env, control);
         }
 
         private void ProcessInput(string input, ILigraUI control)
         {
-            LigraWindow.ProcessInput(input, _env, control.Commands,
+            LigraWindow.ProcessInput(input, control.Env, control.Commands,
                 evalTextBox.SelectAll, control);
         }
     }

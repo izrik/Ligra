@@ -30,6 +30,8 @@ namespace MetaphysicsIndustries.Ligra
             _vbox.SizeAllocated += _vbox_SizeAllocated;
         }
 
+        public LigraEnvironment Env { get; } = new LigraEnvironment();
+
         public DrawSettings DrawSettings { get; } = new DrawSettings();
 
         public Dictionary<string, Command> Commands { get; } =

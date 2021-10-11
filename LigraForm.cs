@@ -25,13 +25,9 @@ namespace MetaphysicsIndustries.Ligra
                 this.Controls.Remove(this.toolStripContainer1);
                 this.Controls.Add(this.splitContainer1);
             }
-
-            _env = new LigraEnvironment();
         }
 
         private static SolusEngine _engine = new SolusEngine();
-
-        LigraEnvironment _env;
 
         ToolStripMenuItem _renderItemItem = new ToolStripMenuItem("Render Item");
         ToolStripMenuItem _propertiesItem = new ToolStripMenuItem("Properties");
@@ -41,9 +37,9 @@ namespace MetaphysicsIndustries.Ligra
 
             SetupContextMenu();
 
-            if (!_env.Variables.ContainsKey("t"))
+            if (!ligraControl1.Env.Variables.ContainsKey("t"))
             {
-                _env.Variables.Add("t", new Literal(0));
+                ligraControl1.Env.Variables.Add("t", new Literal(0));
             }
         }
 
@@ -149,13 +145,13 @@ namespace MetaphysicsIndustries.Ligra
 
         void ClearItem_Click(object sender, EventArgs e)
         {
-            Commands.Command.ClearOutput(_env, ligraControl1);
+            Commands.Command.ClearOutput(ligraControl1.Env, ligraControl1);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
             float time = System.Environment.TickCount / 1000.0f;
-            _env.Variables["t"] = new Literal(time);
+            ligraControl1.Env.Variables["t"] = new Literal(time);
         }
 
         private void printDocument1_PrintPage(object sender, PrintPageEventArgs e)
@@ -194,14 +190,14 @@ namespace MetaphysicsIndustries.Ligra
                     {
                         ligraControl1.AddRenderItem(
                             new ErrorItem(input, ee2.Error, font, LBrush.Red,
-                                _env, ee2.Location));
+                                ligraControl1.Env, ee2.Location));
                     }
                     else
                     {
                         ligraControl1.AddRenderItem(
                             new ErrorItem(input,
                                 "There was an error: " + ee.ToString(), font,
-                                LBrush.Red, _env));
+                                LBrush.Red, ligraControl1.Env));
                     }
                 }
             }

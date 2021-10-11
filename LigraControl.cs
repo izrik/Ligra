@@ -135,6 +135,8 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
+        public LigraEnvironment Env { get; } = new LigraEnvironment();
+
         public IList<string> History { get; } = new List<string>();
         public int CurrentHistoryIndex { get; set; } = -1;
 

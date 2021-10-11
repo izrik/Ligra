@@ -14,14 +14,11 @@ namespace MetaphysicsIndustries.Ligra
             : base(WindowType.Toplevel)
         {
             InitializeComponent();
-            env = new LigraEnvironment();
 
             timer = new System.Timers.Timer(16);
             timer.Elapsed += timer_Elapsed;
             timer.Enabled = true;
         }
-
-        LigraEnvironment env;
 
         System.Timers.Timer timer;
         Gtk.Button evalButton;
@@ -64,7 +61,7 @@ namespace MetaphysicsIndustries.Ligra
         private void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             float time = System.Environment.TickCount / 1000.0f;
-            env.Variables["t"] = new Literal(time);
+            output.Env.Variables["t"] = new Literal(time);
         }
 
         void EvaluateInput()
@@ -75,7 +72,7 @@ namespace MetaphysicsIndustries.Ligra
             {
                 try
                 {
-                    LigraWindow.ProcessInput(s, env, output.Commands,
+                    LigraWindow.ProcessInput(s, output.Env, output.Commands,
                         () => input.SelectRegion(0, input.Text.Length),
                         this.output);
                 }
@@ -84,13 +81,13 @@ namespace MetaphysicsIndustries.Ligra
                     output.AddRenderItem(
                         new ErrorItem(s, e.Error,
                             output.DrawSettings.Font,
-                            LBrush.Red, env, e.Location));
+                            LBrush.Red, output.Env, e.Location));
                 }
                 catch (Exception e)
                 {
                     output.AddRenderItem(
                         new ErrorItem(s, $"There was an error: {e}",
-                            output.DrawSettings.Font, LBrush.Red, env));
+                            output.DrawSettings.Font, LBrush.Red, output.Env));
                 }
             }
 
@@ -114,7 +111,7 @@ namespace MetaphysicsIndustries.Ligra
 
         void ClearItems()
         {
-            Commands.Command.ClearOutput(env, output);
+            Commands.Command.ClearOutput(output.Env, output);
         }
 
         void DoRenderItemProperties()

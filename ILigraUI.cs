@@ -24,5 +24,7 @@ namespace MetaphysicsIndustries.Ligra
         LigraParser Parser { get; }
 
         Dictionary<string, Command> Commands { get; }
+
+        LigraEnvironment Env { get; }
     }
 }
