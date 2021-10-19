@@ -1,5 +1,6 @@
 using MetaphysicsIndustries.Ligra.RenderItems;
 using MetaphysicsIndustries.Solus;
+using MetaphysicsIndustries.Solus.Commands;
 using MetaphysicsIndustries.Solus.Expressions;
 
 namespace MetaphysicsIndustries.Ligra.Commands
@@ -17,13 +18,14 @@ namespace MetaphysicsIndustries.Ligra.Commands
 
         private readonly Expression _expr;
         
-        public override void Execute(string input, SolusEnvironment env)
+        public override void Execute(string input, SolusEnvironment env,
+            ICommandData data)
         {
             throw new System.NotImplementedException();
         }
 
         public override void Execute(string input, string[] args,
-            LigraEnvironment env, ILigraUI control)
+            LigraEnvironment env, ICommandData data, ILigraUI control)
         {
             Execute(input, args, env, control, _expr);
         }

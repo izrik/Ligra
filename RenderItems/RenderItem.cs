@@ -93,7 +93,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             _varValues.Clear();
             foreach (string var in vars)
             {
-                _varValues[var] = env.Variables[var];
+                _varValues[var] = env.GetVariable(var);
             }
         }
 
@@ -115,9 +115,9 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             //return true;
             foreach (string var in _varValues.Keys)
             {
-                if (!env.Variables.ContainsKey(var)) { return true; }
+                if (!env.ContainsVariable(var)) return true;
 
-                if (env.Variables[var] != _varValues[var]) { return true; }
+                if (env.GetVariable(var) != _varValues[var]) return true;
             }
 
             return false;

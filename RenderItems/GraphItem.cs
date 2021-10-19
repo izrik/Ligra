@@ -210,7 +210,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 //}
             }
 
-            env.Variables[independentVariable] = new Literal(xMin);//+deltaX*50);
+            env.SetVariable(independentVariable, new Literal(xMin));
             //PointF lastPoint = new PointF(boundsInClient.Left, boundsInClient.Bottom - (Math.Max(Math.Min(_engine.Eval(expr, env).Value, yMax), yMin) - yMin) * deltaY);
 
             double vvalue = expr.Eval(env).ToNumber().Value;
@@ -227,7 +227,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             for (i = 0; i < boundsInClient.Width; i++)
             {
                 float x = xMin + deltaX * i;
-                env.Variables[independentVariable] = new Literal(x);
+                env.SetVariable(independentVariable, new Literal(x));
                 double value = expr.Eval(env).ToNumber().Value;
                 if (double.IsNaN(value))
                 {

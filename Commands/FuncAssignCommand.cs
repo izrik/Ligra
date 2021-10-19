@@ -1,6 +1,7 @@
 using System.Linq;
 using MetaphysicsIndustries.Ligra.RenderItems;
 using MetaphysicsIndustries.Solus;
+using MetaphysicsIndustries.Solus.Commands;
 using MetaphysicsIndustries.Solus.Expressions;
 using MetaphysicsIndustries.Solus.Functions;
 
@@ -20,25 +21,24 @@ namespace MetaphysicsIndustries.Ligra.Commands
 
         private readonly UserDefinedFunction _func;
         
-        public override void Execute(string input, SolusEnvironment env)
+        public override void Execute(string input, SolusEnvironment env,
+            ICommandData data)
         {
             throw new System.NotImplementedException();
         }
 
         public override void Execute(string input, string[] args,
-            LigraEnvironment env, ILigraUI control)
+            LigraEnvironment env, ICommandData data, ILigraUI control)
         {
-            Execute(input, args, env, control, _func);
+            Execute(input, args, env, data, control, _func);
         }
         
         public void Execute(string input, string[] args, LigraEnvironment env,
-            ILigraUI control, UserDefinedFunction func)
+            ICommandData data, ILigraUI control, UserDefinedFunction func)
         {
 //            var func = new UserDefinedFunction(funcname, argnames, expr);
-            if (env.Functions.ContainsKey(func.DisplayName))
-            {
-                env.Functions.Remove(func.DisplayName);
-            }
+            if (env.ContainsFunction(func.DisplayName))
+                env.RemoveFunction(func.DisplayName);
 
             env.AddFunction(func);
 

@@ -1,5 +1,6 @@
 using MetaphysicsIndustries.Ligra.RenderItems;
 using MetaphysicsIndustries.Solus;
+using MetaphysicsIndustries.Solus.Commands;
 using MetaphysicsIndustries.Solus.Expressions;
 using MetaphysicsIndustries.Solus.Functions;
 using MetaphysicsIndustries.Solus.Transformers;
@@ -12,39 +13,26 @@ namespace MetaphysicsIndustries.Ligra.Commands
 
         public override string Name => "tsolve";
 
-        public override void Execute(string input, SolusEnvironment env)
+        public override void Execute(string input, SolusEnvironment env,
+            ICommandData data)
         {
             throw new System.NotImplementedException();
         }
 
         public override void Execute(string input, string[] args,
-            LigraEnvironment env, ILigraUI control)
+            LigraEnvironment env, ICommandData data, ILigraUI control)
         {
             SolusEngine _engine = new SolusEngine();
             var m = new MatrixExpression(7, 7);
 
-            string k;
-            string r;
-            string cs;
+            if (!env.ContainsVariable("k"))
+                env.SetVariable("k", new Literal(0));
 
-            if (!env.Variables.ContainsKey("k"))
-            {
-                env.Variables.Add("k", new Literal(0));
-            }
+            if (!env.ContainsVariable("R"))
+                env.SetVariable("R", new Literal(0));
 
-            if (!env.Variables.ContainsKey("R"))
-            {
-                env.Variables.Add("R", new Literal(0));
-            }
-
-            if (!env.Variables.ContainsKey("Cs"))
-            {
-                env.Variables.Add("Cs", new Literal(0));
-            }
-
-            k = "k";
-            r = "R";
-            cs = "Cs";
+            if (!env.ContainsVariable("Cs"))
+                env.SetVariable("Cs", new Literal(0));
 
             int i;
             int j;

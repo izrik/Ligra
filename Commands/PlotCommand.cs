@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MetaphysicsIndustries.Ligra.RenderItems;
 using MetaphysicsIndustries.Solus;
+using MetaphysicsIndustries.Solus.Commands;
 using MetaphysicsIndustries.Solus.Expressions;
 using MetaphysicsIndustries.Solus.Values;
 
@@ -78,13 +79,14 @@ Plot one or more expressions that vary over two variable as a 3D graph:
     plot sin(x) + cos(y) for -5 < x < 5, -5 < y < 5
 ";
 
-        public override void Execute(string input, SolusEnvironment env)
+        public override void Execute(string input, SolusEnvironment env,
+            ICommandData data)
         {
             throw new System.NotImplementedException();
         }
 
         public override void Execute(string input, string[] args,
-            LigraEnvironment env, ILigraUI control)
+            LigraEnvironment env, ICommandData data, ILigraUI control)
         {
             // TODO: don't create another instance of the class within the class.
             var cmd = control.Parser.GetPlotCommand(input, env);
@@ -106,7 +108,7 @@ Plot one or more expressions that vary over two variable as a 3D graph:
             {
                 float midpoint = (interval.Interval.LowerBound + interval.Interval.UpperBound) / 2;
                 var literal = new Literal(midpoint);
-                env.Variables[interval.Variable] = literal;
+                env.SetVariable(interval.Variable, literal);
                 literals.Add(literal);
             }
 

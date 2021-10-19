@@ -61,7 +61,7 @@ namespace MetaphysicsIndustries.Ligra
         private void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             float time = System.Environment.TickCount / 1000.0f;
-            output.Env.Variables["t"] = new Literal(time);
+            output.Env.SetVariable("t", new Literal(time));
         }
 
         void EvaluateInput()
@@ -246,7 +246,7 @@ namespace MetaphysicsIndustries.Ligra
 
                 foreach (var command in commands)
                 {
-                    command.Execute(input, args, env, control);
+                    command.Execute(input, args, env, null, control);
                 }
             }
 

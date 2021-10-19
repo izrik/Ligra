@@ -1,6 +1,7 @@
 using System.Linq;
 using MetaphysicsIndustries.Ligra.RenderItems;
 using MetaphysicsIndustries.Solus;
+using MetaphysicsIndustries.Solus.Commands;
 using MetaphysicsIndustries.Solus.Expressions;
 
 namespace MetaphysicsIndustries.Ligra.Commands
@@ -13,18 +14,19 @@ namespace MetaphysicsIndustries.Ligra.Commands
         public override string DocString =>
             @"vars - Print a list of all defined variables";
 
-        public override void Execute(string input, SolusEnvironment env)
+        public override void Execute(string input, SolusEnvironment env,
+            ICommandData data)
         {
             throw new System.NotImplementedException();
         }
 
         public override void Execute(string input, string[] args,
-            LigraEnvironment env, ILigraUI control)
+            LigraEnvironment env, ICommandData data, ILigraUI control)
         {
             string s = string.Empty;
-            foreach (string var in env.Variables.Keys.ToArray())
+            foreach (string var in env.GetVariableNames().ToArray())
             {
-                Expression value = env.Variables[var];
+                Expression value = env.GetVariable(var);
                 string valueString = value.ToString();
 
                 if (value is VectorExpression ve)

@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using MetaphysicsIndustries.Ligra.RenderItems;
+using MetaphysicsIndustries.Solus.Commands;
 
 namespace MetaphysicsIndustries.Ligra.Commands
 {
     public abstract class Command : Solus.Commands.Command
     {
         public abstract void Execute(string input, string[] args,
-            LigraEnvironment env, ILigraUI control);
+            LigraEnvironment env, ICommandData data, ILigraUI control);
 
         public virtual string GetInputLabel(string input, LigraEnvironment env,
             ILigraUI control)

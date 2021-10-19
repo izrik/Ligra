@@ -1,5 +1,6 @@
 using MetaphysicsIndustries.Ligra.RenderItems;
 using MetaphysicsIndustries.Solus;
+using MetaphysicsIndustries.Solus.Commands;
 using MetaphysicsIndustries.Solus.Expressions;
 
 namespace MetaphysicsIndustries.Ligra.Commands
@@ -20,13 +21,14 @@ namespace MetaphysicsIndustries.Ligra.Commands
 
         public override string Name => "var_assign";
         
-        public override void Execute(string input, SolusEnvironment env)
+        public override void Execute(string input, SolusEnvironment env,
+            ICommandData data)
         {
             throw new System.NotImplementedException();
         }
 
         public override void Execute(string input, string[] args,
-            LigraEnvironment env, ILigraUI control)
+            LigraEnvironment env, ICommandData data, ILigraUI control)
         {
             Execute(input, args, env, control, _varname, _expr);
         }
@@ -34,7 +36,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
         public void Execute(string input, string[] args, LigraEnvironment env,
             ILigraUI control, string varname, Expression expr)
         {
-            env.Variables[varname] = expr;
+            env.SetVariable(varname, expr);
 
             var expr2 = new FunctionCall(
                 AssignOperation.Value,

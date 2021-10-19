@@ -204,14 +204,10 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             Expression prelimEval;
             Expression prelimEval2;
 
-            if (env.Variables.ContainsKey(independentVariableX))
-            {
-                env.Variables.Remove(independentVariableX);
-            }
-            if (env.Variables.ContainsKey(independentVariableY))
-            {
-                env.Variables.Remove(independentVariableY);
-            }
+            if (env.ContainsVariable(independentVariableX))
+                env.RemoveVariable(independentVariableX);
+            if (env.ContainsVariable(independentVariableY))
+                env.RemoveVariable(independentVariableY);
 
             prelimEval = _engine.PreliminaryEval(expr, env);
 
@@ -219,18 +215,16 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             {
                 x = xMin + i * deltaX;
 
-                env.Variables[independentVariableX] = new Literal(x);
-                if (env.Variables.ContainsKey(independentVariableY))
-                {
-                    env.Variables.Remove(independentVariableY);
-                }
+                env.SetVariable(independentVariableX, new Literal(x));
+                if (env.ContainsVariable(independentVariableY))
+                    env.RemoveVariable(independentVariableY);
 
                 prelimEval2 = _engine.PreliminaryEval(prelimEval, env);
 
                 for (j = 0; j < yValues; j++)
                 {
                     y = yMin + j * deltaY;
-                    env.Variables[independentVariableY] = new Literal(y);
+                    env.SetVariable(independentVariableY, new Literal(y));
 
                     z = prelimEval2.Eval(env).ToNumber().Value;
 

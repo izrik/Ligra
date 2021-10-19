@@ -1,6 +1,7 @@
 using System;
 using MetaphysicsIndustries.Ligra.RenderItems;
 using MetaphysicsIndustries.Solus;
+using MetaphysicsIndustries.Solus.Commands;
 using MetaphysicsIndustries.Solus.Expressions;
 using MetaphysicsIndustries.Solus.Functions;
 using MetaphysicsIndustries.Solus.Transformers;
@@ -15,21 +16,26 @@ namespace MetaphysicsIndustries.Ligra.Commands
         public override string DocString =>
             @"example - Show some of the things that Ligra can do";
 
-        public override void Execute(string input, SolusEnvironment env)
+        public override void Execute(string input, SolusEnvironment env,
+            ICommandData data)
         {
             throw new System.NotImplementedException();
         }
 
         public override void Execute(string input, string[] args,
-            LigraEnvironment env, ILigraUI control)
+            LigraEnvironment env, ICommandData data, ILigraUI control)
         {
             var f = control.DrawSettings.Font;
             var p = LPen.Blue;
 
-            if (!env.Variables.ContainsKey("x")) env.Variables.Add("x", new Literal(0));
-            if (!env.Variables.ContainsKey("y")) env.Variables.Add("y", new Literal(0));
-            if (!env.Variables.ContainsKey("mu")) env.Variables.Add("mu", new Literal(0));
-            if (!env.Variables.ContainsKey("sigma")) env.Variables.Add("sigma", new Literal(0));
+            if (!env.ContainsVariable("x"))
+                env.SetVariable("x", new Literal(0));
+            if (!env.ContainsVariable("y"))
+                env.SetVariable("y", new Literal(0));
+            if (!env.ContainsVariable("mu"))
+                env.SetVariable("mu", new Literal(0));
+            if (!env.ContainsVariable("sigma"))
+                env.SetVariable("sigma", new Literal(0));
 
             Expression expr;
 
@@ -89,8 +95,8 @@ namespace MetaphysicsIndustries.Ligra.Commands
                 p,
                 f));
 
-            env.Variables["mu"] = new Literal(0.5f);
-            env.Variables["sigma"] = new Literal(0.2f);
+            env.SetVariable("mu", new Literal(0.5f));
+            env.SetVariable("sigma", new Literal(0.2f));
 
             expr =
                 new FunctionCall(

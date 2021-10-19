@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using MetaphysicsIndustries.Ligra.RenderItems;
 using MetaphysicsIndustries.Solus;
+using MetaphysicsIndustries.Solus.Commands;
 
 namespace MetaphysicsIndustries.Ligra.Commands
 {
@@ -18,13 +19,14 @@ namespace MetaphysicsIndustries.Ligra.Commands
     The name of a variable previously defined via ""<var> := <expr>"".
 ";
 
-        public override void Execute(string input, SolusEnvironment env)
+        public override void Execute(string input, SolusEnvironment env,
+            ICommandData data)
         {
             throw new System.NotImplementedException();
         }
 
         public override void Execute(string input, string[] args,
-            LigraEnvironment env, ILigraUI control)
+            LigraEnvironment env, ICommandData data, ILigraUI control)
         {
             if (args.Length > 1)
             {
@@ -33,7 +35,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
                 int i;
                 for (i = 1; i < args.Length; i++)
                 {
-                    if (!env.Variables.ContainsKey(args[i]))
+                    if (!env.ContainsVariable(args[i]))
                     {
                         unknownVars.Add(args[i]);
                     }
@@ -55,7 +57,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
                 {
                     for (i = 1; i < args.Length; i++)
                     {
-                        env.Variables.Remove(args[i]);
+                        env.RemoveVariable(args[i]);
                     }
 
                     control.AddRenderItem(

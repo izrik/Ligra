@@ -101,11 +101,12 @@ namespace MetaphysicsIndustries.Ligra
 
             if (_valueModulator != null)
             {
-                _env.Variables[_variable] = new Literal(_valueModulator((float)Value));
+                _env.SetVariable(_variable,
+                    new Literal(_valueModulator((float)Value)));
             }
             else
             {
-                _env.Variables[_variable] = new Literal(Value);
+                _env.SetVariable(_variable, new Literal(Value));
             }
 
             if (Parent != null)

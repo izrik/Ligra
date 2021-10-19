@@ -37,9 +37,9 @@ namespace MetaphysicsIndustries.Ligra
 
             SetupContextMenu();
 
-            if (!ligraControl1.Env.Variables.ContainsKey("t"))
+            if (!ligraControl1.Env.ContainsVariable("t"))
             {
-                ligraControl1.Env.Variables.Add("t", new Literal(0));
+                ligraControl1.Env.SetVariable("t", new Literal(0));
             }
         }
 
@@ -151,7 +151,7 @@ namespace MetaphysicsIndustries.Ligra
         private void timer1_Tick(object sender, EventArgs e)
         {
             float time = System.Environment.TickCount / 1000.0f;
-            ligraControl1.Env.Variables["t"] = new Literal(time);
+            ligraControl1.Env.SetVariable("t", new Literal(time));
         }
 
         private void printDocument1_PrintPage(object sender, PrintPageEventArgs e)

@@ -1,5 +1,6 @@
 using MetaphysicsIndustries.Ligra.RenderItems;
 using MetaphysicsIndustries.Solus;
+using MetaphysicsIndustries.Solus.Commands;
 using MetaphysicsIndustries.Solus.Expressions;
 
 namespace MetaphysicsIndustries.Ligra.Commands
@@ -46,13 +47,14 @@ namespace MetaphysicsIndustries.Ligra.Commands
   example:
     paint i | j for i=[0..255], j=[0..255]
 ";
-        public override void Execute(string input, SolusEnvironment env)
+        public override void Execute(string input, SolusEnvironment env,
+            ICommandData data)
         {
             throw new System.NotImplementedException();
         }
 
         public override void Execute(string input, string[] args,
-            LigraEnvironment env, ILigraUI control)
+            LigraEnvironment env, ICommandData data, ILigraUI control)
         {
             // holy smokes, this is *hideous*
             var cmd = control.Parser.GetPaintCommand(input, env);

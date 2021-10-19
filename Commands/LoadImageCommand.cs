@@ -1,6 +1,7 @@
 using System;
 using MetaphysicsIndustries.Ligra.RenderItems;
 using MetaphysicsIndustries.Solus;
+using MetaphysicsIndustries.Solus.Commands;
 using MetaphysicsIndustries.Solus.Expressions;
 
 namespace MetaphysicsIndustries.Ligra.Commands
@@ -11,13 +12,14 @@ namespace MetaphysicsIndustries.Ligra.Commands
 
         public override string Name => "example";
 
-        public override void Execute(string input, SolusEnvironment env)
+        public override void Execute(string input, SolusEnvironment env,
+            ICommandData data)
         {
             throw new System.NotImplementedException();
         }
 
         public override void Execute(string input, string[] args,
-            LigraEnvironment env, ILigraUI control)
+            LigraEnvironment env, ICommandData data, ILigraUI control)
         {
             var font = control.DrawSettings.Font;
             var brush = LBrush.Red;
@@ -28,7 +30,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
                     new ErrorItem(input, "Too few parameters", font,
                         brush, input.IndexOf(args[0])));
             }
-            else if (!env.Variables.ContainsKey(args[1]))
+            else if (!env.ContainsVariable(args[1]))
             {
                 control.AddRenderItem(new ErrorItem(input, 
                     "Parameter must be a variable", font, brush,
@@ -48,12 +50,10 @@ namespace MetaphysicsIndustries.Ligra.Commands
                 {
                     var mat = SolusEngine.LoadImage(filename);
 
-                    if (!env.Variables.ContainsKey(varName))
-                    {
-                        env.Variables.Add(varName, new Literal(0));
-                    }
+                    if (!env.ContainsVariable(varName))
+                        env.SetVariable(varName, new Literal(0));
 
-                    env.Variables[varName] = new Literal(mat);
+                    env.SetVariable(varName, new Literal(mat));
 
                     control.AddRenderItem(
                         new InfoItem("Image loaded successfully", font));

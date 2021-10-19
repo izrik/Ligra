@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using MetaphysicsIndustries.Ligra.RenderItems;
 using MetaphysicsIndustries.Solus;
+using MetaphysicsIndustries.Solus.Commands;
 
 namespace MetaphysicsIndustries.Ligra.Commands
 {
@@ -38,13 +39,14 @@ List the available topics:
   help list
 ";
 
-        public override void Execute(string input, SolusEnvironment env)
+        public override void Execute(string input, SolusEnvironment env,
+            ICommandData data)
         {
             throw new System.NotImplementedException();
         }
 
         public override void Execute(string input, string[] args,
-            LigraEnvironment env, ILigraUI control)
+            LigraEnvironment env, ICommandData data, ILigraUI control)
         {
             Execute(input, args, env, control, _topic);
         }
@@ -76,17 +78,17 @@ List the available topics:
                 return "This command does not provide any information.";
             }
 
-            if (env.Functions.ContainsKey(topic))
+            if (env.ContainsFunction(topic))
             {
-                if (!string.IsNullOrEmpty(env.Functions[topic].DocString))
-                    return env.Functions[topic].DocString;
+                if (!string.IsNullOrEmpty(env.GetFunction(topic).DocString))
+                    return env.GetFunction(topic).DocString;
                 return "This function does not provide any information.";
             }
 
-            if (env.Macros.ContainsKey(topic))
+            if (env.ContainsMacro(topic))
             {
-                if (!string.IsNullOrEmpty(env.Macros[topic].DocString))
-                    return env.Macros[topic].DocString;
+                if (!string.IsNullOrEmpty(env.GetMacro(topic).DocString))
+                    return env.GetMacro(topic).DocString;
                 return "This macro does not provide any information.";
             }
 
@@ -130,11 +132,11 @@ List the available topics:
                 sb.AppendLine();
             }
 
-            if (env.Functions.Count > 0)
+            if (env.CountFunctions() > 0)
             {
                 sb.AppendLine("Functions:");
                 line = "";
-                var functions = env.Functions.Keys.ToList();
+                var functions = env.GetFunctionNames().ToList();
                 functions.Sort();
                 foreach (var f in functions)
                     AddItem(f);
@@ -143,11 +145,11 @@ List the available topics:
                 sb.AppendLine();
             }
 
-            if (env.Macros.Count > 0)
+            if (env.CountMacros() > 0)
             {
                 sb.AppendLine("Macros:");
                 line = "";
-                var macros = env.Macros.Keys.ToList();
+                var macros = env.GetMacroNames().ToList();
                 macros.Sort();
                 foreach (var m in macros)
                     AddItem(m);
@@ -156,11 +158,11 @@ List the available topics:
                 sb.AppendLine();
             }
 
-            if (env.Variables.Count > 0)
+            if (env.CountVariables() > 0)
             {
                 sb.AppendLine("Variables:");
                 line = "";
-                var variables = env.Variables.Keys.ToList();
+                var variables = env.GetVariableNames().ToList();
                 variables.Sort();
                 foreach (var v in variables)
                     AddItem(v);

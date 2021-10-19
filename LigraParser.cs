@@ -327,10 +327,8 @@ namespace MetaphysicsIndustries.Ligra
 
             // create the functino, with no expr
             var func = new UserDefinedFunction(funcname, args.ToArray(), null);
-            if (env2.Functions.ContainsKey(funcname))
-            {
-                env2.Functions.Remove(funcname);
-            }
+            if (env2.ContainsFunction(funcname))
+                env2.RemoveFunction(funcname);
             env2.AddFunction(func);
 
             // read the expr. this order of things allows for recursion

@@ -17,7 +17,7 @@ namespace MetaphysicsIndustries.Ligra
     {
         private void CdCommand(string input, string[] args, ILigraUI control)
         {
-            new CdCommand().Execute(input, args, control.Env, control);
+            new CdCommand().Execute(input, args, control.Env, null, control);
         }
 
         private void ProcessInput(string input, ILigraUI control)
