@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using Gtk;
 using MetaphysicsIndustries.Ligra.Commands;
+using MetaphysicsIndustries.Ligra.Expressions;
 using MetaphysicsIndustries.Ligra.RenderItems;
-using MetaphysicsIndustries.Solus;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -14,6 +14,7 @@ namespace MetaphysicsIndustries.Ligra
         {
             InitializeComponent();
             Command.InitializeCommands(Commands);
+            Env.SetVariable("t", new TimeExpression());
         }
 
         void InitializeComponent()

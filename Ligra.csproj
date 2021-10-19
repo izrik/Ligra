@@ -95,6 +95,7 @@
     <Compile Include="Commands\VarAssignCommand.cs" />
     <Compile Include="Commands\VarsCommand.cs" />
     <Compile Include="DrawSettings.cs" />
+    <Compile Include="Expressions\TimeExpression.cs" />
     <Compile Include="GtkRenderer.cs" />
     <Compile Include="LigraControl.cs">
       <SubType>UserControl</SubType>
