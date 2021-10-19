@@ -7,32 +7,17 @@ namespace MetaphysicsIndustries.Ligra.Commands
 {
     public class VarAssignCommand : Command
     {
-        public static readonly VarAssignCommand Value =
-            new VarAssignCommand(null, null);
-
-        public VarAssignCommand(string varname, Expression expr)
-        {
-            _varname = varname;
-            _expr = expr;
-        }
-
-        private readonly string _varname;
-        private readonly Expression _expr;
+        public static readonly VarAssignCommand Value = new VarAssignCommand();
 
         public override string Name => "var_assign";
-        
-        public override void Execute(string input, SolusEnvironment env,
-            ICommandData data)
-        {
-            throw new System.NotImplementedException();
-        }
 
         public override void Execute(string input, string[] args,
             LigraEnvironment env, ICommandData data, ILigraUI control)
         {
-            Execute(input, args, env, control, _varname, _expr);
+            var data2 = (VarAssignCommandData) data;
+            Execute(input, args, env, control, data2.VarName, data2.Expr);
         }
-        
+
         public void Execute(string input, string[] args, LigraEnvironment env,
             ILigraUI control, string varname, Expression expr)
         {
@@ -47,5 +32,18 @@ namespace MetaphysicsIndustries.Ligra.Commands
                 new ExpressionItem(
                     expr2, LPen.Blue, control.DrawSettings.Font));
         }
+    }
+
+    public class VarAssignCommandData : ICommandData
+    {
+        public VarAssignCommandData(string varname, Expression expr)
+        {
+            VarName = varname;
+            Expr = expr;
+        }
+
+        public Solus.Commands.Command Command => VarAssignCommand.Value;
+        public string VarName { get; }
+        public Expression Expr { get; }
     }
 }

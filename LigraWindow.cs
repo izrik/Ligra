@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using Gtk;
 using MetaphysicsIndustries.Ligra.Commands;
 using MetaphysicsIndustries.Ligra.RenderItems;
-using MetaphysicsIndustries.Solus;
+using MetaphysicsIndustries.Solus.Commands;
 using MetaphysicsIndustries.Solus.Expressions;
+using Command = MetaphysicsIndustries.Ligra.Commands.Command;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -215,6 +216,19 @@ namespace MetaphysicsIndustries.Ligra
             return availableCommands.ContainsKey(cmd);
         }
 
+        public static bool IsNonGrammarCommand(string cmd,
+            Dictionary<string, Command> availableCommands)
+        {
+            if (!availableCommands.ContainsKey(cmd)) return false;
+            var c = availableCommands[cmd];
+            if (c is CdCommand ||
+                c is HistoryCommand ||
+                c is ExampleCommand ||
+                c is Example2Command)
+                return true;
+            return false;
+        }
+
         public static void ProcessInput(string input, LigraEnvironment env,
             Dictionary<string, Command> availableCommands,
             System.Action selectAllInputText, ILigraUI control)
@@ -225,11 +239,14 @@ namespace MetaphysicsIndustries.Ligra
             {
                 string cmd = args[0].Trim().ToLower();
 
-                Command[] commands;
+                ICommandData[] commands;
 
-                if (IsCommand(cmd, availableCommands))
+                if (IsNonGrammarCommand(cmd, availableCommands))
                 {
-                    commands = new Command[] { availableCommands[cmd] };
+                    commands = new[]
+                    {
+                        new SimpleCommandData(availableCommands[cmd])
+                    };
                 }
                 else
                 {
@@ -246,7 +263,8 @@ namespace MetaphysicsIndustries.Ligra
 
                 foreach (var command in commands)
                 {
-                    command.Execute(input, args, env, null, control);
+                    command.Command.Execute(input, args, env, command,
+                        control);
                 }
             }
 

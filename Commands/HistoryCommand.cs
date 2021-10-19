@@ -1,6 +1,5 @@
 using System.Linq;
 using MetaphysicsIndustries.Ligra.RenderItems;
-using MetaphysicsIndustries.Solus;
 using MetaphysicsIndustries.Solus.Commands;
 
 namespace MetaphysicsIndustries.Ligra.Commands
@@ -21,12 +20,6 @@ Clear the command history:
 
   (Equivalent to ""clear history"" command)
 ";
-
-        public override void Execute(string input, SolusEnvironment env,
-            ICommandData data)
-        {
-            throw new System.NotImplementedException();
-        }
 
         public override void Execute(string input, string[] args,
             LigraEnvironment env, ICommandData data, ILigraUI control)

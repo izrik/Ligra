@@ -1,4 +1,3 @@
-using MetaphysicsIndustries.Solus;
 using MetaphysicsIndustries.Solus.Commands;
 using MetaphysicsIndustries.Solus.Expressions;
 
@@ -11,12 +10,6 @@ namespace MetaphysicsIndustries.Ligra.Commands
         public override string Name => "example2";
         public override string DocString =>
             @"example2 - Show some of the things that Ligra can do";
-
-        public override void Execute(string input, SolusEnvironment env,
-            ICommandData data)
-        {
-            throw new System.NotImplementedException();
-        }
 
         public override void Execute(string input, string[] args,
             LigraEnvironment env, ICommandData data, ILigraUI control)
@@ -37,11 +30,11 @@ namespace MetaphysicsIndustries.Ligra.Commands
                 "cos_taylor(x, n, sign) := if (n-8, sign * (x ^ n) / factorial(n) + cos_taylor(x, n+2, -sign), 0)";
             var input4 = "cos2(x) := cos_taylor(x, 0, 1)";
             parser.GetCommands(input2, env)[0].Execute(input2, null, env,
-             null, control);
+                control);
             parser.GetCommands(input3, env)[0].Execute(input3, null, env,
-             null, control);
+                control);
             parser.GetCommands(input4, env)[0].Execute(input4, null, env,
-             null, control);
+                control);
         }
     }
 }

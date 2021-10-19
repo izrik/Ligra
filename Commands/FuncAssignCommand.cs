@@ -10,29 +10,17 @@ namespace MetaphysicsIndustries.Ligra.Commands
     public class FuncAssignCommand : Command
     {
         public static readonly FuncAssignCommand Value =
-            new FuncAssignCommand(null);
+            new FuncAssignCommand();
 
         public override string Name => "func_assign";
-
-        public FuncAssignCommand(UserDefinedFunction func)
-        {
-            _func = func;
-        }
-
-        private readonly UserDefinedFunction _func;
-        
-        public override void Execute(string input, SolusEnvironment env,
-            ICommandData data)
-        {
-            throw new System.NotImplementedException();
-        }
 
         public override void Execute(string input, string[] args,
             LigraEnvironment env, ICommandData data, ILigraUI control)
         {
-            Execute(input, args, env, data, control, _func);
+            Execute(input, args, env, data, control,
+                ((FuncAssignCommandData)data).Func);
         }
-        
+
         public void Execute(string input, string[] args, LigraEnvironment env,
             ICommandData data, ILigraUI control, UserDefinedFunction func)
         {
@@ -49,5 +37,16 @@ namespace MetaphysicsIndustries.Ligra.Commands
             control.AddRenderItem(new ExpressionItem(expr2, LPen.Blue,
                 control.DrawSettings.Font));
         }
+    }
+
+    public class FuncAssignCommandData : ICommandData
+    {
+        public FuncAssignCommandData(UserDefinedFunction func)
+        {
+            Func = func;
+        }
+
+        public Solus.Commands.Command Command => FuncAssignCommand.Value;
+        public UserDefinedFunction Func { get; }
     }
 }

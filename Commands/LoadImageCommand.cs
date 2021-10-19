@@ -12,12 +12,6 @@ namespace MetaphysicsIndustries.Ligra.Commands
 
         public override string Name => "example";
 
-        public override void Execute(string input, SolusEnvironment env,
-            ICommandData data)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public override void Execute(string input, string[] args,
             LigraEnvironment env, ICommandData data, ILigraUI control)
         {

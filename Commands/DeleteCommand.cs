@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using MetaphysicsIndustries.Ligra.RenderItems;
-using MetaphysicsIndustries.Solus;
 using MetaphysicsIndustries.Solus.Commands;
 
 namespace MetaphysicsIndustries.Ligra.Commands
@@ -18,12 +17,6 @@ namespace MetaphysicsIndustries.Ligra.Commands
   var
     The name of a variable previously defined via ""<var> := <expr>"".
 ";
-
-        public override void Execute(string input, SolusEnvironment env,
-            ICommandData data)
-        {
-            throw new System.NotImplementedException();
-        }
 
         public override void Execute(string input, string[] args,
             LigraEnvironment env, ICommandData data, ILigraUI control)

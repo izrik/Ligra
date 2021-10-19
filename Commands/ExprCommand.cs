@@ -1,5 +1,4 @@
 using MetaphysicsIndustries.Ligra.RenderItems;
-using MetaphysicsIndustries.Solus;
 using MetaphysicsIndustries.Solus.Commands;
 using MetaphysicsIndustries.Solus.Expressions;
 
@@ -7,33 +6,20 @@ namespace MetaphysicsIndustries.Ligra.Commands
 {
     public class ExprCommand : Command
     {
-        public static readonly ExprCommand Value = new ExprCommand(null);
+        public static readonly ExprCommand Value = new ExprCommand();
 
         public override string Name => "expr";
-
-        public ExprCommand(Expression expr)
-        {
-            _expr = expr;
-        }
-
-        private readonly Expression _expr;
-        
-        public override void Execute(string input, SolusEnvironment env,
-            ICommandData data)
-        {
-            throw new System.NotImplementedException();
-        }
 
         public override void Execute(string input, string[] args,
             LigraEnvironment env, ICommandData data, ILigraUI control)
         {
-            Execute(input, args, env, control, _expr);
+            Execute(input, args, env, control, ((ExprCommandData) data).Expr);
         }
 
         public override string GetInputLabel(string input,
-            LigraEnvironment env, ILigraUI control)
+            LigraEnvironment env, ICommandData data, ILigraUI control)
         {
-            return string.Format("$ {0}", _expr);
+            return string.Format("$ {0}", ((ExprCommandData) data).Expr);
         }
 
         public static void Execute(string input, string[] args,
@@ -45,5 +31,16 @@ namespace MetaphysicsIndustries.Ligra.Commands
                 new ExpressionItem(
                     expr, LPen.Blue, control.DrawSettings.Font));
         }
+    }
+
+    public class ExprCommandData : ICommandData
+    {
+        public ExprCommandData(Expression expr)
+        {
+            Expr = expr;
+        }
+
+        public Solus.Commands.Command Command => ExprCommand.Value;
+        public Expression Expr { get; }
     }
 }

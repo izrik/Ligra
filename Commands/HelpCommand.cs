@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MetaphysicsIndustries.Ligra.RenderItems;
-using MetaphysicsIndustries.Solus;
 using MetaphysicsIndustries.Solus.Commands;
 
 namespace MetaphysicsIndustries.Ligra.Commands
 {
     public class HelpCommand : Command
     {
-        public static readonly HelpCommand Value = new HelpCommand(null);
+        public static readonly HelpCommand Value = new HelpCommand();
 
         private static Dictionary<string, string> _helpLookups = 
             new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
@@ -20,13 +19,6 @@ namespace MetaphysicsIndustries.Ligra.Commands
             _helpLookups["ligra"] = @"Ligra - Advanced Mathematics Visualization and Simulation Program";
             _helpLookups["t"] = "default time variable";
         }
-
-        public HelpCommand(string topic)
-        {
-            _topic = topic;
-        }
-
-        private readonly string _topic;
 
         public override string Name => "help";
         public override string DocString =>
@@ -39,16 +31,10 @@ List the available topics:
   help list
 ";
 
-        public override void Execute(string input, SolusEnvironment env,
-            ICommandData data)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public override void Execute(string input, string[] args,
             LigraEnvironment env, ICommandData data, ILigraUI control)
         {
-            Execute(input, args, env, control, _topic);
+            Execute(input, args, env, control, ((HelpCommandData) data).Topic);
         }
 
         public void Execute(string input, string[] args, LigraEnvironment env,
@@ -186,5 +172,16 @@ List the available topics:
 
             return sb.ToString();
         }
+    }
+
+    public class HelpCommandData : ICommandData
+    {
+        public HelpCommandData(string topic)
+        {
+            Topic = topic;
+        }
+
+        public Solus.Commands.Command Command => HelpCommand.Value;
+        public string Topic { get; }
     }
 }

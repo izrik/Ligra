@@ -26,13 +26,13 @@ namespace MetaphysicsIndustries.Ligra.Commands
         public override string Name => "plot";
 
         public override string GetInputLabel(string input,
-            LigraEnvironment env, ILigraUI control)
+            LigraEnvironment env, ICommandData data, ILigraUI control)
         {
-            // TODO: don't create another instance of the class within the class.
-            var cmd = control.Parser.GetPlotCommand(input, env);
+            var data2 = (PlotCommandData) data;
             var label = string.Format("$ plot {0} for {1}",
-                string.Join(", ", cmd._exprs.Select(Expression.ToString)),
-                string.Join(", ", cmd._intervals.Select((VarInterval vi) => vi.ToString())));
+                string.Join(", ", data2.Exprs.Select(Expression.ToString)),
+                string.Join(", ",
+                    data2.Intervals.Select(vi => vi.ToString())));
             return label;
         }
 
@@ -79,18 +79,11 @@ Plot one or more expressions that vary over two variable as a 3D graph:
     plot sin(x) + cos(y) for -5 < x < 5, -5 < y < 5
 ";
 
-        public override void Execute(string input, SolusEnvironment env,
-            ICommandData data)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public override void Execute(string input, string[] args,
             LigraEnvironment env, ICommandData data, ILigraUI control)
         {
-            // TODO: don't create another instance of the class within the class.
-            var cmd = control.Parser.GetPlotCommand(input, env);
-            Execute(input, args, env, control, cmd._exprs, cmd._intervals);
+            var data2 = (PlotCommandData) data;
+            Execute(input, args, env, control, data2.Exprs, data2.Intervals);
         }
 
         public static void Execute(string input, string[] args,
@@ -184,5 +177,18 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                     intervals[1].Variable, env));
             }
         }
+    }
+
+    public class PlotCommandData : ICommandData
+    {
+        public PlotCommandData(Expression[] exprs, VarInterval[] intervals)
+        {
+            Exprs = exprs;
+            Intervals = intervals;
+        }
+
+        public Solus.Commands.Command Command => PlotCommand.Value;
+        public Expression[] Exprs { get; }
+        public VarInterval[] Intervals { get; }
     }
 }

@@ -1,5 +1,4 @@
 using MetaphysicsIndustries.Ligra.RenderItems;
-using MetaphysicsIndustries.Solus;
 using MetaphysicsIndustries.Solus.Commands;
 using MetaphysicsIndustries.Solus.Expressions;
 
@@ -22,6 +21,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
         private readonly VarInterval _interval2;
 
         public override string Name => "paint";
+
         public override string DocString =>
 @"Mathpaint - Color the pixels of an image using an expression.
 
@@ -47,19 +47,13 @@ namespace MetaphysicsIndustries.Ligra.Commands
   example:
     paint i | j for i=[0..255], j=[0..255]
 ";
-        public override void Execute(string input, SolusEnvironment env,
-            ICommandData data)
-        {
-            throw new System.NotImplementedException();
-        }
 
         public override void Execute(string input, string[] args,
             LigraEnvironment env, ICommandData data, ILigraUI control)
         {
-            // holy smokes, this is *hideous*
-            var cmd = control.Parser.GetPaintCommand(input, env);
-            Execute(input, args, env, control, cmd._expr, cmd._interval1,
-                cmd._interval2);
+            var data2 = (PaintCommandData) data;
+            Execute(input, args, env, control, data2.Expr, data2.Interval1,
+                data2.Interval2);
         }
 
         public void Execute(string input, string[] args, LigraEnvironment env,
@@ -72,5 +66,21 @@ namespace MetaphysicsIndustries.Ligra.Commands
                     interval1,
                     interval2, env));
         }
+    }
+
+    public class PaintCommandData : ICommandData
+    {
+        public PaintCommandData(Expression expr, VarInterval interval1,
+            VarInterval interval2)
+        {
+            Expr = expr;
+            Interval1 = interval1;
+            Interval2 = interval2;
+        }
+
+        public Solus.Commands.Command Command => PaintCommand.Value;
+        public Expression Expr { get; }
+        public VarInterval Interval1 { get; }
+        public VarInterval Interval2 { get; }
     }
 }

@@ -1,17 +1,25 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using MetaphysicsIndustries.Ligra.RenderItems;
+using MetaphysicsIndustries.Solus;
 using MetaphysicsIndustries.Solus.Commands;
 
 namespace MetaphysicsIndustries.Ligra.Commands
 {
     public abstract class Command : Solus.Commands.Command
     {
+        public override void Execute(string input, SolusEnvironment env,
+            ICommandData data)
+        {
+            throw new NotImplementedException();
+        }
+
         public abstract void Execute(string input, string[] args,
             LigraEnvironment env, ICommandData data, ILigraUI control);
 
         public virtual string GetInputLabel(string input, LigraEnvironment env,
-            ILigraUI control)
+            ICommandData data, ILigraUI control)
         {
             return string.Format("$ {0}", input);
         }
@@ -59,6 +67,52 @@ namespace MetaphysicsIndustries.Ligra.Commands
 
             control.ClearCanvas();
         }
+
+        public static implicit operator SimpleCommandData(Command command)
+        {
+            return new SimpleCommandData(command);
+        }
+    }
+
+    public class SimpleCommandData : ICommandData
+    {
+        public SimpleCommandData(Command command)
+        {
+            Command = command;
+        }
+
+        public Solus.Commands.Command Command { get; }
+    }
+
+    public static class CommandHelper
+    {
+        public static void Execute(this Solus.Commands.Command command,
+            string input, string[] args, LigraEnvironment env,
+            ICommandData data, ILigraUI control)
+        {
+            ((Command) command).Execute(input, args, env, data, control);
+        }
+
+        public static void Execute(this ICommandData data,
+            string input, string[] args, LigraEnvironment env,
+            ILigraUI control)
+        {
+            ((Command) data.Command).Execute(input, args, env, data, control);
+        }
+
+        public static string GetInputLabel(
+            this Solus.Commands.Command command, string input,
+            LigraEnvironment env, ICommandData data, ILigraUI control)
+        {
+            return ((Command) command).GetInputLabel(input, env, data,
+                control);
+        }
+
+        public static string GetInputLabel( this ICommandData data,
+            string input, LigraEnvironment env, ILigraUI control)
+        {
+            return ((Command) data.Command).GetInputLabel(input, env, data,
+                control);
+        }
     }
 }
-
