@@ -4,7 +4,6 @@ using Gtk;
 using MetaphysicsIndustries.Ligra.Commands;
 using MetaphysicsIndustries.Ligra.RenderItems;
 using MetaphysicsIndustries.Solus.Commands;
-using MetaphysicsIndustries.Solus.Expressions;
 using Command = MetaphysicsIndustries.Ligra.Commands.Command;
 
 namespace MetaphysicsIndustries.Ligra
