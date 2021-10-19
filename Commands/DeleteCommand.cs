@@ -18,6 +18,8 @@ namespace MetaphysicsIndustries.Ligra.Commands
     The name of a variable previously defined via ""<var> := <expr>"".
 ";
 
+        public override bool ModifiesEnvironment => true;
+
         public override void Execute(string input, string[] args,
             LigraEnvironment env, ICommandData data, ILigraUI control)
         {

@@ -10,6 +10,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
         public static readonly VarAssignCommand Value = new VarAssignCommand();
 
         public override string Name => "var_assign";
+        public override bool ModifiesEnvironment => true;
 
         public override void Execute(string input, string[] args,
             LigraEnvironment env, ICommandData data, ILigraUI control)

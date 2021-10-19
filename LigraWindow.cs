@@ -263,8 +263,11 @@ namespace MetaphysicsIndustries.Ligra
 
                 foreach (var command in commands)
                 {
-                    command.Command.Execute(input, args, env, command,
-                        control);
+                    var lcmd = (Command)command.Command;
+                    var env2 = env;
+                    if (!lcmd.ModifiesEnvironment)
+                        env2 = (LigraEnvironment)env.Clone();
+                    command.Execute(input, args, env2, control);
                 }
             }
 

@@ -18,6 +18,8 @@ namespace MetaphysicsIndustries.Ligra.Commands
         public abstract void Execute(string input, string[] args,
             LigraEnvironment env, ICommandData data, ILigraUI control);
 
+        public virtual bool ModifiesEnvironment => false;
+
         public virtual string GetInputLabel(string input, LigraEnvironment env,
             ICommandData data, ILigraUI control)
         {

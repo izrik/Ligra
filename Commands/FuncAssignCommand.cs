@@ -14,6 +14,8 @@ namespace MetaphysicsIndustries.Ligra.Commands
 
         public override string Name => "func_assign";
 
+        public override bool ModifiesEnvironment => true;
+
         public override void Execute(string input, string[] args,
             LigraEnvironment env, ICommandData data, ILigraUI control)
         {
