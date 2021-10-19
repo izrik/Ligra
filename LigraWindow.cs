@@ -15,13 +15,8 @@ namespace MetaphysicsIndustries.Ligra
             : base(WindowType.Toplevel)
         {
             InitializeComponent();
-
-            timer = new System.Timers.Timer(16);
-            timer.Elapsed += timer_Elapsed;
-            timer.Enabled = true;
         }
 
-        System.Timers.Timer timer;
         Gtk.Button evalButton;
         Gtk.Entry input;
         LigraWidget output;
@@ -57,10 +52,6 @@ namespace MetaphysicsIndustries.Ligra
             hbox.PackEnd(evalButton, false, false, 0);
 
             SetupContextMenu();
-        }
-
-        private void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-        {
         }
 
         void EvaluateInput()
