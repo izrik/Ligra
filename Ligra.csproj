@@ -46,8 +46,8 @@
       <HintPath>packages\MetaphysicsIndustries.Giza.0.2.0\lib\net40\MetaphysicsIndustries.Giza.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MetaphysicsIndustries.Solus, Version=0.4.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>packages\MetaphysicsIndustries.Solus.0.5.0\lib\net40\MetaphysicsIndustries.Solus.dll</HintPath>
+    <Reference Include="MetaphysicsIndustries.Solus, Version=0.6.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>packages\MetaphysicsIndustries.Solus.0.6.0\lib\net40\MetaphysicsIndustries.Solus.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
