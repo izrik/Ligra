@@ -2,8 +2,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 {
     public class CodeItem : TextItem
     {
-        public CodeItem(LigraEnvironment env)
-            : base(env, Text)
+        public CodeItem()
+            : base(Text)
         {
         }
 

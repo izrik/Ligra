@@ -1,5 +1,6 @@
+using System.Linq;
 using MetaphysicsIndustries.Ligra.RenderItems;
-using MetaphysicsIndustries.Solus;
+using MetaphysicsIndustries.Solus.Commands;
 
 namespace MetaphysicsIndustries.Ligra.Commands
 {
@@ -20,21 +21,18 @@ Clear the command history:
   (Equivalent to ""clear history"" command)
 ";
 
-        public override void Execute(string input, SolusEnvironment env)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override void Execute(string input, string[] args, LigraEnvironment env)
+        public override void Execute(string input, string[] args,
+            LigraEnvironment env, ICommandData data, ILigraUI control)
         {
             if (args.Length > 1 && args[1].ToLower() == "clear")
             {
-                ClearHistory(env);
+                ClearHistory(env, control);
             }
             else
             {
-                string s = string.Join("\r\n", env.History.ToArray());
-                env.AddRenderItem(new InfoItem(s + "\r\n", env.Font, env));
+                var s = string.Join("\r\n", control.History.ToArray());
+                control.AddRenderItem(
+                    new InfoItem(s + "\r\n", control.DrawSettings.Font));
             }
         }
     }

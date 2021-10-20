@@ -1,6 +1,6 @@
 using System;
 using MetaphysicsIndustries.Ligra.RenderItems;
-using MetaphysicsIndustries.Solus;
+using MetaphysicsIndustries.Solus.Commands;
 
 namespace MetaphysicsIndustries.Ligra.Commands
 {
@@ -24,24 +24,22 @@ Change the current directory:
     determined by the underlying operating system.
 ";
 
-        public override void Execute(string input, SolusEnvironment env)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override void Execute(string input, string[] args, LigraEnvironment env)
+        public override void Execute(string input, string[] args,
+            LigraEnvironment env, ICommandData data, ILigraUI control)
         {
             if (args.Length <= 1)
             {
                 //print the current directory
                 string dir = System.IO.Directory.GetCurrentDirectory();
-                env.AddRenderItem(new InfoItem(dir, env.Font, env));
+                control.AddRenderItem(
+                    new InfoItem(dir, control.DrawSettings.Font));
             }
             else if (!System.IO.Directory.Exists(args[1]))
             {
-                env.AddRenderItem(
+                control.AddRenderItem(
                     new ErrorItem(input, "Parameter must be a folder name",
-                        env.Font, LBrush.Red, env, input.IndexOf(args[1])));
+                        control.DrawSettings.Font, LBrush.Red,
+                        input.IndexOf(args[1])));
             }
             else
             {
@@ -51,17 +49,17 @@ Change the current directory:
                 try
                 {
                     System.IO.Directory.SetCurrentDirectory(dir);
-                    env.AddRenderItem(
+                    control.AddRenderItem(
                         new InfoItem(
-                            "Directory changed to \"" + dir + "\"",
-                            env.Font, env));
+                            $"Directory changed to \"{dir}\"",
+                            control.DrawSettings.Font));
                 }
                 catch (Exception e)
                 {
-                    env.AddRenderItem(
+                    control.AddRenderItem(
                         new ErrorItem(
-                            input, "There was an error: \r\n" + e.ToString(),
-                            env.Font, LBrush.Red, env));
+                            input, $"There was an error: \r\n{e}",
+                            control.DrawSettings.Font, LBrush.Red));
                 }
             }
         }

@@ -25,31 +25,22 @@ namespace MetaphysicsIndustries.Ligra
                 this.Controls.Remove(this.toolStripContainer1);
                 this.Controls.Add(this.splitContainer1);
             }
-
-            _env = new LigraEnvironment(this.ligraControl1, _commands);
         }
 
         private static SolusEngine _engine = new SolusEngine();
-
-        LigraEnvironment _env;
 
         ToolStripMenuItem _renderItemItem = new ToolStripMenuItem("Render Item");
         ToolStripMenuItem _propertiesItem = new ToolStripMenuItem("Properties");
         private void LigraForm_Load(object sender, EventArgs e)
         {
-            InitializeCommands();
-
             evalTextBox.Focus();
 
             SetupContextMenu();
 
-            if (!_env.Variables.ContainsKey("t"))
+            if (!ligraControl1.Env.ContainsVariable("t"))
             {
-                _env.Variables.Add("t", new Literal(0));
+                ligraControl1.Env.SetVariable("t", new Literal(0));
             }
-
-            _env.Font = LFont.FromSwf(ligraControl1.Font);
-            _env.ClearCanvas = ligraControl1.Invalidate;
         }
 
         private ToolStripMenuItem _clearItem = new ToolStripMenuItem("Clear");
@@ -131,7 +122,7 @@ namespace MetaphysicsIndustries.Ligra
 
         private RenderItem GetRenderItemFromPoint(PointF pt)
         {
-            return GetRenderItemInCollectionFromPoint(_env.RenderItems, pt);
+            return GetRenderItemInCollectionFromPoint(ligraControl1.RenderItems, pt);
         }
 
         private RenderItem GetRenderItemInCollectionFromPoint(IEnumerable<RenderItem> items, PointF pt)
@@ -154,13 +145,13 @@ namespace MetaphysicsIndustries.Ligra
 
         void ClearItem_Click(object sender, EventArgs e)
         {
-            Commands.Command.ClearOutput(_env);
+            Commands.Command.ClearOutput(ligraControl1);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
             float time = System.Environment.TickCount / 1000.0f;
-            _env.Variables["t"] = new Literal(time);
+            ligraControl1.Env.SetVariable("t", new Literal(time));
         }
 
         private void printDocument1_PrintPage(object sender, PrintPageEventArgs e)
@@ -190,23 +181,23 @@ namespace MetaphysicsIndustries.Ligra
             {
                 try
                 {
-                    ProcessInput(input);
+                    ProcessInput(input, ligraControl1);
                 }
                 catch (Exception ee)
                 {
                     var font = LFont.FromSwf(ligraControl1.Font);
                     if (ee is Solus.Exceptions.ParseException ee2)
                     {
-                        _env.AddRenderItem(
+                        ligraControl1.AddRenderItem(
                             new ErrorItem(input, ee2.Error, font, LBrush.Red,
-                                _env, ee2.Location));
+                                ee2.Location));
                     }
                     else
                     {
-                        _env.AddRenderItem(
+                        ligraControl1.AddRenderItem(
                             new ErrorItem(input,
                                 "There was an error: " + ee.ToString(), font,
-                                LBrush.Red, _env));
+                                LBrush.Red));
                     }
                 }
             }
@@ -218,36 +209,46 @@ namespace MetaphysicsIndustries.Ligra
         {
             if (e.KeyCode == Keys.Up)
             {
-                if (_env.History.Count > 0)
+                if (ligraControl1.History.Count > 0)
                 {
-                    if (_env.CurrentHistoryIndex < 0)
+                    if (ligraControl1.CurrentHistoryIndex < 0)
                     {
-                        _env.CurrentHistoryIndex = _env.History.Count - 1;
+                        ligraControl1.CurrentHistoryIndex = 
+                            ligraControl1.History.Count - 1;
                     }
                     else
                     {
-                        _env.CurrentHistoryIndex--;
-                        if (_env.CurrentHistoryIndex < 0) _env.CurrentHistoryIndex = 0;
+                        ligraControl1.CurrentHistoryIndex--;
+                        if (ligraControl1.CurrentHistoryIndex < 0)
+                            ligraControl1.CurrentHistoryIndex = 0;
                     }
 
-                    evalTextBox.Text = _env.History[_env.CurrentHistoryIndex];
+                    evalTextBox.Text =
+                        ligraControl1.History[
+                            ligraControl1.CurrentHistoryIndex];
                 }
             }
             else if (e.KeyCode == Keys.Down)
             {
-                if (_env.History.Count > 0)
+                if (ligraControl1.History.Count > 0)
                 {
-                    if (_env.CurrentHistoryIndex < 0)
+                    if (ligraControl1.CurrentHistoryIndex < 0)
                     {
-                        _env.CurrentHistoryIndex = _env.History.Count - 1;
+                        ligraControl1.CurrentHistoryIndex =
+                            ligraControl1.History.Count - 1;
                     }
                     else
                     {
-                        _env.CurrentHistoryIndex++;
-                        if (_env.CurrentHistoryIndex >= _env.History.Count) _env.CurrentHistoryIndex = _env.History.Count - 1;
+                        ligraControl1.CurrentHistoryIndex++;
+                        if (ligraControl1.CurrentHistoryIndex >=
+                            ligraControl1.History.Count)
+                            ligraControl1.CurrentHistoryIndex =
+                                ligraControl1.History.Count - 1;
                     }
 
-                    evalTextBox.Text = _env.History[_env.CurrentHistoryIndex];
+                    evalTextBox.Text =
+                        ligraControl1.History[
+                            ligraControl1.CurrentHistoryIndex];
                 }
             }
         }

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MetaphysicsIndustries.Ligra.RenderItems;
-using MetaphysicsIndustries.Solus;
+using MetaphysicsIndustries.Solus.Commands;
 
 namespace MetaphysicsIndustries.Ligra.Commands
 {
     public class HelpCommand : Command
     {
-        public static readonly HelpCommand Value = new HelpCommand(null);
+        public static readonly HelpCommand Value = new HelpCommand();
 
         private static Dictionary<string, string> _helpLookups = 
             new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
@@ -19,13 +19,6 @@ namespace MetaphysicsIndustries.Ligra.Commands
             _helpLookups["ligra"] = @"Ligra - Advanced Mathematics Visualization and Simulation Program";
             _helpLookups["t"] = "default time variable";
         }
-
-        public HelpCommand(string topic)
-        {
-            _topic = topic;
-        }
-
-        private readonly string _topic;
 
         public override string Name => "help";
         public override string DocString =>
@@ -38,50 +31,50 @@ List the available topics:
   help list
 ";
 
-        public override void Execute(string input, SolusEnvironment env)
+        public override void Execute(string input, string[] args,
+            LigraEnvironment env, ICommandData data, ILigraUI control)
         {
-            throw new System.NotImplementedException();
+            Execute(input, args, env, control, ((HelpCommandData) data).Topic);
         }
 
-        public override void Execute(string input, string[] args, LigraEnvironment env)
-        {
-            Execute(input, args, env, _topic);
-        }
-
-        public void Execute(string input, string[] args, LigraEnvironment env, string topic)
+        public void Execute(string input, string[] args, LigraEnvironment env,
+            ILigraUI control, string topic)
         {
             string text;
             
             if (!string.IsNullOrEmpty(topic))
-                text = ConstructText(env, topic);
+                text = ConstructText(env, control, topic);
             else if (args.Length > 1)
-                text = ConstructText(env, args[1]);
+                text = ConstructText(env, control, args[1]);
             else
-                text = ConstructText(env);
+                text = ConstructText(env, control);
             
-            env.AddRenderItem(new HelpItem(env.Font, env, text));
+            control.AddRenderItem(
+                new HelpItem(control.DrawSettings.Font, text));
         }
         
-        public static string ConstructText(LigraEnvironment env, string topic = "help")
+        public static string ConstructText(LigraEnvironment env,
+            ILigraUI control, string topic = "help")
         {
-            if (env.Commands.ContainsKey(topic))
+            if (control.Commands.ContainsKey(topic))
             {
-                if (!string.IsNullOrEmpty(env.Commands[topic].DocString))
-                    return env.Commands[topic].DocString;
+                if (!string.IsNullOrEmpty(
+                    control.Commands[topic].DocString))
+                    return control.Commands[topic].DocString;
                 return "This command does not provide any information.";
             }
 
-            if (env.Functions.ContainsKey(topic))
+            if (env.ContainsFunction(topic))
             {
-                if (!string.IsNullOrEmpty(env.Functions[topic].DocString))
-                    return env.Functions[topic].DocString;
+                if (!string.IsNullOrEmpty(env.GetFunction(topic).DocString))
+                    return env.GetFunction(topic).DocString;
                 return "This function does not provide any information.";
             }
 
-            if (env.Macros.ContainsKey(topic))
+            if (env.ContainsMacro(topic))
             {
-                if (!string.IsNullOrEmpty(env.Macros[topic].DocString))
-                    return env.Macros[topic].DocString;
+                if (!string.IsNullOrEmpty(env.GetMacro(topic).DocString))
+                    return env.GetMacro(topic).DocString;
                 return "This macro does not provide any information.";
             }
 
@@ -89,12 +82,13 @@ List the available topics:
                 return _helpLookups[topic];
 
             if (topic == "list")
-                return ConstructListText(env);
+                return ConstructListText(env, control);
 
             return "Unknown topic \"" + topic + "\"";
         }
 
-        public static string ConstructListText(LigraEnvironment env)
+        public static string ConstructListText(LigraEnvironment env,
+            ILigraUI control)
         {
             var sb = new StringBuilder();
             var line = "";
@@ -111,11 +105,11 @@ List the available topics:
                 line += item;
             }
 
-            if (env.Commands.Count > 0)
+            if (control.Commands.Count > 0)
             {
                 sb.AppendLine("Commands:");
                 line = "";
-                var commands = env.Commands.Keys.ToList();
+                var commands = control.Commands.Keys.ToList();
                 commands.Sort();
                 foreach (var c in commands)
                     AddItem(c);
@@ -124,11 +118,11 @@ List the available topics:
                 sb.AppendLine();
             }
 
-            if (env.Functions.Count > 0)
+            if (env.CountFunctions() > 0)
             {
                 sb.AppendLine("Functions:");
                 line = "";
-                var functions = env.Functions.Keys.ToList();
+                var functions = env.GetFunctionNames().ToList();
                 functions.Sort();
                 foreach (var f in functions)
                     AddItem(f);
@@ -137,11 +131,11 @@ List the available topics:
                 sb.AppendLine();
             }
 
-            if (env.Macros.Count > 0)
+            if (env.CountMacros() > 0)
             {
                 sb.AppendLine("Macros:");
                 line = "";
-                var macros = env.Macros.Keys.ToList();
+                var macros = env.GetMacroNames().ToList();
                 macros.Sort();
                 foreach (var m in macros)
                     AddItem(m);
@@ -150,11 +144,11 @@ List the available topics:
                 sb.AppendLine();
             }
 
-            if (env.Variables.Count > 0)
+            if (env.CountVariables() > 0)
             {
                 sb.AppendLine("Variables:");
                 line = "";
-                var variables = env.Variables.Keys.ToList();
+                var variables = env.GetVariableNames().ToList();
                 variables.Sort();
                 foreach (var v in variables)
                     AddItem(v);
@@ -178,5 +172,16 @@ List the available topics:
 
             return sb.ToString();
         }
+    }
+
+    public class HelpCommandData : ICommandData
+    {
+        public HelpCommandData(string topic)
+        {
+            Topic = topic;
+        }
+
+        public Solus.Commands.Command Command => HelpCommand.Value;
+        public string Topic { get; }
     }
 }

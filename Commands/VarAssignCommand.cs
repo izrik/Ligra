@@ -1,45 +1,50 @@
 using MetaphysicsIndustries.Ligra.RenderItems;
 using MetaphysicsIndustries.Solus;
+using MetaphysicsIndustries.Solus.Commands;
 using MetaphysicsIndustries.Solus.Expressions;
 
 namespace MetaphysicsIndustries.Ligra.Commands
 {
     public class VarAssignCommand : Command
     {
-        public static readonly VarAssignCommand Value =
-            new VarAssignCommand(null, null);
-
-        public VarAssignCommand(string varname, Expression expr)
-        {
-            _varname = varname;
-            _expr = expr;
-        }
-
-        private readonly string _varname;
-        private readonly Expression _expr;
+        public static readonly VarAssignCommand Value = new VarAssignCommand();
 
         public override string Name => "var_assign";
-        
-        public override void Execute(string input, SolusEnvironment env)
+        public override bool ModifiesEnvironment => true;
+
+        public override void Execute(string input, string[] args,
+            LigraEnvironment env, ICommandData data, ILigraUI control)
         {
-            throw new System.NotImplementedException();
+            var data2 = (VarAssignCommandData) data;
+            Execute(input, args, env, control, data2.VarName, data2.Expr);
         }
 
-        public override void Execute(string input, string[] args, LigraEnvironment env)
+        public void Execute(string input, string[] args, LigraEnvironment env,
+            ILigraUI control, string varname, Expression expr)
         {
-            Execute(input, args, env, _varname, _expr);
-        }
-        
-        public void Execute(string input, string[] args, LigraEnvironment env, string varname, Expression expr)
-        {
-            env.Variables[varname] = expr;
+            env.SetVariable(varname, expr);
 
             var expr2 = new FunctionCall(
                 AssignOperation.Value,
                 new VariableAccess(varname),
                 expr);
 
-            env.AddRenderItem(new ExpressionItem(expr2, LPen.Blue, env.Font, env));
+            control.AddRenderItem(
+                new ExpressionItem(
+                    expr2, LPen.Blue, control.DrawSettings.Font));
         }
+    }
+
+    public class VarAssignCommandData : ICommandData
+    {
+        public VarAssignCommandData(string varname, Expression expr)
+        {
+            VarName = varname;
+            Expr = expr;
+        }
+
+        public Solus.Commands.Command Command => VarAssignCommand.Value;
+        public string VarName { get; }
+        public Expression Expr { get; }
     }
 }

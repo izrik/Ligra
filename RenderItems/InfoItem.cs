@@ -4,8 +4,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 {
     public class InfoItem : RenderItem
     {
-        public InfoItem(string text, LFont font, LigraEnvironment env)
-            : base(env)
+        public InfoItem(string text, LFont font)
         {
             _text = text;
             _font = font;
@@ -14,12 +13,14 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         public string _text;
         public LFont _font;
 
-        protected override void InternalRender(IRenderer g, SolusEnvironment env)
+        protected override void InternalRender(IRenderer g,
+            DrawSettings drawSettings)
         {
             g.DrawString(_text, _font, LBrush.Black, new Vector2(0, 0));
         }
 
-        protected override Vector2 InternalCalcSize(IRenderer g)
+        protected override Vector2 InternalCalcSize(IRenderer g,
+            DrawSettings drawSettings)
         {
             return g.MeasureString(_text, _font);
         }

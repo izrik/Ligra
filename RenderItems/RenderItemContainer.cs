@@ -7,24 +7,26 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 {
     public class RenderItemContainer : RenderItem
     {
-        public RenderItemContainer(string caption, LigraEnvironment env)
-            : base(env)
+        public RenderItemContainer(string caption)
         {
             _caption = caption;
         }
 
         public readonly string _caption;
 
-        protected override void InternalRender(IRenderer g, SolusEnvironment env)
+        protected override void InternalRender(IRenderer g,
+            DrawSettings drawSettings)
         {
-            var font2 = new LFont(_env.Font.Family, _env.Font.Size * 2,
+            var font2 = new LFont(
+                drawSettings.Font.Family,
+                drawSettings.Font.Size * 2,
                 LFont.Styles.Bold);
 
             float width = this.Container.ClientSize.X - 20;
             float height = g.MeasureString(_caption, font2, (int)width).Y;
 
             g.DrawString(_caption, font2, LBrush.Black, new Vector2(2, 2));
-            var size1 = InternalCalcSize(g);
+            var size1 = InternalCalcSize(g, drawSettings);
             g.DrawRectangle(LPen.Black, 0, 0, size1.X, size1.Y - 250);
 
             float x = 20;
@@ -32,7 +34,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             float maxCurrentHeight = 0;
             foreach (RenderItem ri in Items)
             {
-                var size = ri.CalculateSize(g);
+                var size = ri.CalculateSize(g, drawSettings);
                 if (x + size.X > width)
                 {
                     height += maxCurrentHeight;
@@ -56,9 +58,12 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             get { return _items; }
         }
 
-        protected override Vector2 InternalCalcSize(IRenderer g)
+        protected override Vector2 InternalCalcSize(IRenderer g,
+            DrawSettings drawSettings)
         {
-            var font2 = new LFont(_env.Font.Family, _env.Font.Size * 2,
+            var font2 = new LFont(
+                drawSettings.Font.Family,
+                drawSettings.Font.Size * 2,
                 LFont.Styles.Bold);
 
             float width = this.Container.ClientSize.X - 20;

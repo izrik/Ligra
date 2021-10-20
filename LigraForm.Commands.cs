@@ -15,21 +15,15 @@ namespace MetaphysicsIndustries.Ligra
 {
     public partial class LigraForm : Form
     {
-        Dictionary<string, Command> _commands = new Dictionary<string, Command>(StringComparer.InvariantCultureIgnoreCase);
-
-        private void InitializeCommands()
+        private void CdCommand(string input, string[] args, ILigraUI control)
         {
-            Commands.Command.InitializeCommands(_commands);
+            new CdCommand().Execute(input, args, control.Env, null, control);
         }
 
-        private void CdCommand(string input, string[] args)
+        private void ProcessInput(string input, ILigraUI control)
         {
-            new CdCommand().Execute(input, args, _env);
-        }
-
-        private void ProcessInput(string input)
-        {
-            LigraWindow.ProcessInput(input, _env, _commands, evalTextBox.SelectAll);
+            LigraWindow.ProcessInput(input, control.Env, control.Commands,
+                evalTextBox.SelectAll, control);
         }
     }
 }

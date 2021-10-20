@@ -2,8 +2,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 {
     //public class ControlItem : RenderItem
     //{
-    //    public ControlItem(LigraFormsControl control, LigraControl parent, LigraEnvironment env)
-    //        : base(env)
+    //    public ControlItem(LigraFormsControl control, LigraControl parent)
     //    {
     //        if (control == null) { throw new ArgumentNullException("control"); }
     //        if (parent == null) { throw new ArgumentNullException("parent"); }

@@ -16,6 +16,7 @@ using System.Drawing;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
+using MetaphysicsIndustries.Ligra.Commands;
 using MetaphysicsIndustries.Ligra.RenderItems;
 using MetaphysicsIndustries.Solus;
 
@@ -26,6 +27,7 @@ namespace MetaphysicsIndustries.Ligra
         public LigraControl()
         {
             InitializeComponent();
+            Ligra.Commands.Command.InitializeCommands(Commands);
         }
 
         static readonly SolusEngine _engine = new SolusEngine();
@@ -132,5 +134,20 @@ namespace MetaphysicsIndustries.Ligra
                 item._minY = form.PlotMinY;
             }
         }
+
+        public LigraEnvironment Env { get; } = new LigraEnvironment();
+
+        public IList<string> History { get; } = new List<string>();
+        public int CurrentHistoryIndex { get; set; } = -1;
+
+        public DrawSettings DrawSettings { get; } = new DrawSettings();
+
+        public void ClearCanvas() => Invalidate();
+
+        public LigraParser Parser { get; } = new LigraParser();
+
+        public Dictionary<string, Command> Commands { get; } =
+            new Dictionary<string, Command>(
+                StringComparer.InvariantCultureIgnoreCase);
     }
 }

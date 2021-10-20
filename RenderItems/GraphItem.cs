@@ -56,18 +56,20 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
     public class GraphItem : RenderItem
     {
-        public GraphItem(Expression expression, LPen pen, string independentVariable, SolusParser parser, LigraEnvironment env)
-            : this(parser, env, new GraphEntry(expression, pen, independentVariable))
+        public GraphItem(Expression expression, LPen pen,
+            string independentVariable, SolusParser parser,
+            LigraEnvironment env)
+            : this(parser, env,
+                new GraphEntry(expression, pen, independentVariable))
         {
         }
-
-        public GraphItem(SolusParser parser, LigraEnvironment env, params GraphEntry[] entries)
+        public GraphItem(SolusParser parser, LigraEnvironment env,
+            params GraphEntry[] entries)
             : this(parser, env, (IEnumerable<GraphEntry>)entries)
         {
         }
-
-        public GraphItem(SolusParser parser, LigraEnvironment env, IEnumerable<GraphEntry> entries)
-            : base(env)
+        public GraphItem(SolusParser parser, LigraEnvironment env,
+            IEnumerable<GraphEntry> entries)
         {
             _timer = new System.Timers.Timer(250);
             _timer.Elapsed += _timer_Elapsed;
@@ -80,6 +82,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             _maxY = 2;
             _minY = -2;
             _parser = parser;
+
+            _env = env;
         }
 
         public override Vector2? DefaultSize => new Vector2(400, 400);
@@ -96,11 +100,13 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         public float _maxY;
         public float _minY;
         public SolusParser _parser;
+        private readonly LigraEnvironment _env;
 
         public List<GraphEntry> _entries = new List<GraphEntry>();
         //private SizeF _size = new SizeF(400, 400);
 
-        protected override void InternalRender(IRenderer g, SolusEnvironment env)
+        protected override void InternalRender(IRenderer g,
+            DrawSettings drawSettings)
         {
             g.DrawRectangle(LPen.Red, Rect.X, Rect.Y, Rect.Width, Rect.Height);
             bool first = true;
@@ -115,7 +121,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                         entry.Pen, entry.Pen.Brush,
                         _minX, _maxX, _minY, _maxY,
                         ve.X, ve.Y,
-                        env, first);
+                        _env, first);
                 }
                 else
                 {
@@ -123,13 +129,15 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                         new RectangleF(location, Rect.Size),
                         entry.Pen, entry.Pen.Brush,
                         _minX, _maxX, _minY, _maxY,
-                        entry.Expression, entry.IndependentVariable, env, first);
+                        entry.Expression, entry.IndependentVariable, _env,
+                        first);
                 }
                 first = false;
             }
         }
 
-        protected override Vector2 InternalCalcSize(IRenderer g)
+        protected override Vector2 InternalCalcSize(IRenderer g,
+            DrawSettings drawSettings)
         {
             return Rect.Size.ToVector2();
         }
@@ -202,7 +210,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 //}
             }
 
-            env.Variables[independentVariable] = new Literal(xMin);//+deltaX*50);
+            env.SetVariable(independentVariable, new Literal(xMin));
             //PointF lastPoint = new PointF(boundsInClient.Left, boundsInClient.Bottom - (Math.Max(Math.Min(_engine.Eval(expr, env).Value, yMax), yMin) - yMin) * deltaY);
 
             double vvalue = expr.Eval(env).ToNumber().Value;
@@ -219,7 +227,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             for (i = 0; i < boundsInClient.Width; i++)
             {
                 float x = xMin + deltaX * i;
-                env.Variables[independentVariable] = new Literal(x);
+                env.SetVariable(independentVariable, new Literal(x));
                 double value = expr.Eval(env).ToNumber().Value;
                 if (double.IsNaN(value))
                 {

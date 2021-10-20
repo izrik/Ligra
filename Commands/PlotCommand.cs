@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MetaphysicsIndustries.Ligra.RenderItems;
 using MetaphysicsIndustries.Solus;
+using MetaphysicsIndustries.Solus.Commands;
 using MetaphysicsIndustries.Solus.Expressions;
 using MetaphysicsIndustries.Solus.Values;
 
@@ -24,13 +25,14 @@ namespace MetaphysicsIndustries.Ligra.Commands
 
         public override string Name => "plot";
 
-        public override string GetInputLabel(string input, LigraEnvironment env)
+        public override string GetInputLabel(string input,
+            LigraEnvironment env, ICommandData data, ILigraUI control)
         {
-            // TODO: don't create another instance of the class within the class.
-            var cmd = env.Parser.GetPlotCommand(input, env);
+            var data2 = (PlotCommandData) data;
             var label = string.Format("$ plot {0} for {1}",
-                string.Join(", ", cmd._exprs.Select(Expression.ToString)),
-                string.Join(", ", cmd._intervals.Select((VarInterval vi) => vi.ToString())));
+                string.Join(", ", data2.Exprs.Select(Expression.ToString)),
+                string.Join(", ",
+                    data2.Intervals.Select(vi => vi.ToString())));
             return label;
         }
 
@@ -77,19 +79,16 @@ Plot one or more expressions that vary over two variable as a 3D graph:
     plot sin(x) + cos(y) for -5 < x < 5, -5 < y < 5
 ";
 
-        public override void Execute(string input, SolusEnvironment env)
+        public override void Execute(string input, string[] args,
+            LigraEnvironment env, ICommandData data, ILigraUI control)
         {
-            throw new System.NotImplementedException();
+            var data2 = (PlotCommandData) data;
+            Execute(input, args, env, control, data2.Exprs, data2.Intervals);
         }
 
-        public override void Execute(string input, string[] args, LigraEnvironment env)
-        {
-            // TODO: don't create another instance of the class within the class.
-            var cmd = env.Parser.GetPlotCommand(input, env);
-            Execute(input, args, env, cmd._exprs, cmd._intervals);
-        }
-
-        public static void Execute(string input, string[] args, LigraEnvironment env, Expression[] exprs, VarInterval[] intervals)
+        public static void Execute(string input, string[] args,
+            LigraEnvironment env, ILigraUI control, Expression[] exprs,
+            VarInterval[] intervals)
         {
             if (env == null) throw new ArgumentNullException("env");
             if (exprs == null || exprs.Length < 1) throw new ArgumentNullException("exprs");
@@ -102,7 +101,7 @@ Plot one or more expressions that vary over two variable as a 3D graph:
             {
                 float midpoint = (interval.Interval.LowerBound + interval.Interval.UpperBound) / 2;
                 var literal = new Literal(midpoint);
-                env.Variables[interval.Variable] = literal;
+                env.SetVariable(interval.Variable, literal);
                 literals.Add(literal);
             }
 
@@ -136,7 +135,8 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                     i++;
                 }
 
-                env.AddRenderItem(new GraphItem(new SolusParser(), env, entries.ToArray()));
+                control.AddRenderItem(
+                    new GraphItem(new SolusParser(), env, entries.ToArray()));
             }
             else // intervals.Length == 2
             {
@@ -167,7 +167,7 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                 float zmin = zs.Min();
                 float zmax = zs.Max();
 
-                env.AddRenderItem(new Graph3dItem(expr, LPen.Black, LBrush.Green,
+                control.AddRenderItem(new Graph3dItem(expr, LPen.Black, LBrush.Green,
                     intervals[0].Interval.LowerBound,
                     intervals[0].Interval.UpperBound,
                     intervals[1].Interval.LowerBound,
@@ -177,5 +177,18 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                     intervals[1].Variable, env));
             }
         }
+    }
+
+    public class PlotCommandData : ICommandData
+    {
+        public PlotCommandData(Expression[] exprs, VarInterval[] intervals)
+        {
+            Exprs = exprs;
+            Intervals = intervals;
+        }
+
+        public Solus.Commands.Command Command => PlotCommand.Value;
+        public Expression[] Exprs { get; }
+        public VarInterval[] Intervals { get; }
     }
 }

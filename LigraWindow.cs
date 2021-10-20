@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using Gtk;
 using MetaphysicsIndustries.Ligra.Commands;
 using MetaphysicsIndustries.Ligra.RenderItems;
-using MetaphysicsIndustries.Solus;
-using MetaphysicsIndustries.Solus.Expressions;
+using MetaphysicsIndustries.Solus.Commands;
+using Command = MetaphysicsIndustries.Ligra.Commands.Command;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -14,24 +14,8 @@ namespace MetaphysicsIndustries.Ligra
             : base(WindowType.Toplevel)
         {
             InitializeComponent();
-            Commands.Command.InitializeCommands(availableCommands);
-            env = new LigraEnvironment(this.output, availableCommands);
-            env.Font = new LFont(LFont.Families.CourierNew, 12,
-                LFont.Styles.Regular);
-
-            env.ClearCanvas = output.QueueDraw;
-
-            timer = new System.Timers.Timer(16);
-            timer.Elapsed += timer_Elapsed;
-            timer.Enabled = true;
         }
 
-        LigraEnvironment env;
-        Dictionary<string, Command> availableCommands =
-            new Dictionary<string, Command>(
-                StringComparer.InvariantCultureIgnoreCase);
-
-        System.Timers.Timer timer;
         Gtk.Button evalButton;
         Gtk.Entry input;
         LigraWidget output;
@@ -69,12 +53,6 @@ namespace MetaphysicsIndustries.Ligra
             SetupContextMenu();
         }
 
-        private void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            float time = System.Environment.TickCount / 1000.0f;
-            env.Variables["t"] = new Literal(time);
-        }
-
         void EvaluateInput()
         {
             var s = (input.Text ?? string.Empty).Trim();
@@ -83,20 +61,22 @@ namespace MetaphysicsIndustries.Ligra
             {
                 try
                 {
-                    LigraWindow.ProcessInput(s, env, availableCommands,
-                        () => input.SelectRegion(0, input.Text.Length));
+                    LigraWindow.ProcessInput(s, output.Env, output.Commands,
+                        () => input.SelectRegion(0, input.Text.Length),
+                        this.output);
                 }
                 catch (Solus.Exceptions.ParseException e)
                 {
-                    env.AddRenderItem(
-                        new ErrorItem(s, e.Error, env.Font, LBrush.Red, env,
-                        e.Location));
+                    output.AddRenderItem(
+                        new ErrorItem(s, e.Error,
+                            output.DrawSettings.Font,
+                            LBrush.Red, e.Location));
                 }
                 catch (Exception e)
                 {
-                    env.AddRenderItem(
-                        new ErrorItem(s, "There was an error: " + e.ToString(),
-                        env.Font, LBrush.Red, env));
+                    output.AddRenderItem(
+                        new ErrorItem(s, $"There was an error: {e}",
+                            output.DrawSettings.Font, LBrush.Red));
                 }
             }
 
@@ -120,7 +100,7 @@ namespace MetaphysicsIndustries.Ligra
 
         void ClearItems()
         {
-            Commands.Command.ClearOutput(env);
+            Commands.Command.ClearOutput(output);
         }
 
         void DoRenderItemProperties()
@@ -200,7 +180,7 @@ namespace MetaphysicsIndustries.Ligra
 
         private RenderItem GetRenderItemFromPoint(Vector2 pt)
         {
-            return GetRenderItemInCollectionFromPoint(env.RenderItems, pt);
+            return GetRenderItemInCollectionFromPoint(output.RenderItems, pt);
         }
 
         private RenderItem GetRenderItemInCollectionFromPoint(
@@ -224,9 +204,22 @@ namespace MetaphysicsIndustries.Ligra
             return availableCommands.ContainsKey(cmd);
         }
 
+        public static bool IsNonGrammarCommand(string cmd,
+            Dictionary<string, Command> availableCommands)
+        {
+            if (!availableCommands.ContainsKey(cmd)) return false;
+            var c = availableCommands[cmd];
+            if (c is CdCommand ||
+                c is HistoryCommand ||
+                c is ExampleCommand ||
+                c is Example2Command)
+                return true;
+            return false;
+        }
+
         public static void ProcessInput(string input, LigraEnvironment env,
             Dictionary<string, Command> availableCommands,
-            System.Action selectAllInputText)
+            System.Action selectAllInputText, ILigraUI control)
         {
             var args = input.Split(new char[] { ' ', '\t', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -234,36 +227,44 @@ namespace MetaphysicsIndustries.Ligra
             {
                 string cmd = args[0].Trim().ToLower();
 
-                Command[] commands;
+                ICommandData[] commands;
 
-                if (IsCommand(cmd, availableCommands))
+                if (IsNonGrammarCommand(cmd, availableCommands))
                 {
-                    commands = new Command[] { availableCommands[cmd] };
+                    commands = new[]
+                    {
+                        new SimpleCommandData(availableCommands[cmd])
+                    };
                 }
                 else
                 {
-                    commands = env.Parser.GetCommands(input, env);
+                    commands = control.Parser.GetCommands(input, env);
                 }
 
                 var label = string.Format("$ {0}", input);
                 if (commands.Length == 1)
                 {
-                    label = commands[0].GetInputLabel(input, env);
+                    label = commands[0].GetInputLabel(input, env, control);
                 }
-                env.AddRenderItem(new TextItem(env, label, env.Font));
+                control.AddRenderItem(
+                    new TextItem(label, control.DrawSettings.Font));
 
                 foreach (var command in commands)
                 {
-                    command.Execute(input, args, env);
+                    var lcmd = (Command)command.Command;
+                    var env2 = env;
+                    if (!lcmd.ModifiesEnvironment)
+                        env2 = (LigraEnvironment)env.Clone();
+                    command.Execute(input, args, env2, control);
                 }
             }
 
-            if (env.History.Count <= 0 || input != env.History[env.History.Count - 1])
+            if (control.History.Count <= 0 || input != control.History[control.History.Count - 1])
             {
-                env.History.Add(input);
+                control.History.Add(input);
             }
             selectAllInputText();
-            env.CurrentHistoryIndex = -1;
+            control.CurrentHistoryIndex = -1;
         }
     }
 }

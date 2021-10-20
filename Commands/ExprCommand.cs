@@ -1,42 +1,46 @@
 using MetaphysicsIndustries.Ligra.RenderItems;
-using MetaphysicsIndustries.Solus;
+using MetaphysicsIndustries.Solus.Commands;
 using MetaphysicsIndustries.Solus.Expressions;
 
 namespace MetaphysicsIndustries.Ligra.Commands
 {
     public class ExprCommand : Command
     {
-        public static readonly ExprCommand Value = new ExprCommand(null);
+        public static readonly ExprCommand Value = new ExprCommand();
 
         public override string Name => "expr";
 
-        public ExprCommand(Expression expr)
+        public override void Execute(string input, string[] args,
+            LigraEnvironment env, ICommandData data, ILigraUI control)
         {
-            _expr = expr;
+            Execute(input, args, env, control, ((ExprCommandData) data).Expr);
         }
 
-        private readonly Expression _expr;
-        
-        public override void Execute(string input, SolusEnvironment env)
+        public override string GetInputLabel(string input,
+            LigraEnvironment env, ICommandData data, ILigraUI control)
         {
-            throw new System.NotImplementedException();
+            return string.Format("$ {0}", ((ExprCommandData) data).Expr);
         }
 
-        public override void Execute(string input, string[] args, LigraEnvironment env)
-        {
-            Execute(input, args, env, _expr);
-        }
-
-        public override string GetInputLabel(string input, LigraEnvironment env)
-        {
-            return string.Format("$ {0}", _expr);
-        }
-
-        public static void Execute(string input, string[] args, LigraEnvironment env, Expression expr)
+        public static void Execute(string input, string[] args,
+            LigraEnvironment env, ILigraUI control, Expression expr)
         {
             expr = expr.PreliminaryEval(env);
 
-            env.AddRenderItem(new ExpressionItem(expr, LPen.Blue, env.Font, env));
+            control.AddRenderItem(
+                new ExpressionItem(
+                    expr, LPen.Blue, control.DrawSettings.Font));
         }
+    }
+
+    public class ExprCommandData : ICommandData
+    {
+        public ExprCommandData(Expression expr)
+        {
+            Expr = expr;
+        }
+
+        public Solus.Commands.Command Command => ExprCommand.Value;
+        public Expression Expr { get; }
     }
 }

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using MetaphysicsIndustries.Acuity;
 using MetaphysicsIndustries.Solus;
 using MetaphysicsIndustries.Solus.Expressions;
 using MetaphysicsIndustries.Solus.Values;
@@ -12,10 +11,10 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
     {
         public GraphMatrixItem(Acuity.Matrix matrix, string caption,
             LigraEnvironment env)
-            : base(env)
         {
             _matrix = matrix.Clone();
             _caption = caption;
+            _env = env;
         }
 
         private Acuity.Matrix _matrix;
@@ -26,15 +25,17 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
         public string _caption;
 
+        private readonly LigraEnvironment _env;
+
         public MemoryImage _image = null;
 
         protected override void InternalRender(IRenderer g,
-            SolusEnvironment env)
+            DrawSettings drawSettings)
         {
             RectangleF boundsInClient = new RectangleF(0, 0,
                 Matrix.ColumnCount, Matrix.RowCount);
 
-            if (_image == null || HasChanged(env))
+            if (_image == null || HasChanged(_env))
             {
                 MemoryImage image =
                     GraphMatrixItem.RenderMatrixToMemoryImage(Matrix);
@@ -53,19 +54,23 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 GetImageHeight());
             g.DrawImage(_image, rect);
 
-            SizeF textSize = g.MeasureString(_caption, _env.Font,
+            SizeF textSize = g.MeasureString(_caption, drawSettings.Font,
                 GetImageWidth());
             float textWidth = textSize.Width;
             float textHeight = textSize.Height;
             rect = new RectangleF(0, GetImageHeight() + 2, textWidth,
                 textHeight);
-            g.DrawString(_caption, _env.Font, LBrush.Black, rect);
+            g.DrawString(_caption, drawSettings.Font, LBrush.Black, rect);
         }
 
-        protected override Vector2 InternalCalcSize(IRenderer g)
+        protected override void CollectVariableValuesFromEnv() =>
+            CollectVariableValues(_env);
+
+        protected override Vector2 InternalCalcSize(IRenderer g,
+            DrawSettings drawSettings)
         {
             var width = GetImageWidth();
-            var captionSize = g.MeasureString(_caption, _env.Font,
+            var captionSize = g.MeasureString(_caption, drawSettings.Font,
                 GetImageWidth());
 
             return new Vector2(

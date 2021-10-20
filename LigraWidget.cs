@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Gtk;
+using MetaphysicsIndustries.Ligra.Commands;
+using MetaphysicsIndustries.Ligra.Expressions;
 using MetaphysicsIndustries.Ligra.RenderItems;
 
 namespace MetaphysicsIndustries.Ligra
@@ -11,6 +13,8 @@ namespace MetaphysicsIndustries.Ligra
         public LigraWidget()
         {
             InitializeComponent();
+            Command.InitializeCommands(Commands);
+            Env.SetVariable("t", new TimeExpression());
         }
 
         void InitializeComponent()
@@ -26,6 +30,14 @@ namespace MetaphysicsIndustries.Ligra
 
             _vbox.SizeAllocated += _vbox_SizeAllocated;
         }
+
+        public LigraEnvironment Env { get; } = new LigraEnvironment();
+
+        public DrawSettings DrawSettings { get; } = new DrawSettings();
+
+        public Dictionary<string, Command> Commands { get; } =
+            new Dictionary<string, Command>(
+                StringComparer.InvariantCultureIgnoreCase);
 
         bool scrollToBottom = false;
 
@@ -53,6 +65,7 @@ namespace MetaphysicsIndustries.Ligra
             _items.Add(item);
             item.Container = this;
             var widget = item.GetAdapter();
+            ((RenderItemWidget) widget).Control = this;
             widget.ShowAll();
             _vbox.PackStart(widget, true, false, 3);
             _vbox.ShowAll();
@@ -76,5 +89,12 @@ namespace MetaphysicsIndustries.Ligra
             window.TransientFor = (Gtk.Window)this.Toplevel;
             window.Modal = true;
         }
+
+        public IList<string> History { get; } = new List<string>();
+        public int CurrentHistoryIndex { get; set; } = -1;
+
+        public void ClearCanvas() => QueueDraw();
+
+        public LigraParser Parser { get; } = new LigraParser();
     }
 }

@@ -4,8 +4,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 {
     public class IntroItem : TextItem
     {
-        public IntroItem(LigraEnvironment env)
-            : base(env, IntroText)
+        public IntroItem()
+            : base(IntroText)
         {
         }
 

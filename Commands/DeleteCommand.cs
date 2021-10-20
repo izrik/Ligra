@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using MetaphysicsIndustries.Ligra.RenderItems;
-using MetaphysicsIndustries.Solus;
+using MetaphysicsIndustries.Solus.Commands;
 
 namespace MetaphysicsIndustries.Ligra.Commands
 {
@@ -18,12 +18,10 @@ namespace MetaphysicsIndustries.Ligra.Commands
     The name of a variable previously defined via ""<var> := <expr>"".
 ";
 
-        public override void Execute(string input, SolusEnvironment env)
-        {
-            throw new System.NotImplementedException();
-        }
+        public override bool ModifiesEnvironment => true;
 
-        public override void Execute(string input, string[] args, LigraEnvironment env)
+        public override void Execute(string input, string[] args,
+            LigraEnvironment env, ICommandData data, ILigraUI control)
         {
             if (args.Length > 1)
             {
@@ -32,7 +30,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
                 int i;
                 for (i = 1; i < args.Length; i++)
                 {
-                    if (!env.Variables.ContainsKey(args[i]))
+                    if (!env.ContainsVariable(args[i]))
                     {
                         unknownVars.Add(args[i]);
                     }
@@ -46,22 +44,29 @@ namespace MetaphysicsIndustries.Ligra.Commands
                         error += s + "\r\n";
                     }
 
-                    env.AddRenderItem(new ErrorItem(input, error, env.Font, LBrush.Red, env, input.IndexOf(args[0])));
+                    control.AddRenderItem(
+                        new ErrorItem(input, error, control.DrawSettings.Font,
+                            LBrush.Red, input.IndexOf(args[0])));
                 }
                 else
                 {
                     for (i = 1; i < args.Length; i++)
                     {
-                        env.Variables.Remove(args[i]);
+                        env.RemoveVariable(args[i]);
                     }
 
-                    env.AddRenderItem(new InfoItem("The variables were deleted successfully.", env.Font, env));
+                    control.AddRenderItem(
+                        new InfoItem(
+                            "The variables were deleted successfully.",
+                            control.DrawSettings.Font));
                 }
             }
             else
             {
-                env.AddRenderItem(new ErrorItem(input, "Must specify variables to delete", env.Font, LBrush.Red, env,
-                    input.IndexOf(args[0])));
+                control.AddRenderItem(
+                    new ErrorItem(input, "Must specify variables to delete",
+                        control.DrawSettings.Font, LBrush.Red,
+                        input.IndexOf(args[0])));
             }
         }
     }

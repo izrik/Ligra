@@ -1,14 +1,27 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using MetaphysicsIndustries.Ligra.RenderItems;
+using MetaphysicsIndustries.Solus;
+using MetaphysicsIndustries.Solus.Commands;
 
 namespace MetaphysicsIndustries.Ligra.Commands
 {
     public abstract class Command : Solus.Commands.Command
     {
-        public abstract void Execute(string input, string[] args, LigraEnvironment env);
+        public override void Execute(string input, SolusEnvironment env,
+            ICommandData data)
+        {
+            throw new NotImplementedException();
+        }
 
-        public virtual string GetInputLabel(string input, LigraEnvironment env)
+        public abstract void Execute(string input, string[] args,
+            LigraEnvironment env, ICommandData data, ILigraUI control);
+
+        public virtual bool ModifiesEnvironment => false;
+
+        public virtual string GetInputLabel(string input, LigraEnvironment env,
+            ICommandData data, ILigraUI control)
         {
             return string.Format("$ {0}", input);
         }
@@ -38,23 +51,70 @@ namespace MetaphysicsIndustries.Ligra.Commands
             commands["func_assign"] = FuncAssignCommand.Value;
         }
 
-        public static void ClearHistory(LigraEnvironment env)
+        public static void ClearHistory(LigraEnvironment env, ILigraUI control)
         {
-            env.History.Clear();
-            env.CurrentHistoryIndex = -1;
-            env.AddRenderItem(new InfoItem("History cleared", env.Font, env));
+            control.History.Clear();
+            control.CurrentHistoryIndex = -1;
+            control.AddRenderItem(
+                new InfoItem("History cleared", control.DrawSettings.Font));
         }
 
-        public static void ClearOutput(LigraEnvironment env)
+        public static void ClearOutput(ILigraUI control)
         {
-            var items = env.RenderItems.ToArray();
+            var items = control.RenderItems.ToArray();
             foreach (var item in items)
             {
-                env.Control.RemoveRenderItem(item);
+                control.RemoveRenderItem(item);
             }
 
-            env.ClearCanvas();
+            control.ClearCanvas();
+        }
+
+        public static implicit operator SimpleCommandData(Command command)
+        {
+            return new SimpleCommandData(command);
+        }
+    }
+
+    public class SimpleCommandData : ICommandData
+    {
+        public SimpleCommandData(Command command)
+        {
+            Command = command;
+        }
+
+        public Solus.Commands.Command Command { get; }
+    }
+
+    public static class CommandHelper
+    {
+        public static void Execute(this Solus.Commands.Command command,
+            string input, string[] args, LigraEnvironment env,
+            ICommandData data, ILigraUI control)
+        {
+            ((Command) command).Execute(input, args, env, data, control);
+        }
+
+        public static void Execute(this ICommandData data,
+            string input, string[] args, LigraEnvironment env,
+            ILigraUI control)
+        {
+            ((Command) data.Command).Execute(input, args, env, data, control);
+        }
+
+        public static string GetInputLabel(
+            this Solus.Commands.Command command, string input,
+            LigraEnvironment env, ICommandData data, ILigraUI control)
+        {
+            return ((Command) command).GetInputLabel(input, env, data,
+                control);
+        }
+
+        public static string GetInputLabel( this ICommandData data,
+            string input, LigraEnvironment env, ILigraUI control)
+        {
+            return ((Command) data.Command).GetInputLabel(input, env, data,
+                control);
         }
     }
 }
-

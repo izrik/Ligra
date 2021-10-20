@@ -10,9 +10,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 {
     public class GraphVectorItem : RenderItem
     {
-        public GraphVectorItem(Acuity.Vector vector, string caption,
-            LigraEnvironment env)
-            : base(env)
+        public GraphVectorItem(Acuity.Vector vector, string caption)
         {
             _vector = vector.Clone();
             _caption = caption;
@@ -28,27 +26,34 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
         //MemoryImage _image = null;
 
-        protected override void InternalRender(IRenderer g, SolusEnvironment env)
+        protected override void InternalRender(IRenderer g,
+            DrawSettings drawSettings)
         {
-            RectangleF boundsInClient = new RectangleF(new PointF(0, 0), InternalCalcSize(g));
+            RectangleF boundsInClient = new RectangleF(new PointF(0, 0),
+                InternalCalcSize(g, drawSettings));
             boundsInClient.Height = 276;
 
             RenderVector(g, boundsInClient, LPen.Blue, LBrush.Blue, _vector, true);
 
-            RectangleF rect = new RectangleF(10, 276, _vector.Length, g.MeasureString(_caption, _env.Font).Y);
-            g.DrawString(_caption, _env.Font, LBrush.Black, rect);
+            var rect = new RectangleF(10, 276, _vector.Length,
+                g.MeasureString(_caption, drawSettings.Font).Y);
+            g.DrawString(_caption, drawSettings.Font, LBrush.Black, rect);
 
             //g.DrawImage(_image.Bitmap, boundsInClient);
         }
 
-        protected override Vector2 InternalCalcSize(IRenderer g)
+        protected override Vector2 InternalCalcSize(IRenderer g,
+            DrawSettings drawSettings)
         {
             double x = Math.Log(_vector.Length, 2);
             if (x < 8)
             {
                 return new Vector2(276, 276);
             }
-            return new Vector2(_vector.Length + 20, 296 + g.MeasureString(_caption, _env.Font, _vector.Length).Y);
+            return new Vector2(
+                _vector.Length + 20,
+                296 + g.MeasureString(_caption, drawSettings.Font,
+                    _vector.Length).Y);
         }
 
         protected override void AddVariablesForValueCollection(HashSet<string> vars)

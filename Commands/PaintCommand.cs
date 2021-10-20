@@ -1,5 +1,5 @@
 using MetaphysicsIndustries.Ligra.RenderItems;
-using MetaphysicsIndustries.Solus;
+using MetaphysicsIndustries.Solus.Commands;
 using MetaphysicsIndustries.Solus.Expressions;
 
 namespace MetaphysicsIndustries.Ligra.Commands
@@ -21,6 +21,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
         private readonly VarInterval _interval2;
 
         public override string Name => "paint";
+
         public override string DocString =>
 @"Mathpaint - Color the pixels of an image using an expression.
 
@@ -46,25 +47,40 @@ namespace MetaphysicsIndustries.Ligra.Commands
   example:
     paint i | j for i=[0..255], j=[0..255]
 ";
-        public override void Execute(string input, SolusEnvironment env)
+
+        public override void Execute(string input, string[] args,
+            LigraEnvironment env, ICommandData data, ILigraUI control)
         {
-            throw new System.NotImplementedException();
+            var data2 = (PaintCommandData) data;
+            Execute(input, args, env, control, data2.Expr, data2.Interval1,
+                data2.Interval2);
         }
 
-        public override void Execute(string input, string[] args, LigraEnvironment env)
+        public void Execute(string input, string[] args, LigraEnvironment env,
+            ILigraUI control, Expression expr, VarInterval interval1,
+            VarInterval interval2)
         {
-            // holy smokes, this is *hideous*
-            var cmd = env.Parser.GetPaintCommand(input, env);
-            Execute(input, args, env, cmd._expr, cmd._interval1, cmd._interval2);
-        }
-
-        public void Execute(string input, string[] args, LigraEnvironment env, Expression expr, VarInterval interval1, VarInterval interval2)
-        {
-            env.AddRenderItem(
+            control.AddRenderItem(
                 new MathPaintItem(
                     expr,
                     interval1,
                     interval2, env));
         }
+    }
+
+    public class PaintCommandData : ICommandData
+    {
+        public PaintCommandData(Expression expr, VarInterval interval1,
+            VarInterval interval2)
+        {
+            Expr = expr;
+            Interval1 = interval1;
+            Interval2 = interval2;
+        }
+
+        public Solus.Commands.Command Command => PaintCommand.Value;
+        public Expression Expr { get; }
+        public VarInterval Interval1 { get; }
+        public VarInterval Interval2 { get; }
     }
 }

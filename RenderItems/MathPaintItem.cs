@@ -64,11 +64,11 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             _data = new GtkRenderer.GtkDrawImageData(_image);
         }
         protected MathPaintItem(LigraEnvironment env)
-            : base(env)
         {
             _timer = new System.Timers.Timer(250);
             _timer.Elapsed += _timer_Elapsed;
             _timer.Enabled = true;
+            _env = env;
         }
 
         public Expression _expression;
@@ -83,17 +83,23 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
         System.Timers.Timer _timer;
 
-        protected override void InternalRender(IRenderer g, SolusEnvironment env)
+        private readonly LigraEnvironment _env;
+
+        protected override void InternalRender(IRenderer g,
+            DrawSettings drawSettings)
         {
             RectangleF boundsInClient = new RectangleF(0, 0, _width, _height);
 
-            if (_image == null || HasChanged(env))
+            if (_image == null || HasChanged(_env))
             {
-                RenderMathPaintToMemoryImage(env);
+                RenderMathPaintToMemoryImage(_env);
             }
 
             ((GtkRenderer) g).DrawImage(_data, boundsInClient);
         }
+
+        protected override void CollectVariableValuesFromEnv() =>
+            CollectVariableValues(_env);
 
         public void RenderMathPaintToMemoryImage(SolusEnvironment env)
         {
@@ -120,7 +126,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             GatherVariablesForValueCollection(vars, _expression);
         }
 
-        protected override Vector2 InternalCalcSize(IRenderer g)
+        protected override Vector2 InternalCalcSize(IRenderer g,
+            DrawSettings drawSettings)
         {
             return new Vector2(_width, _height);
         }
@@ -168,14 +175,10 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             Expression prelimEval1;
             Expression prelimEval2;
 
-            if (env.Variables.ContainsKey(independentVariableX))
-            {
-                env.Variables.Remove(independentVariableX);
-            }
-            if (env.Variables.ContainsKey(independentVariableY))
-            {
-                env.Variables.Remove(independentVariableY);
-            }
+            if (env.ContainsVariable(independentVariableX))
+                env.RemoveVariable(independentVariableX);
+            if (env.ContainsVariable(independentVariableY))
+                env.RemoveVariable(independentVariableY);
 
             prelimEval1 = _engine.PreliminaryEval(expression, env);
 
@@ -187,17 +190,15 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
             for (i = 0; i < xValues; i++)
             {
-                env.Variables[independentVariableX] = new Literal(i);
-                if (env.Variables.ContainsKey(independentVariableY))
-                {
-                    env.Variables.Remove(independentVariableY);
-                }
+                env.SetVariable(independentVariableX, new Literal(i));
+                if (env.ContainsVariable(independentVariableY))
+                    env.RemoveVariable(independentVariableY);
 
                 prelimEval2 = _engine.PreliminaryEval(prelimEval1, env);
 
                 for (j = 0; j < yValues; j++)
                 {
-                    env.Variables[independentVariableY] = new Literal(j);
+                    env.SetVariable(independentVariableY, new Literal(j));
 
                     z = prelimEval2.Eval(env).ToNumber().Value;
 

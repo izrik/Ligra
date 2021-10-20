@@ -4,8 +4,14 @@ using MetaphysicsIndustries.Giza;
 using System.Collections.Generic;
 using System.Linq;
 using MetaphysicsIndustries.Ligra.Commands;
+using MetaphysicsIndustries.Solus.Commands;
 using MetaphysicsIndustries.Solus.Functions;
 using MetaphysicsIndustries.Solus.Values;
+using DeleteCommand = MetaphysicsIndustries.Ligra.Commands.DeleteCommand;
+using FuncAssignCommandData = MetaphysicsIndustries.Ligra.Commands.FuncAssignCommandData;
+using HelpCommandData = MetaphysicsIndustries.Ligra.Commands.HelpCommandData;
+using VarAssignCommandData = MetaphysicsIndustries.Ligra.Commands.VarAssignCommandData;
+using VarsCommand = MetaphysicsIndustries.Ligra.Commands.VarsCommand;
 
 namespace MetaphysicsIndustries.Ligra
 {
@@ -21,7 +27,8 @@ namespace MetaphysicsIndustries.Ligra
             _parser = new Parser(_grammar.def_commands);
         }
 
-        public new Command[] GetCommands(string input, SolusEnvironment env=null)
+        public new ICommandData[] GetCommands(string input,
+            SolusEnvironment env = null, CommandSet commandSet = null)
         {
             if (env == null)
             {
@@ -46,7 +53,7 @@ namespace MetaphysicsIndustries.Ligra
                     throw new InvalidOperationException("Error getting the expression", ex);
                 }
 
-                return new Command[] {new ExprCommand(expr)};
+                return new[] {new ExprCommandData(expr)};
             }
             if (spans.Length < 1)
             {
@@ -62,9 +69,9 @@ namespace MetaphysicsIndustries.Ligra
             return GetCommandsFromCommands(span, env);
         }
 
-        Command[] GetCommandsFromCommands(Span span, SolusEnvironment env)
+        ICommandData[] GetCommandsFromCommands(Span span, SolusEnvironment env)
         {
-            var commands = new List<Command>();
+            var commands = new List<ICommandData>();
 
             foreach (var sub in span.Subspans)
             {
@@ -76,7 +83,7 @@ namespace MetaphysicsIndustries.Ligra
             return commands.ToArray();
         }
 
-        public Command GetSingleCommand(string input, LigraEnvironment env)
+        public ICommandData GetSingleCommand(string input, LigraEnvironment env)
         {
             if (env == null) throw new ArgumentNullException(nameof(env));
             var errors1 = new List<Error>();
@@ -94,7 +101,7 @@ namespace MetaphysicsIndustries.Ligra
                     throw new InvalidOperationException();
                 }
 
-                return new ExprCommand(expr);
+                return new ExprCommandData(expr);
             }
             if (spans.Length < 1) throw new InvalidOperationException();
             if (spans.Length > 1) throw new InvalidOperationException();
@@ -104,7 +111,7 @@ namespace MetaphysicsIndustries.Ligra
             return GetCommandFromCommand(span, env);
         }
 
-        Command GetCommandFromCommand(Span span, SolusEnvironment env)
+        ICommandData GetCommandFromCommand(Span span, SolusEnvironment env)
         {
             var sub = span.Subspans[0];
             var def = sub.DefRef;
@@ -131,7 +138,7 @@ namespace MetaphysicsIndustries.Ligra
             }
             else if (def == _grammar.def_delete_002D_command)
             {
-                return GetDelCommandFromDelCommand(sub, env);
+                return new SimpleCommandData(DeleteCommand.Value);
             }
             else if (def == _grammar.def_var_002D_assign_002D_command)
             {
@@ -141,34 +148,42 @@ namespace MetaphysicsIndustries.Ligra
             {
                 return GetFuncAssignCommandFromFuncAssignCommand(sub, env);
             }
+            else if (def == _grammar.def_vars_002D_command)
+            {
+                return new SimpleCommandData(VarsCommand.Value);
+            }
             else
             {
                 throw new InvalidOperationException();
             }
         }
 
-        Command GetHelpCommandFromHelpCommand(Span span, SolusEnvironment env)
+        HelpCommandData GetHelpCommandFromHelpCommand(Span span,
+            SolusEnvironment env)
         {
             string topic = "help";
             if (span.Subspans.Count >= 2)
             {
-                topic = span.Subspans[1].Subspans[0].Value;
+                topic = span.Subspans[1].Value;
             }
 
-            return new HelpCommand(topic);
+            return new HelpCommandData(topic);
         }
 
-        Command GetClearCommandFromClearCommand(Span span, SolusEnvironment env)
+        ICommandData GetClearCommandFromClearCommand(Span span,
+            SolusEnvironment env)
+        {
+            return new SimpleCommandData(ClearCommand.Value);
+        }
+
+        ICommandData GetShowCommandFromShowCommand(Span span,
+            SolusEnvironment env)
         {
             throw new NotImplementedException();
         }
 
-        Command GetShowCommandFromShowCommand(Span span, SolusEnvironment env)
-        {
-            throw new NotImplementedException();
-        }
-
-        public PlotCommand GetPlotCommand(string input, LigraEnvironment env)
+        public PlotCommandData GetPlotCommand(string input,
+            LigraEnvironment env)
         {
             if (env == null) throw new ArgumentNullException(nameof(env));
             var errors1 = new List<Error>();
@@ -188,7 +203,8 @@ namespace MetaphysicsIndustries.Ligra
             return GetPlotCommandFromPlotCommand(span, env);
         }
 
-        PlotCommand GetPlotCommandFromPlotCommand(Span span, SolusEnvironment env)
+        PlotCommandData GetPlotCommandFromPlotCommand(Span span,
+            SolusEnvironment env)
         {
             var exprs = new List<Solus.Expressions.Expression>();
             var intervals = new List<VarInterval>();
@@ -205,10 +221,11 @@ namespace MetaphysicsIndustries.Ligra
                 }
             }
 
-            return new PlotCommand(exprs.ToArray(), intervals.ToArray());
+            return new PlotCommandData(exprs.ToArray(), intervals.ToArray());
         }
 
-        public VarInterval GetVarIntervalFromInterval(Span span, SolusEnvironment env)
+        public VarInterval GetVarIntervalFromInterval(Span span,
+            SolusEnvironment env)
         {
             if (span.Subspans[0].Node == _grammar.node_interval_0_varref)
             {
@@ -266,7 +283,8 @@ namespace MetaphysicsIndustries.Ligra
             }
         }
 
-        public PaintCommand GetPaintCommand(string input, LigraEnvironment env)
+        public PaintCommandData GetPaintCommand(string input,
+            LigraEnvironment env)
         {
             if (env == null) throw new ArgumentNullException(nameof(env));
             var errors1 = new List<Error>();
@@ -286,30 +304,34 @@ namespace MetaphysicsIndustries.Ligra
             return GetPaintCommandFromPaintCommand(span, env);
         }
 
-        PaintCommand GetPaintCommandFromPaintCommand(Span span, SolusEnvironment env)
+        PaintCommandData GetPaintCommandFromPaintCommand(Span span,
+            SolusEnvironment env)
         {
             var expr = GetExpressionFromExpr(span.Subspans[1], env);
             var interval1 = GetVarIntervalFromInterval(span.Subspans[3], env);
             var interval2 = GetVarIntervalFromInterval(span.Subspans[5], env);
 
-            return new PaintCommand(expr, interval1, interval2);
+            return new PaintCommandData(expr, interval1, interval2);
         }
 
-        Command GetDelCommandFromDelCommand(Span span, SolusEnvironment env)
+        ICommandData GetDelCommandFromDelCommand(Span span,
+            SolusEnvironment env)
         {
             throw new NotImplementedException();
         }
 
-        Command GetVarAssignCommandFromVarAssignCommand(Span span, SolusEnvironment env)
+        VarAssignCommandData GetVarAssignCommandFromVarAssignCommand(Span span,
+            SolusEnvironment env)
         {
             var varname = span.Subspans[0].Subspans[0].Value;
             var expr = GetExpressionFromExpr(span.Subspans[2], env);
             expr = expr.PreliminaryEval(env);
 
-            return new VarAssignCommand(varname, expr);
+            return new VarAssignCommandData(varname, expr);
         }
 
-        Command GetFuncAssignCommandFromFuncAssignCommand(Span span, SolusEnvironment env)
+        FuncAssignCommandData GetFuncAssignCommandFromFuncAssignCommand(
+            Span span, SolusEnvironment env)
         {
             var funcname = span.Subspans[0].Value;
 
@@ -323,21 +345,19 @@ namespace MetaphysicsIndustries.Ligra
                 }
             }
 
-            SolusEnvironment env2 = env.CreateChildEnvironment();
+            SolusEnvironment env2 = env.Clone();
 
-            // create the functino, with no expr
+            // create the function, with no expr
             var func = new UserDefinedFunction(funcname, args.ToArray(), null);
-            if (env2.Functions.ContainsKey(funcname))
-            {
-                env2.Functions.Remove(funcname);
-            }
+            if (env2.ContainsFunction(funcname))
+                env2.RemoveFunction(funcname);
             env2.AddFunction(func);
 
             // read the expr. this order of things allows for recursion
             var expr = GetExpressionFromExpr(span.Subspans.Last(), env2);
             func.Expression = expr;
 
-            return new FuncAssignCommand(func);
+            return new FuncAssignCommandData(func);
         }
     }
 }

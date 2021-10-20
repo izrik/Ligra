@@ -1,6 +1,7 @@
 using System.Linq;
 using MetaphysicsIndustries.Ligra.RenderItems;
 using MetaphysicsIndustries.Solus;
+using MetaphysicsIndustries.Solus.Commands;
 using MetaphysicsIndustries.Solus.Expressions;
 using MetaphysicsIndustries.Solus.Functions;
 
@@ -9,34 +10,25 @@ namespace MetaphysicsIndustries.Ligra.Commands
     public class FuncAssignCommand : Command
     {
         public static readonly FuncAssignCommand Value =
-            new FuncAssignCommand(null);
+            new FuncAssignCommand();
 
         public override string Name => "func_assign";
 
-        public FuncAssignCommand(UserDefinedFunction func)
+        public override bool ModifiesEnvironment => true;
+
+        public override void Execute(string input, string[] args,
+            LigraEnvironment env, ICommandData data, ILigraUI control)
         {
-            _func = func;
+            Execute(input, args, env, data, control,
+                ((FuncAssignCommandData)data).Func);
         }
 
-        private readonly UserDefinedFunction _func;
-        
-        public override void Execute(string input, SolusEnvironment env)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override void Execute(string input, string[] args, LigraEnvironment env)
-        {
-            Execute(input, args, env, _func);
-        }
-        
-        public void Execute(string input, string[] args, LigraEnvironment env, UserDefinedFunction func)
+        public void Execute(string input, string[] args, LigraEnvironment env,
+            ICommandData data, ILigraUI control, UserDefinedFunction func)
         {
 //            var func = new UserDefinedFunction(funcname, argnames, expr);
-            if (env.Functions.ContainsKey(func.DisplayName))
-            {
-                env.Functions.Remove(func.DisplayName);
-            }
+            if (env.ContainsFunction(func.DisplayName))
+                env.RemoveFunction(func.DisplayName);
 
             env.AddFunction(func);
 
@@ -44,7 +36,19 @@ namespace MetaphysicsIndustries.Ligra.Commands
             var fcall = new FunctionCall(func, varrefs);
             var expr2 = new FunctionCall(AssignOperation.Value, fcall, func.Expression);
 
-            env.AddRenderItem(new ExpressionItem(expr2, LPen.Blue, env.Font, env));
+            control.AddRenderItem(new ExpressionItem(expr2, LPen.Blue,
+                control.DrawSettings.Font));
         }
+    }
+
+    public class FuncAssignCommandData : ICommandData
+    {
+        public FuncAssignCommandData(UserDefinedFunction func)
+        {
+            Func = func;
+        }
+
+        public Solus.Commands.Command Command => FuncAssignCommand.Value;
+        public UserDefinedFunction Func { get; }
     }
 }

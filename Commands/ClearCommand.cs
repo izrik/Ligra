@@ -1,4 +1,4 @@
-using MetaphysicsIndustries.Solus;
+using MetaphysicsIndustries.Solus.Commands;
 
 namespace MetaphysicsIndustries.Ligra.Commands
 {
@@ -20,32 +20,28 @@ Clear both output and history:
   clear all
 ";
 
-        public override void Execute(string input, SolusEnvironment env)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override void Execute(string input, string[] args, LigraEnvironment env)
+        public override void Execute(string input, string[] args,
+            LigraEnvironment env, ICommandData data, ILigraUI control)
         {
             if (args.Length > 1)
             {
                 if (args[1].ToLower() == "history")
                 {
-                    ClearHistory(env);
+                    ClearHistory(env, control);
                 }
                 else if (args[1].ToLower() == "all")
                 {
-                    ClearHistory(env);
-                    ClearOutput(env);
+                    ClearHistory(env, control);
+                    ClearOutput(control);
                 }
                 else
                 {
-                    ClearOutput(env);
+                    ClearOutput(control);
                 }
             }
             else
             {
-                ClearOutput(env);
+                ClearOutput(control);
             }
         }
     }
