@@ -37,6 +37,14 @@ parametrics and plots
     "plot sin" ??? just the function itself? infer inputs and outputs?
         requires unified namespace and related fixes to macros and parsing
 
+plot colors and other things
+    plot-command = 'plot' expr (',' expr)* ('for' interval ( ',' interval )*)?
+        ( 'with' plot-with ( ',' plot-with )* )?'';
+    plot-with = (
+        'temporal' varref |
+        'color' expr
+    );
+
 replace gtk text measuring and rendering with our own system
     the marshalling and unmarshalling to and from unmanaged code is causing a metric ton of allocations
 
