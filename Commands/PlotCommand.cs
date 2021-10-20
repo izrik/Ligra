@@ -29,8 +29,13 @@ namespace MetaphysicsIndustries.Ligra.Commands
             LigraEnvironment env, ICommandData data, ILigraUI control)
         {
             var data2 = (PlotCommandData) data;
+            if (data2.Intervals == null || data2.Intervals.Length <= 0)
+                return string.Format("$ plot {0}",
+                    string.Join(", ",
+                        data2.Exprs.Select(Expression.ToString)));
             var label = string.Format("$ plot {0} for {1}",
-                string.Join(", ", data2.Exprs.Select(Expression.ToString)),
+                string.Join(", ",
+                    data2.Exprs.Select(Expression.ToString)),
                 string.Join(", ",
                     data2.Intervals.Select(vi => vi.ToString())));
             return label;
@@ -92,9 +97,35 @@ Plot one or more expressions that vary over two variable as a 3D graph:
         {
             if (env == null) throw new ArgumentNullException("env");
             if (exprs == null || exprs.Length < 1) throw new ArgumentNullException("exprs");
-            if (intervals == null || intervals.Length < 1) throw new ArgumentNullException("intervals");
+            if (intervals == null) intervals = new VarInterval[0];
 
             if (intervals.Length > 2) throw new ArgumentOutOfRangeException("Too many intervals.");
+
+            if (intervals.Length == 0)
+            {
+                var unboundVars = new HashSet<string>();
+                foreach (var expr in exprs)
+                    CountUnboundVariables(expr, env, unboundVars);
+                var unboundVars2 = new List<string>(unboundVars);
+                if (unboundVars.Count < 1 || unboundVars.Count > 2)
+                    throw new NotImplementedException(
+                        "Unbound vars with no interval should be 1 " +
+                        $"or 2 in number. Got {unboundVars.Count}");
+                intervals = new VarInterval[unboundVars.Count];
+                for (int i = 0; i < unboundVars.Count; i++)
+                    intervals[i] = new VarInterval
+                    {
+                        Interval = new Interval
+                        {
+                            IsIntegerInterval = false,
+                            LowerBound = -5,
+                            OpenLowerBound = false,
+                            UpperBound = 5,
+                            OpenUpperBound = false
+                        },
+                        Variable = unboundVars2[i]
+                    };
+            }
 
             var literals = new List<Literal>();
             foreach (var interval in intervals)
@@ -103,16 +134,6 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                 var literal = new Literal(midpoint);
                 env.SetVariable(interval.Variable, literal);
                 literals.Add(literal);
-            }
-
-            var unboundVars = new HashSet<string>();
-            foreach (var expr in exprs)
-            {
-                var expr2 = expr.PreliminaryEval(env);
-                if (!(expr2 is Literal))
-                {
-                    unboundVars.UnionWith(SolusEngine.GatherVariables(expr2));
-                }
             }
 
             if (intervals.Length == 1)
@@ -176,6 +197,28 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                     intervals[0].Variable,
                     intervals[1].Variable, env));
             }
+        }
+
+        public static int CountUnboundVariables(Expression expr,
+            SolusEnvironment env, HashSet<string> unboundVars=null)
+        {
+            if (unboundVars == null)
+                unboundVars = new HashSet<string>();
+            var visitor = new DelegateExpressionVisitor
+            {
+                VarVisitor = va =>
+                {
+                    if (env.ContainsVariable(va.VariableName))
+                        CountUnboundVariables(
+                            env.GetVariable(va.VariableName),
+                            env,
+                            unboundVars);
+                    else
+                        unboundVars.Add(va.VariableName);
+                }
+            };
+            expr.AcceptVisitor(visitor);
+            return unboundVars.Count;
         }
     }
 
