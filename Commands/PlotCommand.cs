@@ -101,6 +101,41 @@ Plot one or more expressions that vary over two variable as a 3D graph:
 
             if (intervals.Length > 2) throw new ArgumentOutOfRangeException("Too many intervals.");
 
+            int outputs = 0;
+            if (exprs[0].Result.IsScalar(env))
+                outputs = 1;
+            else if (exprs[0].Result.IsVector(env))
+                outputs = exprs[0].Result.GetVectorLength(env);
+            else
+                throw new NotImplementedException();
+
+            if (outputs < 1 || outputs > 3)
+                throw new InvalidOperationException("Bad number of outputs");
+
+            var inputs = new HashSet<string>();
+            foreach (var expr in exprs)
+                GetUnboundVariables(expr, env, inputs);
+            var intervalNames = new HashSet<string>();
+            foreach (var interval in intervals)
+                intervalNames.Add(interval.Variable);
+            inputs.AddRange(intervalNames);
+
+            if (inputs.Count < 1 || inputs.Count > 2)
+                throw new InvalidOperationException("Bad number of inputs");
+
+            /*
+            0 inputs doesn't make sense
+            0 outputs isn't possible
+
+               | 1 | 2 | 3   outputs
+            ---+---+---+---
+             1 |2dc|2dc|3dc
+            ---+---+---+---
+             2 |3ds|2ds|3ds
+            inputs
+
+             */
+
             if (intervals.Length == 0)
             {
                 var unboundVars = new HashSet<string>();
