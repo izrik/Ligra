@@ -199,8 +199,8 @@ Plot one or more expressions that vary over two variable as a 3D graph:
             }
         }
 
-        public static int CountUnboundVariables(Expression expr,
-            SolusEnvironment env, HashSet<string> unboundVars=null)
+        public static ISet<string> GetUnboundVariables(Expression expr,
+            SolusEnvironment env, HashSet<string> unboundVars = null)
         {
             if (unboundVars == null)
                 unboundVars = new HashSet<string>();
@@ -209,7 +209,7 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                 VarVisitor = va =>
                 {
                     if (env.ContainsVariable(va.VariableName))
-                        CountUnboundVariables(
+                        GetUnboundVariables(
                             env.GetVariable(va.VariableName),
                             env,
                             unboundVars);
@@ -218,7 +218,13 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                 }
             };
             expr.AcceptVisitor(visitor);
-            return unboundVars.Count;
+            return unboundVars;
+        }
+
+        public static int CountUnboundVariables(Expression expr,
+            SolusEnvironment env)
+        {
+            return GetUnboundVariables(expr, env).Count;
         }
     }
 
