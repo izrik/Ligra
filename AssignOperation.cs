@@ -28,5 +28,10 @@ namespace MetaphysicsIndustries.Solus
         {
             get { return OperationPrecedence.Assignment; }
         }
+
+        public override IMathObject GetResult(IEnumerable<IMathObject> args)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

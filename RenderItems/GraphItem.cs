@@ -252,9 +252,9 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             bool drawboundaries)
         {
             var xs = x.Select(
-                e => e.FastEval(env).ToNumber().Value).ToArray();
+                e => e.Eval(env).ToNumber().Value).ToArray();
             var ys = y.Select(
-                e => e.FastEval(env).ToNumber().Value).ToArray();
+                e => e.Eval(env).ToNumber().Value).ToArray();
 
             float deltaX = (xMax - xMin) / boundsInClient.Width;
             float deltaY = (yMax - yMin) / boundsInClient.Height;

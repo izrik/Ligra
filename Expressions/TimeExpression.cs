@@ -26,5 +26,7 @@ namespace MetaphysicsIndustries.Ligra.Expressions
         public override void AcceptVisitor(IExpressionVisitor visitor)
         {
         }
+
+        public override IMathObject Result => ScalarMathObject.Value;
     }
 }
