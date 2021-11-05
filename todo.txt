@@ -63,28 +63,28 @@ parametrics and plots
             (unbound variables), and a set of specified inputs
             ('for' intervals).
 
-    expression                             canonicalized                     s,u->o  plot type
-    -------------------------------------  --------------------------------  ------  ------------------
-    plot f(x)                              [x, f(x)] for x                   0,1->1  2d curve
-    plot f(x) for x                        [x, f(x)] for x                   1,0->1  2d curve
-    plot f(x) for x,y                      [x, y, f(x)] for x,y              2,0->1  3d surface
-    plot [f(x), g(x)]                      [f(x), g(x)] for x                0,1->2  2d curve
-   *plot [f(x), g(x)]                      [x, f(x), g(x)] for x             0,1->2  3d curve
-    plot [f(x), g(x)] for x                [f(x), g(x)] for x                1,0->2  2d curve
-   *plot [f(x), g(x)] for x                [x, f(x), g(x)] for x             1,0->2  3d curve
-    plot [f(x), g(x)] for x,y              [f(x), g(x)] for x,y              2,0->2  2d surface mapped
-    plot [f(x), g(x), h(x)]                [f(x), g(x), h(x)] for x          0,1->3  3d curve
-    plot [f(x), g(x), h(x)] for x          [f(x), g(x), h(x)] for x          1,0->3  3d curve
-    plot [f(x), g(x), h(x)] for x,y        [f(x), g(x), h(x)] for x,y        2,0->3  3d surface mapped?
-    plot f(x,y)                            [x, y, f(x,y)] for x,y            0,2->1  3d surface
-    plot f(x,y) for x                      [x, y, f(x,y)] for x,y            1,1->1  3d surface
-    plot f(x,y) for x,y                    [x, y, f(x,y)] for x,y            2,0->1  3d surface
-    plot [f(x,y), g(x,y)]                  [f(x,y), g(x,y)] for x,y          0,2->2  2d surface mapped
-    plot [f(x,y), g(x,y)] for x            [f(x,y), g(x,y)] for x,y          1,1->2  2d surface mapped
-    plot [f(x,y), g(x,y)] for x,y          [f(x,y), g(x,y)] for x,y          2,0->2  2d surface mapped?
-    plot [f(x,y), g(x,y), h(x,y)]          [f(x,y), g(x,y), h(x,y)] for x,   0,2->3  3d surface
-    plot [f(x,y), g(x,y), h(x,y)] for x    [f(x,y), g(x,y), h(x,y)] for x,y  1,1->3  3d surface mapped
-    plot [f(x,y), g(x,y), h(x,y)] for x,y  [f(x,y), g(x,y), h(x,y)] for x,y  2,0->3  3d surface mapped
+    expression                             canonicalized                     s,u->o  i->o  +  plot type
+    -------------------------------------  --------------------------------  ------  ----  -  ------------------
+    plot f(x)                              [x, f(x)] for x                   0,1->1  1->1  2  2d curve
+    plot f(x) for x                        [x, f(x)] for x                   1,0->1  1->1  2  2d curve
+    plot f(x) for x,y                      [x, y, f(x)] for x,y              2,0->1  2->1  3  3d surface
+    plot [f(x), g(x)]                      [f(x), g(x)] for x                0,1->2  1->2  3  2d curve
+   *plot [f(x), g(x)]                      [x, f(x), g(x)] for x             0,1->2           3d curve
+    plot [f(x), g(x)] for x                [f(x), g(x)] for x                1,0->2  1->2  3  2d curve
+   *plot [f(x), g(x)] for x                [x, f(x), g(x)] for x             1,0->2           3d curve
+    plot [f(x), g(x)] for x,y              [f(x), g(x)] for x,y              2,0->2  2->2  4  2d surface mapped
+    plot [f(x), g(x), h(x)]                [f(x), g(x), h(x)] for x          0,1->3  1->3  4  3d curve
+    plot [f(x), g(x), h(x)] for x          [f(x), g(x), h(x)] for x          1,0->3  1->3  4  3d curve
+    plot [f(x), g(x), h(x)] for x,y        [f(x), g(x), h(x)] for x,y        2,0->3  2->3  5  3d surface mapped?
+    plot f(x,y)                            [x, y, f(x,y)] for x,y            0,2->1  2->1  3  3d surface
+    plot f(x,y) for x                      [x, y, f(x,y)] for x,y            1,1->1  2->1  3  3d surface
+    plot f(x,y) for x,y                    [x, y, f(x,y)] for x,y            2,0->1  2->1  3  3d surface
+    plot [f(x,y), g(x,y)]                  [f(x,y), g(x,y)] for x,y          0,2->2  2->2  4  2d surface mapped
+    plot [f(x,y), g(x,y)] for x            [f(x,y), g(x,y)] for x,y          1,1->2  2->2  4  2d surface mapped
+    plot [f(x,y), g(x,y)] for x,y          [f(x,y), g(x,y)] for x,y          2,0->2  2->2  4  2d surface mapped?
+    plot [f(x,y), g(x,y), h(x,y)]          [f(x,y), g(x,y), h(x,y)] for x,y  0,2->3  2->3  5  3d surface
+    plot [f(x,y), g(x,y), h(x,y)] for x    [f(x,y), g(x,y), h(x,y)] for x,y  1,1->3  2->3  5  3d surface mapped
+    plot [f(x,y), g(x,y), h(x,y)] for x,y  [f(x,y), g(x,y), h(x,y)] for x,y  2,0->3  2->3  5  3d surface mapped
 
 
 plot colors and other things
