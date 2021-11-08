@@ -136,11 +136,71 @@ Plot one or more expressions that vary over two variable as a 3D graph:
 
              */
 
+            var intervals2 = intervals.ToList();
+
+            if (inputs.Count == 1)
+            {
+                if (outputs == 1)
+                {
+                    // "f(x)", "f(x) for x"
+                    // -> [x, f(x)] for x
+                    // 2d curve
+                    foreach (var name in inputs.Except(intervalNames))
+                    {
+                        intervals2.Add(new VarInterval()
+                        {
+                            Interval = new Interval()
+                            {
+                                IsIntegerInterval = false,
+                                LowerBound = -5,
+                                OpenLowerBound = false,
+                                UpperBound = 5,
+                                OpenUpperBound = false
+                            },
+                            Variable = name
+                        });
+                    }
+
+                    var varname = inputs.First();
+                    var expr = exprs[0];
+                    expr = new VectorExpression(2,
+                        new VariableAccess(varname),
+                        expr);
+                    var item = new GraphItem(
+                        expr,
+                        LPen.Blue,
+                        varname,
+                        new SolusParser(),
+                        env);
+                    control.AddRenderItem(item);
+                    return;
+                }
+                else if (outputs == 2)
+                {
+                }
+                else
+                {
+                }
+            }
+            else
+            {
+                if (outputs == 1)
+                {
+                }
+                else if (outputs == 2)
+                {
+                }
+                else
+                {
+                }
+            }
+
+
             if (intervals.Length == 0)
             {
                 var unboundVars = new HashSet<string>();
                 foreach (var expr in exprs)
-                    CountUnboundVariables(expr, env, unboundVars);
+                    GetUnboundVariables(expr, env, unboundVars);
                 var unboundVars2 = new List<string>(unboundVars);
                 if (unboundVars.Count < 1 || unboundVars.Count > 2)
                     throw new NotImplementedException(
