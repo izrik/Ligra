@@ -120,8 +120,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                     Rect.Size);
                 if (ve != null)
                 {
-                    EvaluateVectors(boundsInClient, _minX, _maxX,
-                        _minY, _maxY, ve.X, ve.Y, _env,
+                    EvaluateVectors(ve.X, ve.Y, _env,
                         ref entry.PointsCache);
                     RenderVectors(g,
                         boundsInClient,
@@ -277,27 +276,19 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 boundsInClient.Bottom - (pt.Y - yMin) / deltaY);
         }
 
-        public static void EvaluateVectors(RectangleF boundsInClient,
-            float xMin, float xMax, float yMin, float yMax,
-            VectorExpression x, VectorExpression y,
-            SolusEnvironment env,
-            ref Vector2[] points)
+        public static void EvaluateVectors(VectorExpression x,
+            VectorExpression y, SolusEnvironment env, ref Vector2[] points)
         {
             var xs = x.Select(
                 e => e.Eval(env).ToNumber().Value).ToArray();
             var ys = y.Select(
                 e => e.Eval(env).ToNumber().Value).ToArray();
 
-            float deltaX = (xMax - xMin) / boundsInClient.Width;
-            float deltaY = (yMax - yMin) / boundsInClient.Height;
-
             int i;
             int N = Math.Min(xs.Length, ys.Length);
             for (i = 0; i < N; i++)
             {
-                var next = ClientFromGraph(
-                    new Vector2(xs[i], ys[i]), boundsInClient, xMin,
-                    deltaX, yMin, deltaY);
+                var next = new Vector2(xs[i], ys[i]);
                 points[i] = next;
             }
         }
@@ -333,7 +324,9 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             var lastPoint = points[0];
             for (i = 1; i < N; i++)
             {
-                var next = points[i];
+                var pt = points[i];
+                var next = ClientFromGraph(new Vector2(pt.X, pt.Y),
+                    boundsInClient, xMin, deltaX, yMin, deltaY);
                 g.DrawLine(pen, lastPoint, next);
                 lastPoint = next;
             }
