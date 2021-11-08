@@ -234,17 +234,19 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             {
                 g.DrawRectangle(LPen.Black, boundsInClient.X, boundsInClient.Y, boundsInClient.Width, boundsInClient.Height);
 
-                //if (xMax > 0 && xMin < 0)
-                //{
-                //    float ii = -xMin / deltaX + boundsInClient.X;
-                //    g.DrawLine(Pens.Black, ii, boundsInClient.Top, ii, boundsInClient.Bottom);
-                //}
+                if (xMax > 0 && xMin < 0)
+                {
+                    float ii = -xMin / deltaX + boundsInClient.X;
+                    g.DrawLine(LPen.DarkGray, ii, boundsInClient.Top,
+                        ii, boundsInClient.Bottom);
+                }
 
-                //if (yMax > 0 && yMin < 0)
-                //{
-                //    float y = boundsInClient.Bottom + yMin * deltaY;
-                //    g.DrawLine(Pens.Black, boundsInClient.Left, y, boundsInClient.Right, y);
-                //}
+                if (yMax > 0 && yMin < 0)
+                {
+                    float y = boundsInClient.Bottom + yMin * deltaY;
+                    g.DrawLine(LPen.DarkGray, boundsInClient.Left, y,
+                        boundsInClient.Right, y);
+                }
             }
 
             var vvalue = points[0].Y;
