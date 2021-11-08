@@ -122,22 +122,19 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 {
                     EvaluateVectors(ve.X, ve.Y, _env,
                         ref entry.PointsCache);
-                    RenderVectors(g,
-                        boundsInClient,
-                        entry.Pen, entry.Pen.Brush,
-                        _minX, _maxX, _minY, _maxY, first, entry.PointsCache);
                 }
                 else
                 {
                     EvaluateGraph(boundsInClient, _minX, _maxX,
                         entry.Expression, entry.IndependentVariable, _env,
                         ref entry.PointsCache);
-                    RenderGraph(g,
-                        new RectangleF(location, Rect.Size),
-                        entry.Pen, entry.Pen.Brush,
-                        _minX, _maxX, _minY, _maxY,
-                        first, entry.PointsCache);
                 }
+
+                RenderPoints(g,
+                    boundsInClient,
+                    entry.Pen, entry.Pen.Brush,
+                    _minX, _maxX, _minY, _maxY,
+                    first, entry.PointsCache);
                 first = false;
             }
         }
@@ -218,7 +215,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             }
         }
 
-        public static void RenderGraph(IRenderer g, RectangleF boundsInClient,
+        public static void RenderPoints(IRenderer g,
+            RectangleF boundsInClient,
             LPen pen, LBrush brush,
             float xMin, float xMax, float yMin, float yMax,
             bool drawboundaries,
@@ -281,47 +279,6 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             {
                 var next = new Vector2(xs[i], ys[i]);
                 points[i] = next;
-            }
-        }
-
-        public static void RenderVectors(IRenderer g, RectangleF boundsInClient,
-            LPen pen, LBrush brush,
-            float xMin, float xMax, float yMin, float yMax,
-            bool drawboundaries,
-            Vector2[] points)
-        {
-            float deltaX = (xMax - xMin) / boundsInClient.Width;
-            float deltaY = (yMax - yMin) / boundsInClient.Height;
-
-            if (drawboundaries)
-            {
-                g.DrawRectangle(LPen.Black, boundsInClient.X, boundsInClient.Y, boundsInClient.Width, boundsInClient.Height);
-
-                var zz = ClientFromGraph(Vector2.Zero,
-                    boundsInClient, xMin, deltaX, yMin, deltaY);
-                if (xMax > 0 && xMin < 0)
-                {
-                    g.DrawLine(LPen.DarkGray, zz.X, boundsInClient.Top,
-                        zz.X, boundsInClient.Bottom);
-                }
-
-                if (yMax > 0 && yMin < 0)
-                {
-                    g.DrawLine(LPen.DarkGray, boundsInClient.Left, zz.Y,
-                        boundsInClient.Right, zz.Y);
-                }
-            }
-
-            int i;
-            int N = points.Length;
-            var lastPoint = ClientFromGraph(points[0], boundsInClient,
-                xMin, deltaX, yMin, deltaY);
-            for (i = 1; i < N; i++)
-            {
-                var next = ClientFromGraph(points[i], boundsInClient,
-                    xMin, deltaX, yMin, deltaY);
-                g.DrawLine(pen, lastPoint, next);
-                lastPoint = next;
             }
         }
 
