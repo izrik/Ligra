@@ -110,29 +110,34 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         protected override void InternalRender(IRenderer g,
             DrawSettings drawSettings)
         {
-            g.DrawRectangle(LPen.Red, Rect.X, Rect.Y, Rect.Width, Rect.Height);
+            // g.DrawRectangle(LPen.Red, Rect.X, Rect.Y, Rect.Width, Rect.Height);
             bool first = true;
             foreach (GraphEntry entry in _entries)
             {
                 var ve = entry as GraphVectorEntry;
                 var location = new Vector2(0, 0);
+                var boundsInClient = new RectangleF(location,
+                    Rect.Size);
                 if (ve != null)
                 {
+                    EvaluateVectors(boundsInClient, _minX, _maxX,
+                        _minY, _maxY, ve.X, ve.Y, _env,
+                        ref entry.PointsCache);
                     RenderVectors(g,
-                        new RectangleF(location, Rect.Size),
+                        boundsInClient,
                         entry.Pen, entry.Pen.Brush,
-                        _minX, _maxX, _minY, _maxY,
-                        ve.X, ve.Y,
-                        _env, first, ref entry.PointsCache);
+                        _minX, _maxX, _minY, _maxY, first, entry.PointsCache);
                 }
                 else
                 {
+                    EvaluateGraph(boundsInClient, _minX, _maxX,
+                        entry.Expression, entry.IndependentVariable, _env,
+                        ref entry.PointsCache);
                     RenderGraph(g,
                         new RectangleF(location, Rect.Size),
                         entry.Pen, entry.Pen.Brush,
                         _minX, _maxX, _minY, _maxY,
-                        entry.Expression, entry.IndependentVariable, _env,
-                        first, ref entry.PointsCache);
+                        first, entry.PointsCache);
                 }
                 first = false;
             }
@@ -217,14 +222,9 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         public static void RenderGraph(IRenderer g, RectangleF boundsInClient,
             LPen pen, LBrush brush,
             float xMin, float xMax, float yMin, float yMax,
-            Expression expr, string independentVariable,
-            SolusEnvironment env,
             bool drawboundaries,
-            ref Vector2[] points)
+            Vector2[] points)
         {
-            EvaluateGraph(boundsInClient, xMin, xMax, expr,
-                independentVariable, env, ref points);
-
             float deltaX = (xMax - xMin) / boundsInClient.Width;
             float deltaY = boundsInClient.Height / (yMax - yMin);
 
@@ -305,10 +305,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         public static void RenderVectors(IRenderer g, RectangleF boundsInClient,
             LPen pen, LBrush brush,
             float xMin, float xMax, float yMin, float yMax,
-            VectorExpression x, VectorExpression y,
-            SolusEnvironment env,
             bool drawboundaries,
-            ref Vector2[] points)
+            Vector2[] points)
         {
             float deltaX = (xMax - xMin) / boundsInClient.Width;
             float deltaY = (yMax - yMin) / boundsInClient.Height;
@@ -330,11 +328,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 }
             }
 
-            EvaluateVectors(boundsInClient, xMin, xMax, yMin,
-                yMax, x, y, env, ref points);
-
             int i;
-            int N = Math.Min(x.Length, y.Length);
+            int N = points.Length;
             var lastPoint = points[0];
             for (i = 1; i < N; i++)
             {
