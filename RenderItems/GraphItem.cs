@@ -197,30 +197,30 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         public static void EvaluateGraph(ref Vector2[] points,
             Expression expr,
             SolusEnvironment env,
-            float xMin, float xMax,
-            string independentVariable,
+            float varMin, float varMax,
+            string varName,
             RectangleF boundsInClient,
             StepType stepType = StepType.FromUI,
             float step = 1)
         {
             if (stepType == StepType.Auto)
             {
-                step = (xMax - xMin) / 100;
+                step = (varMax - varMin) / 100;
             }
             else if (stepType == StepType.FromUI)
             {
-                step = (xMax - xMin) / boundsInClient.Width;
+                step = (varMax - varMin) / boundsInClient.Width;
             }
 
-            var numSteps = (int)Math.Ceiling((xMax - xMin) / step);
+            var numSteps = (int)Math.Ceiling((varMax - varMin) / step);
             if (points == null || points.Length < numSteps)
                 points = new Vector2[numSteps];
 
             int i;
             for (i = 0; i < numSteps; i++)
             {
-                float x = xMin + step * i;
-                env.SetVariable(independentVariable, new Literal(x));
+                float x = varMin + step * i;
+                env.SetVariable(varName, new Literal(x));
                 var vv = expr.Eval(env);
                 if (!vv.IsConcrete)
                     // EvaluationException ?
