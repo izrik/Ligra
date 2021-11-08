@@ -184,12 +184,10 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             get { return true; }
         }
 
-        public static void EvaluateGraph(IRenderer g, RectangleF boundsInClient,
-            LPen pen, LBrush brush,
-            float xMin, float xMax, float yMin, float yMax,
+        public static void EvaluateGraph(RectangleF boundsInClient,
+            float xMin, float xMax,
             Expression expr, string independentVariable,
             SolusEnvironment env,
-            bool drawboundaries,
             ref Vector2[] points)
         {
             float deltaX = (xMax - xMin) / boundsInClient.Width;
@@ -223,9 +221,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             bool drawboundaries,
             ref Vector2[] points)
         {
-            EvaluateGraph(g, boundsInClient, pen, brush, xMin, xMax, yMin,
-                yMax, expr, independentVariable, env, drawboundaries,
-                ref points);
+            EvaluateGraph(boundsInClient, xMin, xMax, expr,
+                independentVariable, env, ref points);
 
             float deltaX = (xMax - xMin) / boundsInClient.Width;
             float deltaY = boundsInClient.Height / (yMax - yMin);
@@ -271,12 +268,10 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             }
         }
 
-        public static void EvaluateVectors(IRenderer g, RectangleF boundsInClient,
-            LPen pen, LBrush brush,
+        public static void EvaluateVectors(RectangleF boundsInClient,
             float xMin, float xMax, float yMin, float yMax,
             VectorExpression x, VectorExpression y,
             SolusEnvironment env,
-            bool drawboundaries,
             ref Vector2[] points)
         {
             var xs = x.Select(
@@ -331,8 +326,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 }
             }
 
-            EvaluateVectors(g, boundsInClient, pen, brush, xMin, xMax, yMin,
-                yMax, x, y, env, drawboundaries, ref points);
+            EvaluateVectors(boundsInClient, xMin, xMax, yMin,
+                yMax, x, y, env, ref points);
 
             int i;
             int N = Math.Min(x.Length, y.Length);
