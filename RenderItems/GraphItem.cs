@@ -38,6 +38,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         {
             get { return _pen; }
         }
+
+        public Vector2[] PointsCache;
     }
 
     public class GraphVectorEntry : GraphEntry
@@ -114,7 +116,6 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             {
                 var ve = entry as GraphVectorEntry;
                 var location = new Vector2(0, 0);
-                Vector2[] points = null;
                 if (ve != null)
                 {
                     RenderVectors(g,
@@ -122,7 +123,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                         entry.Pen, entry.Pen.Brush,
                         _minX, _maxX, _minY, _maxY,
                         ve.X, ve.Y,
-                        _env, first, ref points);
+                        _env, first, ref entry.PointsCache);
                 }
                 else
                 {
@@ -131,7 +132,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                         entry.Pen, entry.Pen.Brush,
                         _minX, _maxX, _minY, _maxY,
                         entry.Expression, entry.IndependentVariable, _env,
-                        first, ref points);
+                        first, ref entry.PointsCache);
                 }
                 first = false;
             }
