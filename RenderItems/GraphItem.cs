@@ -125,9 +125,9 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 }
                 else
                 {
-                    EvaluateGraph(boundsInClient, _minX, _maxX,
-                        entry.Expression, entry.IndependentVariable, _env,
-                        ref entry.PointsCache);
+                    EvaluateGraph(ref entry.PointsCache, entry.Expression,
+                        _env, _minX, _maxX, entry.IndependentVariable,
+                        boundsInClient);
                 }
 
                 RenderPoints(g,
@@ -186,23 +186,39 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             get { return true; }
         }
 
-        public static void EvaluateGraph(RectangleF boundsInClient,
-            float xMin, float xMax,
-            Expression expr, string independentVariable,
-            SolusEnvironment env,
-            ref Vector2[] points)
+        public enum StepType
         {
-            float deltaX = (xMax - xMin) / boundsInClient.Width;
+            Specific,
+            Auto,
+            FromUI,
+        }
 
-            env.SetVariable(independentVariable, new Literal(xMin));
+        public static void EvaluateGraph(ref Vector2[] points,
+            Expression expr,
+            SolusEnvironment env,
+            float xMin, float xMax,
+            string independentVariable,
+            RectangleF boundsInClient,
+            StepType stepType = StepType.FromUI,
+            float step = 1)
+        {
+            if (stepType == StepType.Auto)
+            {
+                step = (xMax - xMin) / 100;
+            }
+            else if (stepType == StepType.FromUI)
+            {
+                step = (xMax - xMin) / boundsInClient.Width;
+            }
 
-            if (points == null || points.Length < boundsInClient.Width)
-                points = new Vector2[(int)boundsInClient.Width];
+            var numSteps = (int)Math.Ceiling((xMax - xMin) / step);
+            if (points == null || points.Length < numSteps)
+                points = new Vector2[numSteps];
 
             int i;
-            for (i = 0; i < boundsInClient.Width; i++)
+            for (i = 0; i < numSteps; i++)
             {
-                float x = xMin + deltaX * i;
+                float x = xMin + step * i;
                 env.SetVariable(independentVariable, new Literal(x));
                 var vv = expr.Eval(env);
                 double value = vv.ToNumber().Value;
