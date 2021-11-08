@@ -268,6 +268,14 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             }
         }
 
+        private static Vector2 ClientFromGraph(Vector2 pt,
+            RectangleF boundsInClient, float xMin, float deltaX,
+            float yMin, float deltaY)
+        {
+            return new Vector2(boundsInClient.X + (pt.X - xMin) / deltaX,
+                boundsInClient.Bottom - (pt.Y - yMin) / deltaY);
+        }
+
         public static void EvaluateVectors(RectangleF boundsInClient,
             float xMin, float xMax, float yMin, float yMax,
             VectorExpression x, VectorExpression y,
@@ -282,15 +290,13 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             float deltaX = (xMax - xMin) / boundsInClient.Width;
             float deltaY = (yMax - yMin) / boundsInClient.Height;
 
-            Func<Vector2, Vector2> clientFromGraph = (pt) =>
-                new Vector2(boundsInClient.X + (pt.X - xMin) / deltaX,
-                    boundsInClient.Bottom - (pt.Y - yMin) / deltaY);
-
             int i;
             int N = Math.Min(xs.Length, ys.Length);
             for (i = 0; i < N; i++)
             {
-                var next = clientFromGraph(new Vector2(xs[i], ys[i]));
+                var next = ClientFromGraph(
+                    new Vector2(xs[i], ys[i]), boundsInClient, xMin,
+                    deltaX, yMin, deltaY);
                 points[i] = next;
             }
         }
@@ -306,15 +312,12 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             float deltaX = (xMax - xMin) / boundsInClient.Width;
             float deltaY = (yMax - yMin) / boundsInClient.Height;
 
-            Func<Vector2, Vector2> clientFromGraph = (pt) =>
-                 new Vector2(boundsInClient.X + (pt.X - xMin) / deltaX,
-                     boundsInClient.Bottom - (pt.Y - yMin) / deltaY);
-
             if (drawboundaries)
             {
                 g.DrawRectangle(LPen.Black, boundsInClient.X, boundsInClient.Y, boundsInClient.Width, boundsInClient.Height);
 
-                var zz = clientFromGraph(new Vector2(0, 0));
+                var zz = ClientFromGraph(new Vector2(0, 0),
+                    boundsInClient, xMin, deltaX, yMin, deltaY);
                 if (xMax > 0 && xMin < 0)
                 {
                     g.DrawLine(LPen.Black, zz.X, boundsInClient.Top, zz.X, boundsInClient.Bottom);
