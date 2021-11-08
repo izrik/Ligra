@@ -114,6 +114,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             {
                 var ve = entry as GraphVectorEntry;
                 var location = new Vector2(0, 0);
+                Vector2[] points = null;
                 if (ve != null)
                 {
                     RenderVectors(g,
@@ -121,7 +122,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                         entry.Pen, entry.Pen.Brush,
                         _minX, _maxX, _minY, _maxY,
                         ve.X, ve.Y,
-                        _env, first);
+                        _env, first, ref points);
                 }
                 else
                 {
@@ -130,7 +131,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                         entry.Pen, entry.Pen.Brush,
                         _minX, _maxX, _minY, _maxY,
                         entry.Expression, entry.IndependentVariable, _env,
-                        first);
+                        first, ref points);
                 }
                 first = false;
             }
@@ -183,13 +184,49 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             get { return true; }
         }
 
+        public static void EvaluateGraph(IRenderer g, RectangleF boundsInClient,
+            LPen pen, LBrush brush,
+            float xMin, float xMax, float yMin, float yMax,
+            Expression expr, string independentVariable,
+            SolusEnvironment env,
+            bool drawboundaries,
+            ref Vector2[] points)
+        {
+            float deltaX = (xMax - xMin) / boundsInClient.Width;
+
+            env.SetVariable(independentVariable, new Literal(xMin));
+
+            if (points == null || points.Length < boundsInClient.Width)
+                points = new Vector2[(int)boundsInClient.Width];
+
+            int i;
+            for (i = 0; i < boundsInClient.Width; i++)
+            {
+                float x = xMin + deltaX * i;
+                env.SetVariable(independentVariable, new Literal(x));
+                var vv = expr.Eval(env);
+                double value = vv.ToNumber().Value;
+                if (double.IsNaN(value))
+                {
+                    value = 0;
+                }
+
+                points[i] = new Vector2(x, (float)value);
+            }
+        }
+
         public static void RenderGraph(IRenderer g, RectangleF boundsInClient,
             LPen pen, LBrush brush,
             float xMin, float xMax, float yMin, float yMax,
             Expression expr, string independentVariable,
             SolusEnvironment env,
-            bool drawboundaries)
+            bool drawboundaries,
+            ref Vector2[] points)
         {
+            EvaluateGraph(g, boundsInClient, pen, brush, xMin, xMax, yMin,
+                yMax, expr, independentVariable, env, drawboundaries,
+                ref points);
+
             float deltaX = (xMax - xMin) / boundsInClient.Width;
             float deltaY = boundsInClient.Height / (yMax - yMin);
 
@@ -210,14 +247,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 //}
             }
 
-            env.SetVariable(independentVariable, new Literal(xMin));
-            //PointF lastPoint = new PointF(boundsInClient.Left, boundsInClient.Bottom - (Math.Max(Math.Min(_engine.Eval(expr, env).Value, yMax), yMin) - yMin) * deltaY);
-
-            double vvalue = expr.Eval(env).ToNumber().Value;
-            if (double.IsNaN(vvalue))
-            {
-                vvalue = 0;
-            }
+            var vvalue = points[0].Y;
             vvalue = Math.Min(vvalue, yMax);
             vvalue = Math.Max(vvalue, yMin);
             double yy = boundsInClient.Bottom - (vvalue - yMin) * deltaY;
@@ -226,13 +256,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             int i;
             for (i = 0; i < boundsInClient.Width; i++)
             {
-                float x = xMin + deltaX * i;
-                env.SetVariable(independentVariable, new Literal(x));
-                double value = expr.Eval(env).ToNumber().Value;
-                if (double.IsNaN(value))
-                {
-                    value = 0;
-                }
+                var pt0 = points[i];
+                var value = pt0.Y;
                 value = Math.Min(value, yMax);
                 value = Math.Max(value, yMin);
                 double y = boundsInClient.Bottom - (value - yMin) * deltaY;
@@ -244,18 +269,43 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             }
         }
 
-        public static void RenderVectors(IRenderer g, RectangleF boundsInClient,
+        public static void EvaluateVectors(IRenderer g, RectangleF boundsInClient,
             LPen pen, LBrush brush,
             float xMin, float xMax, float yMin, float yMax,
             VectorExpression x, VectorExpression y,
             SolusEnvironment env,
-            bool drawboundaries)
+            bool drawboundaries,
+            ref Vector2[] points)
         {
             var xs = x.Select(
                 e => e.Eval(env).ToNumber().Value).ToArray();
             var ys = y.Select(
                 e => e.Eval(env).ToNumber().Value).ToArray();
 
+            float deltaX = (xMax - xMin) / boundsInClient.Width;
+            float deltaY = (yMax - yMin) / boundsInClient.Height;
+
+            Func<Vector2, Vector2> clientFromGraph = (pt) =>
+                new Vector2(boundsInClient.X + (pt.X - xMin) / deltaX,
+                    boundsInClient.Bottom - (pt.Y - yMin) / deltaY);
+
+            int i;
+            int N = Math.Min(xs.Length, ys.Length);
+            for (i = 0; i < N; i++)
+            {
+                var next = clientFromGraph(new Vector2(xs[i], ys[i]));
+                points[i] = next;
+            }
+        }
+
+        public static void RenderVectors(IRenderer g, RectangleF boundsInClient,
+            LPen pen, LBrush brush,
+            float xMin, float xMax, float yMin, float yMax,
+            VectorExpression x, VectorExpression y,
+            SolusEnvironment env,
+            bool drawboundaries,
+            ref Vector2[] points)
+        {
             float deltaX = (xMax - xMin) / boundsInClient.Width;
             float deltaY = (yMax - yMin) / boundsInClient.Height;
 
@@ -279,12 +329,15 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 }
             }
 
+            EvaluateVectors(g, boundsInClient, pen, brush, xMin, xMax, yMin,
+                yMax, x, y, env, drawboundaries, ref points);
+
             int i;
-            int N = Math.Min(xs.Length, ys.Length);
-            var lastPoint = clientFromGraph(new Vector2(xs[0], ys[0]));
+            int N = Math.Min(x.Length, y.Length);
+            var lastPoint = points[0];
             for (i = 1; i < N; i++)
             {
-                var next = clientFromGraph(new Vector2(xs[i], ys[i]));
+                var next = points[i];
                 g.DrawLine(pen, lastPoint, next);
                 lastPoint = next;
             }
