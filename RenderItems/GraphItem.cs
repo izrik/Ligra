@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using MetaphysicsIndustries.Solus;
+using MetaphysicsIndustries.Solus.Exceptions;
 using MetaphysicsIndustries.Solus.Expressions;
 using MetaphysicsIndustries.Solus.Values;
 
@@ -221,13 +222,38 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 float x = xMin + step * i;
                 env.SetVariable(independentVariable, new Literal(x));
                 var vv = expr.Eval(env);
-                double value = vv.ToNumber().Value;
-                if (double.IsNaN(value))
+                if (!vv.IsConcrete)
+                    // EvaluationException ?
+                    throw new OperandException("Value is not concrete");
+
+                Vector2 pt;
+                if (vv.IsScalar(null))
                 {
-                    value = 0;
+                    double value = vv.ToNumber().Value;
+                    if (double.IsNaN(value))
+                    {
+                        value = 0;
+                    }
+
+                    pt = new Vector2(x, (float)value);
+                }
+                else if (vv.IsVector(null))
+                {
+                    if (vv.GetVectorLength(null) != 2)
+                        // EvaluationException ?
+                        throw new OperandException("Value is not a 2-vector");
+                    var vvv = vv.ToVector();
+                    // TODO: ensure vvv[0] and vvv[1] are scalars
+                    pt = new Vector2(vvv[0].ToNumber().Value,
+                        vvv[1].ToNumber().Value);
+                }
+                else
+                {
+                    throw new OperandException(
+                        "Value is not a vector or scalar");
                 }
 
-                points[i] = new Vector2(x, (float)value);
+                points[i] = pt;
             }
         }
 
