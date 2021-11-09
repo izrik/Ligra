@@ -172,11 +172,12 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                         new VariableAccess(varname),
                         expr);
                     var item = new GraphItem(
-                        expr,
-                        LPen.Blue,
-                        varname,
                         new SolusParser(),
-                        env);
+                        env,
+                        new GraphEntry[]
+                        {
+                            new GraphEntry(expr, LPen.Blue, varname)
+                        });
                     control.AddRenderItem(item);
                     return;
                 }

@@ -141,7 +141,12 @@ namespace MetaphysicsIndustries.Ligra.Commands
 
             control.AddRenderItem(
                 new InfoItem("A plot of the expression: ", f));
-            control.AddRenderItem(new GraphItem(expr, p, "x", parser, env));
+            control.AddRenderItem(
+                new GraphItem(
+                    parser, env, new GraphEntry[]
+                    {
+                        new GraphEntry(expr, p, "x")
+                    }));
 
             control.AddRenderItem(
                 new InfoItem(
@@ -150,20 +155,26 @@ namespace MetaphysicsIndustries.Ligra.Commands
                     f));
             control.AddRenderItem(new GraphItem(
                 parser, env,
-                new GraphEntry(parser.GetExpression("x^3", env),
-                    LPen.Blue, "x"),
-                new GraphEntry(parser.GetExpression("3*x^2", env),
-                    LPen.Green, "x"),
-                new GraphEntry(parser.GetExpression("6*x", env),
-                    LPen.Red, "x")));
+                new GraphEntry[]
+                {
+                    new GraphEntry(parser.GetExpression("x^3", env),
+                        LPen.Blue, "x"),
+                    new GraphEntry(parser.GetExpression("3*x^2", env),
+                        LPen.Green, "x"),
+                    new GraphEntry(parser.GetExpression("6*x", env),
+                        LPen.Red, "x")
+                }));
 
             control.AddRenderItem(new InfoItem(
                 "A plot that changes with time, \"sin(x+t)\":", f));
             control.AddRenderItem(
                 new GraphItem(
-                    parser.GetExpression("sin(x+t)", env),
-                    p,
-                    "x", parser, env));
+                    parser, env, new GraphEntry[]
+                    {
+                        new GraphEntry(
+                            parser.GetExpression("sin(x+t)", env),
+                            p, "x")
+                    }));
 
             expr = parser.GetExpression(
                 "unitstep((x*x+y*y)^0.5+2*(sin(t)-1))*cos(5*y+2*t)", env);

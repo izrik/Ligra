@@ -59,18 +59,6 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
     public class GraphItem : RenderItem
     {
-        public GraphItem(Expression expression, LPen pen,
-            string independentVariable, SolusParser parser,
-            LigraEnvironment env)
-            : this(parser, env,
-                new GraphEntry(expression, pen, independentVariable))
-        {
-        }
-        public GraphItem(SolusParser parser, LigraEnvironment env,
-            params GraphEntry[] entries)
-            : this(parser, env, (IEnumerable<GraphEntry>)entries)
-        {
-        }
         public GraphItem(SolusParser parser, LigraEnvironment env,
             IEnumerable<GraphEntry> entries)
         {
