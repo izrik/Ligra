@@ -268,6 +268,10 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                 }
                 else
                 {
+                    // "[f(x), g(x), h(x)]", "[f(x), g(x), h(x)] for x"
+                    // -> [f(x), g(x), h(x)] for x
+                    // 3d curve
+
                 }
             }
             else
@@ -334,6 +338,9 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                 }
                 else if (outputs == 2)
                 {
+                    // "[f(x,y), g(x,y)]", "[f(x,y), g(x,y)] for x,y"
+                    // -> [f(x,y), g(x,y)] for x,y
+                    // 2d surface
                 }
                 else
                 {
@@ -392,7 +399,6 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                     return;
                 }
             }
-
 
             if (intervals.Length == 0)
             {
