@@ -9,51 +9,6 @@ using MetaphysicsIndustries.Solus.Values;
 
 namespace MetaphysicsIndustries.Ligra.RenderItems
 {
-    public class GraphEntry
-    {
-        public GraphEntry(Expression expression, LPen pen,
-            VarInterval interval)
-        {
-            _expression = expression;
-            _pen = pen;
-            Interval = interval;
-        }
-        protected GraphEntry(LPen pen)
-        {
-            _pen = pen;
-        }
-
-        private Expression _expression;
-        public Expression Expression
-        {
-            get { return _expression; }
-        }
-
-        public VarInterval Interval { get; }
-
-        private LPen _pen;
-        public LPen Pen
-        {
-            get { return _pen; }
-        }
-
-        public Vector2[] PointsCache;
-    }
-
-    public class GraphVectorEntry : GraphEntry
-    {
-        public GraphVectorEntry(VectorExpression x, VectorExpression y,
-            LPen pen)
-            : base(pen)
-        {
-            X = x;
-            Y = y;
-        }
-
-        public readonly VectorExpression X;
-        public readonly VectorExpression Y;
-    }
-
     public class Graph2dCurveItem : RenderItem
     {
         public Graph2dCurveItem(SolusParser parser, LigraEnvironment env,
@@ -343,4 +298,50 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             }
         }
     }
+
+    public class GraphEntry
+    {
+        public GraphEntry(Expression expression, LPen pen,
+            VarInterval interval)
+        {
+            _expression = expression;
+            _pen = pen;
+            Interval = interval;
+        }
+        protected GraphEntry(LPen pen)
+        {
+            _pen = pen;
+        }
+
+        private Expression _expression;
+        public Expression Expression
+        {
+            get { return _expression; }
+        }
+
+        public VarInterval Interval { get; }
+
+        private LPen _pen;
+        public LPen Pen
+        {
+            get { return _pen; }
+        }
+
+        public Vector2[] PointsCache;
+    }
+
+    public class GraphVectorEntry : GraphEntry
+    {
+        public GraphVectorEntry(VectorExpression x, VectorExpression y,
+            LPen pen)
+            : base(pen)
+        {
+            X = x;
+            Y = y;
+        }
+
+        public readonly VectorExpression X;
+        public readonly VectorExpression Y;
+    }
+
 }
