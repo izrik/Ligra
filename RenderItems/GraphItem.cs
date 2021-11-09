@@ -123,8 +123,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 else
                 {
                     EvaluateGraph(ref entry.PointsCache, entry.Expression,
-                        _env, _minX, _maxX, entry.Interval.Variable,
-                        boundsInClient);
+                        _env, entry.Interval, boundsInClient);
                 }
 
                 RenderPoints(g,
@@ -194,12 +193,15 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         public static void EvaluateGraph(ref Vector2[] points,
             Expression expr,
             SolusEnvironment env,
-            float varMin, float varMax,
-            string varName,
+            VarInterval interval,
             RectangleF boundsInClient,
             StepType stepType = StepType.FromUI,
             float step = 1)
         {
+            var varMin = interval.Interval.LowerBound;
+            var varMax = interval.Interval.UpperBound;
+            var varName = interval.Variable;
+
             if (stepType == StepType.Auto)
             {
                 step = (varMax - varMin) / 100;
