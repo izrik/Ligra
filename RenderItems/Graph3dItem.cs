@@ -35,6 +35,12 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             _yMax = yMax;
             _zMin = zMin;
             _zMax = zMax;
+            _xMinLabel = xMin.ToString();
+            _xMaxLabel = xMax.ToString();
+            _yMinLabel = yMin.ToString();
+            _yMaxLabel = yMax.ToString();
+            _zMinLabel = zMin.ToString();
+            _zMaxLabel = zMax.ToString();
 
             _env = env;
 
@@ -62,6 +68,12 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         public float _yMax;
         public float _zMin;
         public float _zMax;
+        public string _xMinLabel;
+        public string _xMaxLabel;
+        public string _yMinLabel;
+        public string _yMaxLabel;
+        public string _zMinLabel;
+        public string _zMaxLabel;
         private readonly LigraEnvironment _env;
         public string Label1 { get; }
         public string Label2 { get; }
@@ -94,6 +106,9 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 _xMin, _xMax,
                 _yMin, _yMax,
                 _zMin, _zMax,
+                _xMinLabel, _xMaxLabel,
+                _yMinLabel, _yMaxLabel,
+                _zMinLabel, _zMaxLabel,
                 _expression,
                 Interval1,
                 Interval2,
@@ -297,6 +312,9 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             float xMin, float xMax,
             float yMin, float yMax,
             float zMin, float zMax,
+            string xMinLabel, string xMaxLabel,
+            string yMinLabel, string yMaxLabel,
+            string zMinLabel, string zMaxLabel,
             Expression expr,
             VarInterval interval1,
             VarInterval interval2,
@@ -338,25 +356,31 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
                 //xmin
                 g.DrawLine(LPen.Black, x1, y4, x1 + 6, y4 + 3);
-                g.DrawString(xMin.ToString(), font, LBrush.Black, x1 + 6, y4 + 3);
+                g.DrawString(xMinLabel, font, LBrush.Black,
+                    x1 + 6, y4 + 3);
                 //xmax
                 g.DrawLine(LPen.Black, x2, y3, x2 + 6, y3 + 3);
-                g.DrawString(xMax.ToString(), font, LBrush.Black, x2 + 6, y3 + 3);
+                g.DrawString(xMaxLabel, font, LBrush.Black,
+                    x2 + 6, y3 + 3);
 
                 //ymin
                 g.DrawLine(LPen.Black, x1, y4, x1 - 6, y4 + 3);
-                size = g.MeasureString(yMin.ToString(), font);
-                g.DrawString(yMin.ToString(), font, LBrush.Black, x1 - 6 - size.X, y4 + 3);
+                size = g.MeasureString(yMinLabel, font);
+                g.DrawString(yMinLabel, font, LBrush.Black,
+                    x1 - 6 - size.X, y4 + 3);
                 //ymax
                 g.DrawLine(LPen.Black, x0, y3, x0 - 6, y3 + 3);
-                g.DrawString(yMax.ToString(), font, LBrush.Black, x0 - 6, y3 + 3);
+                g.DrawString(yMaxLabel, font, LBrush.Black,
+                    x0 - 6, y3 + 3);
 
                 //zmin
                 g.DrawLine(LPen.Black, x2, y3, x2 + 6, y3 - 3);
-                g.DrawString(zMin.ToString(), font, LBrush.Black, x2 + 6, y3 - 3 - 14);
+                g.DrawString(zMinLabel, font, LBrush.Black,
+                    x2 + 6, y3 - 3 - 14);
                 //zmax
                 g.DrawLine(LPen.Black, x2, y1, x2 + 6, y1 - 3);
-                g.DrawString(zMax.ToString(), font, LBrush.Black, x2 + 6, y1 - 3);
+                g.DrawString(zMaxLabel, font, LBrush.Black,
+                    x2 + 6, y1 - 3);
 
                 g.DrawString(label1, font, LBrush.Black,
                     (x1 + x2) / 2, (y3 + y4) / 2);
