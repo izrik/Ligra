@@ -195,6 +195,7 @@
     <Compile Include="LColor.cs" />
     <Compile Include="LBrush.cs" />
     <Compile Include="LFont.cs" />
+    <Compile Include="Vector3.cs" />
     <Compile Include="WidgetHelper.cs" />
     <Compile Include="ILigraUI.cs" />
     <Compile Include="LigraWidget.cs" />
