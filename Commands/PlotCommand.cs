@@ -326,7 +326,9 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                         zMin0,zMax0,
                         interval1,
                         interval2,
-                        env);
+                        env,
+                        interval1.Variable,
+                        interval2.Variable);
                     control.AddRenderItem(item);
                     return;
                 }
@@ -383,7 +385,9 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                         zMin0,zMax0,
                         interval1,
                         interval2,
-                        env);
+                        env,
+                        "",
+                        "");
                     control.AddRenderItem(item);
                     return;
                 }
@@ -478,7 +482,10 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                     intervals[1].Interval.UpperBound,
                     zmin, zmax,
                     intervals[0],
-                    intervals[1], env));
+                    intervals[1],
+                    env,
+                    intervals[0].Variable,
+                    intervals[1].Variable));
             }
         }
 

@@ -220,7 +220,9 @@ namespace MetaphysicsIndustries.Ligra.Commands
                     -4, 4,
                     -2, 6,
                     vi1, vi2,
-                    env));
+                    env,
+                    vi1.Variable,
+                    vi2.Variable));
         }
     }
 }

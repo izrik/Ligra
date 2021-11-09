@@ -16,7 +16,9 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             float zMin, float zMax,
             VarInterval interval1,
             VarInterval interval2,
-            LigraEnvironment env)
+            LigraEnvironment env,
+            string label1,
+            string label2)
         {
             _timer = new System.Timers.Timer(250);
             _timer.Elapsed += _timer_Elapsed;
@@ -35,6 +37,9 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             _zMax = zMax;
 
             _env = env;
+
+            Label1 = label1;
+            Label2 = label2;
         }
 
         public static readonly SolusEngine _engine = new SolusEngine();
@@ -58,6 +63,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         public float _zMin;
         public float _zMax;
         private readonly LigraEnvironment _env;
+        public string Label1 { get; }
+        public string Label2 { get; }
 
         int lastTime = Environment.TickCount;
         int numRenders = 0;
@@ -91,6 +98,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 Interval1,
                 Interval2,
                 _env, true, drawSettings.Font,
+                Label1,
+                Label2,
                 _points,
                 _layoutPts);
 
@@ -293,6 +302,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             SolusEnvironment env,
             bool drawboundaries,
             LFont font,
+            string label1,
+            string label2,
             Vector3[,] points,
             Vector2[,] layoutPts)
         {
@@ -346,17 +357,14 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 g.DrawLine(LPen.Black, x2, y1, x2 + 6, y1 - 3);
                 g.DrawString(zMax.ToString(), font, LBrush.Black, x2 + 6, y1 - 3);
 
-                // TODO: don't label axes with the interval vars in the
-                // 3-output form
-                g.DrawString(interval1.Variable, font, LBrush.Black,
+                g.DrawString(label1, font, LBrush.Black,
                     (x1 + x2) / 2, (y3 + y4) / 2);
-                size = g.MeasureString(interval2.Variable, font);
-                g.DrawString(interval2.Variable, font, LBrush.Black,
+                size = g.MeasureString(label2, font);
+                g.DrawString(label2, font, LBrush.Black,
                     (x1 + x0) / 2 - size.X, (y3 + y4) / 2);
 
                 //g.DrawRectangle(LPen.Black, boundsInClient.Left, boundsInClient.Top, boundsInClient.Width, boundsInClient.Height);
             }
-
 
             int i;
             int j;
