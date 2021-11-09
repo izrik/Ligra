@@ -9,7 +9,7 @@ namespace MetaphysicsIndustries.Ligra
 {
     public class PlotPropertiesWindow : Gtk.Window
     {
-        public PlotPropertiesWindow(SolusParser parser, GraphItem item)
+        public PlotPropertiesWindow(SolusParser parser, Graph2dCurveItem item)
             : base(Gtk.WindowType.Toplevel)
         {
             _parser = parser;
@@ -29,7 +29,7 @@ namespace MetaphysicsIndustries.Ligra
         }
 
         readonly SolusParser _parser;
-        readonly GraphItem _item;
+        readonly Graph2dCurveItem _item;
 
         Gtk.VBox _vbox;
 

@@ -81,7 +81,7 @@ namespace MetaphysicsIndustries.Ligra
 
         public Vector2 ClientSize => _vbox.Allocation.Size.ToVector2();
 
-        public void OpenPlotProperties(GraphItem item)
+        public void OpenPlotProperties(Graph2dCurveItem item)
         {
             var window = new PlotPropertiesWindow(item._parser, item);
 

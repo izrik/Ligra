@@ -153,7 +153,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
                 }
             };
             control.AddRenderItem(
-                new GraphItem(
+                new Graph2dCurveItem(
                     parser, env, new GraphEntry[]
                     {
                         new GraphEntry(expr, p, interval)
@@ -164,7 +164,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
                     "Multiple plots on the same axes, \"x^3\", " +
                     "\"3 * x^2\", \"6 * x\":",
                     f));
-            control.AddRenderItem(new GraphItem(
+            control.AddRenderItem(new Graph2dCurveItem(
                 parser, env,
                 new GraphEntry[]
                 {
@@ -179,7 +179,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
             control.AddRenderItem(new InfoItem(
                 "A plot that changes with time, \"sin(x+t)\":", f));
             control.AddRenderItem(
-                new GraphItem(
+                new Graph2dCurveItem(
                     parser, env, new GraphEntry[]
                     {
                         new GraphEntry(
@@ -215,7 +215,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
                 Interval = interval2
             };
             control.AddRenderItem(
-                new Graph3dItem(expr, LPen.Black, LBrush.Green,
+                new Graph3dSurfaceItem(expr, LPen.Black, LBrush.Green,
                     -4, 4,
                     -4, 4,
                     -2, 6,

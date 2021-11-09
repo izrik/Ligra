@@ -54,9 +54,9 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         public readonly VectorExpression Y;
     }
 
-    public class GraphItem : RenderItem
+    public class Graph2dCurveItem : RenderItem
     {
-        public GraphItem(SolusParser parser, LigraEnvironment env,
+        public Graph2dCurveItem(SolusParser parser, LigraEnvironment env,
             IEnumerable<GraphEntry> entries,
             float? xMin=null, float? xMax=null,
             float? yMin=null, float? yMax=null)

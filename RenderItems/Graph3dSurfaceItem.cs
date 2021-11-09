@@ -8,9 +8,9 @@ using MetaphysicsIndustries.Solus.Values;
 
 namespace MetaphysicsIndustries.Ligra.RenderItems
 {
-    public class Graph3dItem : RenderItem
+    public class Graph3dSurfaceItem : RenderItem
     {
-        public Graph3dItem(Expression expression, LPen pen, LBrush brush,
+        public Graph3dSurfaceItem(Expression expression, LPen pen, LBrush brush,
             float xMin, float xMax,
             float yMin, float yMax,
             float zMin, float zMax,

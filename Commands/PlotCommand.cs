@@ -210,7 +210,7 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                     valueMin0 -= dy;
                     valueMax0 += dy;
 
-                    var item = new GraphItem(
+                    var item = new Graph2dCurveItem(
                         new SolusParser(),
                         env, entries,
                         varMin0, varMax0,
@@ -258,7 +258,7 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                     yMin0 -= dy;
                     yMax0 += dy;
 
-                    var item = new GraphItem(
+                    var item = new Graph2dCurveItem(
                         new SolusParser(),
                         env, entries,
                         xMin0, xMax0,
@@ -323,7 +323,7 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                     zMin0 -= dz;
                     zMax0 += dz;
 
-                    var item = new Graph3dItem(expr0,
+                    var item = new Graph3dSurfaceItem(expr0,
                         LPen.Black, LBrush.Green,
                         xMin0,xMax0,
                         yMin0,yMax0,
@@ -385,7 +385,7 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                     zMin0 -= dz;
                     zMax0 += dz;
 
-                    var item = new Graph3dItem(expr,
+                    var item = new Graph3dSurfaceItem(expr,
                         LPen.Black, LBrush.Green,
                         xMin0,xMax0,
                         yMin0,yMax0,
@@ -450,7 +450,7 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                 }
 
                 control.AddRenderItem(
-                    new GraphItem(new SolusParser(), env, entries.ToArray()));
+                    new Graph2dCurveItem(new SolusParser(), env, entries.ToArray()));
             }
             else // intervals.Length == 2
             {
@@ -481,7 +481,7 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                 float zmin = zs.Min();
                 float zmax = zs.Max();
 
-                control.AddRenderItem(new Graph3dItem(expr, LPen.Black, LBrush.Green,
+                control.AddRenderItem(new Graph3dSurfaceItem(expr, LPen.Black, LBrush.Green,
                     intervals[0].Interval.LowerBound,
                     intervals[0].Interval.UpperBound,
                     intervals[1].Interval.LowerBound,
