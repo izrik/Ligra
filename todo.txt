@@ -1,6 +1,8 @@
 
 (in no particular order)
 
+test Vector2, Vector3, and similar
+
 parametrics and plots
     Once we have parametric exressions in solus, we'll be able to treat the
             "for x=..." as part of the expression instead of part of the plot
