@@ -186,7 +186,6 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                             varMin0 = varMin;
                         if (first || varMax > varMax0)
                             varMax0 = varMax;
-                        first = false;
 
                         EstimateBounds(expr, env, varname, varMin, varMax,
                             out float valueMin, out float valueMax);
@@ -194,6 +193,7 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                             valueMin0 = valueMin;
                         if (first || valueMax > valueMax0)
                             valueMax0 = valueMax;
+                        first = false;
 
                         var expr1 = new VectorExpression(2,
                             new VariableAccess(varname),
@@ -220,6 +220,51 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                 }
                 else if (outputs == 2)
                 {
+                    // "[f(x), g(x)]", "[f(x), g(x)] for x"
+                    // -> [f(x), g(x)] for x
+                    // 2d curve
+
+                    var entries = new List<GraphEntry>();
+                    float xMin0 = -1;
+                    float xMax0 = 1;
+                    float yMin0 = -1;
+                    float yMax0 = 1;
+                    bool first = true;
+                    var interval = intervals2.First();
+                    foreach (var expr in exprs)
+                    {
+                        var varname = interval.Variable;
+                        var varMin = interval.Interval.LowerBound;
+                        var varMax = interval.Interval.UpperBound;
+
+                        EstimateBounds(expr, env, varname, varMin, varMax,
+                            out float xMin, out float xMax,
+                            out float yMin, out float yMax);
+                        if (first || xMin < xMin0) xMin0 = xMin;
+                        if (first || xMax > xMax0) xMax0 = xMax;
+                        if (first || yMin < yMin0) yMin0 = yMin;
+                        if (first || yMax > yMax0) yMax0 = yMax;
+                        first = false;
+
+                        entries.Add(
+                            new GraphEntry(expr,
+                                pens[entries.Count % pens.Count], interval));
+                    }
+
+                    var dx = (xMax0 - xMin0) / 4;
+                    xMin0 -= dx;
+                    xMax0 += dx;
+                    var dy = (yMax0 - yMin0) / 4;
+                    yMin0 -= dy;
+                    yMax0 += dy;
+
+                    var item = new GraphItem(
+                        new SolusParser(),
+                        env, entries,
+                        xMin0, xMax0,
+                        yMin0, yMax0);
+                    control.AddRenderItem(item);
+                    return;
                 }
                 else
                 {
@@ -362,6 +407,50 @@ Plot one or more expressions that vary over two variable as a 3D graph:
 
                 if (result > valueMax) valueMax = result;
                 if (result < valueMin) valueMin = result;
+            }
+        }
+
+        private static void EstimateBounds(Expression expr,
+            SolusEnvironment env,
+            string varname, float varMin, float varMax,
+            out float xMin, out float xMax,
+            out float yMin, out float yMax,
+            int numSteps=400)
+        {
+            var env2 = env.CreateChildEnvironment();
+            int i;
+            var delta = (varMax - varMin) / (numSteps - 1);
+            var varliteral = new Literal(varMin);
+            env2.SetVariable(varname, varliteral);
+
+            float v;
+            IMathObject result;
+            var first = true;
+            xMin = xMax = 0;
+            yMin = yMax = 0;
+            for (i = 0; i < numSteps; i++)
+            {
+                v = i * delta + varMin;
+                varliteral.Value = v.ToNumber();
+                result = expr.Eval(env2);
+                // TODO: check that it's a 2-vector with scalar components
+                var r2 = result.ToVector();
+                var x = r2[0].ToNumber().Value;
+                var y = r2[1].ToNumber().Value;
+                if (float.IsNaN(x) || float.IsInfinity(x) ||
+                    float.IsNaN(y) || float.IsInfinity(y))
+                    continue;
+                if (first)
+                {
+                    xMin = xMax = x;
+                    yMin = yMax = y;
+                    first = false;
+                }
+
+                if (x > xMax) xMax = x;
+                if (x < xMin) xMin = x;
+                if (y > yMax) yMax = y;
+                if (y < yMin) yMin = y;
             }
         }
 
