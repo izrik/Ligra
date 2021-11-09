@@ -290,6 +290,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             return new Vector2(xx, yy);
         }
 
+        private static readonly Vector2[] _polyCache = new Vector2[4];
         public static void Render3DGraph(IRenderer g,
             RectangleF boundsInClient,
             LPen pen, LBrush brush,
@@ -387,16 +388,14 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             {
                 for (j = yValues - 2; j >= 0; j--)
                 {
-                    Vector2[] poly =
-                    {
-                        layoutPts[i, j],
-                        layoutPts[i + 1, j],
-                        layoutPts[i + 1, j + 1],
-                        layoutPts[i, j + 1]
-                    };
-                    g.FillPolygon(brush, poly);
-                    //g.FillPolygon(brushes[i, j], poly);
-                    g.DrawPolygon(pen, poly);
+                    _polyCache[0] = layoutPts[i, j];
+                    _polyCache[1] = layoutPts[i + 1, j];
+                    _polyCache[2] = layoutPts[i + 1, j + 1];
+                    _polyCache[3] = layoutPts[i, j + 1];
+
+                    g.FillPolygon(brush, _polyCache);
+                    //g.FillPolygon(brushes[i, j], _polyCache);
+                    g.DrawPolygon(pen, _polyCache);
                 }
             }
         }
