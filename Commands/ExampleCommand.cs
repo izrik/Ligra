@@ -196,9 +196,31 @@ namespace MetaphysicsIndustries.Ligra.Commands
             control.AddRenderItem(new ExpressionItem(expr, p, f));
 
             control.AddRenderItem(new InfoItem("A 3d plot: ", f));
+            var interval2 = new Interval
+            {
+                IsIntegerInterval = false,
+                LowerBound = -4,
+                OpenLowerBound = false,
+                UpperBound = 4,
+                OpenUpperBound = false
+            };
+            var vi1 = new VarInterval
+            {
+                Variable = "x",
+                Interval = interval2
+            };
+            var vi2 = new VarInterval
+            {
+                Variable = "y",
+                Interval = interval2
+            };
             control.AddRenderItem(
-                new Graph3dItem(expr, LPen.Black, LBrush.Green, -4, 4, -4, 4,
-                    -2, 6, "x", "y", env));
+                new Graph3dItem(expr, LPen.Black, LBrush.Green,
+                    -4, 4,
+                    -4, 4,
+                    -2, 6,
+                    vi1, vi2,
+                    env));
         }
     }
 }

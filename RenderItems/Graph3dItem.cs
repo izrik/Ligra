@@ -14,8 +14,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             float xMin, float xMax,
             float yMin, float yMax,
             float zMin, float zMax,
-            string independentVariableX,
-            string independentVariableY,
+            VarInterval interval1,
+            VarInterval interval2,
             LigraEnvironment env)
         {
             _timer = new System.Timers.Timer(250);
@@ -25,8 +25,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             _expression = expression;
             _pen = pen;
             _brush = brush;
-            _independentVariableX = independentVariableX;
-            _independentVariableY = independentVariableY;
+            Interval1 = interval1;
+            Interval2 = interval2;
             _xMin = xMin;
             _xMax = xMax;
             _yMin = yMin;
@@ -49,8 +49,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         public Expression _expression;
         public LPen _pen;
         public LBrush _brush;
-        public string _independentVariableX;
-        public string _independentVariableY;
+        public VarInterval Interval1 { get; }
+        public VarInterval Interval2 { get; }
         public float _xMin;
         public float _xMax;
         public float _yMin;
@@ -71,12 +71,9 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             var boundsInClient = new RectangleF(0, 0, 400, 400);
 
             Vector3[,] points = null;
-            EvaluateGraph(
-                _xMin, _xMax,
-                _yMin, _yMax,
-                _expression,
-                _independentVariableX,
-                _independentVariableY,
+            EvaluateGraph(_expression,
+                Interval1,
+                Interval2,
                 _env, ref points);
             Vector2[,] layoutPts = null;
             LayoutGraph(boundsInClient,
@@ -91,8 +88,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 _yMin, _yMax,
                 _zMin, _zMax,
                 _expression,
-                _independentVariableX,
-                _independentVariableY,
+                Interval1,
+                Interval2,
                 _env, true, drawSettings.Font,
                 points,
                 layoutPts);
@@ -132,16 +129,14 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
         protected override void RemoveVariablesForValueCollection(HashSet<string> vars)
         {
-            UngatherVariableForValueCollection(vars, _independentVariableX);
-            UngatherVariableForValueCollection(vars, _independentVariableY);
+            UngatherVariableForValueCollection(vars, Interval1.Variable);
+            UngatherVariableForValueCollection(vars, Interval2.Variable);
         }
 
         public static void EvaluateGraph(
-            float xMin, float xMax,
-            float yMin, float yMax,
             Expression expr,
-            string independentVariableX,
-            string independentVariableY,
+            VarInterval interval1,
+            VarInterval interval2,
             SolusEnvironment env,
             ref Vector3[,] points)
         {
@@ -155,33 +150,32 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 points = new Vector3[xValues, yValues];
             }
 
-            float deltaX = (xMax - xMin) / (xValues - 1);
-            float deltaY = (yMax - yMin) / (yValues - 1);
+            var varMin1 = interval1.Interval.LowerBound;
+            var varMax1 = interval1.Interval.UpperBound;
+            var varMin2 = interval2.Interval.LowerBound;
+            var varMax2 = interval2.Interval.UpperBound;
+            float delta1 = (varMax1 - varMin1) / (xValues - 1);
+            float delta2 = (varMax2 - varMin2) / (yValues - 1);
 
             int i;
             int j;
             float x;
             float y;
 
-            if (env.ContainsVariable(independentVariableX))
-                env.RemoveVariable(independentVariableX);
-            if (env.ContainsVariable(independentVariableY))
-                env.RemoveVariable(independentVariableY);
-
             var literal1 = new Literal(0);
             var literal2 = new Literal(0);
-            env.SetVariable(independentVariableX, literal1);
-            env.SetVariable(independentVariableY, literal2);
+            env.SetVariable(interval1.Variable, literal1);
+            env.SetVariable(interval2.Variable, literal2);
 
             for (i = 0; i < xValues; i++)
             {
-                x = xMin + i * deltaX;
+                x = varMin1 + i * delta1;
 
                 literal1.Value = x.ToNumber();
 
                 for (j = 0; j < yValues; j++)
                 {
-                    y = yMin + j * deltaY;
+                    y = varMin2 + j * delta2;
                     literal2.Value = y.ToNumber();
 
                     var vv = expr.Eval(env);
@@ -294,8 +288,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             float yMin, float yMax,
             float zMin, float zMax,
             Expression expr,
-            string independentVariableX,
-            string independentVariableY,
+            VarInterval interval1,
+            VarInterval interval2,
             SolusEnvironment env,
             bool drawboundaries,
             LFont font,
@@ -353,9 +347,11 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 g.DrawString(zMax.ToString(), font, LBrush.Black, x2 + 6, y1 - 3);
 
 
-                g.DrawString(independentVariableX, font, LBrush.Black, (x1 + x2) / 2, (y3 + y4) / 2);
-                size = g.MeasureString(independentVariableY, font);
-                g.DrawString(independentVariableY, font, LBrush.Black, (x1 + x0) / 2 - size.X, (y3 + y4) / 2);
+                g.DrawString(interval1.Variable, font, LBrush.Black,
+                    (x1 + x2) / 2, (y3 + y4) / 2);
+                size = g.MeasureString(interval2.Variable, font);
+                g.DrawString(interval2.Variable, font, LBrush.Black,
+                    (x1 + x0) / 2 - size.X, (y3 + y4) / 2);
 
 
                 //g.DrawRectangle(LPen.Black, boundsInClient.Left, boundsInClient.Top, boundsInClient.Width, boundsInClient.Height);
