@@ -137,6 +137,21 @@ Plot one or more expressions that vary over two variable as a 3D graph:
              */
 
             var intervals2 = intervals.ToList();
+            foreach (var name in inputs.Except(intervalNames))
+            {
+                intervals2.Add(new VarInterval()
+                {
+                    Interval = new Interval()
+                    {
+                        IsIntegerInterval = false,
+                        LowerBound = -5,
+                        OpenLowerBound = false,
+                        UpperBound = 5,
+                        OpenUpperBound = false
+                    },
+                    Variable = name
+                });
+            }
 
             if (inputs.Count == 1)
             {
@@ -145,23 +160,9 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                     // "f(x)", "f(x) for x"
                     // -> [x, f(x)] for x
                     // 2d curve
-                    foreach (var name in inputs.Except(intervalNames))
-                    {
-                        intervals2.Add(new VarInterval()
-                        {
-                            Interval = new Interval()
-                            {
-                                IsIntegerInterval = false,
-                                LowerBound = -5,
-                                OpenLowerBound = false,
-                                UpperBound = 5,
-                                OpenUpperBound = false
-                            },
-                            Variable = name
-                        });
-                    }
 
-                    var varname = inputs.First();
+                    var interval = intervals2.First();
+                    var varname = interval.Variable;
                     var expr = exprs[0];
                     expr = new VectorExpression(2,
                         new VariableAccess(varname),
