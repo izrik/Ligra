@@ -304,29 +304,18 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         public Graph2dCurveEntry(Expression expression, LPen pen,
             VarInterval interval)
         {
-            _expression = expression;
-            _pen = pen;
+            Expression = expression;
+            Pen = pen;
             Interval = interval;
         }
         protected Graph2dCurveEntry(LPen pen)
         {
-            _pen = pen;
+            Pen = pen;
         }
 
-        private Expression _expression;
-        public Expression Expression
-        {
-            get { return _expression; }
-        }
-
+        public Expression Expression { get; }
         public VarInterval Interval { get; }
-
-        private LPen _pen;
-        public LPen Pen
-        {
-            get { return _pen; }
-        }
-
+        public LPen Pen { get; }
         public Vector2[] PointsCache;
     }
 
