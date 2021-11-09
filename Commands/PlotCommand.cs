@@ -164,6 +164,10 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                     var interval = intervals2.First();
                     var varname = interval.Variable;
                     var expr = exprs[0];
+                    var varMin = interval.Interval.LowerBound;
+                    var varMax = interval.Interval.UpperBound;
+                    EstimateBounds(expr, env, varname, varMin, varMax,
+                        out float valueMin, out float valueMax);
                     expr = new VectorExpression(2,
                         new VariableAccess(varname),
                         expr);
@@ -292,6 +296,31 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                     zmin, zmax,
                     intervals[0].Variable,
                     intervals[1].Variable, env));
+            }
+        }
+
+        private static void EstimateBounds(Expression expr,
+            SolusEnvironment env, string varname, float varMin, float varMax,
+            out float valueMin, out float valueMax, int numSteps=400)
+        {
+            var env2 = env.CreateChildEnvironment();
+            int i;
+            var delta = (varMax - varMin) / (numSteps - 1);
+            var varliteral = new Literal(varMin);
+            env2.SetVariable(varname, varliteral);
+
+            var v = varMin;
+            varliteral.Value = v.ToNumber();
+            var result = expr.Eval(env2).ToNumber().Value;
+            valueMin = valueMax = result;
+
+            for (i = 1; i < numSteps; i++)
+            {
+                v = i * delta + varMin;
+                varliteral.Value = v.ToNumber();
+                result = expr.Eval(env2).ToNumber().Value;
+                if (result > valueMax) valueMax = result;
+                if (result < valueMin) valueMin = result;
             }
         }
 
