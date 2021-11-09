@@ -60,7 +60,9 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
     public class GraphItem : RenderItem
     {
         public GraphItem(SolusParser parser, LigraEnvironment env,
-            IEnumerable<GraphEntry> entries)
+            IEnumerable<GraphEntry> entries,
+            float? xMin=null, float? xMax=null,
+            float? yMin=null, float? yMax=null)
         {
             _timer = new System.Timers.Timer(250);
             _timer.Elapsed += _timer_Elapsed;
@@ -68,10 +70,19 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
             _entries.AddRange(entries);
 
-            _maxX = 2;
             _minX = -2;
-            _maxY = 2;
+            if (xMin.HasValue)
+                _minX = xMin.Value;
+            _maxX = 2;
+            if (xMax.HasValue)
+                _maxX = xMax.Value;
             _minY = -2;
+            if (yMin.HasValue)
+                _minY = yMin.Value;
+            _maxY = 2;
+            if (yMax.HasValue)
+                _maxY = yMax.Value;
+
             _parser = parser;
 
             _env = env;
@@ -231,6 +242,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                         // EvaluationException ?
                         throw new OperandException("Value is not a 2-vector");
                     var vvv = vv.ToVector();
+                    // TODO: check for NaN
                     // TODO: ensure vvv[0] and vvv[1] are scalars
                     pt = new Vector2(vvv[0].ToNumber().Value,
                         vvv[1].ToNumber().Value);
@@ -282,6 +294,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             {
                 var next = ClientFromGraph(points[i], boundsInClient,
                     xMin, deltaX, yMin, deltaY);
+                // TODO: check for NaN
                 g.DrawLine(pen, lastPoint, next);
                 lastPoint = next;
             }

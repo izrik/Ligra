@@ -166,8 +166,16 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                     var expr = exprs[0];
                     var varMin = interval.Interval.LowerBound;
                     var varMax = interval.Interval.UpperBound;
+
                     EstimateBounds(expr, env, varname, varMin, varMax,
                         out float valueMin, out float valueMax);
+                    var dx = (varMax - varMin) / 4;
+                    varMin -= dx;
+                    varMax += dx;
+                    var dy = (valueMax - valueMin) / 4;
+                    valueMin -= dy;
+                    valueMax += dy;
+
                     expr = new VectorExpression(2,
                         new VariableAccess(varname),
                         expr);
@@ -177,7 +185,9 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                         new GraphEntry[]
                         {
                             new GraphEntry(expr, LPen.Blue, varname)
-                        });
+                        },
+                        varMin, varMax,
+                        valueMin, valueMax);
                     control.AddRenderItem(item);
                     return;
                 }
@@ -310,16 +320,25 @@ Plot one or more expressions that vary over two variable as a 3D graph:
             var varliteral = new Literal(varMin);
             env2.SetVariable(varname, varliteral);
 
-            var v = varMin;
-            varliteral.Value = v.ToNumber();
-            var result = expr.Eval(env2).ToNumber().Value;
-            valueMin = valueMax = result;
-
-            for (i = 1; i < numSteps; i++)
+            float v;
+            float result;
+            var first = true;
+            valueMin = -1;
+            valueMax = 1;
+            for (i = 0; i < numSteps; i++)
             {
                 v = i * delta + varMin;
                 varliteral.Value = v.ToNumber();
                 result = expr.Eval(env2).ToNumber().Value;
+                if (float.IsNaN(result) || float.IsInfinity(result))
+                    continue;
+                if (first)
+                {
+                    valueMax = result;
+                    valueMin = result;
+                    first = false;
+                }
+
                 if (result > valueMax) valueMax = result;
                 if (result < valueMin) valueMin = result;
             }
