@@ -153,6 +153,14 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                 });
             }
 
+            var pens = new List<LPen>();
+            pens.Add(LPen.Blue);
+            pens.Add(LPen.Red);
+            pens.Add(LPen.Green);
+            pens.Add(LPen.Yellow);
+            pens.Add(LPen.Cyan);
+            pens.Add(LPen.Magenta);
+
             if (inputs.Count == 1)
             {
                 if (outputs == 1)
@@ -161,33 +169,52 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                     // -> [x, f(x)] for x
                     // 2d curve
 
+                    var entries = new List<GraphEntry>();
+                    float varMin0 = -1;
+                    float varMax0 = 1;
+                    float valueMin0 = -1;
+                    float valueMax0 = 1;
+                    bool first = true;
                     var interval = intervals2.First();
-                    var varname = interval.Variable;
-                    var expr = exprs[0];
-                    var varMin = interval.Interval.LowerBound;
-                    var varMax = interval.Interval.UpperBound;
+                    foreach (var expr in exprs)
+                    {
+                        var varname = interval.Variable;
+                        var varMin = interval.Interval.LowerBound;
+                        var varMax = interval.Interval.UpperBound;
 
-                    EstimateBounds(expr, env, varname, varMin, varMax,
-                        out float valueMin, out float valueMax);
-                    var dx = (varMax - varMin) / 4;
-                    varMin -= dx;
-                    varMax += dx;
-                    var dy = (valueMax - valueMin) / 4;
-                    valueMin -= dy;
-                    valueMax += dy;
+                        if (first || varMin < varMin0)
+                            varMin0 = varMin;
+                        if (first || varMax > varMax0)
+                            varMax0 = varMax;
+                        first = false;
 
-                    expr = new VectorExpression(2,
-                        new VariableAccess(varname),
-                        expr);
+                        EstimateBounds(expr, env, varname, varMin, varMax,
+                            out float valueMin, out float valueMax);
+                        if (first || valueMin < valueMin0)
+                            valueMin0 = valueMin;
+                        if (first || valueMax > valueMax0)
+                            valueMax0 = valueMax;
+
+                        var expr1 = new VectorExpression(2,
+                            new VariableAccess(varname),
+                            expr);
+                        entries.Add(
+                            new GraphEntry(expr1,
+                                pens[entries.Count % pens.Count], interval));
+                    }
+
+                    var dx = (varMax0 - varMin0) / 4;
+                    varMin0 -= dx;
+                    varMax0 += dx;
+                    var dy = (valueMax0 - valueMin0) / 4;
+                    valueMin0 -= dy;
+                    valueMax0 += dy;
+
                     var item = new GraphItem(
                         new SolusParser(),
-                        env,
-                        new GraphEntry[]
-                        {
-                            new GraphEntry(expr, LPen.Blue, interval)
-                        },
-                        varMin, varMax,
-                        valueMin, valueMax);
+                        env, entries,
+                        varMin0, varMax0,
+                        valueMin0, valueMax0);
                     control.AddRenderItem(item);
                     return;
                 }
@@ -250,14 +277,6 @@ Plot one or more expressions that vary over two variable as a 3D graph:
             if (intervals.Length == 1)
             {
                 List<GraphEntry> entries = new List<GraphEntry>();
-
-                var pens = new List<LPen>();
-                pens.Add(LPen.Blue);
-                pens.Add(LPen.Red);
-                pens.Add(LPen.Green);
-                pens.Add(LPen.Yellow);
-                pens.Add(LPen.Cyan);
-                pens.Add(LPen.Magenta);
 
                 int i = 0;
                 VarInterval interval = intervals.First();
