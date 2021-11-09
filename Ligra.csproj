@@ -161,6 +161,7 @@
     <Compile Include="RenderItems\ControlItem.cs" />
     <Compile Include="RenderItems\ErrorItem.cs" />
     <Compile Include="RenderItems\ExpressionItem.cs" />
+    <Compile Include="RenderItems\Graph2dSurfaceItem.cs" />
     <Compile Include="RenderItems\Graph3dCurveItem.cs" />
     <Compile Include="RenderItems\Graph3dSurfaceItem.cs" />
     <Compile Include="RenderItems\Graph2dCurveItem.cs" />
