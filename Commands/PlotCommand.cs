@@ -184,7 +184,7 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                         env,
                         new GraphEntry[]
                         {
-                            new GraphEntry(expr, LPen.Blue, varname)
+                            new GraphEntry(expr, LPen.Blue, interval)
                         },
                         varMin, varMax,
                         valueMin, valueMax);
@@ -263,7 +263,9 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                 VarInterval interval = intervals.First();
                 foreach (Expression entry in exprs)
                 {
-                    entries.Add(new GraphEntry(entry, pens[i % pens.Count], interval.Variable));
+                    entries.Add(
+                        new GraphEntry(entry, pens[i % pens.Count],
+                            interval));
                     i++;
                 }
 

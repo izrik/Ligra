@@ -141,11 +141,22 @@ namespace MetaphysicsIndustries.Ligra.Commands
 
             control.AddRenderItem(
                 new InfoItem("A plot of the expression: ", f));
+            var interval = new VarInterval
+            {
+                Variable = "x",
+                Interval = new Interval
+                {
+                    LowerBound = -2,
+                    OpenLowerBound = false,
+                    UpperBound = 2,
+                    OpenUpperBound = false
+                }
+            };
             control.AddRenderItem(
                 new GraphItem(
                     parser, env, new GraphEntry[]
                     {
-                        new GraphEntry(expr, p, "x")
+                        new GraphEntry(expr, p, interval)
                     }));
 
             control.AddRenderItem(
@@ -158,11 +169,11 @@ namespace MetaphysicsIndustries.Ligra.Commands
                 new GraphEntry[]
                 {
                     new GraphEntry(parser.GetExpression("x^3", env),
-                        LPen.Blue, "x"),
+                        LPen.Blue, interval),
                     new GraphEntry(parser.GetExpression("3*x^2", env),
-                        LPen.Green, "x"),
+                        LPen.Green, interval),
                     new GraphEntry(parser.GetExpression("6*x", env),
-                        LPen.Red, "x")
+                        LPen.Red, interval)
                 }));
 
             control.AddRenderItem(new InfoItem(
@@ -173,7 +184,7 @@ namespace MetaphysicsIndustries.Ligra.Commands
                     {
                         new GraphEntry(
                             parser.GetExpression("sin(x+t)", env),
-                            p, "x")
+                            p, interval)
                     }));
 
             expr = parser.GetExpression(

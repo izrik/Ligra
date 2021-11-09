@@ -11,11 +11,12 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 {
     public class GraphEntry
     {
-        public GraphEntry(Expression expression, LPen pen, string independentVariable)
+        public GraphEntry(Expression expression, LPen pen,
+            VarInterval interval)
         {
             _expression = expression;
             _pen = pen;
-            _independentVariable = independentVariable;
+            Interval = interval;
         }
         protected GraphEntry(LPen pen)
         {
@@ -28,11 +29,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             get { return _expression; }
         }
 
-        private string _independentVariable;
-        public string IndependentVariable
-        {
-            get { return _independentVariable; }
-        }
+        public VarInterval Interval { get; }
 
         private LPen _pen;
         public LPen Pen
@@ -126,7 +123,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 else
                 {
                     EvaluateGraph(ref entry.PointsCache, entry.Expression,
-                        _env, _minX, _maxX, entry.IndependentVariable,
+                        _env, _minX, _maxX, entry.Interval.Variable,
                         boundsInClient);
                 }
 
@@ -165,7 +162,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 else
                 {
                     GatherVariablesForValueCollection(tempVars, entry.Expression);
-                    UngatherVariableForValueCollection(tempVars, entry.IndependentVariable);
+                    UngatherVariableForValueCollection(tempVars,
+                        entry.Interval.Variable);
                 }
                 vars.UnionWith(tempVars);
             }
