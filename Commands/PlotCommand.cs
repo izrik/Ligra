@@ -335,6 +335,57 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                 }
                 else
                 {
+                    // "[f(x,y), g(x,y), h(x,y)]",
+                    //      "[f(x,y), g(x,y), h(x,y)] for x, y"
+                    // -> [x, y, f(x)] for x, y
+                    // 3d surface
+
+                    float xMin0 = 0;
+                    float xMax0 = 0;
+                    float yMin0 = 0;
+                    float yMax0 = 0;
+                    float zMin0 = 0;
+                    float zMax0 = 0;
+                    bool first = true;
+                    var interval1 = intervals2[0];
+                    var interval2 = intervals2[1];
+                    Expression expr0;
+                    // foreach (var expr in exprs)
+                    var expr = exprs[0];
+                    {
+                        EstimateBounds(expr, env,  interval1, interval2,
+                            out float xMin, out float xMax,
+                            out float yMin, out float yMax,
+                            out float zMin, out float zMax);
+                        if (first || xMin < xMin0) xMin0 = xMin;
+                        if (first || xMax < xMax0) xMax0 = xMax;
+                        if (first || yMin < yMin0) yMin0 = yMin;
+                        if (first || yMax < yMax0) yMax0 = yMax;
+                        if (first || zMin < zMin0) zMin0 = zMin;
+                        if (first || zMax < zMax0) zMax0 = zMax;
+                        first = false;
+                    }
+
+                    var dx = (xMax0 - xMin0) / 4;
+                    xMin0 -= dx;
+                    xMax0 += dx;
+                    var dy = (yMax0 - yMin0) / 4;
+                    yMin0 -= dy;
+                    yMax0 += dy;
+                    var dz = (zMax0 - zMin0) / 4;
+                    zMin0 -= dz;
+                    zMax0 += dz;
+
+                    var item = new Graph3dItem(expr,
+                        LPen.Black, LBrush.Green,
+                        xMin0,xMax0,
+                        yMin0,yMax0,
+                        zMin0,zMax0,
+                        interval1.Variable,
+                        interval2.Variable,
+                        env);
+                    control.AddRenderItem(item);
+                    return;
                 }
             }
 
