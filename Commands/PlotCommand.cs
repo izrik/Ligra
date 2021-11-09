@@ -169,7 +169,7 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                     // -> [x, f(x)] for x
                     // 2d curve
 
-                    var entries = new List<GraphEntry>();
+                    var entries = new List<Graph2dCurveEntry>();
                     float varMin0 = -1;
                     float varMax0 = 1;
                     float valueMin0 = -1;
@@ -199,7 +199,7 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                             new VariableAccess(varname),
                             expr);
                         entries.Add(
-                            new GraphEntry(expr1,
+                            new Graph2dCurveEntry(expr1,
                                 pens[entries.Count % pens.Count], interval));
                     }
 
@@ -224,7 +224,7 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                     // -> [f(x), g(x)] for x
                     // 2d curve
 
-                    var entries = new List<GraphEntry>();
+                    var entries = new List<Graph2dCurveEntry>();
                     float xMin0 = -1;
                     float xMax0 = 1;
                     float yMin0 = -1;
@@ -247,7 +247,7 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                         first = false;
 
                         entries.Add(
-                            new GraphEntry(expr,
+                            new Graph2dCurveEntry(expr,
                                 pens[entries.Count % pens.Count], interval));
                     }
 
@@ -486,14 +486,14 @@ Plot one or more expressions that vary over two variable as a 3D graph:
 
             if (intervals.Length == 1)
             {
-                List<GraphEntry> entries = new List<GraphEntry>();
+                List<Graph2dCurveEntry> entries = new List<Graph2dCurveEntry>();
 
                 int i = 0;
                 VarInterval interval = intervals.First();
                 foreach (Expression entry in exprs)
                 {
                     entries.Add(
-                        new GraphEntry(entry, pens[i % pens.Count],
+                        new Graph2dCurveEntry(entry, pens[i % pens.Count],
                             interval));
                     i++;
                 }

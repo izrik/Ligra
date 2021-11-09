@@ -12,7 +12,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
     public class Graph2dCurveItem : RenderItem
     {
         public Graph2dCurveItem(SolusParser parser, LigraEnvironment env,
-            IEnumerable<GraphEntry> entries,
+            IEnumerable<Graph2dCurveEntry> entries,
             float? xMin=null, float? xMax=null,
             float? yMin=null, float? yMax=null)
         {
@@ -56,7 +56,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         public SolusParser _parser;
         private readonly LigraEnvironment _env;
 
-        public List<GraphEntry> _entries = new List<GraphEntry>();
+        public List<Graph2dCurveEntry> _entries = new List<Graph2dCurveEntry>();
         //private SizeF _size = new SizeF(400, 400);
 
         protected override void InternalRender(IRenderer g,
@@ -64,7 +64,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         {
             // g.DrawRectangle(LPen.Red, Rect.X, Rect.Y, Rect.Width, Rect.Height);
             bool first = true;
-            foreach (GraphEntry entry in _entries)
+            foreach (Graph2dCurveEntry entry in _entries)
             {
                 var ve = entry as GraphVectorEntry;
                 var location = new Vector2(0, 0);
@@ -104,7 +104,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         protected override void AddVariablesForValueCollection(HashSet<string> vars)
         {
             HashSet<string> tempVars = new HashSet<string>();
-            foreach (GraphEntry entry in _entries)
+            foreach (Graph2dCurveEntry entry in _entries)
             {
                 tempVars.Clear();
                 var ve = entry as GraphVectorEntry;
@@ -123,7 +123,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             }
         }
 
-        public Expression ExpressionFromGraphEntry(GraphEntry entry)
+        public Expression ExpressionFromGraphEntry(Graph2dCurveEntry entry)
         {
             return entry.Expression;
         }
@@ -299,16 +299,16 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         }
     }
 
-    public class GraphEntry
+    public class Graph2dCurveEntry
     {
-        public GraphEntry(Expression expression, LPen pen,
+        public Graph2dCurveEntry(Expression expression, LPen pen,
             VarInterval interval)
         {
             _expression = expression;
             _pen = pen;
             Interval = interval;
         }
-        protected GraphEntry(LPen pen)
+        protected Graph2dCurveEntry(LPen pen)
         {
             _pen = pen;
         }
@@ -330,7 +330,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         public Vector2[] PointsCache;
     }
 
-    public class GraphVectorEntry : GraphEntry
+    public class GraphVectorEntry : Graph2dCurveEntry
     {
         public GraphVectorEntry(VectorExpression x, VectorExpression y,
             LPen pen)
@@ -343,5 +343,4 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         public readonly VectorExpression X;
         public readonly VectorExpression Y;
     }
-
 }

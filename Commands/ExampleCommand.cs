@@ -154,9 +154,9 @@ namespace MetaphysicsIndustries.Ligra.Commands
             };
             control.AddRenderItem(
                 new Graph2dCurveItem(
-                    parser, env, new GraphEntry[]
+                    parser, env, new Graph2dCurveEntry[]
                     {
-                        new GraphEntry(expr, p, interval)
+                        new Graph2dCurveEntry(expr, p, interval)
                     }));
 
             control.AddRenderItem(
@@ -166,13 +166,13 @@ namespace MetaphysicsIndustries.Ligra.Commands
                     f));
             control.AddRenderItem(new Graph2dCurveItem(
                 parser, env,
-                new GraphEntry[]
+                new Graph2dCurveEntry[]
                 {
-                    new GraphEntry(parser.GetExpression("x^3", env),
+                    new Graph2dCurveEntry(parser.GetExpression("x^3", env),
                         LPen.Blue, interval),
-                    new GraphEntry(parser.GetExpression("3*x^2", env),
+                    new Graph2dCurveEntry(parser.GetExpression("3*x^2", env),
                         LPen.Green, interval),
-                    new GraphEntry(parser.GetExpression("6*x", env),
+                    new Graph2dCurveEntry(parser.GetExpression("6*x", env),
                         LPen.Red, interval)
                 }));
 
@@ -180,9 +180,9 @@ namespace MetaphysicsIndustries.Ligra.Commands
                 "A plot that changes with time, \"sin(x+t)\":", f));
             control.AddRenderItem(
                 new Graph2dCurveItem(
-                    parser, env, new GraphEntry[]
+                    parser, env, new Graph2dCurveEntry[]
                     {
-                        new GraphEntry(
+                        new Graph2dCurveEntry(
                             parser.GetExpression("sin(x+t)", env),
                             p, interval)
                     }));
