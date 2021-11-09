@@ -346,13 +346,13 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 g.DrawLine(LPen.Black, x2, y1, x2 + 6, y1 - 3);
                 g.DrawString(zMax.ToString(), font, LBrush.Black, x2 + 6, y1 - 3);
 
-
+                // TODO: don't label axes with the interval vars in the
+                // 3-output form
                 g.DrawString(interval1.Variable, font, LBrush.Black,
                     (x1 + x2) / 2, (y3 + y4) / 2);
                 size = g.MeasureString(interval2.Variable, font);
                 g.DrawString(interval2.Variable, font, LBrush.Black,
                     (x1 + x0) / 2 - size.X, (y3 + y4) / 2);
-
 
                 //g.DrawRectangle(LPen.Black, boundsInClient.Left, boundsInClient.Top, boundsInClient.Width, boundsInClient.Height);
             }
