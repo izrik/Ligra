@@ -64,23 +64,23 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         int numTicks = 0;
         string fps = "";
 
+        private Vector3[,] _points;
+        private Vector2[,] _layoutPts;
         protected override void InternalRender(IRenderer g,
             DrawSettings drawSettings)
         {
             var stime = Environment.TickCount;
             var boundsInClient = new RectangleF(0, 0, 400, 400);
 
-            Vector3[,] points = null;
             EvaluateGraph(_expression,
                 Interval1,
                 Interval2,
-                _env, ref points);
-            Vector2[,] layoutPts = null;
+                _env, ref _points);
             LayoutGraph(boundsInClient,
                 _xMin, _xMax,
                 _yMin, _yMax,
                 _zMin, _zMax,
-                points, ref layoutPts);
+                _points, ref _layoutPts);
             Render3DGraph(g,
                 boundsInClient,
                 _pen, _brush,
@@ -91,8 +91,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 Interval1,
                 Interval2,
                 _env, true, drawSettings.Font,
-                points,
-                layoutPts);
+                _points,
+                _layoutPts);
 
             var dtime = Environment.TickCount - stime;
             numTicks += dtime;
