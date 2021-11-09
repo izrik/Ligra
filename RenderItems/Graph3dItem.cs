@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using MetaphysicsIndustries.Solus;
+using MetaphysicsIndustries.Solus.Exceptions;
 using MetaphysicsIndustries.Solus.Expressions;
 using MetaphysicsIndustries.Solus.Values;
 
@@ -67,9 +68,24 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             DrawSettings drawSettings)
         {
             var stime = Environment.TickCount;
+            var boundsInClient = new RectangleF(0, 0, 400, 400);
 
+            Vector3[,] points = null;
+            EvaluateGraph(
+                _xMin, _xMax,
+                _yMin, _yMax,
+                _expression,
+                _independentVariableX,
+                _independentVariableY,
+                _env, ref points);
+            Vector2[,] layoutPts = null;
+            LayoutGraph(boundsInClient,
+                _xMin, _xMax,
+                _yMin, _yMax,
+                _zMin, _zMax,
+                points, ref layoutPts);
             Render3DGraph(g,
-                new RectangleF(0, 0, 400, 400),
+                boundsInClient,
                 _pen, _brush,
                 _xMin, _xMax,
                 _yMin, _yMax,
@@ -77,7 +93,9 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 _expression,
                 _independentVariableX,
                 _independentVariableY,
-                _env, true, drawSettings.Font);
+                _env, true, drawSettings.Font,
+                points,
+                layoutPts);
 
             var dtime = Environment.TickCount - stime;
             numTicks += dtime;
@@ -118,7 +136,159 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             UngatherVariableForValueCollection(vars, _independentVariableY);
         }
 
-        public static void Render3DGraph(IRenderer g, RectangleF boundsInClient,
+        public static void EvaluateGraph(
+            float xMin, float xMax,
+            float yMin, float yMax,
+            Expression expr,
+            string independentVariableX,
+            string independentVariableY,
+            SolusEnvironment env,
+            ref Vector3[,] points)
+        {
+            int xValues = 50;
+            int yValues = 50;
+
+            if (points == null ||
+                points.GetLength(0) < xValues ||
+                points.GetLength(1) < yValues)
+            {
+                points = new Vector3[xValues, yValues];
+            }
+
+            float deltaX = (xMax - xMin) / (xValues - 1);
+            float deltaY = (yMax - yMin) / (yValues - 1);
+
+            int i;
+            int j;
+            float x;
+            float y;
+
+            if (env.ContainsVariable(independentVariableX))
+                env.RemoveVariable(independentVariableX);
+            if (env.ContainsVariable(independentVariableY))
+                env.RemoveVariable(independentVariableY);
+
+            var literal1 = new Literal(0);
+            var literal2 = new Literal(0);
+            env.SetVariable(independentVariableX, literal1);
+            env.SetVariable(independentVariableY, literal2);
+
+            for (i = 0; i < xValues; i++)
+            {
+                x = xMin + i * deltaX;
+
+                literal1.Value = x.ToNumber();
+
+                for (j = 0; j < yValues; j++)
+                {
+                    y = yMin + j * deltaY;
+                    literal2.Value = y.ToNumber();
+
+                    var vv = expr.Eval(env);
+                    if (!vv.IsConcrete)
+                        // EvaluationException ?
+                        throw new OperandException(
+                            "Value is not concrete");
+
+                    Vector3 pt;
+                    if (vv.IsScalar(null))
+                    {
+                        double value = vv.ToNumber().Value;
+                        if (double.IsNaN(value))
+                        {
+                            value = 0;
+                        }
+
+                        pt = new Vector3(x, y, (float)value);
+                    }
+                    else if (vv.IsVector(null))
+                    {
+                        if (vv.GetVectorLength(null) != 3)
+                            // EvaluationException ?
+                            throw new OperandException(
+                                "Value is not a 3-vector");
+                        var vvv = vv.ToVector();
+                        // TODO: check for NaN
+                        // TODO: ensure components of vvv are scalars
+                        pt = new Vector3(
+                            vvv[0].ToNumber().Value,
+                            vvv[1].ToNumber().Value,
+                            vvv[2].ToNumber().Value);
+                    }
+                    else
+                    {
+                        throw new OperandException(
+                            "Value is not a vector or scalar");
+                    }
+
+                    points[i, j] = pt;
+                }
+            }
+        }
+
+        public static void LayoutGraph(
+            RectangleF boundsInClient,
+            float xMin, float xMax,
+            float yMin, float yMax,
+            float zMin, float zMax,
+            Vector3[,] points,
+            ref Vector2[,] layoutPts)
+        {
+            int xValues = 50;
+            int yValues = 50;
+
+            if (layoutPts == null ||
+                layoutPts.GetLength(0) < xValues ||
+                layoutPts.GetLength(1) < yValues)
+            {
+                layoutPts = new Vector2[xValues, yValues];
+            }
+
+            int i, j;
+            for (i = 0; i < xValues; i++)
+            for (j = 0; j < yValues; j++)
+            {
+                var v = Constrain(points[i, j],
+                    xMin, xMax, yMin, yMax, zMin, zMax);
+                layoutPts[i, j] = ClientFromGraph(v, boundsInClient,
+                    xMin, xMax, yMin, yMax, zMin, zMax);
+            }
+        }
+
+        public static Vector3 Constrain(Vector3 v,
+            float xMin, float xMax,
+            float yMin, float yMax,
+            float zMin, float zMax)
+        {
+            if (v.X < xMin) v = new Vector3(xMin, v.Y, v.Z);
+            if (v.X > xMax) v = new Vector3(xMax, v.Y, v.Z);
+            if (v.Y < yMin) v = new Vector3(v.X, yMin, v.Z);
+            if (v.Y > yMax) v = new Vector3(v.X, yMax, v.Z);
+            if (v.Z < zMin) v = new Vector3(v.X, v.Y, zMin);
+            if (v.Z > zMax) v = new Vector3(v.X, v.Y, zMax);
+            return v;
+        }
+
+        public static Vector2 ClientFromGraph(Vector3 v,
+            RectangleF boundsInClient,
+            float xMin, float xMax,
+            float yMin, float yMax,
+            float zMin, float zMax)
+        {
+            float x1 = boundsInClient.Left + boundsInClient.Width / 2;
+            float y4 = boundsInClient.Bottom;
+            float sx = (v.X - xMin) / (xMax - xMin);
+            float sy = (v.Y - yMin) / (yMax - yMin);
+            float sz = (v.Z - zMin) / (zMax - zMin);
+
+            float xx = x1 + (sx - sy) * boundsInClient.Width * 0.5f;
+            float yy = y4 - (sx + sy) * boundsInClient.Height / 4 -
+                       sz * boundsInClient.Height / 2;
+            return new Vector2(xx, yy);
+        }
+
+        public static void Render3DGraph(IRenderer g,
+            RectangleF boundsInClient,
             LPen pen, LBrush brush,
             float xMin, float xMax,
             float yMin, float yMax,
@@ -128,15 +298,12 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             string independentVariableY,
             SolusEnvironment env,
             bool drawboundaries,
-            LFont font)
+            LFont font,
+            Vector3[,] points,
+            Vector2[,] layoutPts)
         {
             int xValues = 50;
             int yValues = 50;
-
-            float[,] values = new float[xValues, yValues];
-
-            float deltaX = (xMax - xMin) / (xValues - 1);
-            float deltaY = (yMax - yMin) / (yValues - 1);
 
             float x0 = boundsInClient.Left;
             float x1 = boundsInClient.Left + boundsInClient.Width / 2;
@@ -197,64 +364,6 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
             int i;
             int j;
-            float x;
-            float y;
-            float z;
-
-            Expression prelimEval;
-            Expression prelimEval2;
-
-            if (env.ContainsVariable(independentVariableX))
-                env.RemoveVariable(independentVariableX);
-            if (env.ContainsVariable(independentVariableY))
-                env.RemoveVariable(independentVariableY);
-
-            prelimEval = _engine.PreliminaryEval(expr, env);
-
-            for (i = 0; i < xValues; i++)
-            {
-                x = xMin + i * deltaX;
-
-                env.SetVariable(independentVariableX, new Literal(x));
-                if (env.ContainsVariable(independentVariableY))
-                    env.RemoveVariable(independentVariableY);
-
-                prelimEval2 = _engine.PreliminaryEval(prelimEval, env);
-
-                for (j = 0; j < yValues; j++)
-                {
-                    y = yMin + j * deltaY;
-                    env.SetVariable(independentVariableY, new Literal(y));
-
-                    z = prelimEval2.Eval(env).ToNumber().Value;
-
-                    if (double.IsNaN(z))
-                    {
-                        z = 0;
-                    }
-                    z = Math.Max(z, zMin);
-                    z = Math.Min(z, zMax);
-
-                    values[i, j] = z;
-                }
-            }
-
-            Vector2[,] pts = new Vector2[xValues, yValues];
-
-            for (i = 0; i < xValues; i++)
-            {
-                float ii = (i / (float)xValues);
-                for (j = 0; j < yValues; j++)
-                {
-                    float jj = (j / (float)yValues);
-
-                    z = values[i, j];
-                    x = x1 + (ii - jj) * boundsInClient.Width * 0.5f;
-                    y = y4 - (((ii + jj) * boundsInClient.Height) / 4) - ((((z - zMin) / (zMax - zMin)) * boundsInClient.Height) / 2);
-
-                    pts[i, j] = new Vector2((float)x, (float)y);
-                }
-            }
 
             //Brush[,] brushes = new Brush[xValues, yValues];
             //for (i = 0; i < xValues; i++)
@@ -274,7 +383,13 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             {
                 for (j = yValues - 2; j >= 0; j--)
                 {
-                    Vector2[] poly = { pts[i, j], pts[i + 1, j], pts[i + 1, j + 1], pts[i, j + 1] };
+                    Vector2[] poly =
+                    {
+                        layoutPts[i, j],
+                        layoutPts[i + 1, j],
+                        layoutPts[i + 1, j + 1],
+                        layoutPts[i, j + 1]
+                    };
                     g.FillPolygon(brush, poly);
                     //g.FillPolygon(brushes[i, j], poly);
                     g.DrawPolygon(pen, poly);
