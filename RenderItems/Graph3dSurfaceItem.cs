@@ -206,19 +206,17 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             Vector3[,] points,
             ref Vector2[,] layoutPts)
         {
-            int xValues = 50;
-            int yValues = 50;
-
             if (layoutPts == null ||
-                layoutPts.GetLength(0) < xValues ||
-                layoutPts.GetLength(1) < yValues)
+                layoutPts.GetLength(0) < points.GetLength(0) ||
+                layoutPts.GetLength(1) < points.GetLength(1))
             {
-                layoutPts = new Vector2[xValues, yValues];
+                layoutPts = new Vector2[points.GetLength(0),
+                    points.GetLength(1)];
             }
 
             int i, j;
-            for (i = 0; i < xValues; i++)
-            for (j = 0; j < yValues; j++)
+            for (i = 0; i < points.GetLength(0); i++)
+            for (j = 0; j < points.GetLength(1); j++)
             {
                 var v = Constrain(points[i, j],
                     xMin, xMax, yMin, yMax, zMin, zMax);
