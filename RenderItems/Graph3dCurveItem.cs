@@ -111,24 +111,16 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                     _zMin,_zMax,
                     entry.PointsCache,
                     ref entry.LayoutPointsCache);
-                RenderPoints(g,
-                    boundsInClient,
-                    entry.Pen, entry.Pen.Brush,
+                GraphItemUtil.DrawBoundaries3d(g, boundsInClient,
                     _xMin, _xMax,
-                    _yMin, _yMax,
+                    _yMax, _yMin,
                     _zMin, _zMax,
                     _xMinLabel, _xMaxLabel,
-                    _yMinLabel, _yMaxLabel,
+                    _yMaxLabel, _yMinLabel,
                     _zMinLabel, _zMaxLabel,
-                    entry.Expression,
-                    entry.Interval,
-                    _env,
-                    first,
                     drawSettings.Font,
-                    Label1,
-                    Label2,
-                    entry.PointsCache,
-                    entry.LayoutPointsCache);
+                    Label1, Label2);
+                RenderPoints(g, entry.Pen, entry.LayoutPointsCache);
                 first = false;
             }
         }
@@ -208,39 +200,11 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
         public static void RenderPoints(
             IRenderer g,
-            RectangleF boundsInClient,
-            LPen pen, LBrush brush,
-            float xMin, float xMax,
-            float yMin, float yMax,
-            float zMin, float zMax,
-            string xMinLabel, string xMaxLabel,
-            string yMinLabel, string yMaxLabel,
-            string zMinLabel, string zMaxLabel,
-            Expression expr,
-            VarInterval interval,
-            LigraEnvironment env,
-            bool drawboundaries,
-            LFont font,
-            string label1,
-            string label2,
-            Vector3[] points,
+            LPen pen,
             Vector2[] layoutPts)
         {
-            if (drawboundaries)
-            {
-                GraphItemUtil.DrawBoundaries3d(g, boundsInClient,
-                    xMin, xMax,
-                    yMax, yMin,
-                    zMin, zMax,
-                    xMinLabel, xMaxLabel,
-                    yMaxLabel, yMinLabel,
-                    zMinLabel, zMaxLabel,
-                    font,
-                    label1, label2);
-            }
-
             int i;
-            int N = points.Length;
+            int N = layoutPts.Length;
             var lastPoint = Vector2.Zero;
             var first = true;
             for (i = 0; i < N; i++)

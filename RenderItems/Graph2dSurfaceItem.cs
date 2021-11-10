@@ -96,20 +96,10 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 _yMin, _yMax,
                 _points,
                 ref _layoutPts);
+            GraphItemUtil.DrawBoundaries2d(g, boundsInClient,
+                _xMin, _xMax, _yMin, _yMax);
             RenderGraph(g,
-                boundsInClient,
                 _pen, _brush,
-                _xMin, _xMax,
-                _yMin, _yMax,
-                _xMinLabel, _xMaxLabel,
-                _yMinLabel, _yMaxLabel,
-                _expression,
-                Interval1,
-                Interval2,
-                _env, true, drawSettings.Font,
-                Label1,
-                Label2,
-                _points,
                 _layoutPts);
 
             var dtime = Environment.TickCount - stime;
@@ -279,43 +269,19 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         }
 
         private static readonly Vector2[] _polyCache = new Vector2[4];
+
         public static void RenderGraph(
             IRenderer g,
-            RectangleF boundsInClient,
-            LPen pen, LBrush brush,
-            float xMin, float xMax,
-            float yMin, float yMax,
-            string xMinLabel, string xMaxLabel,
-            string yMinLabel, string yMaxLabel,
-            Expression expr,
-            VarInterval interval1,
-            VarInterval interval2,
-            SolusEnvironment env,
-            bool drawBoundaries,
-            LFont font,
-            string label1,
-            string label2,
-            Vector2[,] points,
+            LPen pen,
+            LBrush brush,
             Vector2[,] layoutPts)
         {
-            float deltaX = (xMax - xMin) / boundsInClient.Width;
-            float deltaY = (yMax - yMin) / boundsInClient.Height;
-
-            int xValues = 50;
-            int yValues = 50;
-
-            if (drawBoundaries)
-            {
-                GraphItemUtil.DrawBoundaries2d(g, boundsInClient,
-                    xMin, xMax, yMin, yMax);
-            }
-
             int i;
             int j;
 
-            for (i = xValues - 2; i >= 0; i--)
+            for (i = layoutPts.GetLength(0) - 2; i >= 0; i--)
             {
-                for (j = yValues - 2; j >= 0; j--)
+                for (j = layoutPts.GetLength(1) - 2; j >= 0; j--)
                 {
                     _polyCache[0] = layoutPts[i, j];
                     _polyCache[1] = layoutPts[i + 1, j];

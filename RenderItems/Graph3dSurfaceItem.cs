@@ -98,23 +98,16 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 _yMin, _yMax,
                 _zMin, _zMax,
                 _points, ref _layoutPts);
-            Render3DGraph(g,
-                boundsInClient,
-                _pen, _brush,
+            GraphItemUtil.DrawBoundaries3d(g, boundsInClient,
                 _xMin, _xMax,
-                _yMin, _yMax,
+                _yMax, _yMin,
                 _zMin, _zMax,
                 _xMinLabel, _xMaxLabel,
-                _yMinLabel, _yMaxLabel,
+                _yMaxLabel, _yMinLabel,
                 _zMinLabel, _zMaxLabel,
-                _expression,
-                Interval1,
-                Interval2,
-                _env, true, drawSettings.Font,
-                Label1,
-                Label2,
-                _points,
-                _layoutPts);
+                drawSettings.Font,
+                Label1, Label2);
+            Render3DGraph(g, _pen, _brush, _layoutPts);
 
             var dtime = Environment.TickCount - stime;
             numTicks += dtime;
@@ -289,51 +282,14 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         }
 
         private static readonly Vector2[] _polyCache = new Vector2[4];
-        public static void Render3DGraph(IRenderer g,
-            RectangleF boundsInClient,
-            LPen pen, LBrush brush,
-            float xMin, float xMax,
-            float yMin, float yMax,
-            float zMin, float zMax,
-            string xMinLabel, string xMaxLabel,
-            string yMinLabel, string yMaxLabel,
-            string zMinLabel, string zMaxLabel,
-            Expression expr,
-            VarInterval interval1,
-            VarInterval interval2,
-            SolusEnvironment env,
-            bool drawboundaries,
-            LFont font,
-            string label1,
-            string label2,
-            Vector3[,] points,
+        public static void Render3DGraph(
+            IRenderer g,
+            LPen pen,
+            LBrush brush,
             Vector2[,] layoutPts)
         {
             int xValues = 50;
             int yValues = 50;
-
-            float x0 = boundsInClient.Left;
-            float x1 = boundsInClient.Left + boundsInClient.Width / 2;
-            float x2 = boundsInClient.Right;
-
-            float y0 = boundsInClient.Top;
-            float y1 = boundsInClient.Top + boundsInClient.Height / 4;
-            float y2 = boundsInClient.Top + boundsInClient.Height / 2;
-            float y3 = boundsInClient.Top + 3 * boundsInClient.Height / 4;
-            float y4 = boundsInClient.Bottom;
-
-            if (drawboundaries)
-            {
-                GraphItemUtil.DrawBoundaries3d(g, boundsInClient,
-                    xMin, xMax,
-                    yMax, yMin,
-                    zMin, zMax,
-                    xMinLabel, xMaxLabel,
-                    yMaxLabel, yMinLabel,
-                    zMinLabel, zMaxLabel,
-                    font,
-                    label1, label2);
-            }
 
             int i;
             int j;

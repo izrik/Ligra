@@ -87,11 +87,11 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                     entry.PointsCache,
                     ref entry.LayoutPointsCache);
 
+                GraphItemUtil.DrawBoundaries2d(g, boundsInClient,
+                    _minX, _maxX, _minY, _maxY);
+
                 RenderPoints(g,
-                    boundsInClient,
-                    entry.Pen, entry.Pen.Brush,
-                    _minX, _maxX, _minY, _maxY,
-                    first, entry.LayoutPointsCache);
+                    entry.Pen, entry.LayoutPointsCache);
                 first = false;
             }
         }
@@ -227,19 +227,11 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             return GraphItemUtil.Constrain2d(v, xMin, xMax, yMin, yMax);
         }
 
-        public static void RenderPoints(IRenderer g,
-            RectangleF boundsInClient,
-            LPen pen, LBrush brush,
-            float xMin, float xMax, float yMin, float yMax,
-            bool drawBoundaries,
+        public static void RenderPoints(
+            IRenderer g,
+            LPen pen,
             Vector2[] layoutPts)
         {
-            if (drawBoundaries)
-            {
-                GraphItemUtil.DrawBoundaries2d(g, boundsInClient,
-                    xMin, xMax, yMin, yMax);
-            }
-
             int i;
             int N = layoutPts.Length;
             var lastPoint = Vector2.Zero;
