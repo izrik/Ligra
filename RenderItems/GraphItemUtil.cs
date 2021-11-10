@@ -1,5 +1,8 @@
 using System.Drawing;
 using Gtk;
+using MetaphysicsIndustries.Solus;
+using MetaphysicsIndustries.Solus.Exceptions;
+using MetaphysicsIndustries.Solus.Values;
 
 namespace MetaphysicsIndustries.Ligra.RenderItems
 {
@@ -53,6 +56,27 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             if (v.Y < yMin) v = new Vector2(v.X, yMin);
             if (v.Y > yMax) v = new Vector2(v.X, yMax);
             return v;
+        }
+
+        public static Vector2 EvaluatePoint2d(IMathObject vv)
+        {
+            if (!vv.IsConcrete)
+                // EvaluationException ?
+                throw new OperandException(
+                    "Value is not concrete");
+            if (!vv.IsVector(null))
+                throw new OperandException(
+                    "Value is not a 2-vector");
+            if (vv.GetVectorLength(null) != 2)
+                // EvaluationException ?
+                throw new OperandException(
+                    "Value is not a 2-vector");
+            var vvv = vv.ToVector();
+            // TODO: check for NaN
+            // TODO: ensure components of vvv are scalars
+            return new Vector2(
+                vvv[0].ToNumber().Value,
+                vvv[1].ToNumber().Value);
         }
 
         public static void DrawBoundaries3d(
@@ -159,5 +183,26 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             return v;
         }
 
+        public static Vector3 EvaluatePoint3d(IMathObject vv)
+        {
+            if (!vv.IsConcrete)
+                // EvaluationException ?
+                throw new OperandException(
+                    "Value is not concrete");
+            if (!vv.IsVector(null))
+                throw new OperandException(
+                    "Value is not a 3-vector");
+            if (vv.GetVectorLength(null) != 3)
+                // EvaluationException ?
+                throw new OperandException(
+                    "Value is not a 3-vector");
+            var vvv = vv.ToVector();
+            // TODO: check for NaN
+            // TODO: ensure components of vvv are scalars
+            return new Vector3(
+                vvv[0].ToNumber().Value,
+                vvv[1].ToNumber().Value,
+                vvv[2].ToNumber().Value);
+        }
     }
 }

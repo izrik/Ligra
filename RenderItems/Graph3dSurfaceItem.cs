@@ -192,28 +192,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                     literal2.Value = y.ToNumber();
 
                     var vv = expr.Eval(env);
-                    if (!vv.IsConcrete)
-                        // EvaluationException ?
-                        throw new OperandException(
-                            "Value is not concrete");
-
-                    Vector3 pt;
-                    if (!vv.IsVector(null))
-                        throw new OperandException(
-                            "Value is not a vector or scalar");
-                    if (vv.GetVectorLength(null) != 3)
-                        // EvaluationException ?
-                        throw new OperandException(
-                            "Value is not a 3-vector");
-                    var vvv = vv.ToVector();
-                    // TODO: check for NaN
-                    // TODO: ensure components of vvv are scalars
-                    pt = new Vector3(
-                        vvv[0].ToNumber().Value,
-                        vvv[1].ToNumber().Value,
-                        vvv[2].ToNumber().Value);
-
-                    points[i, j] = pt;
+                    points[i, j] = GraphItemUtil.EvaluatePoint3d(vv);
                 }
             }
         }
