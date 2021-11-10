@@ -62,14 +62,14 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         protected override void InternalRender(IRenderer g,
             DrawSettings drawSettings)
         {
-            // g.DrawRectangle(LPen.Red, Rect.X, Rect.Y, Rect.Width, Rect.Height);
-            bool first = true;
+            var location = new Vector2(0, 0);
+            var boundsInClient = new RectangleF(location,
+                Rect.Size);
+            GraphItemUtil.DrawBoundaries2d(g, boundsInClient,
+                _minX, _maxX, _minY, _maxY);
             foreach (Graph2dCurveEntry entry in _entries)
             {
                 var ve = entry as GraphVectorEntry;
-                var location = new Vector2(0, 0);
-                var boundsInClient = new RectangleF(location,
-                    Rect.Size);
                 if (ve != null)
                 {
                     EvaluateVectors(ve.X, ve.Y, _env,
@@ -87,12 +87,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                     entry.PointsCache,
                     ref entry.LayoutPointsCache);
 
-                GraphItemUtil.DrawBoundaries2d(g, boundsInClient,
-                    _minX, _maxX, _minY, _maxY);
-
                 RenderPoints(g,
                     entry.Pen, entry.LayoutPointsCache);
-                first = false;
             }
         }
 

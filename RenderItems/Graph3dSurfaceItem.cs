@@ -90,14 +90,6 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         {
             var stime = Environment.TickCount;
             var boundsInClient = new RectangleF(0, 0, 400, 400);
-
-            EvaluateGraph(_expression,
-                _env, Interval1, Interval2, ref _points);
-            LayoutGraph(boundsInClient,
-                _xMin, _xMax,
-                _yMin, _yMax,
-                _zMin, _zMax,
-                _points, ref _layoutPts);
             GraphItemUtil.DrawBoundaries3d(g, boundsInClient,
                 _xMin, _xMax,
                 _yMax, _yMin,
@@ -107,6 +99,14 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 _zMinLabel, _zMaxLabel,
                 drawSettings.Font,
                 Label1, Label2);
+
+            EvaluateGraph(_expression,
+                _env, Interval1, Interval2, ref _points);
+            LayoutGraph(boundsInClient,
+                _xMin, _xMax,
+                _yMin, _yMax,
+                _zMin, _zMax,
+                _points, ref _layoutPts);
             Render3DGraph(g, _pen, _brush, _layoutPts);
 
             var dtime = Environment.TickCount - stime;

@@ -95,13 +95,20 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
         protected override void InternalRender(IRenderer g, DrawSettings drawSettings)
         {
-            // g.DrawRectangle(LPen.Red, Rect.X, Rect.Y, Rect.Width, Rect.Height);
-            bool first = true;
+            var location = new Vector2(0, 0);
+            var boundsInClient = new RectangleF(location,
+                Rect.Size);
+            GraphItemUtil.DrawBoundaries3d(g, boundsInClient,
+                _xMin, _xMax,
+                _yMax, _yMin,
+                _zMin, _zMax,
+                _xMinLabel, _xMaxLabel,
+                _yMaxLabel, _yMinLabel,
+                _zMinLabel, _zMaxLabel,
+                drawSettings.Font,
+                Label1, Label2);
             foreach (var entry in _entries)
             {
-                var location = new Vector2(0, 0);
-                var boundsInClient = new RectangleF(location,
-                    Rect.Size);
                 EvaluateGraph(ref entry.PointsCache, entry.Expression,
                     _env, entry.Interval);
                 LayoutGraph(
@@ -111,17 +118,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                     _zMin,_zMax,
                     entry.PointsCache,
                     ref entry.LayoutPointsCache);
-                GraphItemUtil.DrawBoundaries3d(g, boundsInClient,
-                    _xMin, _xMax,
-                    _yMax, _yMin,
-                    _zMin, _zMax,
-                    _xMinLabel, _xMaxLabel,
-                    _yMaxLabel, _yMinLabel,
-                    _zMinLabel, _zMaxLabel,
-                    drawSettings.Font,
-                    Label1, Label2);
                 RenderPoints(g, entry.Pen, entry.LayoutPointsCache);
-                first = false;
             }
         }
 
