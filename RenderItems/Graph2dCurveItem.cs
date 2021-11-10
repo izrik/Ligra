@@ -155,10 +155,12 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 points = new Vector2[numSteps];
 
             int i;
+            var literal = new Literal(0);
+            env.SetVariable(varName, literal);
             for (i = 0; i < numSteps; i++)
             {
                 float x = varMin + delta * i;
-                env.SetVariable(varName, new Literal(x));
+                literal.Value = x.ToNumber();
 
                 var vv = expr.Eval(env);
                 points[i] = GraphItemUtil.EvaluatePoint2d(vv);
