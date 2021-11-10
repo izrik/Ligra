@@ -226,19 +226,6 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             Vector3[] points,
             Vector2[] layoutPts)
         {
-            int xValues = 50;
-            int yValues = 50;
-
-            float x0 = boundsInClient.Left;
-            float x1 = boundsInClient.Left + boundsInClient.Width / 2;
-            float x2 = boundsInClient.Right;
-
-            float y0 = boundsInClient.Top;
-            float y1 = boundsInClient.Top + boundsInClient.Height / 4;
-            float y2 = boundsInClient.Top + boundsInClient.Height / 2;
-            float y3 = boundsInClient.Top + 3 * boundsInClient.Height / 4;
-            float y4 = boundsInClient.Bottom;
-
             if (drawboundaries)
             {
                 GraphItemUtil.DrawBoundaries3d(g, boundsInClient,
