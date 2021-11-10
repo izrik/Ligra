@@ -175,10 +175,12 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             {
                 float x = varMin + step * i;
                 env.SetVariable(varName, new Literal(x));
+
                 var vv = expr.Eval(env);
                 if (!vv.IsConcrete)
                     // EvaluationException ?
-                    throw new OperandException("Value is not concrete");
+                    throw new OperandException(
+                        "Value is not concrete");
 
                 Vector2 pt;
                 if (vv.IsVector(null))
@@ -189,8 +191,9 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                             "Value is not a 2-vector");
                     var vvv = vv.ToVector();
                     // TODO: check for NaN
-                    // TODO: ensure vvv[0] and vvv[1] are scalars
-                    pt = new Vector2(vvv[0].ToNumber().Value,
+                    // TODO: ensure components of vvv are scalars
+                    pt = new Vector2(
+                        vvv[0].ToNumber().Value,
                         vvv[1].ToNumber().Value);
                 }
                 else
