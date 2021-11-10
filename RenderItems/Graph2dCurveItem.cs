@@ -138,42 +138,25 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             get { return true; }
         }
 
-        public enum StepType
-        {
-            Specific,
-            Auto,
-            FromUI,
-        }
-
         public static void EvaluateGraph(ref Vector2[] points,
             Expression expr,
             SolusEnvironment env,
             VarInterval interval,
             RectangleF boundsInClient,
-            StepType stepType = StepType.FromUI,
-            float step = 1)
+            int numSteps=400)
         {
             var varMin = interval.Interval.LowerBound;
             var varMax = interval.Interval.UpperBound;
             var varName = interval.Variable;
 
-            if (stepType == StepType.Auto)
-            {
-                step = (varMax - varMin) / 100;
-            }
-            else if (stepType == StepType.FromUI)
-            {
-                step = (varMax - varMin) / boundsInClient.Width;
-            }
-
-            var numSteps = (int)Math.Ceiling((varMax - varMin) / step);
+            var delta = (varMax - varMin) / (numSteps - 1);
             if (points == null || points.Length < numSteps)
                 points = new Vector2[numSteps];
 
             int i;
             for (i = 0; i < numSteps; i++)
             {
-                float x = varMin + step * i;
+                float x = varMin + delta * i;
                 env.SetVariable(varName, new Literal(x));
 
                 var vv = expr.Eval(env);
