@@ -77,8 +77,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 }
                 else
                 {
-                    EvaluateGraph(ref entry.PointsCache, entry.Expression,
-                        _env, entry.Interval, boundsInClient);
+                    EvaluateGraph(entry.Expression,
+                        _env, entry.Interval, ref entry.PointsCache);
                 }
 
                 RenderPoints(g,
@@ -138,11 +138,11 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             get { return true; }
         }
 
-        public static void EvaluateGraph(ref Vector2[] points,
+        public static void EvaluateGraph(
             Expression expr,
             SolusEnvironment env,
             VarInterval interval,
-            RectangleF boundsInClient,
+            ref Vector2[] points,
             int numSteps=400)
         {
             var varMin = interval.Interval.LowerBound;

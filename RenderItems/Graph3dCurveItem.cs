@@ -103,7 +103,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 var boundsInClient = new RectangleF(location,
                     Rect.Size);
                 EvaluateGraph(ref entry.PointsCache, entry.Expression,
-                    _env, entry.Interval, boundsInClient);
+                    _env, entry.Interval);
                 LayoutGraph(
                     boundsInClient,
                     _xMin,_xMax,
@@ -137,7 +137,6 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             Expression expr,
             LigraEnvironment env,
             VarInterval interval,
-            RectangleF boundsInClient,
             int numSteps=400)
         {
             var varMin = interval.Interval.LowerBound;

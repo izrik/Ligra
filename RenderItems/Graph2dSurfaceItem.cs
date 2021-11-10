@@ -88,10 +88,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
             EvaluateGraph(
                 _expression,
-                Interval1,
-                Interval2,
                 _env,
-                ref _points);
+                Interval1, Interval2, ref _points);
             LayoutGraph(
                 boundsInClient,
                 _xMin, _xMax,
@@ -158,9 +156,9 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
         public static void EvaluateGraph(
             Expression expr,
+            SolusEnvironment env,
             VarInterval interval1,
             VarInterval interval2,
-            SolusEnvironment env,
             ref Vector2[,] points)
         {
             int xValues = 50;

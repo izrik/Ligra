@@ -92,9 +92,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             var boundsInClient = new RectangleF(0, 0, 400, 400);
 
             EvaluateGraph(_expression,
-                Interval1,
-                Interval2,
-                _env, ref _points);
+                _env, Interval1, Interval2, ref _points);
             LayoutGraph(boundsInClient,
                 _xMin, _xMax,
                 _yMin, _yMax,
@@ -157,11 +155,10 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             UngatherVariableForValueCollection(vars, Interval2.Variable);
         }
 
-        public static void EvaluateGraph(
-            Expression expr,
+        public static void EvaluateGraph(Expression expr,
+            SolusEnvironment env,
             VarInterval interval1,
             VarInterval interval2,
-            SolusEnvironment env,
             ref Vector3[,] points)
         {
             int xValues = 50;
