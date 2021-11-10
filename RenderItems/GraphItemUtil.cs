@@ -204,5 +204,41 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 vvv[1].ToNumber().Value,
                 vvv[2].ToNumber().Value);
         }
+
+        public static void RenderCurve(IRenderer renderer, LPen pen,
+            Vector2[] layoutPts)
+        {
+            int i;
+            int N = layoutPts.Length;
+            var lastPoint = Vector2.Zero;
+            var first = true;
+            for (i = 0; i < N; i++)
+            {
+                var next = layoutPts[i];
+                // TODO: check for NaN
+                if (first)
+                    first = false;
+                else
+                    renderer.DrawLine(pen, lastPoint, next);
+                lastPoint = next;
+            }
+        }
+
+        public static void RenderSurface(IRenderer renderer, LPen pen,
+            LBrush brush, Vector2[,] layoutPts, Vector2[] polygonPts)
+        {
+            int i, j;
+            for (i = layoutPts.GetLength(0) - 2; i >= 0; i--)
+            for (j = layoutPts.GetLength(1) - 2; j >= 0; j--)
+            {
+                polygonPts[0] = layoutPts[i, j];
+                polygonPts[1] = layoutPts[i + 1, j];
+                polygonPts[2] = layoutPts[i + 1, j + 1];
+                polygonPts[3] = layoutPts[i, j + 1];
+
+                renderer.FillPolygon(brush, polygonPts);
+                renderer.DrawPolygon(pen, polygonPts);
+            }
+        }
     }
 }

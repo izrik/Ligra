@@ -204,20 +204,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             LPen pen,
             Vector2[] layoutPts)
         {
-            int i;
-            int N = layoutPts.Length;
-            var lastPoint = Vector2.Zero;
-            var first = true;
-            for (i = 0; i < N; i++)
-            {
-                var next = layoutPts[i];
-                // TODO: check for NaN
-                if (first)
-                    first = false;
-                else
-                    g.DrawLine(pen, lastPoint, next);
-                lastPoint = next;
-            }
+            GraphItemUtil.RenderCurve(g, pen, layoutPts);
         }
 
         private static Vector2 ClientFromGraph(
