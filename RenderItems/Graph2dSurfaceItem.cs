@@ -159,24 +159,23 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             SolusEnvironment env,
             VarInterval interval1,
             VarInterval interval2,
-            ref Vector2[,] points)
+            ref Vector2[,] points,
+            int numSteps1=50,
+            int numSteps2=50)
         {
-            int xValues = 50;
-            int yValues = 50;
-
             if (points == null ||
-                points.GetLength(0) < xValues ||
-                points.GetLength(1) < yValues)
+                points.GetLength(0) < numSteps1 ||
+                points.GetLength(1) < numSteps2)
             {
-                points = new Vector2[xValues, yValues];
+                points = new Vector2[numSteps1, numSteps2];
             }
 
             var varMin1 = interval1.Interval.LowerBound;
             var varMax1 = interval1.Interval.UpperBound;
             var varMin2 = interval2.Interval.LowerBound;
             var varMax2 = interval2.Interval.UpperBound;
-            float delta1 = (varMax1 - varMin1) / (xValues - 1);
-            float delta2 = (varMax2 - varMin2) / (yValues - 1);
+            float delta1 = (varMax1 - varMin1) / (numSteps1 - 1);
+            float delta2 = (varMax2 - varMin2) / (numSteps2 - 1);
 
             int i;
             int j;
@@ -188,13 +187,13 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             env.SetVariable(interval1.Variable, literal1);
             env.SetVariable(interval2.Variable, literal2);
 
-            for (i = 0; i < xValues; i++)
+            for (i = 0; i < numSteps1; i++)
             {
                 x = varMin1 + i * delta1;
 
                 literal1.Value = x.ToNumber();
 
-                for (j = 0; j < yValues; j++)
+                for (j = 0; j < numSteps2; j++)
                 {
                     y = varMin2 + j * delta2;
                     literal2.Value = y.ToNumber();
