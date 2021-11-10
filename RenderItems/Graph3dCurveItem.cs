@@ -109,8 +109,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 Label1, Label2);
             foreach (var entry in _entries)
             {
-                EvaluateGraph(ref entry.PointsCache, entry.Expression,
-                    _env, entry.Interval);
+                EvaluateGraph(entry.Expression,
+                    _env, entry.Interval, ref entry.PointsCache);
                 LayoutGraph(
                     boundsInClient,
                     _xMin,_xMax,
@@ -123,11 +123,11 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         }
 
         public static void EvaluateGraph(
-            ref Vector3[] points,
             Expression expr,
             LigraEnvironment env,
             VarInterval interval,
-            int numSteps=400)
+            ref Vector3[] points,
+            int numSteps = 400)
         {
             var varMin = interval.Interval.LowerBound;
             var varMax = interval.Interval.UpperBound;

@@ -148,7 +148,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             UngatherVariableForValueCollection(vars, Interval2.Variable);
         }
 
-        public static void EvaluateGraph(Expression expr,
+        public static void EvaluateGraph(
+            Expression expr,
             SolusEnvironment env,
             VarInterval interval1,
             VarInterval interval2,
