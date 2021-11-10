@@ -67,10 +67,9 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 Rect.Size);
             GraphItemUtil.DrawBoundaries2d(g, boundsInClient,
                 _minX, _maxX, _minY, _maxY);
-            foreach (Graph2dCurveEntry entry in _entries)
+            foreach (var entry in _entries)
             {
-                var ve = entry as GraphVectorEntry;
-                if (ve != null)
+                if (entry is GraphVectorEntry ve)
                 {
                     EvaluateVectors(ve.X, ve.Y, _env,
                         ref entry.PointsCache);
