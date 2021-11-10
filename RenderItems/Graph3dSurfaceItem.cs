@@ -198,17 +198,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                             "Value is not concrete");
 
                     Vector3 pt;
-                    if (vv.IsScalar(null))
-                    {
-                        double value = vv.ToNumber().Value;
-                        if (double.IsNaN(value))
-                        {
-                            value = 0;
-                        }
-
-                        pt = new Vector3(x, y, (float)value);
-                    }
-                    else if (vv.IsVector(null))
+                    if (vv.IsVector(null))
                     {
                         if (vv.GetVectorLength(null) != 3)
                             // EvaluationException ?
