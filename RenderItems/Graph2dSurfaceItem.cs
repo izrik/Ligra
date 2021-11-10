@@ -266,7 +266,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             float yMin, float yMax)
         {
             return GraphItemUtil.Constrain2d(v,
-                xMax, xMin, yMax, yMin);
+                xMin, xMax, yMin, yMax);
         }
 
         private static Vector2 ClientFromGraph(
