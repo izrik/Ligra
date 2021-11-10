@@ -242,54 +242,15 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
             if (drawboundaries)
             {
-                Vector2 size;
-
-                g.DrawLine(LPen.Black, x1, y0, x2, y1); //top right
-                g.DrawLine(LPen.Black, x2, y1, x2, y3); //right side
-                g.DrawLine(LPen.Black, x2, y3, x1, y4); //bottom right
-                g.DrawLine(LPen.Black, x1, y4, x0, y3); //bottom left
-                g.DrawLine(LPen.Black, x0, y3, x0, y1); //left side
-                g.DrawLine(LPen.Black, x0, y1, x1, y0); //top left
-
-                g.DrawLine(LPen.Black, x1, y0, x1, y2); //z axis
-                g.DrawLine(LPen.Black, x0, y3, x1, y2); //x axis
-                g.DrawLine(LPen.Black, x2, y3, x1, y2); //y axis
-
-                //xmin
-                g.DrawLine(LPen.Black, x1, y4, x1 + 6, y4 + 3);
-                g.DrawString(xMinLabel, font, LBrush.Black,
-                    x1 + 6, y4 + 3);
-                //xmax
-                g.DrawLine(LPen.Black, x2, y3, x2 + 6, y3 + 3);
-                g.DrawString(xMaxLabel, font, LBrush.Black,
-                    x2 + 6, y3 + 3);
-
-                //ymin
-                g.DrawLine(LPen.Black, x1, y4, x1 - 6, y4 + 3);
-                size = g.MeasureString(yMinLabel, font);
-                g.DrawString(yMinLabel, font, LBrush.Black,
-                    x1 - 6 - size.X, y4 + 3);
-                //ymax
-                g.DrawLine(LPen.Black, x0, y3, x0 - 6, y3 + 3);
-                g.DrawString(yMaxLabel, font, LBrush.Black,
-                    x0 - 6, y3 + 3);
-
-                //zmin
-                g.DrawLine(LPen.Black, x2, y3, x2 + 6, y3 - 3);
-                g.DrawString(zMinLabel, font, LBrush.Black,
-                    x2 + 6, y3 - 3 - 14);
-                //zmax
-                g.DrawLine(LPen.Black, x2, y1, x2 + 6, y1 - 3);
-                g.DrawString(zMaxLabel, font, LBrush.Black,
-                    x2 + 6, y1 - 3);
-
-                g.DrawString(label1, font, LBrush.Black,
-                    (x1 + x2) / 2, (y3 + y4) / 2);
-                size = g.MeasureString(label2, font);
-                g.DrawString(label2, font, LBrush.Black,
-                    (x1 + x0) / 2 - size.X, (y3 + y4) / 2);
-
-                //g.DrawRectangle(LPen.Black, boundsInClient.Left, boundsInClient.Top, boundsInClient.Width, boundsInClient.Height);
+                GraphItemUtil.DrawBoundaries3d(g, boundsInClient,
+                    xMin, xMax,
+                    yMax, yMin,
+                    zMin, zMax,
+                    xMinLabel, xMaxLabel,
+                    yMaxLabel, yMinLabel,
+                    zMinLabel, zMaxLabel,
+                    font,
+                    label1, label2);
             }
 
             int i;
@@ -313,13 +274,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             float yMin, float yMax,
             float zMin, float zMax)
         {
-            if (v.X < xMin) v = new Vector3(xMin, v.Y, v.Z);
-            if (v.X > xMax) v = new Vector3(xMax, v.Y, v.Z);
-            if (v.Y < yMin) v = new Vector3(v.X, yMin, v.Z);
-            if (v.Y > yMax) v = new Vector3(v.X, yMax, v.Z);
-            if (v.Z < zMin) v = new Vector3(v.X, v.Y, zMin);
-            if (v.Z > zMax) v = new Vector3(v.X, v.Y, zMax);
-            return v;
+            return GraphItemUtil.Constrain3d(v,
+                xMin, xMax, yMin, yMax, zMin, zMax);
         }
 
         public static Vector2 ClientFromGraph(Vector3 v,
@@ -328,16 +284,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             float yMin, float yMax,
             float zMin, float zMax)
         {
-            float x1 = boundsInClient.Left + boundsInClient.Width / 2;
-            float y4 = boundsInClient.Bottom;
-            float sx = (v.X - xMin) / (xMax - xMin);
-            float sy = (v.Y - yMin) / (yMax - yMin);
-            float sz = (v.Z - zMin) / (zMax - zMin);
-
-            float xx = x1 + (sx - sy) * boundsInClient.Width * 0.5f;
-            float yy = y4 - (sx + sy) * boundsInClient.Height / 4 -
-                       sz * boundsInClient.Height / 2;
-            return new Vector2(xx, yy);
+            return GraphItemUtil.ClientFromGraph3d(v, boundsInClient,
+                xMin, xMax, yMin, yMax, zMin, zMax);
         }
 
         protected override Vector2 InternalCalcSize(IRenderer g, DrawSettings drawSettings)

@@ -165,6 +165,7 @@
     <Compile Include="RenderItems\Graph3dCurveItem.cs" />
     <Compile Include="RenderItems\Graph3dSurfaceItem.cs" />
     <Compile Include="RenderItems\Graph2dCurveItem.cs" />
+    <Compile Include="RenderItems\GraphItemUtil.cs" />
     <Compile Include="RenderItems\GraphMatrixItem.cs" />
     <Compile Include="RenderItems\GraphVectorItem.cs" />
     <Compile Include="RenderItems\HelpItem.cs" />

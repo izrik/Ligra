@@ -267,11 +267,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             float xMin, float xMax,
             float yMin, float yMax)
         {
-            if (v.X < xMin) v = new Vector2(xMin, v.Y);
-            if (v.X > xMax) v = new Vector2(xMax, v.Y);
-            if (v.Y < yMin) v = new Vector2(v.X, yMin);
-            if (v.Y > yMax) v = new Vector2(v.X, yMax);
-            return v;
+            return GraphItemUtil.Constrain2d(v,
+                xMax, xMin, yMax, yMin);
         }
 
         private static Vector2 ClientFromGraph(
@@ -297,7 +294,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             VarInterval interval1,
             VarInterval interval2,
             SolusEnvironment env,
-            bool drawboundaries,
+            bool drawBoundaries,
             LFont font,
             string label1,
             string label2,
@@ -310,25 +307,10 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             int xValues = 50;
             int yValues = 50;
 
-            if (drawboundaries)
+            if (drawBoundaries)
             {
-                g.DrawRectangle(LPen.Black,
-                    boundsInClient.X, boundsInClient.Y,
-                    boundsInClient.Width, boundsInClient.Height);
-
-                var zz = ClientFromGraph(Vector2.Zero,
-                    boundsInClient, xMin, deltaX, yMin, deltaY);
-                if (xMax > 0 && xMin < 0)
-                {
-                    g.DrawLine(LPen.DarkGray, zz.X, boundsInClient.Top,
-                        zz.X, boundsInClient.Bottom);
-                }
-
-                if (yMax > 0 && yMin < 0)
-                {
-                    g.DrawLine(LPen.DarkGray, boundsInClient.Left, zz.Y,
-                        boundsInClient.Right, zz.Y);
-                }
+                GraphItemUtil.DrawBoundaries2d(g, boundsInClient,
+                    xMin, xMax, yMin, yMax);
             }
 
             int i;

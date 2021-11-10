@@ -216,29 +216,16 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             RectangleF boundsInClient,
             LPen pen, LBrush brush,
             float xMin, float xMax, float yMin, float yMax,
-            bool drawboundaries,
+            bool drawBoundaries,
             Vector2[] points)
         {
             float deltaX = (xMax - xMin) / boundsInClient.Width;
             float deltaY = (yMax - yMin) / boundsInClient.Height;
 
-            if (drawboundaries)
+            if (drawBoundaries)
             {
-                g.DrawRectangle(LPen.Black, boundsInClient.X, boundsInClient.Y, boundsInClient.Width, boundsInClient.Height);
-
-                var zz = ClientFromGraph(Vector2.Zero,
-                    boundsInClient, xMin, deltaX, yMin, deltaY);
-                if (xMax > 0 && xMin < 0)
-                {
-                    g.DrawLine(LPen.DarkGray, zz.X, boundsInClient.Top,
-                        zz.X, boundsInClient.Bottom);
-                }
-
-                if (yMax > 0 && yMin < 0)
-                {
-                    g.DrawLine(LPen.DarkGray, boundsInClient.Left, zz.Y,
-                        boundsInClient.Right, zz.Y);
-                }
+                GraphItemUtil.DrawBoundaries2d(g, boundsInClient,
+                    xMin, xMax, yMin, yMax);
             }
 
             int i;
@@ -255,12 +242,14 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             }
         }
 
-        private static Vector2 ClientFromGraph(Vector2 pt,
-            RectangleF boundsInClient, float xMin, float deltaX,
+        private static Vector2 ClientFromGraph(
+            Vector2 pt,
+            RectangleF boundsInClient,
+            float xMin, float deltaX,
             float yMin, float deltaY)
         {
-            return new Vector2(boundsInClient.X + (pt.X - xMin) / deltaX,
-                boundsInClient.Bottom - (pt.Y - yMin) / deltaY);
+            return GraphItemUtil.ClientFromGraph2d(pt, boundsInClient,
+                xMin, deltaX, yMin, deltaY);
         }
 
         public static void EvaluateVectors(VectorExpression x,
