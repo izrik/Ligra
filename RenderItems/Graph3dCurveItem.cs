@@ -1,8 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
-using MetaphysicsIndustries.Solus.Exceptions;
+using MetaphysicsIndustries.Solus;
 using MetaphysicsIndustries.Solus.Expressions;
 using MetaphysicsIndustries.Solus.Values;
 
@@ -124,10 +123,10 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
         public static void EvaluateGraph(
             Expression expr,
-            LigraEnvironment env,
+            SolusEnvironment env,
             VarInterval interval,
             ref Vector3[] points,
-            int numSteps = 400)
+            int numSteps=400)
         {
             var varMin = interval.Interval.LowerBound;
             var varMax = interval.Interval.UpperBound;
