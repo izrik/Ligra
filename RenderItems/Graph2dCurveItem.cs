@@ -81,11 +81,17 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                         _env, entry.Interval, ref entry.PointsCache);
                 }
 
+                LayoutGraph(boundsInClient,
+                    _minX, _maxX,
+                    _minY, _maxY,
+                    entry.PointsCache,
+                    ref entry.LayoutPointsCache);
+
                 RenderPoints(g,
                     boundsInClient,
                     entry.Pen, entry.Pen.Brush,
                     _minX, _maxX, _minY, _maxY,
-                    first, entry.PointsCache);
+                    first, entry.LayoutPointsCache);
                 first = false;
             }
         }
@@ -189,16 +195,45 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             }
         }
 
+        public static void LayoutGraph(
+            RectangleF boundsInClient,
+            float xMin, float xMax,
+            float yMin, float yMax,
+            Vector2[] points,
+            ref Vector2[] layoutPts)
+        {
+            float deltaX = (xMax - xMin) / boundsInClient.Width;
+            float deltaY = (yMax - yMin) / boundsInClient.Height;
+
+            if (layoutPts == null ||
+                layoutPts.Length < points.Length)
+            {
+                layoutPts = new Vector2[points.Length];
+            }
+
+            int i, j;
+            for (i = 0; i < points.Length; i++)
+            {
+                var v = Constrain(points[i],
+                    xMin, xMax, yMin, yMax);
+                layoutPts[i] = ClientFromGraph(v, boundsInClient,
+                    xMin, deltaX, yMin, deltaY);
+            }
+        }
+
+        public static Vector2 Constrain(Vector2 v,
+            float xMin, float xMax, float yMin, float yMax)
+        {
+            return GraphItemUtil.Constrain2d(v, xMin, xMax, yMin, yMax);
+        }
+
         public static void RenderPoints(IRenderer g,
             RectangleF boundsInClient,
             LPen pen, LBrush brush,
             float xMin, float xMax, float yMin, float yMax,
             bool drawBoundaries,
-            Vector2[] points)
+            Vector2[] layoutPts)
         {
-            float deltaX = (xMax - xMin) / boundsInClient.Width;
-            float deltaY = (yMax - yMin) / boundsInClient.Height;
-
             if (drawBoundaries)
             {
                 GraphItemUtil.DrawBoundaries2d(g, boundsInClient,
@@ -206,15 +241,17 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             }
 
             int i;
-            int N = points.Length;
-            var lastPoint = ClientFromGraph(points[0], boundsInClient,
-                xMin, deltaX, yMin, deltaY);
-            for (i = 1; i < N; i++)
+            int N = layoutPts.Length;
+            var lastPoint = Vector2.Zero;
+            var first = true;
+            for (i = 0; i < N; i++)
             {
-                var next = ClientFromGraph(points[i], boundsInClient,
-                    xMin, deltaX, yMin, deltaY);
+                var next = layoutPts[i];
                 // TODO: check for NaN
-                g.DrawLine(pen, lastPoint, next);
+                if (first)
+                    first = false;
+                else
+                    g.DrawLine(pen, lastPoint, next);
                 lastPoint = next;
             }
         }
@@ -283,6 +320,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         public VarInterval Interval { get; }
         public LPen Pen { get; }
         public Vector2[] PointsCache;
+        public Vector2[] LayoutPointsCache;
     }
 
     public class GraphVectorEntry : Graph2dCurveEntry
