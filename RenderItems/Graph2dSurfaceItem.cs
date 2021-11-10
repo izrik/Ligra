@@ -249,21 +249,17 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             LBrush brush,
             Vector2[,] layoutPts)
         {
-            int i;
-            int j;
-
+            int i, j;
             for (i = layoutPts.GetLength(0) - 2; i >= 0; i--)
+            for (j = layoutPts.GetLength(1) - 2; j >= 0; j--)
             {
-                for (j = layoutPts.GetLength(1) - 2; j >= 0; j--)
-                {
-                    _polyCache[0] = layoutPts[i, j];
-                    _polyCache[1] = layoutPts[i + 1, j];
-                    _polyCache[2] = layoutPts[i + 1, j + 1];
-                    _polyCache[3] = layoutPts[i, j + 1];
+                _polyCache[0] = layoutPts[i, j];
+                _polyCache[1] = layoutPts[i + 1, j];
+                _polyCache[2] = layoutPts[i + 1, j + 1];
+                _polyCache[3] = layoutPts[i, j + 1];
 
-                    g.FillPolygon(brush, _polyCache);
-                    g.DrawPolygon(pen, _polyCache);
-                }
+                g.FillPolygon(brush, _polyCache);
+                g.DrawPolygon(pen, _polyCache);
             }
         }
     }

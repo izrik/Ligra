@@ -163,7 +163,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 layoutPts = new Vector2[points.Length];
             }
 
-            int i, j;
+            int i;
             for (i = 0; i < points.Length; i++)
             {
                 var v = Constrain(points[i],

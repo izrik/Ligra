@@ -251,39 +251,17 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             LBrush brush,
             Vector2[,] layoutPts)
         {
-            int xValues = 50;
-            int yValues = 50;
-
-            int i;
-            int j;
-
-            //Brush[,] brushes = new Brush[xValues, yValues];
-            //for (i = 0; i < xValues; i++)
-            //{
-            //    for (j = 0; j < yValues; j++)
-            //    {
-            //        z = values[i,j];
-            //        if (z < 0) { z += (int)(Math.Ceiling(Math.Abs(z))); }
-            //        Triple<double> hsl = new Triple<double>(z, 1, 0.5);
-            //        Triple<double> rgb = SolusEngine.ConvertHslToRgb(hsl);
-            //        Color c = Color.FromArgb(Math.Min((int)(rgb.First * 255), 255), Math.Min((int)(rgb.Second * 255), 255), Math.Min((int)(rgb.Third * 255), 255));
-            //        brushes[i, j] = new SolidBrush(c);
-            //    }
-            //}
-
-            for (i = xValues - 2; i >= 0; i--)
+            int i, j;
+            for (i = layoutPts.GetLength(0) - 2; i >= 0; i--)
+            for (j = layoutPts.GetLength(1) - 2; j >= 0; j--)
             {
-                for (j = yValues - 2; j >= 0; j--)
-                {
-                    _polyCache[0] = layoutPts[i, j];
-                    _polyCache[1] = layoutPts[i + 1, j];
-                    _polyCache[2] = layoutPts[i + 1, j + 1];
-                    _polyCache[3] = layoutPts[i, j + 1];
+                _polyCache[0] = layoutPts[i, j];
+                _polyCache[1] = layoutPts[i + 1, j];
+                _polyCache[2] = layoutPts[i + 1, j + 1];
+                _polyCache[3] = layoutPts[i, j + 1];
 
-                    g.FillPolygon(brush, _polyCache);
-                    //g.FillPolygon(brushes[i, j], _polyCache);
-                    g.DrawPolygon(pen, _polyCache);
-                }
+                g.FillPolygon(brush, _polyCache);
+                g.DrawPolygon(pen, _polyCache);
             }
         }
     }
