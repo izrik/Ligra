@@ -195,24 +195,19 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                             "Value is not concrete");
 
                     Vector2 pt;
-                    if (vv.IsVector(null))
-                    {
-                        if (vv.GetVectorLength(null) != 2)
-                            // EvaluationException ?
-                            throw new OperandException(
-                                "Value is not a 2-vector");
-                        var vvv = vv.ToVector();
-                        // TODO: check for NaN
-                        // TODO: ensure components of vvv are scalars
-                        pt = new Vector2(
-                            vvv[0].ToNumber().Value,
-                            vvv[1].ToNumber().Value);
-                    }
-                    else
-                    {
+                    if (!vv.IsVector(null))
                         throw new OperandException(
                             "Value is not a 2-vector");
-                    }
+                    if (vv.GetVectorLength(null) != 2)
+                        // EvaluationException ?
+                        throw new OperandException(
+                            "Value is not a 2-vector");
+                    var vvv = vv.ToVector();
+                    // TODO: check for NaN
+                    // TODO: ensure components of vvv are scalars
+                    pt = new Vector2(
+                        vvv[0].ToNumber().Value,
+                        vvv[1].ToNumber().Value);
 
                     points[i, j] = pt;
                 }
