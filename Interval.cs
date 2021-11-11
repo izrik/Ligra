@@ -32,6 +32,9 @@ namespace MetaphysicsIndustries.Ligra
         {
             return Integer(LowerBound.RoundInt(), UpperBound.RoundInt());
         }
+
+        public float CalcDelta(int numSteps) =>
+            (UpperBound - LowerBound) / (numSteps - 1);
     }
 }
 
