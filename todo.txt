@@ -48,12 +48,10 @@ parametrics and plots
         requires unified namespace and sets
 
 plot colors and other things
-    plot-command = 'plot' expr (',' expr)* ('for' interval ( ',' interval )*)?
-        ( 'with' plot-with ( ',' plot-with )* )?'';
-    plot-with = (
-        'temporal' varref |
-        'color' expr
-    );
+    color
+    temporal (time-based) vars
+    axes on or off
+    xmax, xmin, etc
 
 handle discontinuities in curves and surfaces
 
