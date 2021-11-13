@@ -27,7 +27,16 @@ command = (
 
 clear-command = 'clear' 'all'?;
 show-command = 'show' ( 'history' | 'vars' | 'variables' | 'constants' );
-plot-command = 'plot' expr (',' expr)* ('for' interval ( ',' interval )*)?;
+plot-command = 'plot' expr (',' expr)* ('for' interval ( ',' interval )*)?
+    ('with' (
+            plot-option |
+            '(' plot-option (',' plot-option )* ')' ));
+
+plot-option = (
+    'color' expr |
+    'axes' ('on'|'off')
+);
+
 paint-command = 'paint' expr 'for' interval ',' interval ;
 
 help-item = identifier;
