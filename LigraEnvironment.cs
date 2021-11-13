@@ -1,3 +1,4 @@
+using MetaphysicsIndustries.Ligra.Expressions;
 using MetaphysicsIndustries.Solus;
 
 namespace MetaphysicsIndustries.Ligra
@@ -8,6 +9,10 @@ namespace MetaphysicsIndustries.Ligra
             SolusEnvironment parent = null)
             : base(useDefaults, parent)
         {
+            if (useDefaults)
+            {
+                SetVariable("t", new TimeExpression());
+            }
         }
 
         protected override SolusEnvironment Instantiate(

@@ -14,7 +14,6 @@ namespace MetaphysicsIndustries.Ligra
         {
             InitializeComponent();
             Command.InitializeCommands(Commands);
-            Env.SetVariable("t", new TimeExpression());
         }
 
         void InitializeComponent()
