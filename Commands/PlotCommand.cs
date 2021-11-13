@@ -112,12 +112,19 @@ Plot one or more expressions that vary over two variable as a 3D graph:
             if (inputs.Count < 1 || inputs.Count > 2)
                 throw new InvalidOperationException("Bad number of inputs");
 
-            int outputs = 0;
-            if (exprs[0].Result.IsIsScalar(env))
-                outputs = 1;
-            else if (exprs[0].Result.IsIsVector(env))
+            var env2 = env.CreateChildEnvironment();
+            foreach (var name in inputs)
             {
-                var length = exprs[0].Result.GetVectorLength(env);
+                if (!env2.ContainsVariable(name))
+                    env2.SetVariable(name, new Literal(0));
+            }
+
+            int outputs = 0;
+            if (exprs[0].Result.IsIsScalar(env2))
+                outputs = 1;
+            else if (exprs[0].Result.IsIsVector(env2))
+            {
+                var length = exprs[0].Result.GetVectorLength(env2);
                 if (!length.HasValue)
                     throw new NotImplementedException(
                         "Vector doesn't have a length");
