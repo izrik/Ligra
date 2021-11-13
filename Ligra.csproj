@@ -38,18 +38,6 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MetaphysicsIndustries.Acuity, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>packages\MetaphysicsIndustries.Acuity.0.1.0\lib\net40\MetaphysicsIndustries.Acuity.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="MetaphysicsIndustries.Giza, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>packages\MetaphysicsIndustries.Giza.0.2.0\lib\net40\MetaphysicsIndustries.Giza.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="MetaphysicsIndustries.Solus, Version=0.7.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>packages\MetaphysicsIndustries.Solus.0.7.0\lib\net40\MetaphysicsIndustries.Solus.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -57,24 +45,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="GtkSharp">
       <HintPath>packages\GtkSharp.3.22.25.128\lib\netstandard2.0\GtkSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="GLibSharp">
-      <HintPath>packages\GLibSharp.3.22.25.128\lib\netstandard2.0\GLibSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="AtkSharp">
-      <HintPath>packages\AtkSharp.3.22.25.128\lib\netstandard2.0\AtkSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="GioSharp">
-      <HintPath>packages\GioSharp.3.22.25.128\lib\netstandard2.0\GioSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="CairoSharp">
-      <HintPath>packages\CairoSharp.3.22.25.128\lib\netstandard2.0\CairoSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="PangoSharp">
-      <HintPath>packages\PangoSharp.3.22.25.128\lib\netstandard2.0\PangoSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="GdkSharp">
-      <HintPath>packages\GdkSharp.3.22.25.128\lib\netstandard2.0\GdkSharp.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -189,7 +159,6 @@
     <None Include="make-ready.sh" />
     <None Include="todo.txt" />
     <Compile Include="StringHelper.cs" />
-    <None Include="packages.config" />
     <Compile Include="Vector2.cs" />
     <Compile Include="FloatHelper.cs" />
     <Compile Include="Vector2Helper.cs" />
@@ -227,5 +196,16 @@
     <Folder Include="Functions" />
     <Folder Include="Macros" />
   </ItemGroup>
-  <Import Project="packages\GtkSharp.3.22.25.128\build\GtkSharp.targets" Condition="Exists('packages\GtkSharp.3.22.25.128\build\GtkSharp.targets')" />
+  <ItemGroup>
+    <PackageReference Include="AtkSharp" Version="3.22.25.128" />
+    <PackageReference Include="CairoSharp" Version="3.22.25.128" />
+    <PackageReference Include="GdkSharp" Version="3.22.25.128" />
+    <PackageReference Include="GioSharp" Version="3.22.25.128" />
+    <PackageReference Include="GLibSharp" Version="3.22.25.128" />
+    <PackageReference Include="GtkSharp" Version="3.22.25.128" />
+    <PackageReference Include="MetaphysicsIndustries.Acuity" Version="0.1.0" />
+    <PackageReference Include="MetaphysicsIndustries.Giza" Version="0.2.0" />
+    <PackageReference Include="MetaphysicsIndustries.Solus" Version="0.7.0" />
+    <PackageReference Include="PangoSharp" Version="3.22.25.128" />
+  </ItemGroup>
 </Project>
