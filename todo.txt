@@ -13,21 +13,7 @@ parametrics and plots
             boundaries on the variable are no longer necessary. If they are not
             provided, the plot command can make some educated guesses about
             good defaults for the view boundaries.
-    "plot [f(s), g(s)] for 0<=s<=2*pi" should be a 2d parameteric plot: 2+1
-        -> [f(s), g(s)] for s
-    "plot [f(s), g(s), s] for 0<=s<=2*pi" should be a 3d plot: 3+1
-        -> [f(s), g(s), s] for s
-    "plot f(x, y) for (0<=x<=4*pi, 0<=y<=1)" 3d surface plot: 1+2
-        -> [f(x, y), x, y] for x,y
-    "plot [f(a,b), g(a,b)] for (a=..., b=...)" 2d plot: 2+2
-        -> [f(a,b), g(a,b)] for a,b
 
-    "plot sin(x+y) for (x=...,y=...)" - 2 inputs, 1 output
-        -> [sin(x+y), x, y] for x,y
-    "plot [sin(s), cos(s), s] for s in [0,4pi)" - i input, 3 outputs
-        -> [sin(s), cos(s), s] for s
-    "plot sin(x) for x=..." 2d plot, 1 input, 1 output
-        -> [sin(x), x] for x
     "plot f(x,t) for (x=...,t=...)" 2 inputs, 1 output -> 3d plot, not animated
         -> [f(x,t), x, t] for x,t
     "plot f(x,t) for x=..." 1+1 inputs, 1 output -> 2d plot, animated
@@ -39,8 +25,6 @@ parametrics and plots
         animated
     "plot f(t) for t=..." 1 input, 1 output -> 2d not animated
         -> [f(t), t] for t, where t is not special
-    "plot [sin(s+t), cost(s+t), s]" 1+1 inputs, 3 outputs -> 3d animated
-        -> [sin(s+t), cos(s+t), s] for s, where t is special
     "plot [a,b;c,d] for ..." -> doesn't make sense
     "plot [sin(s), cos(s/2)] for s=..." 1 input, 2 outputs -> 2d plot
         -> [sin(s), cos(s/2)] for s
@@ -53,6 +37,8 @@ parametrics and plots
         -> [1,2] for _
     "plot {[1,2,3], [4,5,6]}" plot of set of 3d vectors: 3d plot
     "plot a for a in A" depends on what A is
+    "plot x for x in [0,2)" continuous interval
+    "plot x for x in [0..100]" integer interval
 
     "plot sin" ??? just the function itself? infer inputs and outputs?
         requires unified namespace and related fixes to macros and parsing
@@ -60,34 +46,6 @@ parametrics and plots
 
     "plot f(x) for f in {sin, cos, tan}, 0 <= x < 2*pi" ? 🤔
         requires unified namespace and sets
-
-    a plot expression will have a set of outputs, a set of unspecified inputs
-            (unbound variables), and a set of specified inputs
-            ('for' intervals).
-
-    expression                             canonicalized                     s,u->o  i->o  +  plot type
-    -------------------------------------  --------------------------------  ------  ----  -  ------------------
-    plot f(x)                              [x, f(x)] for x                   0,1->1  1->1  2  2d curve
-    plot f(x) for x                        [x, f(x)] for x                   1,0->1  1->1  2  2d curve
-    plot f(x) for x,y                      [x, y, f(x)] for x,y              2,0->1  2->1  3  3d surface
-    plot [f(x), g(x)]                      [f(x), g(x)] for x                0,1->2  1->2  3  2d curve
-   *plot [f(x), g(x)]                      [x, f(x), g(x)] for x             0,1->2           3d curve
-    plot [f(x), g(x)] for x                [f(x), g(x)] for x                1,0->2  1->2  3  2d curve
-   *plot [f(x), g(x)] for x                [x, f(x), g(x)] for x             1,0->2           3d curve
-    plot [f(x), g(x)] for x,y              [f(x), g(x)] for x,y              2,0->2  2->2  4  2d surface mapped
-    plot [f(x), g(x), h(x)]                [f(x), g(x), h(x)] for x          0,1->3  1->3  4  3d curve
-    plot [f(x), g(x), h(x)] for x          [f(x), g(x), h(x)] for x          1,0->3  1->3  4  3d curve
-    plot [f(x), g(x), h(x)] for x,y        [f(x), g(x), h(x)] for x,y        2,0->3  2->3  5  3d surface mapped?
-    plot f(x,y)                            [x, y, f(x,y)] for x,y            0,2->1  2->1  3  3d surface
-    plot f(x,y) for x                      [x, y, f(x,y)] for x,y            1,1->1  2->1  3  3d surface
-    plot f(x,y) for x,y                    [x, y, f(x,y)] for x,y            2,0->1  2->1  3  3d surface
-    plot [f(x,y), g(x,y)]                  [f(x,y), g(x,y)] for x,y          0,2->2  2->2  4  2d surface mapped
-    plot [f(x,y), g(x,y)] for x            [f(x,y), g(x,y)] for x,y          1,1->2  2->2  4  2d surface mapped
-    plot [f(x,y), g(x,y)] for x,y          [f(x,y), g(x,y)] for x,y          2,0->2  2->2  4  2d surface mapped?
-    plot [f(x,y), g(x,y), h(x,y)]          [f(x,y), g(x,y), h(x,y)] for x,y  0,2->3  2->3  5  3d surface
-    plot [f(x,y), g(x,y), h(x,y)] for x    [f(x,y), g(x,y), h(x,y)] for x,y  1,1->3  2->3  5  3d surface mapped
-    plot [f(x,y), g(x,y), h(x,y)] for x,y  [f(x,y), g(x,y), h(x,y)] for x,y  2,0->3  2->3  5  3d surface mapped
-
 
 plot colors and other things
     plot-command = 'plot' expr (',' expr)* ('for' interval ( ',' interval )*)?
@@ -97,6 +55,14 @@ plot colors and other things
         'color' expr
     );
 
+handle discontinuities in curves and surfaces
+
+utility functions for things like polar plots and sphere plots
+
+add common constants, like e and pi. we can already print them (kinda sorta,
+        inexact equality comparison). not that irrational numbers cannot be
+        represented by IEEE floating point.
+
 replace gtk text measuring and rendering with our own system
     the marshalling and unmarshalling to and from unmanaged code is causing a metric ton of allocations
 
@@ -104,7 +70,6 @@ fix scrolling
 opentk
 help
 nugetize everything
-sphere plot
 vtol engine
 
 new terminal/console-style LigraControl
