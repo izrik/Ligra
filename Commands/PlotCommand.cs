@@ -102,10 +102,16 @@ Plot one or more expressions that vary over two variable as a 3D graph:
             if (intervals.Length > 2) throw new ArgumentOutOfRangeException("Too many intervals.");
 
             int outputs = 0;
-            if (exprs[0].Result.IsScalar(env))
+            if (exprs[0].Result.IsIsScalar(env))
                 outputs = 1;
-            else if (exprs[0].Result.IsVector(env))
-                outputs = exprs[0].Result.GetVectorLength(env);
+            else if (exprs[0].Result.IsIsVector(env))
+            {
+                var length = exprs[0].Result.GetVectorLength(env);
+                if (!length.HasValue)
+                    throw new NotImplementedException(
+                        "Vector doesn't have a length");
+                outputs = length.Value;
+            }
             else
                 throw new NotImplementedException();
 

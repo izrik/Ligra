@@ -64,7 +64,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 // EvaluationException ?
                 throw new OperandException(
                     "Value is not concrete");
-            if (!vv.IsVector(null))
+            if (!vv.IsIsVector(null))
                 throw new OperandException(
                     "Value is not a 2-vector");
             if (vv.GetVectorLength(null) != 2)
@@ -189,7 +189,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 // EvaluationException ?
                 throw new OperandException(
                     "Value is not concrete");
-            if (!vv.IsVector(null))
+            if (!vv.IsIsVector(null))
                 throw new OperandException(
                     "Value is not a 3-vector");
             if (vv.GetVectorLength(null) != 3)

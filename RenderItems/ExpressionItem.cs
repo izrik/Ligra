@@ -348,10 +348,10 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         private static void RenderValue(IMathObject value, IRenderer renderer,
             Vector2 pt, LPen pen, LBrush brush, LFont font)
         {
-            if (value.IsScalar(null) || value.IsString(null))
+            if (value.IsIsScalar(null) || value.IsIsString(null))
             {
                 var str = value.ToString();
-                if (value.IsScalar(null))
+                if (value.IsIsScalar(null))
                 {
                     var value2 = value.ToNumber().Value;
                     str = value2.ToString("G");
@@ -363,9 +363,9 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
                 renderer.DrawString(str, font, brush, pt);
             }
-            else if (value.IsVector(null))
+            else if (value.IsIsVector(null))
                 RenderVector(renderer, value.ToVector(), pt, pen, brush, font);
-            else if (value.IsMatrix(null))
+            else if (value.IsIsMatrix(null))
                 RenderMatrix(renderer, value.ToMatrix(), pt, pen, brush, font);
             else
                 throw new ArgumentException(
@@ -1071,11 +1071,11 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
         private static Vector2 CalcValueSize(IMathObject value, IRenderer renderer, LFont font)
         {
-            if (value.IsScalar(null) || value.IsString(null))
+            if (value.IsIsScalar(null) || value.IsIsString(null))
                 return renderer.MeasureString(value.ToString(), font);
-            if (value.IsVector(null))
+            if (value.IsIsVector(null))
                 return CalcVectorSize(value.ToVector(), renderer, font);
-            if (value.IsMatrix(null))
+            if (value.IsIsMatrix(null))
             {
                 var maxWidths = new List<float>();
                 var maxHeights = new List<float>();
