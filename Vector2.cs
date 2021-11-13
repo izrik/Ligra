@@ -79,7 +79,8 @@ namespace MetaphysicsIndustries.Ligra
         }
         public override int GetHashCode()
         {
-            return X.GetHashCode() ^ Y.GetHashCode();
+            var x = 101 * X.GetHashCode();
+            return x ^ Y.GetHashCode();
         }
 
         public float Length()

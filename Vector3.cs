@@ -83,8 +83,9 @@ namespace MetaphysicsIndustries.Ligra
 
         public override int GetHashCode()
         {
-            // TODO: this is bad; [1, 0, 0] and [0, 1, 0] have the same hash
-            return X.GetHashCode() ^ Y.GetHashCode() ^ Z.GetHashCode();
+            var x = 113 * X.GetHashCode();
+            x ^= 127 * Y.GetHashCode();
+            return x ^ Z.GetHashCode();
         }
 
         public float Length()
