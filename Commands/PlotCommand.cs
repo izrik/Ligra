@@ -88,12 +88,13 @@ Plot one or more expressions that vary over two variable as a 3D graph:
             LigraEnvironment env, ICommandData data, ILigraUI control)
         {
             var data2 = (PlotCommandData) data;
-            Execute(input, args, env, control, data2.Exprs, data2.Intervals);
+            Execute(input, args, env, control, data2.Exprs, data2.Intervals,
+                data2.Color, data2.Axes);
         }
 
         public static void Execute(string input, string[] args,
             LigraEnvironment env, ILigraUI control, Expression[] exprs,
-            VarInterval[] intervals)
+            VarInterval[] intervals, Expression color, bool? axes)
         {
             if (env == null) throw new ArgumentNullException("env");
             if (exprs == null || exprs.Length < 1) throw new ArgumentNullException("exprs");
@@ -227,7 +228,8 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                         new SolusParser(),
                         env, entries,
                         varMin0, varMax0,
-                        valueMin0, valueMax0);
+                        valueMin0, valueMax0,
+                        color, axes);
                     control.AddRenderItem(item);
                     return;
                 }
@@ -793,14 +795,19 @@ Plot one or more expressions that vary over two variable as a 3D graph:
 
     public class PlotCommandData : ICommandData
     {
-        public PlotCommandData(Expression[] exprs, VarInterval[] intervals)
+        public PlotCommandData(Expression[] exprs, VarInterval[] intervals,
+            Expression color=null, bool? axes=null)
         {
             Exprs = exprs;
             Intervals = intervals;
+            Color = color;
+            Axes = axes;
         }
 
         public Solus.Commands.Command Command => PlotCommand.Value;
         public Expression[] Exprs { get; }
         public VarInterval[] Intervals { get; }
+        public Expression Color { get; }
+        public bool? Axes { get; }
     }
 }

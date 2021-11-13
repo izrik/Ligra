@@ -178,7 +178,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             LPen pen,
             Vector2[] layoutPts)
         {
-            GraphItemUtil.RenderCurve(g, pen, layoutPts);
+            GraphItemUtil.RenderCurve(g, pen, layoutPts, null);
         }
 
         public static Vector3 Constrain(Vector3 v,

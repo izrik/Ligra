@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using MetaphysicsIndustries.Solus;
-using MetaphysicsIndustries.Solus.Exceptions;
 using MetaphysicsIndustries.Solus.Expressions;
-using MetaphysicsIndustries.Solus.Values;
 
 namespace MetaphysicsIndustries.Ligra.RenderItems
 {
@@ -14,7 +12,9 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         public Graph2dCurveItem(SolusParser parser, LigraEnvironment env,
             IEnumerable<Graph2dCurveEntry> entries,
             float? xMin=null, float? xMax=null,
-            float? yMin=null, float? yMax=null)
+            float? yMin=null, float? yMax=null,
+            Expression color=null,
+            bool? axes=null)
         {
             _timer = new System.Timers.Timer(250);
             _timer.Elapsed += _timer_Elapsed;
@@ -38,6 +38,9 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             _parser = parser;
 
             _env = env;
+
+            _color = color;
+            _axes = axes;
         }
 
         public override Vector2? DefaultSize => new Vector2(400, 400);
@@ -55,6 +58,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         public float _minY;
         public SolusParser _parser;
         private readonly LigraEnvironment _env;
+        private Expression _color;
+        private bool? _axes;
 
         public List<Graph2dCurveEntry> _entries = new List<Graph2dCurveEntry>();
         //private SizeF _size = new SizeF(400, 400);
@@ -69,6 +74,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 _minX, _maxX, _minY, _maxY);
             foreach (var entry in _entries)
             {
+                Vector3[] colorPts = null;
                 if (entry is GraphVectorEntry ve)
                 {
                     EvaluateVectors(ve.X, ve.Y, _env,
@@ -77,7 +83,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 else
                 {
                     EvaluateGraph(entry.Expression,
-                        _env, entry.Interval, ref entry.PointsCache);
+                        _env, entry.Interval, ref entry.PointsCache,
+                        _color, ref colorPts);
                 }
 
                 LayoutGraph(boundsInClient,
@@ -86,8 +93,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                     entry.PointsCache,
                     ref entry.LayoutPointsCache);
 
-                RenderPoints(g,
-                    entry.Pen, entry.LayoutPointsCache);
+                RenderPoints(g, entry.Pen, entry.LayoutPointsCache,
+                    colorPts);
             }
         }
 
@@ -144,6 +151,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             SolusEnvironment env,
             VarInterval interval,
             ref Vector2[] points,
+            Expression color,
+            ref Vector3[] colorPts,
             int numSteps=400)
         {
             var varMin = interval.Interval.LowerBound;
@@ -153,6 +162,11 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             var delta = (varMax - varMin) / (numSteps - 1);
             if (points == null || points.Length < numSteps)
                 points = new Vector2[numSteps];
+            if (color != null)
+            {
+                if (colorPts == null || colorPts.Length < numSteps)
+                    colorPts = new Vector3[numSteps];
+            }
 
             int i;
             var literal = new Literal(0);
@@ -164,6 +178,12 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
                 var vv = expr.Eval(env);
                 points[i] = GraphItemUtil.EvaluatePoint2d(vv);
+
+                if (color != null)
+                {
+                    vv = color.Eval(env);
+                    colorPts[i] = GraphItemUtil.EvaluatePoint3d(vv);
+                }
             }
         }
 
@@ -202,9 +222,10 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         public static void RenderPoints(
             IRenderer g,
             LPen pen,
-            Vector2[] layoutPts)
+            Vector2[] layoutPts,
+            Vector3[] colorPts)
         {
-            GraphItemUtil.RenderCurve(g, pen, layoutPts);
+            GraphItemUtil.RenderCurve(g, pen, layoutPts, colorPts);
         }
 
         private static Vector2 ClientFromGraph(

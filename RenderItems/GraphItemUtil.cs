@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Drawing;
 using Gtk;
 using MetaphysicsIndustries.Solus;
@@ -206,12 +207,15 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         }
 
         public static void RenderCurve(IRenderer renderer, LPen pen,
-            Vector2[] layoutPts)
+            Vector2[] layoutPts, Vector3[] colorPts)
         {
             int i;
             int N = layoutPts.Length;
             var lastPoint = Vector2.Zero;
             var first = true;
+            Dictionary<LColor, LPen> penCache = null;
+            if (colorPts != null)
+                penCache = new Dictionary<LColor, LPen>();
             for (i = 0; i < N; i++)
             {
                 var next = layoutPts[i];
@@ -219,7 +223,19 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 if (first)
                     first = false;
                 else
-                    renderer.DrawLine(pen, lastPoint, next);
+                {
+                    var pen2 = pen;
+                    if (colorPts != null)
+                    {
+                        var c = colorPts[i];
+                        var color = new LColor(c.X, c.Y, c.Z);
+                        if (!penCache.ContainsKey(color))
+                            penCache[color] = new LPen(color);
+                        pen2 = penCache[color];
+                    }
+
+                    renderer.DrawLine(pen2, lastPoint, next);
+                }
                 lastPoint = next;
             }
         }
