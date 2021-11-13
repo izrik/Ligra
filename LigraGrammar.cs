@@ -827,6 +827,10 @@ namespace MetaphysicsIndustries.Ligra
             def_plot_002D_command.StartNodes.Add(node_plot_002D_command_0_plot);
             def_plot_002D_command.EndNodes.Add(node_plot_002D_command_9_plot_002D_option);
             def_plot_002D_command.EndNodes.Add(node_plot_002D_command_14__0029_);
+            def_plot_002D_command.EndNodes.Add(node_plot_002D_command_7_interval);
+            def_plot_002D_command.EndNodes.Add(node_plot_002D_command_5_interval);
+            def_plot_002D_command.EndNodes.Add(node_plot_002D_command_3_expr);
+            def_plot_002D_command.EndNodes.Add(node_plot_002D_command_1_expr);
             node_plot_002D_command_0_plot.NextNodes.Add(node_plot_002D_command_1_expr);
             node_plot_002D_command_1_expr.NextNodes.Add(node_plot_002D_command_2__002C_);
             node_plot_002D_command_1_expr.NextNodes.Add(node_plot_002D_command_4_for);

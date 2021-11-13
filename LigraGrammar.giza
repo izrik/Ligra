@@ -30,7 +30,7 @@ show-command = 'show' ( 'history' | 'vars' | 'variables' | 'constants' );
 plot-command = 'plot' expr (',' expr)* ('for' interval ( ',' interval )*)?
     ('with' (
             plot-option |
-            '(' plot-option (',' plot-option )* ')' ));
+            '(' plot-option (',' plot-option )* ')' ))?;
 
 plot-option = (
     'color' expr |
