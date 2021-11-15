@@ -47,20 +47,44 @@ parametrics and plots
     "plot f(x) for f in {sin, cos, tan}, 0 <= x < 2*pi" ? 🤔
         requires unified namespace and sets
 
+    specify an input variable without any interval
+        "plot f(s) for s" instead of "plot f(s)" or "plot f(s) for 0<s<pi"
+
 plot colors and other things
     temporal (time-based) vars
     xmax, xmin, etc
-    pass some object to the color expression, so we can get the inputs and
-        the value of plotted expression at the current location and other
-        things
+    we want to be able to calculate a color based on the xyz coordinates of
+        the point, the uv coordinates of the input intervals, and maybe some
+        N or id value of the curve/surface in the given plot, if there are
+        more than one curve or surface
+    better auto-bounds
+        try to make it square, in typical cases
+        try to infer from the expression
+
+multiple surfaces in a single plot
+    algorithm other than naive painter's
+    z-buffering and rendering to an array
+        tensor arithmetic
+            v+v, v*s, m*m, m*v, m*s
 
 handle discontinuities in curves and surfaces
 
 utility functions for things like polar plots and sphere plots
 
+let syntax with commands
+    "let r := sqrt(x*x+y*y) plot sin(r)/r for x,y"
+
 add common constants, like e and pi. we can already print them (kinda sorta,
-        inexact equality comparison). not that irrational numbers cannot be
+        inexact equality comparison). note that irrational numbers cannot be
         represented by IEEE floating point.
+
+LPen and LBrush are classes for historical reasons; their corresponding SWF
+    types are classes. Once we cut out all SWF code, we won't be constrained
+    by that anymore. we just want to be able to specify color for now; we
+    don't need a whole object for that. Even things like patterns and dashes
+    and dots and fill patterns don't require an object with identity.
+Remove SWF code
+    make sure it runs on windows and linux
 
 replace gtk text measuring and rendering with our own system
     the marshalling and unmarshalling to and from unmanaged code is causing a metric ton of allocations
