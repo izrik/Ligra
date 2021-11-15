@@ -230,7 +230,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                         var c = colorPts[i];
                         var color = new LColor(c.X, c.Y, c.Z);
                         if (!penCache.ContainsKey(color))
-                            penCache[color] = new LPen(color);
+                            penCache[color] = LPen.FromColor(color);
                         pen2 = penCache[color];
                     }
 
