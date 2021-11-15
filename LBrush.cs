@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Collections.Generic;
+
 namespace MetaphysicsIndustries.Ligra
 {
     public class LBrush
@@ -10,8 +11,15 @@ namespace MetaphysicsIndustries.Ligra
 
         public static LBrush FromColor(LColor color)
         {
-            return new LBrush(color);
+            if (!Cache.ContainsKey(color))
+                Cache[color] = new LBrush(color);
+            return Cache[color];
         }
+
+        private static readonly Dictionary<LColor, LBrush> Cache =
+            new Dictionary<LColor, LBrush>();
+
+        public static void ClearCache() => Cache.Clear();
 
         public readonly LColor Color;
 
