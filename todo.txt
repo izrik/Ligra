@@ -48,10 +48,11 @@ parametrics and plots
         requires unified namespace and sets
 
 plot colors and other things
-    color
     temporal (time-based) vars
-    axes on or off
     xmax, xmin, etc
+    pass some object to the color expression, so we can get the inputs and
+        the value of plotted expression at the current location and other
+        things
 
 handle discontinuities in curves and surfaces
 
