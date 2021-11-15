@@ -74,7 +74,6 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 _minX, _maxX, _minY, _maxY);
             foreach (var entry in _entries)
             {
-                Vector3[] colorPts = null;
                 if (entry is GraphVectorEntry ve)
                 {
                     EvaluateVectors(ve.X, ve.Y, _env,
@@ -84,7 +83,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 {
                     EvaluateGraph(entry.Expression,
                         _env, entry.Interval, ref entry.PointsCache,
-                        _color, ref colorPts);
+                        _color, ref entry.ColorPointsCache);
                 }
 
                 LayoutGraph(boundsInClient,
@@ -94,7 +93,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                     ref entry.LayoutPointsCache);
 
                 RenderPoints(g, entry.Pen, entry.LayoutPointsCache,
-                    colorPts);
+                    entry.ColorPointsCache);
             }
         }
 
@@ -293,6 +292,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         public LPen Pen { get; }
         public Vector2[] PointsCache;
         public Vector2[] LayoutPointsCache;
+        public Vector3[] ColorPointsCache;
     }
 
     public class GraphVectorEntry : Graph2dCurveEntry
