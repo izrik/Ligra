@@ -329,7 +329,8 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                         zMin0, zMax0,
                         interval,
                         "x",
-                        "y");
+                        "y",
+                        color, axes);
                     control.AddRenderItem(item);
                     return;
                 }

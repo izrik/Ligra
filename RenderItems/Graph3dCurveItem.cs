@@ -16,7 +16,9 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             float zMin, float zMax,
             VarInterval interval,
             string label1,
-            string label2)
+            string label2,
+            Expression color=null,
+            bool? axes=null)
         {
             
             _timer = new System.Timers.Timer(250);
@@ -44,6 +46,9 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
             Label1 = label1;
             Label2 = label2;
+
+            _color = color;
+            _axes = axes;
         }
 
         private readonly System.Timers.Timer _timer;
@@ -63,6 +68,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         public string Label1 { get; }
         public string Label2 { get; }
         public VarInterval Interval { get; }
+        private readonly Expression _color;
+        private bool? _axes;
 
         private readonly List<Graph3dCurveEntry> _entries =
             new List<Graph3dCurveEntry>();
@@ -108,8 +115,13 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 Label1, Label2);
             foreach (var entry in _entries)
             {
-                EvaluateGraph(entry.Expression,
-                    _env, entry.Interval, ref entry.PointsCache);
+                EvaluateGraph(
+                    entry.Expression,
+                    _env,
+                    entry.Interval,
+                    ref entry.PointsCache,
+                    _color,
+                    ref entry.ColorPointsCache);
                 LayoutGraph(
                     boundsInClient,
                     _xMin,_xMax,
@@ -117,7 +129,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                     _zMin,_zMax,
                     entry.PointsCache,
                     ref entry.LayoutPointsCache);
-                RenderPoints(g, entry.Pen, entry.LayoutPointsCache);
+                RenderPoints(g, entry.Pen, entry.LayoutPointsCache,
+                    entry.ColorPointsCache);
             }
         }
 
@@ -126,6 +139,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             SolusEnvironment env,
             VarInterval interval,
             ref Vector3[] points,
+            Expression color,
+            ref Vector3[] colorPts,
             int numSteps=400)
         {
             var varMin = interval.Interval.LowerBound;
@@ -135,6 +150,11 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             var delta = (varMax - varMin) / (numSteps - 1);
             if (points == null || points.Length < numSteps)
                 points = new Vector3[numSteps];
+            if (color != null)
+            {
+                if (colorPts == null || colorPts.Length < numSteps)
+                    colorPts = new Vector3[numSteps];
+            }
 
             int i;
             var literal = new Literal(0);
@@ -146,6 +166,10 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
                 var vv = expr.Eval(env);
                 points[i] = GraphItemUtil.EvaluatePoint3d(vv);
+
+                if (color == null) continue;
+                vv = color.Eval(env);
+                colorPts[i] = GraphItemUtil.EvaluatePoint3d(vv);
             }
         }
 
@@ -176,9 +200,10 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         public static void RenderPoints(
             IRenderer g,
             LPen pen,
-            Vector2[] layoutPts)
+            Vector2[] layoutPts,
+            Vector3[] colorPts)
         {
-            GraphItemUtil.RenderCurve(g, pen, layoutPts, null);
+            GraphItemUtil.RenderCurve(g, pen, layoutPts, colorPts);
         }
 
         public static Vector3 Constrain(Vector3 v,
@@ -222,6 +247,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
         public Vector3[] PointsCache;
         public Vector2[] LayoutPointsCache;
+        public Vector3[] ColorPointsCache;
     }
 
 }

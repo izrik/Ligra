@@ -178,11 +178,9 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 var vv = expr.Eval(env);
                 points[i] = GraphItemUtil.EvaluatePoint2d(vv);
 
-                if (color != null)
-                {
-                    vv = color.Eval(env);
-                    colorPts[i] = GraphItemUtil.EvaluatePoint3d(vv);
-                }
+                if (color == null) continue;
+                vv = color.Eval(env);
+                colorPts[i] = GraphItemUtil.EvaluatePoint3d(vv);
             }
         }
 
