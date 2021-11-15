@@ -249,14 +249,16 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 polygonPts[3] = layoutPts[i, j + 1];
 
                 var pen2 = pen;
+                var brush2 = brush;
                 if (colorPts != null)
                 {
                     var c = colorPts[i, j];
                     var color = new LColor(c.X, c.Y, c.Z);
                     pen2 = LPen.FromColor(color);
+                    brush2 = LBrush.FromColor(color);
                 }
 
-                renderer.FillPolygon(brush, polygonPts);
+                renderer.FillPolygon(brush2, polygonPts);
                 renderer.DrawPolygon(pen2, polygonPts);
             }
         }
