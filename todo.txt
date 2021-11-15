@@ -1,6 +1,99 @@
 
 (in no particular order)
 
+test Vector2, Vector3, and similar
+
+parametrics and plots
+    Once we have parametric expressions in solus, we'll be able to treat the
+            "for x=..." as part of the expression instead of part of the plot
+            command. we should be able to start plotting a wider variety of
+            things, without having to explicitly state the the dimensions and
+            variables and such. So  "plot sin(x) for -5<x<5" can be replaced
+            with "plot sin(x)" and still plot the sine wave. The "for" and
+            boundaries on the variable are no longer necessary. If they are not
+            provided, the plot command can make some educated guesses about
+            good defaults for the view boundaries.
+
+    "plot f(x,t) for (x=...,t=...)" 2 inputs, 1 output -> 3d plot, not animated
+        -> [f(x,t), x, t] for x,t
+    "plot f(x,t) for x=..." 1+1 inputs, 1 output -> 2d plot, animated
+        -> [f(x,t), x] for x    // t is special
+    "plot f(t)" 0+1 inputs, 1 output -> 1d animated? 2d not animated?
+        -> [f(t), t] for t,
+            where t goes from (current time - N seconds) up to (current time) ?
+        automatic t
+        animated
+    "plot f(t) for t=..." 1 input, 1 output -> 2d not animated
+        -> [f(t), t] for t, where t is not special
+    "plot [a,b;c,d] for ..." -> doesn't make sense
+    "plot [sin(s), cos(s/2)] for s=..." 1 input, 2 outputs -> 2d plot
+        -> [sin(s), cos(s/2)] for s
+
+    "plot sin(x)" 2d plot?
+        -> [sin(_), _] for _
+
+    "plot {[1,2], [3,4], [5,6]}" plot of set of 2d vectors: 2d plot
+    "plot [1,2]" plot of single 2d vector?
+        -> [1,2] for _
+    "plot {[1,2,3], [4,5,6]}" plot of set of 3d vectors: 3d plot
+    "plot a for a in A" depends on what A is
+    "plot x for x in [0,2)" continuous interval
+    "plot x for x in [0..100]" integer interval
+
+    "plot sin" ??? just the function itself? infer inputs and outputs?
+        requires unified namespace and related fixes to macros and parsing
+        -> [sin(x), x] for x
+
+    "plot f(x) for f in {sin, cos, tan}, 0 <= x < 2*pi" ? 🤔
+        requires unified namespace and sets
+
+    specify an input variable without any interval
+        "plot f(s) for s" instead of "plot f(s)" or "plot f(s) for 0<s<pi"
+
+plot colors and other things
+    temporal (time-based) vars
+    xmax, xmin, etc
+    we want to be able to calculate a color based on the xyz coordinates of
+        the point, the uv coordinates of the input intervals, and maybe some
+        N or id value of the curve/surface in the given plot, if there are
+        more than one curve or surface
+    better auto-bounds
+        try to make it square, in typical cases
+        try to infer from the expression
+
+multiple surfaces in a single plot
+    algorithm other than naive painter's
+    z-buffering and rendering to an array
+        tensor arithmetic
+            v+v, v*s, m*m, m*v, m*s
+
+handle discontinuities in curves and surfaces
+
+utility functions for things like polar plots and sphere plots
+
+let syntax with commands
+    "let r := sqrt(x*x+y*y) plot sin(r)/r for x,y"
+
+add common constants, like e and pi. we can already print them (kinda sorta,
+        inexact equality comparison). note that irrational numbers cannot be
+        represented by IEEE floating point.
+
+LPen and LBrush are classes for historical reasons; their corresponding SWF
+    types are classes. Once we cut out all SWF code, we won't be constrained
+    by that anymore. we just want to be able to specify color for now; we
+    don't need a whole object for that. Even things like patterns and dashes
+    and dots and fill patterns don't require an object with identity.
+Remove SWF code
+    make sure it runs on windows and linux
+
+GraphMatrixItem doesn't graph or plot anything. It *paints*. Fold it into
+    PaintCommand and MathPaintItem
+
+Fold GraphVectorItem into Plot2dCurveItem
+
+Combine all PlotXYZItem classes into one
+    probably requires advanced evaluator
+
 replace gtk text measuring and rendering with our own system
     the marshalling and unmarshalling to and from unmanaged code is causing a metric ton of allocations
 
@@ -8,7 +101,6 @@ fix scrolling
 opentk
 help
 nugetize everything
-sphere plot
 vtol engine
 
 new terminal/console-style LigraControl

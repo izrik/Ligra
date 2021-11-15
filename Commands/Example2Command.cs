@@ -21,9 +21,15 @@ namespace MetaphysicsIndustries.Ligra.Commands
                 new Literal(0));
 
             var parser = new LigraParser();
-//            expr = parser.GetExpression("unitstep((x*x+y*y)^0.5+2*(sin(t)-1))*cos(5*y+2*t)", env);
-//            env.AddRenderItem(new InfoItem("unitstep((x*x+y*y)^0.5+2*(sin(t)-1))*cos(5*y+2*t)", env.Font, env));
-//            env.AddRenderItem(new Graph3dItem(expr, Pens.Black, Brushes.Green, -4, 4, -4, 4, -2, 6, "x", "y", env));
+            // expr = parser.GetExpression(
+            //     "unitstep((x*x+y*y)^0.5+2*(sin(t)-1))*cos(5*y+2*t)", env);
+            // env.AddRenderItem(
+            //     new InfoItem(
+            //         "unitstep((x*x+y*y)^0.5+2*(sin(t)-1))*cos(5*y+2*t)",
+            //         env.Font, env));
+            // env.AddRenderItem(
+            //     new Plot3dSurfaceItem(expr, Pens.Black, Brushes.Green,
+            //         -4, 4, -4, 4, -2, 6, "x", "y", env));
 
             var input2 = "factorial(n) := if (n, n * factorial(n-1), 1)";
             var input3 =

@@ -6,6 +6,8 @@ namespace MetaphysicsIndustries.Ligra
 {
     public class LigraGrammar : SolusGrammar
     {
+        public NDefinition def__0024_implicit_0020_literal_0020__0028_ = new NDefinition("$implicit literal (");
+        public NDefinition def__0024_implicit_0020_literal_0020__0029_ = new NDefinition("$implicit literal )");
         public NDefinition def__0024_implicit_0020_literal_0020__002C_ = new NDefinition("$implicit literal ,");
         public NDefinition def__0024_implicit_0020_literal_0020__002E__002E_ = new NDefinition("$implicit literal ..");
         public NDefinition def__0024_implicit_0020_literal_0020__003B_ = new NDefinition("$implicit literal ;");
@@ -15,15 +17,20 @@ namespace MetaphysicsIndustries.Ligra
         public NDefinition def__0024_implicit_0020_literal_0020__005B_ = new NDefinition("$implicit literal [");
         public NDefinition def__0024_implicit_0020_literal_0020__005D_ = new NDefinition("$implicit literal ]");
         public NDefinition def__0024_implicit_0020_literal_0020_all = new NDefinition("$implicit literal all");
+        public NDefinition def__0024_implicit_0020_literal_0020_axes = new NDefinition("$implicit literal axes");
         public NDefinition def__0024_implicit_0020_literal_0020_clear = new NDefinition("$implicit literal clear");
+        public NDefinition def__0024_implicit_0020_literal_0020_color = new NDefinition("$implicit literal color");
         public NDefinition def__0024_implicit_0020_literal_0020_constants = new NDefinition("$implicit literal constants");
         public NDefinition def__0024_implicit_0020_literal_0020_for = new NDefinition("$implicit literal for");
         public NDefinition def__0024_implicit_0020_literal_0020_history = new NDefinition("$implicit literal history");
+        public NDefinition def__0024_implicit_0020_literal_0020_off = new NDefinition("$implicit literal off");
+        public NDefinition def__0024_implicit_0020_literal_0020_on = new NDefinition("$implicit literal on");
         public NDefinition def__0024_implicit_0020_literal_0020_paint = new NDefinition("$implicit literal paint");
         public NDefinition def__0024_implicit_0020_literal_0020_plot = new NDefinition("$implicit literal plot");
         public NDefinition def__0024_implicit_0020_literal_0020_show = new NDefinition("$implicit literal show");
         public NDefinition def__0024_implicit_0020_literal_0020_variables = new NDefinition("$implicit literal variables");
         public NDefinition def__0024_implicit_0020_literal_0020_vars = new NDefinition("$implicit literal vars");
+        public NDefinition def__0024_implicit_0020_literal_0020_with = new NDefinition("$implicit literal with");
         public NDefinition def_clear_002D_command = new NDefinition("clear-command");
         public NDefinition def_command = new NDefinition("command");
         public NDefinition def_commands = new NDefinition("commands");
@@ -32,8 +39,11 @@ namespace MetaphysicsIndustries.Ligra
         public NDefinition def_interval = new NDefinition("interval");
         public NDefinition def_paint_002D_command = new NDefinition("paint-command");
         public NDefinition def_plot_002D_command = new NDefinition("plot-command");
+        public NDefinition def_plot_002D_option = new NDefinition("plot-option");
         public NDefinition def_show_002D_command = new NDefinition("show-command");
 
+        public CharNode node__0024_implicit_0020_literal_0020__0028__0_;
+        public CharNode node__0024_implicit_0020_literal_0020__0029__0_;
         public CharNode node__0024_implicit_0020_literal_0020__002C__0_;
         public CharNode node__0024_implicit_0020_literal_0020__002E__002E__0_;
         public CharNode node__0024_implicit_0020_literal_0020__002E__002E__1_;
@@ -47,11 +57,20 @@ namespace MetaphysicsIndustries.Ligra
         public CharNode node__0024_implicit_0020_literal_0020_all_0_;
         public CharNode node__0024_implicit_0020_literal_0020_all_1_;
         public CharNode node__0024_implicit_0020_literal_0020_all_2_;
+        public CharNode node__0024_implicit_0020_literal_0020_axes_0_;
+        public CharNode node__0024_implicit_0020_literal_0020_axes_1_;
+        public CharNode node__0024_implicit_0020_literal_0020_axes_2_;
+        public CharNode node__0024_implicit_0020_literal_0020_axes_3_;
         public CharNode node__0024_implicit_0020_literal_0020_clear_0_;
         public CharNode node__0024_implicit_0020_literal_0020_clear_1_;
         public CharNode node__0024_implicit_0020_literal_0020_clear_2_;
         public CharNode node__0024_implicit_0020_literal_0020_clear_3_;
         public CharNode node__0024_implicit_0020_literal_0020_clear_4_;
+        public CharNode node__0024_implicit_0020_literal_0020_color_0_;
+        public CharNode node__0024_implicit_0020_literal_0020_color_1_;
+        public CharNode node__0024_implicit_0020_literal_0020_color_2_;
+        public CharNode node__0024_implicit_0020_literal_0020_color_3_;
+        public CharNode node__0024_implicit_0020_literal_0020_color_4_;
         public CharNode node__0024_implicit_0020_literal_0020_constants_0_;
         public CharNode node__0024_implicit_0020_literal_0020_constants_1_;
         public CharNode node__0024_implicit_0020_literal_0020_constants_2_;
@@ -71,6 +90,11 @@ namespace MetaphysicsIndustries.Ligra
         public CharNode node__0024_implicit_0020_literal_0020_history_4_;
         public CharNode node__0024_implicit_0020_literal_0020_history_5_;
         public CharNode node__0024_implicit_0020_literal_0020_history_6_;
+        public CharNode node__0024_implicit_0020_literal_0020_off_0_;
+        public CharNode node__0024_implicit_0020_literal_0020_off_1_;
+        public CharNode node__0024_implicit_0020_literal_0020_off_2_;
+        public CharNode node__0024_implicit_0020_literal_0020_on_0_;
+        public CharNode node__0024_implicit_0020_literal_0020_on_1_;
         public CharNode node__0024_implicit_0020_literal_0020_paint_0_;
         public CharNode node__0024_implicit_0020_literal_0020_paint_1_;
         public CharNode node__0024_implicit_0020_literal_0020_paint_2_;
@@ -97,6 +121,10 @@ namespace MetaphysicsIndustries.Ligra
         public CharNode node__0024_implicit_0020_literal_0020_vars_1_;
         public CharNode node__0024_implicit_0020_literal_0020_vars_2_;
         public CharNode node__0024_implicit_0020_literal_0020_vars_3_;
+        public CharNode node__0024_implicit_0020_literal_0020_with_0_;
+        public CharNode node__0024_implicit_0020_literal_0020_with_1_;
+        public CharNode node__0024_implicit_0020_literal_0020_with_2_;
+        public CharNode node__0024_implicit_0020_literal_0020_with_3_;
         public DefRefNode node_clear_002D_command_0_clear;
         public DefRefNode node_clear_002D_command_1_all;
         public DefRefNode node_command_0_help_002D_command;
@@ -152,6 +180,18 @@ namespace MetaphysicsIndustries.Ligra
         public DefRefNode node_plot_002D_command_5_interval;
         public DefRefNode node_plot_002D_command_6__002C_;
         public DefRefNode node_plot_002D_command_7_interval;
+        public DefRefNode node_plot_002D_command_8_with;
+        public DefRefNode node_plot_002D_command_9_plot_002D_option;
+        public DefRefNode node_plot_002D_command_10__0028_;
+        public DefRefNode node_plot_002D_command_11_plot_002D_option;
+        public DefRefNode node_plot_002D_command_12__002C_;
+        public DefRefNode node_plot_002D_command_13_plot_002D_option;
+        public DefRefNode node_plot_002D_command_14__0029_;
+        public DefRefNode node_plot_002D_option_0_color;
+        public DefRefNode node_plot_002D_option_1_expr;
+        public DefRefNode node_plot_002D_option_2_axes;
+        public DefRefNode node_plot_002D_option_3_on;
+        public DefRefNode node_plot_002D_option_4_off;
         public DefRefNode node_show_002D_command_0_show;
         public DefRefNode node_show_002D_command_1_history;
         public DefRefNode node_show_002D_command_2_vars;
@@ -160,6 +200,8 @@ namespace MetaphysicsIndustries.Ligra
 
         public LigraGrammar()
         {
+            Definitions.Add(def__0024_implicit_0020_literal_0020__0028_);
+            Definitions.Add(def__0024_implicit_0020_literal_0020__0029_);
             Definitions.Add(def__0024_implicit_0020_literal_0020__002C_);
             Definitions.Add(def__0024_implicit_0020_literal_0020__002E__002E_);
             Definitions.Add(def__0024_implicit_0020_literal_0020__003B_);
@@ -169,15 +211,20 @@ namespace MetaphysicsIndustries.Ligra
             Definitions.Add(def__0024_implicit_0020_literal_0020__005B_);
             Definitions.Add(def__0024_implicit_0020_literal_0020__005D_);
             Definitions.Add(def__0024_implicit_0020_literal_0020_all);
+            Definitions.Add(def__0024_implicit_0020_literal_0020_axes);
             Definitions.Add(def__0024_implicit_0020_literal_0020_clear);
+            Definitions.Add(def__0024_implicit_0020_literal_0020_color);
             Definitions.Add(def__0024_implicit_0020_literal_0020_constants);
             Definitions.Add(def__0024_implicit_0020_literal_0020_for);
             Definitions.Add(def__0024_implicit_0020_literal_0020_history);
+            Definitions.Add(def__0024_implicit_0020_literal_0020_off);
+            Definitions.Add(def__0024_implicit_0020_literal_0020_on);
             Definitions.Add(def__0024_implicit_0020_literal_0020_paint);
             Definitions.Add(def__0024_implicit_0020_literal_0020_plot);
             Definitions.Add(def__0024_implicit_0020_literal_0020_show);
             Definitions.Add(def__0024_implicit_0020_literal_0020_variables);
             Definitions.Add(def__0024_implicit_0020_literal_0020_vars);
+            Definitions.Add(def__0024_implicit_0020_literal_0020_with);
             Definitions.Add(def_clear_002D_command);
             Definitions.Add(def_command);
             Definitions.Add(def_commands);
@@ -186,7 +233,24 @@ namespace MetaphysicsIndustries.Ligra
             Definitions.Add(def_interval);
             Definitions.Add(def_paint_002D_command);
             Definitions.Add(def_plot_002D_command);
+            Definitions.Add(def_plot_002D_option);
             Definitions.Add(def_show_002D_command);
+
+            def__0024_implicit_0020_literal_0020__0028_.Directives.Add(DefinitionDirective.Token);
+            def__0024_implicit_0020_literal_0020__0028_.Directives.Add(DefinitionDirective.Atomic);
+            def__0024_implicit_0020_literal_0020__0028_.Directives.Add(DefinitionDirective.MindWhitespace);
+            node__0024_implicit_0020_literal_0020__0028__0_ = new CharNode(CharClass.FromUndelimitedCharClassText("("), "");
+            def__0024_implicit_0020_literal_0020__0028_.Nodes.Add(node__0024_implicit_0020_literal_0020__0028__0_);
+            def__0024_implicit_0020_literal_0020__0028_.StartNodes.Add(node__0024_implicit_0020_literal_0020__0028__0_);
+            def__0024_implicit_0020_literal_0020__0028_.EndNodes.Add(node__0024_implicit_0020_literal_0020__0028__0_);
+
+            def__0024_implicit_0020_literal_0020__0029_.Directives.Add(DefinitionDirective.Token);
+            def__0024_implicit_0020_literal_0020__0029_.Directives.Add(DefinitionDirective.Atomic);
+            def__0024_implicit_0020_literal_0020__0029_.Directives.Add(DefinitionDirective.MindWhitespace);
+            node__0024_implicit_0020_literal_0020__0029__0_ = new CharNode(CharClass.FromUndelimitedCharClassText(")"), "");
+            def__0024_implicit_0020_literal_0020__0029_.Nodes.Add(node__0024_implicit_0020_literal_0020__0029__0_);
+            def__0024_implicit_0020_literal_0020__0029_.StartNodes.Add(node__0024_implicit_0020_literal_0020__0029__0_);
+            def__0024_implicit_0020_literal_0020__0029_.EndNodes.Add(node__0024_implicit_0020_literal_0020__0029__0_);
 
             def__0024_implicit_0020_literal_0020__002C_.Directives.Add(DefinitionDirective.Token);
             def__0024_implicit_0020_literal_0020__002C_.Directives.Add(DefinitionDirective.Atomic);
@@ -272,6 +336,23 @@ namespace MetaphysicsIndustries.Ligra
             node__0024_implicit_0020_literal_0020_all_0_.NextNodes.Add(node__0024_implicit_0020_literal_0020_all_1_);
             node__0024_implicit_0020_literal_0020_all_1_.NextNodes.Add(node__0024_implicit_0020_literal_0020_all_2_);
 
+            def__0024_implicit_0020_literal_0020_axes.Directives.Add(DefinitionDirective.Token);
+            def__0024_implicit_0020_literal_0020_axes.Directives.Add(DefinitionDirective.Atomic);
+            def__0024_implicit_0020_literal_0020_axes.Directives.Add(DefinitionDirective.MindWhitespace);
+            node__0024_implicit_0020_literal_0020_axes_0_ = new CharNode(CharClass.FromUndelimitedCharClassText("a"), "");
+            node__0024_implicit_0020_literal_0020_axes_1_ = new CharNode(CharClass.FromUndelimitedCharClassText("x"), "");
+            node__0024_implicit_0020_literal_0020_axes_2_ = new CharNode(CharClass.FromUndelimitedCharClassText("e"), "");
+            node__0024_implicit_0020_literal_0020_axes_3_ = new CharNode(CharClass.FromUndelimitedCharClassText("s"), "");
+            def__0024_implicit_0020_literal_0020_axes.Nodes.Add(node__0024_implicit_0020_literal_0020_axes_0_);
+            def__0024_implicit_0020_literal_0020_axes.Nodes.Add(node__0024_implicit_0020_literal_0020_axes_1_);
+            def__0024_implicit_0020_literal_0020_axes.Nodes.Add(node__0024_implicit_0020_literal_0020_axes_2_);
+            def__0024_implicit_0020_literal_0020_axes.Nodes.Add(node__0024_implicit_0020_literal_0020_axes_3_);
+            def__0024_implicit_0020_literal_0020_axes.StartNodes.Add(node__0024_implicit_0020_literal_0020_axes_0_);
+            def__0024_implicit_0020_literal_0020_axes.EndNodes.Add(node__0024_implicit_0020_literal_0020_axes_3_);
+            node__0024_implicit_0020_literal_0020_axes_0_.NextNodes.Add(node__0024_implicit_0020_literal_0020_axes_1_);
+            node__0024_implicit_0020_literal_0020_axes_1_.NextNodes.Add(node__0024_implicit_0020_literal_0020_axes_2_);
+            node__0024_implicit_0020_literal_0020_axes_2_.NextNodes.Add(node__0024_implicit_0020_literal_0020_axes_3_);
+
             def__0024_implicit_0020_literal_0020_clear.Directives.Add(DefinitionDirective.Token);
             def__0024_implicit_0020_literal_0020_clear.Directives.Add(DefinitionDirective.Atomic);
             def__0024_implicit_0020_literal_0020_clear.Directives.Add(DefinitionDirective.MindWhitespace);
@@ -291,6 +372,26 @@ namespace MetaphysicsIndustries.Ligra
             node__0024_implicit_0020_literal_0020_clear_1_.NextNodes.Add(node__0024_implicit_0020_literal_0020_clear_2_);
             node__0024_implicit_0020_literal_0020_clear_2_.NextNodes.Add(node__0024_implicit_0020_literal_0020_clear_3_);
             node__0024_implicit_0020_literal_0020_clear_3_.NextNodes.Add(node__0024_implicit_0020_literal_0020_clear_4_);
+
+            def__0024_implicit_0020_literal_0020_color.Directives.Add(DefinitionDirective.Token);
+            def__0024_implicit_0020_literal_0020_color.Directives.Add(DefinitionDirective.Atomic);
+            def__0024_implicit_0020_literal_0020_color.Directives.Add(DefinitionDirective.MindWhitespace);
+            node__0024_implicit_0020_literal_0020_color_0_ = new CharNode(CharClass.FromUndelimitedCharClassText("c"), "");
+            node__0024_implicit_0020_literal_0020_color_1_ = new CharNode(CharClass.FromUndelimitedCharClassText("o"), "");
+            node__0024_implicit_0020_literal_0020_color_2_ = new CharNode(CharClass.FromUndelimitedCharClassText("l"), "");
+            node__0024_implicit_0020_literal_0020_color_3_ = new CharNode(CharClass.FromUndelimitedCharClassText("o"), "");
+            node__0024_implicit_0020_literal_0020_color_4_ = new CharNode(CharClass.FromUndelimitedCharClassText("r"), "");
+            def__0024_implicit_0020_literal_0020_color.Nodes.Add(node__0024_implicit_0020_literal_0020_color_0_);
+            def__0024_implicit_0020_literal_0020_color.Nodes.Add(node__0024_implicit_0020_literal_0020_color_1_);
+            def__0024_implicit_0020_literal_0020_color.Nodes.Add(node__0024_implicit_0020_literal_0020_color_2_);
+            def__0024_implicit_0020_literal_0020_color.Nodes.Add(node__0024_implicit_0020_literal_0020_color_3_);
+            def__0024_implicit_0020_literal_0020_color.Nodes.Add(node__0024_implicit_0020_literal_0020_color_4_);
+            def__0024_implicit_0020_literal_0020_color.StartNodes.Add(node__0024_implicit_0020_literal_0020_color_0_);
+            def__0024_implicit_0020_literal_0020_color.EndNodes.Add(node__0024_implicit_0020_literal_0020_color_4_);
+            node__0024_implicit_0020_literal_0020_color_0_.NextNodes.Add(node__0024_implicit_0020_literal_0020_color_1_);
+            node__0024_implicit_0020_literal_0020_color_1_.NextNodes.Add(node__0024_implicit_0020_literal_0020_color_2_);
+            node__0024_implicit_0020_literal_0020_color_2_.NextNodes.Add(node__0024_implicit_0020_literal_0020_color_3_);
+            node__0024_implicit_0020_literal_0020_color_3_.NextNodes.Add(node__0024_implicit_0020_literal_0020_color_4_);
 
             def__0024_implicit_0020_literal_0020_constants.Directives.Add(DefinitionDirective.Token);
             def__0024_implicit_0020_literal_0020_constants.Directives.Add(DefinitionDirective.Atomic);
@@ -363,6 +464,31 @@ namespace MetaphysicsIndustries.Ligra
             node__0024_implicit_0020_literal_0020_history_3_.NextNodes.Add(node__0024_implicit_0020_literal_0020_history_4_);
             node__0024_implicit_0020_literal_0020_history_4_.NextNodes.Add(node__0024_implicit_0020_literal_0020_history_5_);
             node__0024_implicit_0020_literal_0020_history_5_.NextNodes.Add(node__0024_implicit_0020_literal_0020_history_6_);
+
+            def__0024_implicit_0020_literal_0020_off.Directives.Add(DefinitionDirective.Token);
+            def__0024_implicit_0020_literal_0020_off.Directives.Add(DefinitionDirective.Atomic);
+            def__0024_implicit_0020_literal_0020_off.Directives.Add(DefinitionDirective.MindWhitespace);
+            node__0024_implicit_0020_literal_0020_off_0_ = new CharNode(CharClass.FromUndelimitedCharClassText("o"), "");
+            node__0024_implicit_0020_literal_0020_off_1_ = new CharNode(CharClass.FromUndelimitedCharClassText("f"), "");
+            node__0024_implicit_0020_literal_0020_off_2_ = new CharNode(CharClass.FromUndelimitedCharClassText("f"), "");
+            def__0024_implicit_0020_literal_0020_off.Nodes.Add(node__0024_implicit_0020_literal_0020_off_0_);
+            def__0024_implicit_0020_literal_0020_off.Nodes.Add(node__0024_implicit_0020_literal_0020_off_1_);
+            def__0024_implicit_0020_literal_0020_off.Nodes.Add(node__0024_implicit_0020_literal_0020_off_2_);
+            def__0024_implicit_0020_literal_0020_off.StartNodes.Add(node__0024_implicit_0020_literal_0020_off_0_);
+            def__0024_implicit_0020_literal_0020_off.EndNodes.Add(node__0024_implicit_0020_literal_0020_off_2_);
+            node__0024_implicit_0020_literal_0020_off_0_.NextNodes.Add(node__0024_implicit_0020_literal_0020_off_1_);
+            node__0024_implicit_0020_literal_0020_off_1_.NextNodes.Add(node__0024_implicit_0020_literal_0020_off_2_);
+
+            def__0024_implicit_0020_literal_0020_on.Directives.Add(DefinitionDirective.Token);
+            def__0024_implicit_0020_literal_0020_on.Directives.Add(DefinitionDirective.Atomic);
+            def__0024_implicit_0020_literal_0020_on.Directives.Add(DefinitionDirective.MindWhitespace);
+            node__0024_implicit_0020_literal_0020_on_0_ = new CharNode(CharClass.FromUndelimitedCharClassText("o"), "");
+            node__0024_implicit_0020_literal_0020_on_1_ = new CharNode(CharClass.FromUndelimitedCharClassText("n"), "");
+            def__0024_implicit_0020_literal_0020_on.Nodes.Add(node__0024_implicit_0020_literal_0020_on_0_);
+            def__0024_implicit_0020_literal_0020_on.Nodes.Add(node__0024_implicit_0020_literal_0020_on_1_);
+            def__0024_implicit_0020_literal_0020_on.StartNodes.Add(node__0024_implicit_0020_literal_0020_on_0_);
+            def__0024_implicit_0020_literal_0020_on.EndNodes.Add(node__0024_implicit_0020_literal_0020_on_1_);
+            node__0024_implicit_0020_literal_0020_on_0_.NextNodes.Add(node__0024_implicit_0020_literal_0020_on_1_);
 
             def__0024_implicit_0020_literal_0020_paint.Directives.Add(DefinitionDirective.Token);
             def__0024_implicit_0020_literal_0020_paint.Directives.Add(DefinitionDirective.Atomic);
@@ -466,6 +592,23 @@ namespace MetaphysicsIndustries.Ligra
             node__0024_implicit_0020_literal_0020_vars_0_.NextNodes.Add(node__0024_implicit_0020_literal_0020_vars_1_);
             node__0024_implicit_0020_literal_0020_vars_1_.NextNodes.Add(node__0024_implicit_0020_literal_0020_vars_2_);
             node__0024_implicit_0020_literal_0020_vars_2_.NextNodes.Add(node__0024_implicit_0020_literal_0020_vars_3_);
+
+            def__0024_implicit_0020_literal_0020_with.Directives.Add(DefinitionDirective.Token);
+            def__0024_implicit_0020_literal_0020_with.Directives.Add(DefinitionDirective.Atomic);
+            def__0024_implicit_0020_literal_0020_with.Directives.Add(DefinitionDirective.MindWhitespace);
+            node__0024_implicit_0020_literal_0020_with_0_ = new CharNode(CharClass.FromUndelimitedCharClassText("w"), "");
+            node__0024_implicit_0020_literal_0020_with_1_ = new CharNode(CharClass.FromUndelimitedCharClassText("i"), "");
+            node__0024_implicit_0020_literal_0020_with_2_ = new CharNode(CharClass.FromUndelimitedCharClassText("t"), "");
+            node__0024_implicit_0020_literal_0020_with_3_ = new CharNode(CharClass.FromUndelimitedCharClassText("h"), "");
+            def__0024_implicit_0020_literal_0020_with.Nodes.Add(node__0024_implicit_0020_literal_0020_with_0_);
+            def__0024_implicit_0020_literal_0020_with.Nodes.Add(node__0024_implicit_0020_literal_0020_with_1_);
+            def__0024_implicit_0020_literal_0020_with.Nodes.Add(node__0024_implicit_0020_literal_0020_with_2_);
+            def__0024_implicit_0020_literal_0020_with.Nodes.Add(node__0024_implicit_0020_literal_0020_with_3_);
+            def__0024_implicit_0020_literal_0020_with.StartNodes.Add(node__0024_implicit_0020_literal_0020_with_0_);
+            def__0024_implicit_0020_literal_0020_with.EndNodes.Add(node__0024_implicit_0020_literal_0020_with_3_);
+            node__0024_implicit_0020_literal_0020_with_0_.NextNodes.Add(node__0024_implicit_0020_literal_0020_with_1_);
+            node__0024_implicit_0020_literal_0020_with_1_.NextNodes.Add(node__0024_implicit_0020_literal_0020_with_2_);
+            node__0024_implicit_0020_literal_0020_with_2_.NextNodes.Add(node__0024_implicit_0020_literal_0020_with_3_);
 
             node_clear_002D_command_0_clear = new DefRefNode(def__0024_implicit_0020_literal_0020_clear, "clear");
             node_clear_002D_command_1_all = new DefRefNode(def__0024_implicit_0020_literal_0020_all, "all");
@@ -659,6 +802,13 @@ namespace MetaphysicsIndustries.Ligra
             node_plot_002D_command_5_interval = new DefRefNode(def_interval, "interval");
             node_plot_002D_command_6__002C_ = new DefRefNode(def__0024_implicit_0020_literal_0020__002C_, ",");
             node_plot_002D_command_7_interval = new DefRefNode(def_interval, "interval");
+            node_plot_002D_command_8_with = new DefRefNode(def__0024_implicit_0020_literal_0020_with, "with");
+            node_plot_002D_command_9_plot_002D_option = new DefRefNode(def_plot_002D_option, "plot-option");
+            node_plot_002D_command_10__0028_ = new DefRefNode(def__0024_implicit_0020_literal_0020__0028_, "(");
+            node_plot_002D_command_11_plot_002D_option = new DefRefNode(def_plot_002D_option, "plot-option");
+            node_plot_002D_command_12__002C_ = new DefRefNode(def__0024_implicit_0020_literal_0020__002C_, ",");
+            node_plot_002D_command_13_plot_002D_option = new DefRefNode(def_plot_002D_option, "plot-option");
+            node_plot_002D_command_14__0029_ = new DefRefNode(def__0024_implicit_0020_literal_0020__0029_, ")");
             def_plot_002D_command.Nodes.Add(node_plot_002D_command_0_plot);
             def_plot_002D_command.Nodes.Add(node_plot_002D_command_1_expr);
             def_plot_002D_command.Nodes.Add(node_plot_002D_command_2__002C_);
@@ -667,19 +817,61 @@ namespace MetaphysicsIndustries.Ligra
             def_plot_002D_command.Nodes.Add(node_plot_002D_command_5_interval);
             def_plot_002D_command.Nodes.Add(node_plot_002D_command_6__002C_);
             def_plot_002D_command.Nodes.Add(node_plot_002D_command_7_interval);
+            def_plot_002D_command.Nodes.Add(node_plot_002D_command_8_with);
+            def_plot_002D_command.Nodes.Add(node_plot_002D_command_9_plot_002D_option);
+            def_plot_002D_command.Nodes.Add(node_plot_002D_command_10__0028_);
+            def_plot_002D_command.Nodes.Add(node_plot_002D_command_11_plot_002D_option);
+            def_plot_002D_command.Nodes.Add(node_plot_002D_command_12__002C_);
+            def_plot_002D_command.Nodes.Add(node_plot_002D_command_13_plot_002D_option);
+            def_plot_002D_command.Nodes.Add(node_plot_002D_command_14__0029_);
             def_plot_002D_command.StartNodes.Add(node_plot_002D_command_0_plot);
+            def_plot_002D_command.EndNodes.Add(node_plot_002D_command_9_plot_002D_option);
+            def_plot_002D_command.EndNodes.Add(node_plot_002D_command_14__0029_);
             def_plot_002D_command.EndNodes.Add(node_plot_002D_command_7_interval);
             def_plot_002D_command.EndNodes.Add(node_plot_002D_command_5_interval);
+            def_plot_002D_command.EndNodes.Add(node_plot_002D_command_3_expr);
+            def_plot_002D_command.EndNodes.Add(node_plot_002D_command_1_expr);
             node_plot_002D_command_0_plot.NextNodes.Add(node_plot_002D_command_1_expr);
             node_plot_002D_command_1_expr.NextNodes.Add(node_plot_002D_command_2__002C_);
             node_plot_002D_command_1_expr.NextNodes.Add(node_plot_002D_command_4_for);
+            node_plot_002D_command_1_expr.NextNodes.Add(node_plot_002D_command_8_with);
             node_plot_002D_command_2__002C_.NextNodes.Add(node_plot_002D_command_3_expr);
             node_plot_002D_command_3_expr.NextNodes.Add(node_plot_002D_command_2__002C_);
             node_plot_002D_command_3_expr.NextNodes.Add(node_plot_002D_command_4_for);
+            node_plot_002D_command_3_expr.NextNodes.Add(node_plot_002D_command_8_with);
             node_plot_002D_command_4_for.NextNodes.Add(node_plot_002D_command_5_interval);
             node_plot_002D_command_5_interval.NextNodes.Add(node_plot_002D_command_6__002C_);
+            node_plot_002D_command_5_interval.NextNodes.Add(node_plot_002D_command_8_with);
             node_plot_002D_command_6__002C_.NextNodes.Add(node_plot_002D_command_7_interval);
             node_plot_002D_command_7_interval.NextNodes.Add(node_plot_002D_command_6__002C_);
+            node_plot_002D_command_7_interval.NextNodes.Add(node_plot_002D_command_8_with);
+            node_plot_002D_command_8_with.NextNodes.Add(node_plot_002D_command_9_plot_002D_option);
+            node_plot_002D_command_8_with.NextNodes.Add(node_plot_002D_command_10__0028_);
+            node_plot_002D_command_10__0028_.NextNodes.Add(node_plot_002D_command_11_plot_002D_option);
+            node_plot_002D_command_11_plot_002D_option.NextNodes.Add(node_plot_002D_command_12__002C_);
+            node_plot_002D_command_11_plot_002D_option.NextNodes.Add(node_plot_002D_command_14__0029_);
+            node_plot_002D_command_12__002C_.NextNodes.Add(node_plot_002D_command_13_plot_002D_option);
+            node_plot_002D_command_13_plot_002D_option.NextNodes.Add(node_plot_002D_command_12__002C_);
+            node_plot_002D_command_13_plot_002D_option.NextNodes.Add(node_plot_002D_command_14__0029_);
+
+            node_plot_002D_option_0_color = new DefRefNode(def__0024_implicit_0020_literal_0020_color, "color");
+            node_plot_002D_option_1_expr = new DefRefNode(def_expr, "expr");
+            node_plot_002D_option_2_axes = new DefRefNode(def__0024_implicit_0020_literal_0020_axes, "axes");
+            node_plot_002D_option_3_on = new DefRefNode(def__0024_implicit_0020_literal_0020_on, "on");
+            node_plot_002D_option_4_off = new DefRefNode(def__0024_implicit_0020_literal_0020_off, "off");
+            def_plot_002D_option.Nodes.Add(node_plot_002D_option_0_color);
+            def_plot_002D_option.Nodes.Add(node_plot_002D_option_1_expr);
+            def_plot_002D_option.Nodes.Add(node_plot_002D_option_2_axes);
+            def_plot_002D_option.Nodes.Add(node_plot_002D_option_3_on);
+            def_plot_002D_option.Nodes.Add(node_plot_002D_option_4_off);
+            def_plot_002D_option.StartNodes.Add(node_plot_002D_option_0_color);
+            def_plot_002D_option.StartNodes.Add(node_plot_002D_option_2_axes);
+            def_plot_002D_option.EndNodes.Add(node_plot_002D_option_1_expr);
+            def_plot_002D_option.EndNodes.Add(node_plot_002D_option_3_on);
+            def_plot_002D_option.EndNodes.Add(node_plot_002D_option_4_off);
+            node_plot_002D_option_0_color.NextNodes.Add(node_plot_002D_option_1_expr);
+            node_plot_002D_option_2_axes.NextNodes.Add(node_plot_002D_option_3_on);
+            node_plot_002D_option_2_axes.NextNodes.Add(node_plot_002D_option_4_off);
 
             node_show_002D_command_0_show = new DefRefNode(def__0024_implicit_0020_literal_0020_show, "show");
             node_show_002D_command_1_history = new DefRefNode(def__0024_implicit_0020_literal_0020_history, "history");

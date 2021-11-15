@@ -6,8 +6,8 @@ using System.Linq;
 using MetaphysicsIndustries.Ligra.Commands;
 using MetaphysicsIndustries.Solus.Commands;
 using MetaphysicsIndustries.Solus.Functions;
-using MetaphysicsIndustries.Solus.Values;
 using DeleteCommand = MetaphysicsIndustries.Ligra.Commands.DeleteCommand;
+using Expression = MetaphysicsIndustries.Solus.Expressions.Expression;
 using FuncAssignCommandData = MetaphysicsIndustries.Ligra.Commands.FuncAssignCommandData;
 using HelpCommandData = MetaphysicsIndustries.Ligra.Commands.HelpCommandData;
 using VarAssignCommandData = MetaphysicsIndustries.Ligra.Commands.VarAssignCommandData;
@@ -208,6 +208,7 @@ namespace MetaphysicsIndustries.Ligra
         {
             var exprs = new List<Solus.Expressions.Expression>();
             var intervals = new List<VarInterval>();
+            var plotOptions = new List<PlotOption>();
 
             foreach (var sub in span.Subspans)
             {
@@ -219,9 +220,53 @@ namespace MetaphysicsIndustries.Ligra
                 {
                     intervals.Add(GetVarIntervalFromInterval(sub, env));
                 }
+                else if (sub.DefRef == _grammar.def_plot_002D_option)
+                {
+                    plotOptions.Add(GetPlotOptionFromPlotOption(sub, env));
+                }
             }
 
-            return new PlotCommandData(exprs.ToArray(), intervals.ToArray());
+            Expression color = null;
+            bool? axes = null;
+            foreach (var plotOption in plotOptions)
+            {
+                if (plotOption.Color != null) color = plotOption.Color;
+                if (plotOption.Axes.HasValue) axes = plotOption.Axes;
+            }
+
+            return new PlotCommandData(exprs.ToArray(), intervals.ToArray(),
+                color, axes);
+        }
+
+        public class PlotOption
+        {
+            public Expression Color;
+            public bool? Axes;
+        }
+
+        public PlotOption GetPlotOptionFromPlotOption(Span span,
+            SolusEnvironment env)
+        {
+            if (span.Subspans[0].Node == _grammar.node_plot_002D_option_0_color)
+            {
+                var color = GetExpressionFromExpr(span.Subspans[1], env);
+                return new PlotOption { Color = color };
+            }
+
+            if (span.Subspans[0].Node == _grammar.node_plot_002D_option_2_axes)
+            {
+                if (span.Subspans[1].Node ==
+                    _grammar.node_plot_002D_option_3_on)
+                    return new PlotOption { Axes = true };
+                if (span.Subspans[1].Node ==
+                    _grammar.node_plot_002D_option_4_off)
+                    return new PlotOption { Axes = false };
+                throw new InvalidOperationException(
+                    $"Unknown axes setting: {span.Subspans[1].Node}");
+            }
+
+            throw new InvalidOperationException(
+                $"Unknown plot option: {span.Subspans[0].Node}");
         }
 
         public VarInterval GetVarIntervalFromInterval(Span span,

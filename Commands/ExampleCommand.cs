@@ -141,29 +141,51 @@ namespace MetaphysicsIndustries.Ligra.Commands
 
             control.AddRenderItem(
                 new InfoItem("A plot of the expression: ", f));
-            control.AddRenderItem(new GraphItem(expr, p, "x", parser, env));
+            var interval = new VarInterval
+            {
+                Variable = "x",
+                Interval = new Interval
+                {
+                    LowerBound = -2,
+                    OpenLowerBound = false,
+                    UpperBound = 2,
+                    OpenUpperBound = false
+                }
+            };
+            control.AddRenderItem(
+                new Plot2dCurveItem(
+                    parser, env, new Graph2dCurveEntry[]
+                    {
+                        new Graph2dCurveEntry(expr, p, interval)
+                    }));
 
             control.AddRenderItem(
                 new InfoItem(
                     "Multiple plots on the same axes, \"x^3\", " +
                     "\"3 * x^2\", \"6 * x\":",
                     f));
-            control.AddRenderItem(new GraphItem(
+            control.AddRenderItem(new Plot2dCurveItem(
                 parser, env,
-                new GraphEntry(parser.GetExpression("x^3", env),
-                    LPen.Blue, "x"),
-                new GraphEntry(parser.GetExpression("3*x^2", env),
-                    LPen.Green, "x"),
-                new GraphEntry(parser.GetExpression("6*x", env),
-                    LPen.Red, "x")));
+                new Graph2dCurveEntry[]
+                {
+                    new Graph2dCurveEntry(parser.GetExpression("x^3", env),
+                        LPen.Blue, interval),
+                    new Graph2dCurveEntry(parser.GetExpression("3*x^2", env),
+                        LPen.Green, interval),
+                    new Graph2dCurveEntry(parser.GetExpression("6*x", env),
+                        LPen.Red, interval)
+                }));
 
             control.AddRenderItem(new InfoItem(
                 "A plot that changes with time, \"sin(x+t)\":", f));
             control.AddRenderItem(
-                new GraphItem(
-                    parser.GetExpression("sin(x+t)", env),
-                    p,
-                    "x", parser, env));
+                new Plot2dCurveItem(
+                    parser, env, new Graph2dCurveEntry[]
+                    {
+                        new Graph2dCurveEntry(
+                            parser.GetExpression("sin(x+t)", env),
+                            p, interval)
+                    }));
 
             expr = parser.GetExpression(
                 "unitstep((x*x+y*y)^0.5+2*(sin(t)-1))*cos(5*y+2*t)", env);
@@ -174,9 +196,33 @@ namespace MetaphysicsIndustries.Ligra.Commands
             control.AddRenderItem(new ExpressionItem(expr, p, f));
 
             control.AddRenderItem(new InfoItem("A 3d plot: ", f));
+            var interval2 = new Interval
+            {
+                IsIntegerInterval = false,
+                LowerBound = -4,
+                OpenLowerBound = false,
+                UpperBound = 4,
+                OpenUpperBound = false
+            };
+            var vi1 = new VarInterval
+            {
+                Variable = "x",
+                Interval = interval2
+            };
+            var vi2 = new VarInterval
+            {
+                Variable = "y",
+                Interval = interval2
+            };
             control.AddRenderItem(
-                new Graph3dItem(expr, LPen.Black, LBrush.Green, -4, 4, -4, 4,
-                    -2, 6, "x", "y", env));
+                new Plot3dSurfaceItem(expr, LPen.Black, LBrush.Green,
+                    -4, 4,
+                    -4, 4,
+                    -2, 6,
+                    vi1, vi2,
+                    env,
+                    vi1.Variable,
+                    vi2.Variable));
         }
     }
 }

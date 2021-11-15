@@ -11,7 +11,17 @@ namespace MetaphysicsIndustries.Ligra.Expressions
             return CurrentTime.ToNumber();
         }
 
-        private float CurrentTime => System.Environment.TickCount / 1000.0f;
+        private int _startTime = -1;
+        private float CurrentTime
+        {
+            get
+            {
+                if (_startTime<=0)
+                    _startTime = System.Environment.TickCount;
+
+                return (System.Environment.TickCount - _startTime) / 1000.0f;
+            }
+        }
 
         public override string ToString()
         {
@@ -26,5 +36,7 @@ namespace MetaphysicsIndustries.Ligra.Expressions
         public override void AcceptVisitor(IExpressionVisitor visitor)
         {
         }
+
+        public override IMathObject Result => ScalarMathObject.Value;
     }
 }

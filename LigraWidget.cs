@@ -14,7 +14,6 @@ namespace MetaphysicsIndustries.Ligra
         {
             InitializeComponent();
             Command.InitializeCommands(Commands);
-            Env.SetVariable("t", new TimeExpression());
         }
 
         void InitializeComponent()
@@ -81,7 +80,7 @@ namespace MetaphysicsIndustries.Ligra
 
         public Vector2 ClientSize => _vbox.Allocation.Size.ToVector2();
 
-        public void OpenPlotProperties(GraphItem item)
+        public void OpenPlotProperties(Plot2dCurveItem item)
         {
             var window = new PlotPropertiesWindow(item._parser, item);
 
