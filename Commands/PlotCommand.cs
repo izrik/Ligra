@@ -441,7 +441,8 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                         interval2,
                         env,
                         "",
-                        "");
+                        "",
+                        color, axes);
                     control.AddRenderItem(item);
                     return;
                 }
