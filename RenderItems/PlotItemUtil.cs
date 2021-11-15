@@ -7,7 +7,7 @@ using MetaphysicsIndustries.Solus.Values;
 
 namespace MetaphysicsIndustries.Ligra.RenderItems
 {
-    public static class GraphItemUtil
+    public static class PlotItemUtil
     {
         public static void DrawBoundaries2d(
             IRenderer renderer, RectangleF boundsInClient,

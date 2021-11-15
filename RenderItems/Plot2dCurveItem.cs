@@ -7,9 +7,9 @@ using MetaphysicsIndustries.Solus.Expressions;
 
 namespace MetaphysicsIndustries.Ligra.RenderItems
 {
-    public class Graph2dCurveItem : RenderItem
+    public class Plot2dCurveItem : RenderItem
     {
-        public Graph2dCurveItem(SolusParser parser, LigraEnvironment env,
+        public Plot2dCurveItem(SolusParser parser, LigraEnvironment env,
             IEnumerable<Graph2dCurveEntry> entries,
             float? xMin=null, float? xMax=null,
             float? yMin=null, float? yMax=null,
@@ -71,7 +71,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             var boundsInClient = new RectangleF(location,
                 Rect.Size);
             if (!_axes.HasValue || _axes.Value)
-                GraphItemUtil.DrawBoundaries2d(g, boundsInClient,
+                PlotItemUtil.DrawBoundaries2d(g, boundsInClient,
                     _minX, _maxX, _minY, _maxY);
             foreach (var entry in _entries)
             {
@@ -177,11 +177,11 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 literal.Value = x.ToNumber();
 
                 var vv = expr.Eval(env);
-                points[i] = GraphItemUtil.EvaluatePoint2d(vv);
+                points[i] = PlotItemUtil.EvaluatePoint2d(vv);
 
                 if (color == null) continue;
                 vv = color.Eval(env);
-                colorPts[i] = GraphItemUtil.EvaluatePoint3d(vv);
+                colorPts[i] = PlotItemUtil.EvaluatePoint3d(vv);
             }
         }
 
@@ -214,7 +214,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         public static Vector2 Constrain(Vector2 v,
             float xMin, float xMax, float yMin, float yMax)
         {
-            return GraphItemUtil.Constrain2d(v, xMin, xMax, yMin, yMax);
+            return PlotItemUtil.Constrain2d(v, xMin, xMax, yMin, yMax);
         }
 
         public static void RenderPoints(
@@ -223,7 +223,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             Vector2[] layoutPts,
             Vector3[] colorPts)
         {
-            GraphItemUtil.RenderCurve(g, pen, layoutPts, colorPts);
+            PlotItemUtil.RenderCurve(g, pen, layoutPts, colorPts);
         }
 
         private static Vector2 ClientFromGraph(
@@ -232,7 +232,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             float xMin, float deltaX,
             float yMin, float deltaY)
         {
-            return GraphItemUtil.ClientFromGraph2d(pt, boundsInClient,
+            return PlotItemUtil.ClientFromGraph2d(pt, boundsInClient,
                 xMin, deltaX, yMin, deltaY);
         }
 

@@ -108,7 +108,7 @@ namespace MetaphysicsIndustries.Ligra
 
         Vector2 ILigraUI.ClientSize => this.ClientSize.ToVector2();
 
-        public void OpenPlotProperties(Graph2dCurveItem item)
+        public void OpenPlotProperties(Plot2dCurveItem item)
         {
             PlotPropertiesForm form = new PlotPropertiesForm(item._parser);
             var graphUI = item.GetControl();

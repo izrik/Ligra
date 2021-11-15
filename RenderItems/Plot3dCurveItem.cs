@@ -7,9 +7,9 @@ using MetaphysicsIndustries.Solus.Values;
 
 namespace MetaphysicsIndustries.Ligra.RenderItems
 {
-    public class Graph3dCurveItem : RenderItem
+    public class Plot3dCurveItem : RenderItem
     {
-        public Graph3dCurveItem(IEnumerable<Graph3dCurveEntry> entries,
+        public Plot3dCurveItem(IEnumerable<Graph3dCurveEntry> entries,
             LigraEnvironment env,
             float xMin, float xMax,
             float yMin, float yMax,
@@ -104,7 +104,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             var location = new Vector2(0, 0);
             var boundsInClient = new RectangleF(location,
                 Rect.Size);
-            GraphItemUtil.DrawBoundaries3d(g, boundsInClient,
+            PlotItemUtil.DrawBoundaries3d(g, boundsInClient,
                 _xMin, _xMax,
                 _yMax, _yMin,
                 _zMin, _zMax,
@@ -165,11 +165,11 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 literal.Value = x.ToNumber();
 
                 var vv = expr.Eval(env);
-                points[i] = GraphItemUtil.EvaluatePoint3d(vv);
+                points[i] = PlotItemUtil.EvaluatePoint3d(vv);
 
                 if (color == null) continue;
                 vv = color.Eval(env);
-                colorPts[i] = GraphItemUtil.EvaluatePoint3d(vv);
+                colorPts[i] = PlotItemUtil.EvaluatePoint3d(vv);
             }
         }
 
@@ -203,7 +203,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             Vector2[] layoutPts,
             Vector3[] colorPts)
         {
-            GraphItemUtil.RenderCurve(g, pen, layoutPts, colorPts);
+            PlotItemUtil.RenderCurve(g, pen, layoutPts, colorPts);
         }
 
         public static Vector3 Constrain(Vector3 v,
@@ -211,7 +211,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             float yMin, float yMax,
             float zMin, float zMax)
         {
-            return GraphItemUtil.Constrain3d(v,
+            return PlotItemUtil.Constrain3d(v,
                 xMin, xMax, yMin, yMax, zMin, zMax);
         }
 
@@ -221,7 +221,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             float yMin, float yMax,
             float zMin, float zMax)
         {
-            return GraphItemUtil.ClientFromGraph3d(v, boundsInClient,
+            return PlotItemUtil.ClientFromGraph3d(v, boundsInClient,
                 xMin, xMax, yMin, yMax, zMin, zMax);
         }
 

@@ -12,7 +12,7 @@ namespace MetaphysicsIndustries.Ligra
         IList<RenderItem> RenderItems { get; }
         Vector2 ClientSize { get; }
 
-        void OpenPlotProperties(Graph2dCurveItem item);
+        void OpenPlotProperties(Plot2dCurveItem item);
 
         IList<string> History { get; }
         int CurrentHistoryIndex { get; set; }

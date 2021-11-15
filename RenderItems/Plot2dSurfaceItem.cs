@@ -8,9 +8,9 @@ using MetaphysicsIndustries.Solus.Values;
 
 namespace MetaphysicsIndustries.Ligra.RenderItems
 {
-    public class Graph2dSurfaceItem : RenderItem
+    public class Plot2dSurfaceItem : RenderItem
     {
-        public Graph2dSurfaceItem(
+        public Plot2dSurfaceItem(
             Expression expression,
             LPen pen, LBrush brush,
             float xMin, float xMax,
@@ -94,7 +94,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             var boundsInClient =
                 new RectangleF(0, 0, 400, 400);
             if (!_axes.HasValue || _axes.Value)
-                GraphItemUtil.DrawBoundaries2d(g, boundsInClient,
+                PlotItemUtil.DrawBoundaries2d(g, boundsInClient,
                     _xMin, _xMax, _yMin, _yMax);
 
             EvaluateGraph(
@@ -208,11 +208,11 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                     literal2.Value = y.ToNumber();
 
                     var vv = expr.Eval(env);
-                    points[i, j] = GraphItemUtil.EvaluatePoint2d(vv);
+                    points[i, j] = PlotItemUtil.EvaluatePoint2d(vv);
 
                     if (color == null) continue;
                     vv = color.Eval(env);
-                    colorPts[i, j] = GraphItemUtil.EvaluatePoint3d(vv);
+                    colorPts[i, j] = PlotItemUtil.EvaluatePoint3d(vv);
                 }
             }
         }
@@ -250,7 +250,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             float xMin, float xMax,
             float yMin, float yMax)
         {
-            return GraphItemUtil.Constrain2d(v,
+            return PlotItemUtil.Constrain2d(v,
                 xMin, xMax, yMin, yMax);
         }
 
@@ -273,7 +273,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             Vector2[,] layoutPts,
             Vector3[,] colorPts)
         {
-            GraphItemUtil.RenderSurface(g, pen, brush, layoutPts,
+            PlotItemUtil.RenderSurface(g, pen, brush, layoutPts,
                 colorPts, _polyCache);
         }
     }

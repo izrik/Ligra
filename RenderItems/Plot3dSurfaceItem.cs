@@ -6,9 +6,11 @@ using MetaphysicsIndustries.Solus.Expressions;
 
 namespace MetaphysicsIndustries.Ligra.RenderItems
 {
-    public class Graph3dSurfaceItem : RenderItem
+    public class Plot3dSurfaceItem : RenderItem
     {
-        public Graph3dSurfaceItem(Expression expression, LPen pen, LBrush brush,
+        public Plot3dSurfaceItem(
+            Expression expression,
+            LPen pen, LBrush brush,
             float xMin, float xMax,
             float yMin, float yMax,
             float zMin, float zMax,
@@ -93,7 +95,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         {
             var stime = Environment.TickCount;
             var boundsInClient = new RectangleF(0, 0, 400, 400);
-            GraphItemUtil.DrawBoundaries3d(g, boundsInClient,
+            PlotItemUtil.DrawBoundaries3d(g, boundsInClient,
                 _xMin, _xMax,
                 _yMax, _yMin,
                 _zMin, _zMax,
@@ -206,11 +208,11 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                     literal2.Value = y.ToNumber();
 
                     var vv = expr.Eval(env);
-                    points[i, j] = GraphItemUtil.EvaluatePoint3d(vv);
+                    points[i, j] = PlotItemUtil.EvaluatePoint3d(vv);
 
                     if (color == null) continue;
                     vv = color.Eval(env);
-                    colorPts[i, j] = GraphItemUtil.EvaluatePoint3d(vv);
+                    colorPts[i, j] = PlotItemUtil.EvaluatePoint3d(vv);
                 }
             }
         }
@@ -247,7 +249,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             float yMin, float yMax,
             float zMin, float zMax)
         {
-            return GraphItemUtil.Constrain3d(v,
+            return PlotItemUtil.Constrain3d(v,
                 xMin, xMax, yMin, yMax, zMin, zMax);
         }
 
@@ -257,7 +259,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             float yMin, float yMax,
             float zMin, float zMax)
         {
-            return GraphItemUtil.ClientFromGraph3d(v, boundsInClient,
+            return PlotItemUtil.ClientFromGraph3d(v, boundsInClient,
                 xMin, xMax, yMin, yMax, zMin, zMax);
         }
 
@@ -269,7 +271,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             Vector2[,] layoutPts,
             Vector3[,] colorPts)
         {
-            GraphItemUtil.RenderSurface(g, pen, brush, layoutPts, colorPts,
+            PlotItemUtil.RenderSurface(g, pen, brush, layoutPts, colorPts,
                 _polyCache);
         }
     }
