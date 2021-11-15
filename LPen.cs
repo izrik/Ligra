@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Collections.Generic;
+
 namespace MetaphysicsIndustries.Ligra
 {
     public class LPen
@@ -10,8 +11,15 @@ namespace MetaphysicsIndustries.Ligra
 
         public static LPen FromColor(LColor color)
         {
-            return new LPen(color);
+            if (!Cache.ContainsKey(color))
+                Cache[color] = new LPen(color);
+            return Cache[color];
         }
+
+        private static readonly Dictionary<LColor, LPen> Cache =
+            new Dictionary<LColor, LPen>();
+
+        public static void ClearCache() => Cache.Clear();
 
         public readonly LColor Color;
 
