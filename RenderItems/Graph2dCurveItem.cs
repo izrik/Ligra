@@ -70,8 +70,9 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             var location = new Vector2(0, 0);
             var boundsInClient = new RectangleF(location,
                 Rect.Size);
-            GraphItemUtil.DrawBoundaries2d(g, boundsInClient,
-                _minX, _maxX, _minY, _maxY);
+            if (!_axes.HasValue || _axes.Value)
+                GraphItemUtil.DrawBoundaries2d(g, boundsInClient,
+                    _minX, _maxX, _minY, _maxY);
             foreach (var entry in _entries)
             {
                 if (entry is GraphVectorEntry ve)

@@ -259,8 +259,8 @@ namespace MetaphysicsIndustries.Ligra
                     _grammar.node_plot_002D_option_3_on)
                     return new PlotOption { Axes = true };
                 if (span.Subspans[1].Node ==
-                    _grammar.node_plot_002D_option_3_on)
-                    return new PlotOption { Axes = true };
+                    _grammar.node_plot_002D_option_4_off)
+                    return new PlotOption { Axes = false };
                 throw new InvalidOperationException(
                     $"Unknown axes setting: {span.Subspans[1].Node}");
             }

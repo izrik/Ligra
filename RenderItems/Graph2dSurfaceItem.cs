@@ -93,8 +93,9 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             var stime = Environment.TickCount;
             var boundsInClient =
                 new RectangleF(0, 0, 400, 400);
-            GraphItemUtil.DrawBoundaries2d(g, boundsInClient,
-                _xMin, _xMax, _yMin, _yMax);
+            if (!_axes.HasValue || _axes.Value)
+                GraphItemUtil.DrawBoundaries2d(g, boundsInClient,
+                    _xMin, _xMax, _yMin, _yMax);
 
             EvaluateGraph(
                 _expression,
