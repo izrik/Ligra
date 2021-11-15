@@ -23,7 +23,7 @@ namespace MetaphysicsIndustries.Ligra
 
         public readonly LColor Color;
 
-        public LBrush Brush => new LBrush(Color);
+        public LBrush Brush => LBrush.FromColor(Color);
 
         public System.Drawing.Pen ToSwf()
         {

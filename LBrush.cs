@@ -3,9 +3,14 @@ namespace MetaphysicsIndustries.Ligra
 {
     public class LBrush
     {
-        public LBrush(LColor color)
+        private LBrush(LColor color)
         {
             Color = color;
+        }
+
+        public static LBrush FromColor(LColor color)
+        {
+            return new LBrush(color);
         }
 
         public readonly LColor Color;
@@ -15,11 +20,11 @@ namespace MetaphysicsIndustries.Ligra
             return new System.Drawing.SolidBrush(Color.ToSwf());
         }
 
-        public static LBrush Magenta = new LBrush(LColor.Magenta);
-        public static LBrush Black = new LBrush(LColor.Black);
-        public static LBrush Blue = new LBrush(LColor.Blue);
-        public static LBrush White = new LBrush(LColor.White);
-        public static LBrush Red = new LBrush(LColor.Red);
-        public static LBrush Green = new LBrush(LColor.Green);
+        public static LBrush Magenta = FromColor(LColor.Magenta);
+        public static LBrush Black = FromColor(LColor.Black);
+        public static LBrush Blue = FromColor(LColor.Blue);
+        public static LBrush White = FromColor(LColor.White);
+        public static LBrush Red = FromColor(LColor.Red);
+        public static LBrush Green = FromColor(LColor.Green);
     }
 }
