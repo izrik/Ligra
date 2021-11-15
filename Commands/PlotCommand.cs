@@ -273,7 +273,8 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                         new SolusParser(),
                         env, entries,
                         xMin0, xMax0,
-                        yMin0, yMax0);
+                        yMin0, yMax0,
+                        color, axes);
                     control.AddRenderItem(item);
                     return;
                 }
