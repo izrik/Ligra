@@ -86,6 +86,14 @@ LPen and LBrush are classes for historical reasons; their corresponding SWF
 Remove SWF code
     make sure it runs on windows and linux
 
+GraphMatrixItem doesn't graph or plot anything. It *paints*. Fold it into
+    PaintCommand and MathPaintItem
+
+Fold GraphVectorItem into Plot2dCurveItem
+
+Combine all PlotXYZItem classes into one
+    probably requires advanced evaluator
+
 replace gtk text measuring and rendering with our own system
     the marshalling and unmarshalling to and from unmanaged code is causing a metric ton of allocations
 
