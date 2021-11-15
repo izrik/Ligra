@@ -403,7 +403,7 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                     // "[f(x,y), g(x,y)]", "[f(x,y), g(x,y)] for x,y"
                     // -> [f(x,y), g(x,y)] for x,y
                     // 2d surface
-                    
+
                     float xMin0 = 0;
                     float xMax0 = 0;
                     float yMin0 = 0;

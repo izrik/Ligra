@@ -37,7 +37,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                     boundsInClient.Right, zz.Y);
             }
         }
-        
+
         public static Vector2 ClientFromGraph2d(
             Vector2 pt,
             RectangleF boundsInClient,

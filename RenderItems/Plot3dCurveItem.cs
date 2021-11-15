@@ -20,7 +20,6 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             Expression color=null,
             bool? axes=null)
         {
-            
             _timer = new System.Timers.Timer(250);
             _timer.Elapsed += _timer_Elapsed;
             _timer.Enabled = true;
@@ -230,7 +229,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             throw new System.NotImplementedException();
         }
     }
-    
+
     public class Graph3dCurveEntry
     {
         public Graph3dCurveEntry(Expression expression, LPen pen,
@@ -249,5 +248,4 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         public Vector2[] LayoutPointsCache;
         public Vector3[] ColorPointsCache;
     }
-
 }
