@@ -236,7 +236,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         }
 
         public static void RenderSurface(IRenderer renderer, LPen pen,
-            LBrush brush, Vector2[,] layoutPts, Vector2[] polygonPts)
+            LBrush brush, Vector2[,] layoutPts, Vector3[,] colorPts,
+            Vector2[] polygonPts)
         {
             int i, j;
             for (i = layoutPts.GetLength(0) - 2; i >= 0; i--)
@@ -247,8 +248,16 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 polygonPts[2] = layoutPts[i + 1, j + 1];
                 polygonPts[3] = layoutPts[i, j + 1];
 
+                var pen2 = pen;
+                if (colorPts != null)
+                {
+                    var c = colorPts[i, j];
+                    var color = new LColor(c.X, c.Y, c.Z);
+                    pen2 = LPen.FromColor(color);
+                }
+
                 renderer.FillPolygon(brush, polygonPts);
-                renderer.DrawPolygon(pen, polygonPts);
+                renderer.DrawPolygon(pen2, polygonPts);
             }
         }
     }

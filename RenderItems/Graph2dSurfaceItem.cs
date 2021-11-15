@@ -250,7 +250,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             Vector2[,] layoutPts)
         {
             GraphItemUtil.RenderSurface(g, pen, brush, layoutPts,
-                _polyCache);
+                null, _polyCache);
         }
     }
 }

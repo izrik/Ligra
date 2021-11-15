@@ -2,9 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using MetaphysicsIndustries.Solus;
-using MetaphysicsIndustries.Solus.Exceptions;
 using MetaphysicsIndustries.Solus.Expressions;
-using MetaphysicsIndustries.Solus.Values;
 
 namespace MetaphysicsIndustries.Ligra.RenderItems
 {
@@ -18,7 +16,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             VarInterval interval2,
             LigraEnvironment env,
             string label1,
-            string label2)
+            string label2,
+            Expression color=null)
         {
             _timer = new System.Timers.Timer(250);
             _timer.Elapsed += _timer_Elapsed;
@@ -46,6 +45,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
             Label1 = label1;
             Label2 = label2;
+
+            _color = color;
         }
 
         public static readonly SolusEngine _engine = new SolusEngine();
@@ -77,6 +78,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
         private readonly LigraEnvironment _env;
         public string Label1 { get; }
         public string Label2 { get; }
+        private Expression _color;
 
         int lastTime = Environment.TickCount;
         int numRenders = 0;
@@ -85,6 +87,7 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
         private Vector3[,] _points;
         private Vector2[,] _layoutPts;
+        private Vector3[,] _colorPts;
         protected override void InternalRender(IRenderer g,
             DrawSettings drawSettings)
         {
@@ -101,13 +104,14 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 Label1, Label2);
 
             EvaluateGraph(_expression,
-                _env, Interval1, Interval2, ref _points);
+                _env, Interval1, Interval2, ref _points,
+                _color, ref _colorPts);
             LayoutGraph(boundsInClient,
                 _xMin, _xMax,
                 _yMin, _yMax,
                 _zMin, _zMax,
                 _points, ref _layoutPts);
-            Render3DGraph(g, _pen, _brush, _layoutPts);
+            Render3DGraph(g, _pen, _brush, _layoutPts, _colorPts);
 
             var dtime = Environment.TickCount - stime;
             numTicks += dtime;
@@ -154,6 +158,8 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             VarInterval interval1,
             VarInterval interval2,
             ref Vector3[,] points,
+            Expression color,
+            ref Vector3[,] colorPts,
             int numSteps1=50,
             int numSteps2=50)
         {
@@ -162,6 +168,13 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
                 points.GetLength(1) < numSteps2)
             {
                 points = new Vector3[numSteps1, numSteps2];
+            }
+            if (color != null)
+            {
+                if (colorPts == null ||
+                    colorPts.GetLength(0) < numSteps1 ||
+                    colorPts.GetLength(1) < numSteps2)
+                    colorPts = new Vector3[numSteps1, numSteps2];
             }
 
             var varMin1 = interval1.Interval.LowerBound;
@@ -194,6 +207,10 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
 
                     var vv = expr.Eval(env);
                     points[i, j] = GraphItemUtil.EvaluatePoint3d(vv);
+
+                    if (color == null) continue;
+                    vv = color.Eval(env);
+                    colorPts[i, j] = GraphItemUtil.EvaluatePoint3d(vv);
                 }
             }
         }
@@ -249,9 +266,10 @@ namespace MetaphysicsIndustries.Ligra.RenderItems
             IRenderer g,
             LPen pen,
             LBrush brush,
-            Vector2[,] layoutPts)
+            Vector2[,] layoutPts,
+            Vector3[,] colorPts)
         {
-            GraphItemUtil.RenderSurface(g, pen, brush, layoutPts,
+            GraphItemUtil.RenderSurface(g, pen, brush, layoutPts, colorPts,
                 _polyCache);
         }
     }

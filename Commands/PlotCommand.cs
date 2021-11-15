@@ -5,7 +5,6 @@ using MetaphysicsIndustries.Ligra.RenderItems;
 using MetaphysicsIndustries.Solus;
 using MetaphysicsIndustries.Solus.Commands;
 using MetaphysicsIndustries.Solus.Expressions;
-using MetaphysicsIndustries.Solus.Values;
 
 namespace MetaphysicsIndustries.Ligra.Commands
 {
@@ -394,7 +393,8 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                         interval2,
                         env,
                         interval1.Variable,
-                        interval2.Variable);
+                        interval2.Variable,
+                        color);
                     control.AddRenderItem(item);
                     return;
                 }
@@ -497,7 +497,8 @@ Plot one or more expressions that vary over two variable as a 3D graph:
                         interval2,
                         env,
                         "",
-                        "");
+                        "",
+                        color);
                     control.AddRenderItem(item);
                     return;
                 }
